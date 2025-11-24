@@ -26,7 +26,7 @@ Get your card and readers here: [shop.cryptnox.com](https://shop.cryptnox.com)
 ---
 
 ## Installation
-> 💡 This is only a minimal setup. Additional packages may be required depending on your operating system. See [Installation and Requirements](https://cryptnox-software.github.io/cryptnox-cli/overview.html#installation-and-requirements).
+> 💡 This is only a minimal setup. Additional packages may be required depending on your operating system. See [Installation and Requirements](https://cryptnox-software.github.io-temp/cryptnox-cli/overview.html#installation-and-requirements).
 
 ### From PyPI
 
@@ -37,7 +37,7 @@ pip install cryptnox-cli
 ### From source
 
 ```bash
-git clone https://github.com/cryptnox-software/cryptnox-cli.git
+git clone https://github.com/Cryptnox/cryptnox-cli.git
 cd cryptnox-cli
 pip install .
 ```
@@ -46,7 +46,7 @@ This installs the package and makes the `cryptnox` command available (if your Py
 ---
 
 ## Quick usage examples
-> 💡 The examples below are only a subset of available commands. The complete list of commands and detailed usage instructions is described in the [official documentation](https://cryptnox-software.github.io/cryptnox-cli).
+> 💡 The examples below are only a subset of available commands. The complete list of commands and detailed usage instructions is described in the [official documentation](https://cryptnox-software.github.io-temp/cryptnox-cli).
 ### 1. Dual initialization
 
 1. Factory reset each card:  
@@ -86,11 +86,10 @@ This installs the package and makes the `cryptnox` command available (if your Py
 
 ## Documentation
 
-The full **User & Developer documentation** is available at the [Cryptnox CLI Documentation](https://cryptnox-software.github.io/cryptnox-cli). It covers installation and setup, usage guides and examples, CLI command reference, and developer notes with API details.
+The full **User & Developer documentation** is available at the [Cryptnox CLI Documentation](https://cryptnox-software.github.io-temp/cryptnox-cli). It covers installation and setup, usage guides and examples, CLI command reference, and developer notes with API details.
 
 ---
 
 ## License
 
-Licensed under **GPLv3**: [GNU GPLv3 License](https://www.gnu.org/licenses/gpl-3.0.en.html).  
-Commercial licensing options are available — email **contact@cryptnox.ch** for inquiries.
+Licensed under **GPLv3**: [GNU GPLv3 License](https://www.gnu.org/licenses/gpl-3.0.en.html).

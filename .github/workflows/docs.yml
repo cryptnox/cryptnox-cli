@@ -36,7 +36,7 @@ jobs:
       - name: Checkout documentation repository
         uses: actions/checkout@v4
         with:
-          repository: cryptnox-software/cryptnox-software.github.io
+          repository: Cryptnox/cryptnox-software.github.io-temp
           token: ${{ secrets.DOCS_DEPLOY_TOKEN }}
           path: docs-repo
 
