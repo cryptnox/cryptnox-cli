@@ -94,5 +94,5 @@ The full **User & Developer documentation** is available at the [Cryptnox CLI Do
 
 ## License
 
-Licensed under **GPLv3**: [GNU GPLv3 License](https://www.gnu.org/licenses/gpl-3.0.en.html).  
-Commercial licensing options are available — email **contact@cryptnox.ch** for inquiries.
+- This library is available under GPLv3.
+- For commercial licensing options, contact: info@cryptnox.com
