@@ -11,7 +11,7 @@
 [![PyPI](https://img.shields.io/pypi/v/cryptnox-cli.svg)](https://pypi.org/project/cryptnox-cli/)
 [![Python versions](https://img.shields.io/pypi/pyversions/cryptnox-cli.svg)](https://pypi.org/project/cryptnox-cli/)
 [![Documentation status](https://img.shields.io/badge/docs-latest-blue)](https://cryptnox.github.io/cryptnox-cli)
-[![License: GPLv3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![License: GPLv3](https://img.shields.io/badge/License-LGPLv3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 
 `cryptnox-cli` is a command-line interface for managing **Cryptnox Smartcards**, enabling secure seed initialization and cryptographic signing for **Bitcoin** and **Ethereum**.
 
@@ -94,6 +94,5 @@ The full **User & Developer documentation** is available at the [Cryptnox CLI Do
 
 ## License
 
-cryptnox-sdk-py is dual-licensed:
-- GPLv3 for open-source GPL projects 
-- Commercial license for proprietary or non-GPL usage, contact: info@cryptnox.com
+This library is available under LGPL-3.0.
+For commercial licensing options, contact: info@cryptnox.ch
