@@ -1,4 +1,4 @@
-name: Build and Deploy Documentation
+name: Build and deploy documentation
 
 on:
   push:
@@ -9,53 +9,36 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  build-docs:
     runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout cryptnox-cli repository
-        uses: actions/checkout@v4
-        with:
-          path: cryptnox-cli
 
+    steps:
+      # 1. Checkout your repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Set up Python
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Install dependencies
-        run: |
-          cd cryptnox-cli
-          pip install sphinx sphinx-rtd-theme
+      # 3. Install Sphinx and dependencies
+      - name: Install Sphinx and dependencies
+        run: pip install sphinx sphinx-rtd-theme
 
-      - name: Build Sphinx documentation
-        run: |
-          cd cryptnox-cli
-          sphinx-build -b html docs docs/_build/html
+      # 4. Build Sphinx documentation
+      - name: Generate Sphinx docs
+        run: sphinx-build -b html docs docs/_build/html
 
-      - name: Checkout documentation repository
-        uses: actions/checkout@v4
+      # 5. Deploy HTML documentation to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          repository: Cryptnox/cryptnox-software.github.io-temp
-          token: ${{ secrets.DOCS_DEPLOY_TOKEN }}
-          path: docs-repo
-
-      - name: Update documentation
-        run: |
-          # Remove old cryptnox-cli folder if it exists
-          rm -rf docs-repo/cryptnox-cli
-          
-          # Copy new documentation
-          cp -r cryptnox-cli/docs/_build/html docs-repo/cryptnox-cli
-          
-          # Add a timestamp file for tracking
-          echo "Last updated: $(date)" > docs-repo/cryptnox-cli/last-updated.txt
-
-      - name: Commit and push changes
-        run: |
-          cd docs-repo
-          git config --local user.email "yann@oinsm.ch"
-          git config --local user.name "YanNaingWinn"
-          git add .
-          git commit -m "Update cryptnox-cli documentation from cryptnox-cli@${{ github.sha }}" || exit 0
-          git push
+          github_token: ${{ secrets.DOCS_DEPLOY_TOKEN }}
+          publish_dir: docs/_build/html
+          publish_branch: gh-pages
+          allow_empty_commit: false
+          keep_files: false
+          force_orphan: false
+          enable_jekyll: false
