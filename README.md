@@ -94,5 +94,6 @@ The full **User & Developer documentation** is available at the [Cryptnox CLI Do
 
 ## License
 
-- This library is available under GPLv3.
-- For commercial licensing options, contact: info@cryptnox.com
+cryptnox-sdk-py is dual-licensed:
+- GPLv3 for open-source GPL projects 
+- Commercial license for proprietary or non-GPL usage, contact: info@cryptnox.com
