@@ -13,14 +13,14 @@
 [![Documentation status](https://img.shields.io/badge/docs-latest-blue)](https://cryptnox.github.io/cryptnox-cli)
 [![License: GPLv3](https://img.shields.io/badge/License-LGPLv3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 
-`cryptnox-cli` is a command-line interface for managing **Cryptnox Smartcards**, enabling secure seed initialization and cryptographic signing for **Bitcoin** and **Ethereum**.
+`cryptnox-cli` is a command-line interface for managing **Cryptnox Smart cards**, enabling secure seed initialization and cryptographic signing for **Bitcoin** and **Ethereum**.
 
 ---
 
 ## Supported hardware
 
-- **Cryptnox Smartcards** 💳
-- **Standard PC/SC Smartcard Readers**: either USB NFC reader or a USB smartcard reader
+- **Cryptnox Smart cards** 💳
+- **Standard PC/SC Smart card Readers**: either USB NFC reader or a USB smart card reader
   → Readers are also available in the Cryptnox shop.
 
 Get your card and readers here: [shop.cryptnox.com](https://shop.cryptnox.com)
@@ -94,5 +94,9 @@ The full **User & Developer documentation** is available at the [Cryptnox CLI Do
 
 ## License
 
-This library is available under LGPL-3.0.
-For commercial licensing options, contact: info@cryptnox.ch
+cryptnox-cli is dual-licensed:
+
+- **LGPL-3.0** for open-source projects and proprietary projects that comply with LGPL requirements  
+- **Commercial license** for projects that require a proprietary license without LGPL obligations (see COMMERCIAL.md for details)
+
+For commercial inquiries, contact: contact@cryptnox.com
