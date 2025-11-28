@@ -53,6 +53,7 @@ Section "MainSection" SEC01
   CreateShortCut "$SMPROGRAMS\CryptnoxCLI\CryptnoxCLI.lnk" "$INSTDIR\CryptnoxCLI-1.0.1.exe"
   CreateShortCut "$DESKTOP\CryptnoxCLI.lnk" "$INSTDIR\CryptnoxCLI-1.0.1.exe"
   File "README.md"
+  File "LICENSE"
 SectionEnd
 
 Section -AdditionalIcons
@@ -86,6 +87,7 @@ FunctionEnd
 Section Uninstall
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
+  Delete "$INSTDIR\LICENSE"
   Delete "$INSTDIR\README.md"
   Delete "$INSTDIR\CryptnoxCLI-1.0.1.exe"
 

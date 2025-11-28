@@ -2,7 +2,7 @@
   <img src="https://github.com/user-attachments/assets/6ce54a27-8fb6-48e6-9d1f-da144f43425a"/>
 </p>
 
-<h3 align="center">cryptnox-sdk-py</h3>
+<h3 align="center">cryptnox-cli</h3>
 <p align="center">Commercial license</p>
 
 <br/>
@@ -10,81 +10,76 @@
 
 # Commercial license
 
-`cryptnox-sdk-py` is distributed under a dual-licensing model:
+`cryptnox-cli` is distributed under a dual-licensing model:
 
-- GNU GPLv3 (open-source)
-- Commercial license (for proprietary or non-GPL use)
+- **GNU LGPLv3**
+- **Commercial license**
 
-This document explains when a commercial license is required and what it provides.
-
----
-
-## When do you need a commercial license?
-
-You must obtain a commercial license if:
-
-- Your software is proprietary or closed-source
-- Your software uses a license incompatible with GPLv3 (MIT, BSD, Apache, LGPL, commercial, etc.)
-- You want to embed or distribute the SDK in a commercial product without GPL obligations
-- You do not wish to release your tool or application under GPLv3
-
-If your project uses any other license than GPLv3, you need a commercial license.
+The following sections define the applicable licensing conditions.
 
 ---
 
-## What the commercial license allows
+## When a commercial license is required
 
-With a commercial license, you are allowed to:
+A commercial license is required in the following situations:
 
-- Use `cryptnox-sdk-py` in closed-source or proprietary applications
-- Release your software under any license you choose
-- Distribute commercial products without revealing your source code
-- Modify the SDK internally without being required to publish changes
-- Avoid all GPLv3 copyleft requirements
+- When the SDK is used in a manner that does not comply with the terms of the LGPLv3  
+- When the SDK is bundled, embedded, or distributed in conditions that prevent users from replacing or updating the library  
+- When modifications to the SDK are made and the publisher does not wish to release these modifications as required under the LGPLv3  
+- When a proprietary licensing framework, commercial guarantees, or dedicated support are required
 
-The commercial license provides full freedom for professional and enterprise use.
-
----
-
-## What remains free under GPLv3
-
-You can use the SDK under GPLv3 if:
-
-- Your project is GPLv3-licensed
-- Your entire application (including distributed source) is GPLv3-compatible
-- You accept the GPL copyleft obligations
-
-Commercial use is allowed under GPLv3 as long as the software remains GPLv3.
+For standard Python usage through regular imports, the LGPLv3 terms generally permit integration into proprietary software, provided all conditions of the license are strictly met.
 
 ---
 
-## Dual licensing summary
+## Scope of the commercial license
 
-| License type          | Allowed use                                        | Obligations                         |
-|-----------------------|----------------------------------------------------|-------------------------------------|
-| GPLv3                 | Open-source GPLv3 applications                     | Must release source under GPLv3     |
-| Commercial license    | Proprietary, closed-source, LGPL, MIT, Apache, commercial apps | No GPL obligations                  |
+The commercial license provides the following rights:
+
+- Use of `cryptnox-cli` without any obligation imposed by the LGPLv3  
+- Distribution or embedding of the SDK under any technical, commercial, or contractual conditions  
+- Internal modification of the SDK without publication requirements  
+- Exemption from all obligations related to library replacement, user relinking, or source availability  
+- Access to optional contractual services such as support, maintenance, or warranties
 
 ---
 
-## How to obtain a commercial license
+## Use under LGPLv3
 
-For pricing or a commercial license agreement, please contact:
+The SDK may be used under the LGPLv3 provided that:
 
-contact@cryptnox.com
+- The terms of the LGPLv3 are fully respected  
+- The SDK remains a distinct and replaceable component within the application  
+- Copyright, notices, and license terms are preserved  
+- Modifications to the SDK itself are published in accordance with the license
 
-Include the following information:
+These conditions apply to both open-source and proprietary software.
+
+---
+
+## Dual-licensing summary
+
+| License type           | Permitted use                                               | Obligations                                 |
+|------------------------|-------------------------------------------------------------|----------------------------------------------|
+| **LGPLv3**             | Integration via standard Python imports, including proprietary software | Compliance with all LGPLv3 terms             |
+| **Commercial license** | Any use outside the scope of the LGPLv3                     | No LGPL obligations                           |
+
+---
+
+## Obtaining a commercial license
+
+For pricing, terms, or a commercial agreement, please contact: **contact@cryptnox.com**
+
+Please include:
 
 - Company name  
 - Project description  
 - Distribution model  
-- Expected usage or volume (optional)
-
-A commercial agreement will be provided upon validation.
+- Estimated usage or volume (optional)
 
 ---
 
-## Legal note
+## Legal notice
 
-Using the SDK in any non-GPLv3 software without a commercial license violates the GPLv3 terms.  
-A commercial license provides an alternative legal framework that replaces GPL obligations for your specific usage.
+Any use of the SDK outside the scope of the LGPLv3 requires a commercial license.  
+The commercial license provides an alternative legal basis that supersedes LGPL obligations for the licensed use case.
