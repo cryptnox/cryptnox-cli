@@ -547,7 +547,7 @@ In interactive mode, you can:
 .. code-block:: text
 
    $ cryptnox
-   Cryptnox CLI 1.0.1
+   Cryptnox CLI 1.0.2
    
    > list
    [Shows available cards]
