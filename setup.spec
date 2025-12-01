@@ -111,7 +111,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='CryptnoxCLI-1.0.1',
+    name='CryptnoxCLI-1.0.2',
     icon='cryptnox.ico',
     debug=False,
     bootloader_ignore_signals=False,
