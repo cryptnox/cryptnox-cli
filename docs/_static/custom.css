@@ -55,3 +55,10 @@ th {
 .wy-side-nav-search .fa-home::before {
     color: #fcb770;
 }
+
+/* Logo size - 80% of original */
+.wy-side-nav-search .wy-dropdown > a img.logo,
+.wy-side-nav-search > a img.logo {
+    width: 80%;
+    height: auto;
+}
