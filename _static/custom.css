@@ -70,3 +70,19 @@ th {
 .wy-breadcrumbs .icon-home {
     color: #fcb770;
 }
+
+/* Menu list hover - white text */
+.wy-menu-vertical a:hover {
+    color: #ffffff !important;
+    background: #fcb770 !important;
+}
+
+.wy-menu-vertical li.current a:hover {
+    color: #ffffff !important;
+    background: #fcb770 !important;
+}
+
+.wy-menu-vertical li.current > a:hover {
+    color: #ffffff !important;
+    background: #fcb770 !important;
+}
