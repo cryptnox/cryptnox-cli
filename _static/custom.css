@@ -5,15 +5,15 @@ body {
 
 /* Style for code blocks */
 .highlight {
-    background-color: #FCB770;
-    border-left: 4px solid #101F2E;
+    background-color: #f8f9fa;
+    border-left: 4px solid #007bff;
     padding: 1rem;
     margin: 1rem 0;
 }
 
 /* Custom header styling */
 h1, h2, h3, h4, h5, h6 {
-    color: #101F2E;
+    color: #2c3e50;
 }
 
 /* Custom link styling */
@@ -41,4 +41,17 @@ th, td {
 th {
     background-color: #f8f9fa;
     font-weight: bold;
+}
+
+/* Nav header customization */
+/* Project name text color */
+.wy-side-nav-search > a,
+.wy-side-nav-search .wy-dropdown > a {
+    color: #fcb770;
+}
+
+/* Home icon color */
+.wy-side-nav-search .icon::before,
+.wy-side-nav-search .fa-home::before {
+    color: #fcb770;
 }
