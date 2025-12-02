@@ -62,3 +62,11 @@ th {
     width: 80%;
     height: auto;
 }
+
+/* Home icon color in breadcrumbs/content area */
+.wy-breadcrumbs li a .fa-home::before,
+.wy-breadcrumbs li a .icon-home::before,
+.wy-breadcrumbs .fa-home,
+.wy-breadcrumbs .icon-home {
+    color: #fcb770;
+}
