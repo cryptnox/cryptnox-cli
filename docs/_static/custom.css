@@ -5,15 +5,15 @@ body {
 
 /* Style for code blocks */
 .highlight {
-    background-color: #f8f9fa;
-    border-left: 4px solid #007bff;
+    background-color: #FCB770;
+    border-left: 4px solid #101F2E;
     padding: 1rem;
     margin: 1rem 0;
 }
 
 /* Custom header styling */
 h1, h2, h3, h4, h5, h6 {
-    color: #2c3e50;
+    color: #101F2E;
 }
 
 /* Custom link styling */
