@@ -117,6 +117,9 @@ suppress_warnings = [
 html_theme = "sphinx_rtd_theme"
 html_static_path = ['_static']
 
+# Logo configuration
+html_logo = "_static/cryptnox-logo.png"
+
 # Custom CSS and JS
 html_css_files = [
     'custom.css',
@@ -133,7 +136,7 @@ html_theme_options = {
     'prev_next_buttons_location': 'bottom',
     'style_external_links': False,
     'vcs_pageview_mode': '',
-    'style_nav_header_background': '#2980B9',
+    'style_nav_header_background': '#101f2e',
     # Toc options
     'collapse_navigation': True,
     'sticky_navigation': True,

@@ -42,3 +42,31 @@ th {
     background-color: #f8f9fa;
     font-weight: bold;
 }
+
+/* Nav header customization */
+/* Project name text color */
+.wy-side-nav-search > a,
+.wy-side-nav-search .wy-dropdown > a {
+    color: #fcb770;
+}
+
+/* Home icon color */
+.wy-side-nav-search .icon::before,
+.wy-side-nav-search .fa-home::before {
+    color: #fcb770;
+}
+
+/* Logo size - 80% of original */
+.wy-side-nav-search .wy-dropdown > a img.logo,
+.wy-side-nav-search > a img.logo {
+    width: 80%;
+    height: auto;
+}
+
+/* Home icon color in breadcrumbs/content area */
+.wy-breadcrumbs li a .fa-home::before,
+.wy-breadcrumbs li a .icon-home::before,
+.wy-breadcrumbs .fa-home,
+.wy-breadcrumbs .icon-home {
+    color: #fcb770;
+}
