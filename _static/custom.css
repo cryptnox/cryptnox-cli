@@ -70,27 +70,3 @@ th {
 .wy-breadcrumbs .icon-home {
     color: #fcb770;
 }
-
-/* Menu list hover - white text (comprehensive coverage for all menu states) */
-.wy-menu-vertical a:hover,
-.wy-menu-vertical li a:hover,
-.wy-menu-vertical li.current a:hover,
-.wy-menu-vertical li.current > a:hover,
-.wy-menu-vertical li.toctree-l1 a:hover,
-.wy-menu-vertical li.toctree-l2 a:hover,
-.wy-menu-vertical li.toctree-l3 a:hover,
-.wy-menu-vertical li.toctree-l4 a:hover,
-.wy-menu-vertical li.toctree-l1.current a:hover,
-.wy-menu-vertical li.toctree-l2.current a:hover,
-.wy-menu-vertical li.toctree-l3.current a:hover,
-.wy-menu-vertical li.toctree-l1.current > a:hover,
-.wy-menu-vertical li.toctree-l2.current > a:hover,
-.wy-menu-vertical li.toctree-l3.current > a:hover,
-.wy-menu-vertical li.toctree-l1.current li.toctree-l2 a:hover,
-.wy-menu-vertical li.toctree-l2.current li.toctree-l3 a:hover,
-.wy-menu-vertical li.toctree-l1.current li.toctree-l2 > a:hover,
-.wy-menu-vertical li.toctree-l2.current li.toctree-l3 > a:hover,
-.wy-menu-vertical .current a:hover {
-    color: #ffffff !important;
-    background: #fcb770 !important;
-}
