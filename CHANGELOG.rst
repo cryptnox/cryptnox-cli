@@ -2,6 +2,29 @@
 Changelog
 =========
 
+`1.0.3 <https://github.com/Cryptnox-Software/cryptnox-cli/compare/v1.0.2...v1.0.3>`_
+------------------------------------------------------------------------------------------------
+
+Added
+^^^^^
+- Added Cryptnox logo to documentation
+- Added Other/Proprietary License option
+
+Changed
+^^^^^^^
+- Updated cryptnox-sdk-py to 1.0.2
+- Updated other dependencies to latest versions
+- Modified documentation UI, colors, and layout
+- Updated documentation license information
+
+`1.0.2 <https://github.com/Cryptnox-Software/cryptnox-cli/compare/v1.0.1...v1.0.2>`_
+------------------------------------------------------------------------------------------------
+
+Changed
+^^^^^^^
+- Updated README file with improved documentation
+- Modified commercial license details
+
 `1.0.1 <https://github.com/Cryptnox-Software/cryptnox-cli/compare/v2.9.1...ver1.0.1>`_
 ------------------------------------------------------------------------------------------------
 
