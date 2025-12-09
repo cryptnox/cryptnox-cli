@@ -10,6 +10,7 @@
 
 [![PyPI](https://img.shields.io/pypi/v/cryptnox-cli.svg)](https://pypi.org/project/cryptnox-cli/)
 [![Python versions](https://img.shields.io/pypi/pyversions/cryptnox-cli.svg)](https://pypi.org/project/cryptnox-cli/)
+[![MStore](https://img.shields.io/badge/MStore-Available-blue)](https://apps.microsoft.com/detail/9p6g3hn0k1mz)
 [![Documentation status](https://img.shields.io/badge/docs-latest-blue)](https://cryptnox.github.io/cryptnox-cli)
 [![License: GPLv3](https://img.shields.io/badge/License-LGPLv3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 
@@ -28,13 +29,22 @@ Get your card and readers here: [shop.cryptnox.com](https://shop.cryptnox.com)
 ---
 
 ## Installation
-> 💡 This is only a minimal setup. Additional packages may be required depending on your operating system. See [Installation and Requirements](https://cryptnox.github.io/cryptnox-cli/overview.html#installation-and-requirements).
+> [!IMPORTANT]
+> This is only a minimal setup. Additional packages may be required depending on your operating system. See [Installation and requirements](https://cryptnox.github.io/cryptnox-cli/overview.html#installation-and-requirements).
 
 ### From PyPI
 
 ```bash
 pip install cryptnox-cli
 ```
+
+### From MStore
+
+```bash
+mstore install cryptnox-cli
+```
+
+Visit the [MStore page](https://apps.microsoft.com/detail/9p6g3hn0k1mz) to install `cryptnox-cli` via the graphical user interface.
 
 ### From source
 
@@ -48,7 +58,9 @@ This installs the package and makes the `cryptnox` command available (if your Py
 ---
 
 ## Quick usage examples
-> 💡 The examples below are only a subset of available commands. The complete list of commands and detailed usage instructions is described in the [official documentation](https://cryptnox.github.io/cryptnox-cli).
+> [!TIP]
+>  The examples below are only a subset of available commands. The complete list of commands and detailed usage instructions is described in the [official documentation](https://cryptnox.github.io/cryptnox-cli).
+
 ### 1. Dual initialization
 
 1. Factory reset each card:  
