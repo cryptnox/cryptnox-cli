@@ -1,4 +1,6 @@
 name: Build and deploy documentation
+permissions:
+  contents: read
 
 on:
   push:
