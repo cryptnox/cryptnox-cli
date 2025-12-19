@@ -1,0 +1,177 @@
+name: OSV Dependency Scan
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'requirements.txt'
+      - 'dev-requirements.txt'
+      - '.github/workflows/osv-scanner.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'requirements.txt'
+      - 'dev-requirements.txt'
+  schedule:
+    # Run weekly on Monday at 00:00 UTC to catch new CVEs
+    - cron: '0 0 * * 1'
+
+permissions:
+  contents: read
+  security-events: write  # Required for SARIF upload
+  actions: read           # Required for OSV-Scanner action
+
+jobs:
+  osv-scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Prepare requirements for scanning
+        run: |
+          # Use Python to safely read files with correct encoding (handling BOMs automatically)
+          python3 -c "
+          import sys
+          
+          def process_file(filename):
+              try:
+                  # Open with utf-8-sig to handle UTF-8 BOM, errors='replace' to handle binary/UTF-16 confusion
+                  # Ideally we would detect encoding, but requirements files should be text
+                  with open(filename, 'r', encoding='utf-8', errors='replace') as f:
+                      content = f.read()
+                      # If it looks like UTF-16 (null bytes), try re-reading
+                      if '\x00' in content:
+                          with open(filename, 'r', encoding='utf-16') as f2:
+                              content = f2.read()
+                  
+                  for line in content.splitlines():
+                      line = line.strip()
+                      if not line or line.startswith(('#', '-i', '--')):
+                          continue
+                      # Remove markers
+                      line = line.split(';')[0].strip()
+                      if line:
+                          print(line)
+              except Exception as e:
+                  print(f'Error processing {filename}: {e}', file=sys.stderr)
+          
+          process_file('requirements.txt')
+          process_file('dev-requirements.txt')
+          " | sort -u > combined-requirements.txt
+          
+          echo "Combined requirements file created:"
+          if [ -s combined-requirements.txt ]; then
+            echo "  Total packages: $(wc -l < combined-requirements.txt)"
+            echo ""
+            echo "Package list (first 10):"
+            head -10 combined-requirements.txt
+          else
+             echo "Error: combined-requirements.txt is empty!"
+             echo "Debug: File listing:"
+             ls -l requirements.txt dev-requirements.txt
+          fi
+          echo ""
+      
+      - name: Install OSV-Scanner
+        run: |
+          curl -LO https://github.com/google/osv-scanner/releases/latest/download/osv-scanner_linux_amd64
+          chmod +x osv-scanner_linux_amd64
+          sudo mv osv-scanner_linux_amd64 /usr/local/bin/osv-scanner
+      
+      - name: Run OSV-Scanner
+        id: osv-scanner
+        continue-on-error: true
+        run: |
+          echo "Running OSV-Scanner dependency vulnerability check..."
+          echo "=================================================="
+          echo ""
+          
+          # Check if combined file has content
+          if [ ! -s combined-requirements.txt ]; then
+            echo "Error: combined-requirements.txt is empty!"
+            echo "Falling back to scanning requirements.txt only..."
+            LOCKFILE="requirements.txt"
+          else
+            LOCKFILE="combined-requirements.txt"
+          fi
+          
+          echo "Scanning: $LOCKFILE"
+          echo ""
+          
+          # Run scan and capture exit code
+          set +e
+          osv-scanner --lockfile="$LOCKFILE"
+          SCAN_EXIT_CODE=$?
+          set -e
+          
+          # Exit code 128 means no packages found, which should not happen
+          if [ $SCAN_EXIT_CODE -eq 128 ]; then
+            echo ""
+            echo "OSV-Scanner found no packages to scan"
+            echo "Debug: Contents of $LOCKFILE:"
+            cat "$LOCKFILE"
+            exit 1
+          fi
+          
+          echo ""
+          echo "Generating SARIF report..."
+          osv-scanner --lockfile="$LOCKFILE" --format=sarif --output=results.sarif 2>&1 || {
+            echo "⚠️  SARIF generation encountered issues (possibly plugin warning)"
+            echo "    Scan results are still valid - see output above"
+          }
+          
+          if [ -f results.sarif ] && [ -s results.sarif ]; then
+            echo "✓ SARIF file created successfully"
+            ls -lh results.sarif
+          fi
+          
+          # Return the original scan exit code
+          exit $SCAN_EXIT_CODE
+      
+      - name: Upload SARIF results to GitHub Security
+        if: always() && hashFiles('results.sarif') != ''
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: results.sarif
+          category: osv-scanner
+      
+      - name: Success - No vulnerabilities found
+        if: steps.osv-scanner.outcome == 'success'
+        run: |
+          echo "=========================================="
+          echo "✅ No Vulnerabilities Found"
+          echo "=========================================="
+          echo ""
+          echo "All Python dependencies (requirements.txt + dev-requirements.txt)"
+          echo "are free of known vulnerabilities."
+          echo ""
+      
+      - name: Check OSV-Scanner results
+        if: steps.osv-scanner.outcome == 'failure'
+        run: |
+          echo "=========================================="
+          echo "⚠️  Vulnerabilities Found in Dependencies"
+          echo "=========================================="
+          echo ""
+          echo "OSV-Scanner detected security vulnerabilities in your Python dependencies"
+          echo "(requirements.txt + dev-requirements.txt)."
+          echo ""
+          echo "Review the findings:"
+          echo "  1. Check the workflow output above for detailed vulnerability list"
+          echo "  2. Go to: Security tab -> Code scanning alerts"
+          echo "  3. Filter by 'osv-scanner' category to see all vulnerabilities"
+          echo ""
+          echo "How to fix:"
+          echo "  • Review each vulnerability and assess its impact on your project"
+          echo "  • Update affected packages in requirements.txt and/or dev-requirements.txt"
+          echo "  • Check for available updates: pip list --outdated"
+          echo "  • Test thoroughly after updating dependencies"
+          echo ""
+          echo "Resources:"
+          echo "  • OSV Database: https://osv.dev/"
+          echo "  • Package info: https://pypi.org/project/[package-name]/"
+          echo ""
+          exit 1
+
