@@ -40,9 +40,6 @@ disable=
 # Set the output format
 output-format=text
 
-# Include message's id in output
-include-ids=yes
-
 # Activate the evaluation score
 score=yes
 
@@ -144,8 +141,7 @@ overgeneral-exceptions=builtins.BaseException,builtins.Exception
 
 [TYPECHECK]
 # Ignore missing members accessed in mocking
-ignored-modules=
-
+ignored-modules=cryptnox_sdk_py
 # List of classes names for which member attributes should not be checked
 ignored-classes=SQLObject,optparse.Values,thread._local,_thread._local
 
@@ -191,4 +187,3 @@ spelling-private-dict-file=
 
 # Tells whether to store unknown words to indicated private dictionary
 spelling-store-unknown-words=no
-
