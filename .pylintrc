@@ -148,6 +148,7 @@ ignored-modules=
     tabulate,
     ecdsa,
     eth_account,
+    eth_typing,
     eth_utils,
     hexbytes,
     web3,
