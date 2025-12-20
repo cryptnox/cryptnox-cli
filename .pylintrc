@@ -15,7 +15,7 @@ load-plugins=
 unsafe-load-any-extension=no
 
 # Ignore patterns for file/directory matching
-ignore=CVS,.git,__pycache__,build,dist,*.egg-info,venv,.venv,docs
+ignore=CVS,.git,__pycache__,build,dist,*.egg-info,venv,.venv,docs,cryptos
 
 [MESSAGES CONTROL]
 # Disable specific warnings/errors that are not critical or conflict with project style
