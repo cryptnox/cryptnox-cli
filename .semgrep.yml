@@ -1,0 +1,158 @@
+# Semgrep Configuration for Cryptnox CLI
+# Security rules customized for smart card and cryptography code
+
+rules:
+  # Cryptography Security Rules
+  - id: weak-crypto-algorithm
+    pattern-either:
+      - pattern: hashlib.md5(...)
+      - pattern: hashlib.sha1(...)
+      - pattern: Crypto.Hash.MD5
+      - pattern: Crypto.Hash.SHA1
+    message: Weak cryptographic algorithm detected. Use SHA-256 or stronger.
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: "CWE-327: Use of a Broken or Risky Cryptographic Algorithm"
+      owasp: "A3:2017-Sensitive Data Exposure"
+    
+  - id: hardcoded-secret
+    pattern-either:
+      - pattern: |
+          $VAR = "..."
+      - pattern: |
+          $VAR = b"..."
+    pattern-regex: |
+      (password|passwd|pwd|secret|token|api_key|apikey|access_key|private_key|encryption_key)\s*=\s*["\'](?!<|{|\$).{8,}["\']
+    message: Possible hardcoded secret detected. Use environment variables or secure storage.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: "CWE-798: Use of Hard-coded Credentials"
+      owasp: "A2:2017-Broken Authentication"
+  
+  - id: insecure-random
+    pattern-either:
+      - pattern: random.random(...)
+      - pattern: random.randint(...)
+      - pattern: random.choice(...)
+    message: Using insecure random number generator. Use secrets module for cryptographic operations.
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: "CWE-338: Use of Cryptographically Weak Pseudo-Random Number Generator"
+    fix: secrets.SystemRandom()
+  
+  - id: dangerous-pickle-usage
+    pattern-either:
+      - pattern: pickle.loads(...)
+      - pattern: pickle.load(...)
+    message: Dangerous use of pickle. Can lead to arbitrary code execution if loading untrusted data.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: "CWE-502: Deserialization of Untrusted Data"
+      owasp: "A8:2017-Insecure Deserialization"
+  
+  - id: eval-usage
+    pattern-either:
+      - pattern: eval(...)
+      - pattern: exec(...)
+    message: Use of eval() or exec() is dangerous and can lead to code injection.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: "CWE-95: Improper Neutralization of Directives in Dynamically Evaluated Code"
+  
+  # Smart Card / PIN Security
+  - id: pin-in-logs
+    pattern-either:
+      - pattern: |
+          print(..., $PIN, ...)
+      - pattern: |
+          logging.$METHOD(..., $PIN, ...)
+      - pattern: |
+          logger.$METHOD(..., $PIN, ...)
+    pattern-regex: .*(pin|puk|password|secret).*
+    message: Possible PIN/PUK logging detected. Never log sensitive authentication data.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: "CWE-532: Insertion of Sensitive Information into Log File"
+  
+  - id: sql-injection
+    pattern: |
+      $QUERY = "..." + $VAR + "..."
+      $CURSOR.execute($QUERY)
+    message: Possible SQL injection vulnerability. Use parameterized queries.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: "CWE-89: SQL Injection"
+      owasp: "A1:2017-Injection"
+  
+  - id: unvalidated-input
+    pattern-either:
+      - pattern: |
+          $INPUT = input(...)
+          exec($INPUT)
+      - pattern: |
+          $INPUT = input(...)
+          eval($INPUT)
+    message: Executing unvalidated user input is extremely dangerous.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: "CWE-20: Improper Input Validation"
+  
+  - id: http-without-timeout
+    pattern: requests.$METHOD(..., timeout=None, ...)
+    message: HTTP request without timeout can cause hanging connections. Always set a timeout.
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: "CWE-400: Uncontrolled Resource Consumption"
+  
+  - id: bare-except
+    pattern: |
+      try:
+        ...
+      except:
+        ...
+    message: Bare except clause catches all exceptions including KeyboardInterrupt. Be more specific.
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: "CWE-396: Declaration of Catch for Generic Exception"
+  
+  - id: assert-used
+    pattern: assert $CONDITION
+    message: Assert statements are removed in optimized bytecode (-O flag). Don't use for security checks.
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: "CWE-617: Reachable Assertion"
+
+# Paths to exclude from scanning
+exclude:
+  - "*.pyc"
+  - "**/__pycache__/"
+  - "**/build/"
+  - "**/dist/"
+  - "**/*.egg-info/"
+  - "**/venv/"
+  - "**/.venv/"
+  - "**/docs/"
+  - "**/tests/"
+  - "**/.git/"
