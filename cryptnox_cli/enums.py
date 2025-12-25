@@ -34,3 +34,4 @@ class Command(Enum):
     UNLOCK_PIN = "unlock_pin"
     USER_KEY = "user_key"
     TRANSFER = "transfer"
+    CERTIFICATE = "cert"

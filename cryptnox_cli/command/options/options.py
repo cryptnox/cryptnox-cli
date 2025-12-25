@@ -60,6 +60,7 @@ def add(parser, interactive: bool = False):
     _xpub_options(subparsers, interactive)
     _get_clearpubkey_options(subparsers, interactive)
     _decrypt_options(subparsers, interactive)
+    _cert_options(subparsers, interactive)
 
     if interactive:
         use_sub_parser = subparsers.add_parser("use", help="Change card to be used by default")
@@ -300,3 +301,13 @@ def _decrypt_options(subparsers, interactive_mode):
     """
     from ..decrypt import Decrypt
     Decrypt.add_options(subparsers)
+
+
+def _cert_options(subparsers, _: bool):
+    """
+    Add manufacturer certificate command options
+
+    :param subparsers: Argument parser subparsers
+    """
+    subparsers.add_parser(enums.Command.CERTIFICATE.value,
+                          help="Retrieve and display the manufacturer certificate")
