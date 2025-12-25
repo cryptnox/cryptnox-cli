@@ -91,6 +91,20 @@ Shows:
   - Public keys
   - Derivation information
 
+cert
+^^^^
+
+Retrieve and display the manufacturer certificate from the card in a human-readable format.
+
+.. code-block:: bash
+
+   cryptnox cert
+
+**Features:**
+  - Retrieves the full manufacturer certificate from the card
+  - Displays certificate details (Issuer, Subject, Validity, Public Key, Signature)
+  - Human-readable format similar to ``openssl x509 -text``
+
 Seed Management Commands
 ~~~~~~~~~~~~~~~~~~~~~~~~
 

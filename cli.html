@@ -58,6 +58,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#init">init</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#reset">reset</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#info">info</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cert">cert</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#seed-management-commands">Seed Management Commands</a><ul>
@@ -249,6 +250,21 @@
 <li><p>Ethereum and Bitcoin addresses</p></li>
 <li><p>Public keys</p></li>
 <li><p>Derivation information</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="cert">
+<h4>cert<a class="headerlink" href="#cert" title="Link to this heading"></a></h4>
+<p>Retrieve and display the manufacturer certificate from the card in a human-readable format.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>cert
+</pre></div>
+</div>
+<dl class="simple">
+<dt><strong>Features:</strong></dt><dd><ul class="simple">
+<li><p>Retrieves the full manufacturer certificate from the card</p></li>
+<li><p>Displays certificate details (Issuer, Subject, Validity, Public Key, Signature)</p></li>
+<li><p>Human-readable format similar to <code class="docutils literal notranslate"><span class="pre">openssl</span> <span class="pre">x509</span> <span class="pre">-text</span></code></p></li>
 </ul>
 </dd>
 </dl>
