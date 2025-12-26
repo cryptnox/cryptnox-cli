@@ -27,7 +27,7 @@ def command(data: Namespace, cards: CardManager = None) -> Command:
         'btc', 'card_configuration', 'change_pin', 'change_puk', 'config',
         'eth', 'history', 'info', 'initialize', 'seed', 'cards', 'server',
         'reset', 'unlock_pin', 'user_key', 'transfer', 'get_xpub',
-        'get_clearpubkey', 'decrypt'
+        'get_clearpubkey', 'decrypt', 'manufacturer_certificate'
     ]
 
     for module_name in command_modules:
