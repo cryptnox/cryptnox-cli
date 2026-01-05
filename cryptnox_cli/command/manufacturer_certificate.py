@@ -2,6 +2,7 @@
 """
 Module containing command for retrieving and displaying manufacturer certificate
 """
+import re
 import cryptnox_sdk_py
 from cryptography import x509
 from cryptography.hazmat.primitives import serialization
@@ -55,7 +56,8 @@ class ManufacturerCertificate(Command):
         print("        Serial Number:")
         serial_hex = self._format_hex(cert.serial_number)
         print(f"            {serial_hex}")
-        print(f"        Signature Algorithm: {self._get_sig_alg_name(cert)}")
+        sig_alg = re.sub(r'(with-)([a-z0-9]+)', lambda m: m.group(1) + m.group(2).upper(), cert.signature_algorithm_oid._name)
+        print(f"        Signature Algorithm: {sig_alg}")
         print(f"        Issuer: {self._format_name(cert.issuer)}")
         print("        Validity")
         # Use UTC for consistency as required by the GMT format in example
@@ -79,7 +81,7 @@ class ManufacturerCertificate(Command):
             if public_key.curve.name in ["prime256v1", "secp256r1"]:
                 print("                NIST CURVE: P-256")
 
-        print(f"    Signature Algorithm: {self._get_sig_alg_name(cert)}")
+        print(f"    Signature Algorithm: {sig_alg}")
         print("    Signature Value:")
         sig_hex = ':'.join(f'{b:02x}' for b in cert.signature)
         self._print_indented_hex(sig_hex, 8)
@@ -116,10 +118,3 @@ class ManufacturerCertificate(Command):
             short_name = short_names.get(name_str, name_str)
             parts.append(f"{short_name}={attribute.value}")
         return ", ".join(parts)
-
-    def _get_sig_alg_name(self, cert: x509.Certificate) -> str:
-        # Map common OID names to OpenSSL style names if needed
-        name = cert.signature_algorithm_oid._name
-        if name == "ecdsa-with-sha256":
-            return "ecdsa-with-SHA256"
-        return name
