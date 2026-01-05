@@ -56,7 +56,8 @@ class ManufacturerCertificate(Command):
         print("        Serial Number:")
         serial_hex = self._format_hex(cert.serial_number)
         print(f"            {serial_hex}")
-        sig_alg = re.sub(r'(with-)([a-z0-9]+)', lambda m: m.group(1) + m.group(2).upper(), cert.signature_algorithm_oid._name)
+        sig_alg_name = cert.signature_algorithm_oid._name
+        sig_alg = re.sub(r'(with-)([a-z0-9]+)', lambda m: m.group(1) + m.group(2).upper(), sig_alg_name)
         print(f"        Signature Algorithm: {sig_alg}")
         print(f"        Issuer: {self._format_name(cert.issuer)}")
         print("        Validity")
