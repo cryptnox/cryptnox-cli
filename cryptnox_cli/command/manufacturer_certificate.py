@@ -123,4 +123,3 @@ class ManufacturerCertificate(Command):
         if name == "ecdsa-with-sha256":
             return "ecdsa-with-SHA256"
         return name
-
