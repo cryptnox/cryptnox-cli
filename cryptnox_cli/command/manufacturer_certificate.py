@@ -50,42 +50,41 @@ class ManufacturerCertificate(Command):
         """
         Prints the certificate in a human-readable format similar to openssl x509 -text
         """
-        print("Certificate:")
-        print("    Data:")
-        print(f"        Version: {cert.version.value + 1} (0x{cert.version.value})")
-        print("        Serial Number:")
+        print("Certificate Data:")
+        print(f"    Version: {cert.version.value + 1} (0x{cert.version.value})")
+        print("    Serial Number:")
         serial_hex = self._format_hex(cert.serial_number)
-        print(f"            {serial_hex}")
+        print(f"        {serial_hex}")
         sig_alg_name = cert.signature_algorithm_oid._name
         sig_alg = re.sub(r'(with-)([a-z0-9]+)', lambda m: m.group(1) + m.group(2).upper(), sig_alg_name)
-        print(f"        Signature Algorithm: {sig_alg}")
-        print(f"        Issuer: {self._format_name(cert.issuer)}")
-        print("        Validity")
+        print(f"    Signature Algorithm: {sig_alg}")
+        print(f"    Issuer: {self._format_name(cert.issuer)}")
+        print("    Validity:")
         # Use UTC for consistency as required by the GMT format in example
-        print(f"            Not Before: {cert.not_valid_before_utc.strftime('%b %d %H:%M:%S %Y GMT')}")
-        print(f"            Not After : {cert.not_valid_after_utc.strftime('%b %d %H:%M:%S %Y GMT')}")
-        print(f"        Subject: {self._format_name(cert.subject)}")
+        print(f"        Not Before: {cert.not_valid_before_utc.strftime('%b %d %H:%M:%S %Y GMT')}")
+        print(f"        Not After : {cert.not_valid_after_utc.strftime('%b %d %H:%M:%S %Y GMT')}")
+        print(f"    Subject: {self._format_name(cert.subject)}")
 
         public_key = cert.public_key()
         if isinstance(public_key, ec.EllipticCurvePublicKey):
-            print("        Subject Public Key Info:")
-            print("            Public Key Algorithm: id-ecPublicKey")
-            print(f"                Public-Key: ({public_key.key_size} bit)")
-            print("                pub:")
+            print("    Subject Public Key Info:")
+            print("        Public Key Algorithm: id-ecPublicKey")
+            print(f"            Public-Key: ({public_key.key_size} bit)")
+            print("            pub:")
             pub_bytes = public_key.public_bytes(
                 encoding=serialization.Encoding.X962,
                 format=serialization.PublicFormat.UncompressedPoint
             )
             pub_hex = ':'.join(f'{b:02x}' for b in pub_bytes)
-            self._print_indented_hex(pub_hex, 20)
-            print(f"                ASN1 OID: {public_key.curve.name}")
+            self._print_indented_hex(pub_hex, 16)
+            print(f"            ASN1 OID: {public_key.curve.name}")
             if public_key.curve.name in ["prime256v1", "secp256r1"]:
-                print("                NIST CURVE: P-256")
+                print("            NIST CURVE: P-256")
 
-        print(f"    Signature Algorithm: {sig_alg}")
-        print("    Signature Value:")
+        print(f"Signature Algorithm: {sig_alg}")
+        print("Signature Value:")
         sig_hex = ':'.join(f'{b:02x}' for b in cert.signature)
-        self._print_indented_hex(sig_hex, 8)
+        self._print_indented_hex(sig_hex, 4)
 
     def _format_hex(self, value: int) -> str:
         h = hex(value)[2:]
