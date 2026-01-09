@@ -1,0 +1,111 @@
+name: Semgrep Security Scan
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Run daily at 00:00 UTC to catch new vulnerabilities
+    - cron: '0 0 * * *'
+
+permissions:
+  contents: read
+  security-events: write  # Required for SARIF upload
+  pull-requests: write    # For PR comments
+
+jobs:
+  semgrep:
+    runs-on: ubuntu-latest
+    
+    # Skip scheduled runs on forks
+    if: (github.event_name != 'schedule') || (github.repository == 'cryptnox/cryptnox-cli')
+    
+    container:
+      # Official Semgrep Docker image
+      image: semgrep/semgrep
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Fix Git ownership in container
+        run: |
+          git config --global --add safe.directory /__w/cryptnox-cli/cryptnox-cli || true
+          git config --global --add safe.directory "$GITHUB_WORKSPACE" || true
+      
+      - name: Run Semgrep Security Scan
+        id: semgrep
+        continue-on-error: true
+        run: |
+          echo "Running Semgrep security analysis..."
+          echo "===================================="
+          echo ""
+          
+          # 1. Run Semgrep with text output to console (for logs)
+          # We use --error to ensure it fails if issues are found
+          semgrep scan \
+            --config=p/python \
+            --config=p/security-audit \
+            --config=p/owasp-top-ten \
+            --verbose \
+            --metrics=off
+            
+          # Capture exit code from the text scan
+          EXIT_CODE=$?
+          
+          echo ""
+          echo "Generating SARIF report..."
+          
+          # 2. Generate SARIF report for GitHub Security
+          semgrep scan \
+            --config=p/python \
+            --config=p/security-audit \
+            --config=p/owasp-top-ten \
+            --sarif \
+            --output=semgrep.sarif \
+            --metrics=off || true
+          
+          # Verify SARIF file was created
+          if [ -f semgrep.sarif ]; then
+            echo "✓ SARIF file created successfully"
+            ls -lh semgrep.sarif
+          else
+            echo "⚠️  Warning: SARIF file not created"
+          fi
+          
+          # Return the exit code from the text scan
+          exit $EXIT_CODE
+        env:
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+      
+      - name: Upload Semgrep SARIF to GitHub Security
+        if: always() && hashFiles('semgrep.sarif') != ''
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: semgrep.sarif
+          category: semgrep
+      
+      - name: Upload Semgrep reports as artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: semgrep-reports
+          path: semgrep.sarif
+          if-no-files-found: warn
+      
+      - name: Check Semgrep results
+        if: steps.semgrep.outcome == 'failure'
+        run: |
+          echo "⚠️  Semgrep found security issues"
+          echo ""
+          echo "Review the findings:"
+          echo "  1. Check the output above for details"
+          echo "  2. Go to Security -> Code scanning -> Semgrep category"
+          echo "  3. Download artifacts for full reports"
+          echo ""
+          echo "Note: Some findings may be false positives."
+          echo "Review each one carefully before taking action."
+          exit 1
+
+
