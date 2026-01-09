@@ -136,6 +136,14 @@ cryptnox_cli.command.initialize module
    :undoc-members:
    :show-inheritance:
 
+cryptnox_cli.command.manufacturer\_certificate module
+----------------------------------------------------
+
+.. automodule:: cryptnox_cli.command.manufacturer_certificate
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 cryptnox_cli.command.reset module
 --------------------------------
 
