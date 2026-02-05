@@ -1,0 +1,860 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cryptnox_cli.lib.cryptos.coins.base &mdash; cryptnox-cli 1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/custom.css?v=0912efa5" />
+
+  
+      <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../../_static/documentation_options.js?v=baaebd52"></script>
+      <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../../_static/custom.js?v=f0d783cb"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #101f2e" >
+
+          
+          
+          <a href="../../../../../index.html" class="icon icon-home">
+            cryptnox-cli
+              <img src="../../../../../_static/cryptnox-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../overview.html">Cryptnox CLI Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #101f2e" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">cryptnox-cli</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cryptnox_cli.lib.cryptos.coins.base</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cryptnox_cli.lib.cryptos.coins.base</h1><div class="highlight"><pre>
+<span></span><span class="c1"># flake8: noqa</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Base classes and shared logic for UTXO-based coin implementations.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">segwit_addr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..blocks</span><span class="w"> </span><span class="kn">import</span> <span class="n">mk_merkle_proof</span>
+<span class="c1"># from ..explorers import blockchain</span>
+<span class="c1"># from ..electrumx_client.rpc import ElectrumXClient</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..keystore</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..specials</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..transaction</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..wallet</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="BaseCoin">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BaseCoin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base implementation of crypto coin class</span>
+<span class="sd">    All child coins must follow same pattern.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">coin_symbol</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">display_name</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">enabled</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">segwit_supported</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">magicbyte</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">script_magicbyte</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">segwit_hrp</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># explorer = blockchain</span>
+    <span class="c1"># client = ElectrumXClient</span>
+    <span class="n">client_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;server_file&#39;</span><span class="p">:</span> <span class="s1">&#39;bitcoin.json&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;servers&#39;</span><span class="p">:</span> <span class="p">(),</span>
+        <span class="s1">&#39;host&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s1">&#39;port&#39;</span><span class="p">:</span> <span class="mi">50001</span><span class="p">,</span>
+        <span class="s1">&#39;timeout&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+        <span class="s1">&#39;max_servers&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="s1">&#39;loop&#39;</span><span class="p">:</span> <span class="kc">None</span>
+    <span class="p">}</span>
+    <span class="n">is_testnet</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">address_prefixes</span> <span class="o">=</span> <span class="p">()</span>
+    <span class="n">testnet_overrides</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">hashcode</span> <span class="o">=</span> <span class="n">SIGHASH_ALL</span>
+    <span class="n">secondary_hashcode</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">hd_path</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">wif_prefix</span> <span class="o">=</span> <span class="mh">0x80</span>
+    <span class="n">wif_script_types</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;p2pkh&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;p2wpkh&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;p2wpkh-p2sh&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s1">&#39;p2sh&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="s1">&#39;p2wsh&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+        <span class="s1">&#39;p2wsh-p2sh&#39;</span><span class="p">:</span> <span class="mi">7</span>
+    <span class="p">}</span>
+    <span class="n">xprv_headers</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;p2pkh&#39;</span><span class="p">:</span> <span class="mh">0x0488ade4</span><span class="p">,</span>
+        <span class="s1">&#39;p2wpkh-p2sh&#39;</span><span class="p">:</span> <span class="mh">0x049d7878</span><span class="p">,</span>
+        <span class="s1">&#39;p2wsh-p2sh&#39;</span><span class="p">:</span> <span class="mh">0x295b005</span><span class="p">,</span>
+        <span class="s1">&#39;p2wpkh&#39;</span><span class="p">:</span> <span class="mh">0x4b2430c</span><span class="p">,</span>
+        <span class="s1">&#39;p2wsh&#39;</span><span class="p">:</span> <span class="mh">0x2aa7a99</span>
+    <span class="p">}</span>
+    <span class="n">xpub_headers</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;p2pkh&#39;</span><span class="p">:</span> <span class="mh">0x0488b21e</span><span class="p">,</span>
+        <span class="s1">&#39;p2wpkh-p2sh&#39;</span><span class="p">:</span> <span class="mh">0x049d7cb2</span><span class="p">,</span>
+        <span class="s1">&#39;p2wsh-p2sh&#39;</span><span class="p">:</span> <span class="mh">0x295b43f</span><span class="p">,</span>
+        <span class="s1">&#39;p2wpkh&#39;</span><span class="p">:</span> <span class="mh">0x4b24746</span><span class="p">,</span>
+        <span class="s1">&#39;p2wsh&#39;</span><span class="p">:</span> <span class="mh">0x2aa7ed3</span>
+    <span class="p">}</span>
+    <span class="n">electrum_xprv_headers</span> <span class="o">=</span> <span class="n">xprv_headers</span>
+    <span class="n">electrum_xpub_headers</span> <span class="o">=</span> <span class="n">xpub_headers</span>
+
+<div class="viewcode-block" id="BaseCoin.__init__">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">testnet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">testnet</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">is_testnet</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">testnet_overrides</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+        <span class="c1"># override default attributes from kwargs</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_testnet</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                    <span class="s2">&quot;Due to explorer limitations, testnet support for this coin has not been implemented yet!&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Support for this coin has not been implemented yet!&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">address_prefixes</span> <span class="o">=</span> <span class="n">magicbyte_to_prefix</span><span class="p">(</span><span class="n">magicbyte</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">magicbyte</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">script_magicbyte</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">script_prefixes</span> <span class="o">=</span> <span class="n">magicbyte_to_prefix</span><span class="p">(</span><span class="n">magicbyte</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">script_magicbyte</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">script_prefixes</span> <span class="o">=</span> <span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">secondary_hashcode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">secondary_hashcode</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">hashcode</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rpc_client</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rpc_client</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Connect to remove server</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rpc_client</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_rpc_client</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">client_kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rpc_client</span>
+
+<div class="viewcode-block" id="BaseCoin.unspent">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.unspent">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">unspent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">addrs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get unspent transactions for addresses</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rpc_client</span><span class="o">.</span><span class="n">unspent</span><span class="p">(</span><span class="o">*</span><span class="n">addrs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.history">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.history">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">history</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">addrs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get transaction history for addresses</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">explorer</span><span class="o">.</span><span class="n">history</span><span class="p">(</span><span class="o">*</span><span class="n">addrs</span><span class="p">,</span> <span class="n">coin_symbol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coin_symbol</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.fetchtx">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.fetchtx">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fetchtx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tx</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fetch a tx from the blockchain</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">explorer</span><span class="o">.</span><span class="n">fetchtx</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">coin_symbol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coin_symbol</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.txinputs">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.txinputs">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">txinputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tx</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fetch inputs of a transaction on the blockchain</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">explorer</span><span class="o">.</span><span class="n">txinputs</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">coin_symbol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coin_symbol</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.pushtx">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.pushtx">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pushtx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tx</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Push/ Broadcast a transaction to the blockchain</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">explorer</span><span class="o">.</span><span class="n">push_tx</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">coin_symbol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coin_symbol</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.privtopub">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.privtopub">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">privtopub</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">privkey</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get public key from private key</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">privtopub</span><span class="p">(</span><span class="n">privkey</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.pubtoaddr">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.pubtoaddr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pubtoaddr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pubkey</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get address from a pubic key</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">pubtoaddr</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">magicbyte</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">magicbyte</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.privtoaddr">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.privtoaddr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">privtoaddr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">privkey</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get address from a private key</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">privtoaddr</span><span class="p">(</span><span class="n">privkey</span><span class="p">,</span> <span class="n">magicbyte</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">magicbyte</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.electrum_address">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.electrum_address">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">electrum_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">masterkey</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">for_change</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        For old electrum seeds</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pubkey</span> <span class="o">=</span> <span class="n">electrum_pubkey</span><span class="p">(</span><span class="n">masterkey</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">for_change</span><span class="o">=</span><span class="n">for_change</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pubtoaddr</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.is_address">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.is_address">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">addr</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if addr is a valid address for this chain</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">all_prefixes</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">address_prefixes</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">script_prefixes</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">==</span> <span class="n">addr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">all_prefixes</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.is_p2sh">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.is_p2sh">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_p2sh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">addr</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if addr is a a pay to script address</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">==</span> <span class="n">addr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">address_prefixes</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.output_script_to_address">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.output_script_to_address">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">output_script_to_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert an output script to an address</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">output_script_to_address</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">magicbyte</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.scripttoaddr">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.scripttoaddr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">scripttoaddr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert an input public key hash to an address</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^[0-9a-fA-F]*$&#39;</span><span class="p">,</span> <span class="n">script</span><span class="p">):</span>
+            <span class="n">script</span> <span class="o">=</span> <span class="n">binascii</span><span class="o">.</span><span class="n">unhexlify</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">script</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x76\xa9\x14</span><span class="s1">&#39;</span> <span class="ow">and</span> <span class="n">script</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x88\xac</span><span class="s1">&#39;</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">script</span><span class="p">)</span> <span class="o">==</span> <span class="mi">25</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">bin_to_b58check</span><span class="p">(</span><span class="n">script</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">magicbyte</span><span class="p">)</span>  <span class="c1"># pubkey hash addresses</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># BIP0016 scripthash addresses</span>
+            <span class="k">return</span> <span class="n">bin_to_b58check</span><span class="p">(</span><span class="n">script</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">script_magicbyte</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.p2sh_scriptaddr">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.p2sh_scriptaddr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">p2sh_scriptaddr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert an output p2sh script to an address</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^[0-9a-fA-F]*$&#39;</span><span class="p">,</span> <span class="n">script</span><span class="p">):</span>
+            <span class="n">script</span> <span class="o">=</span> <span class="n">binascii</span><span class="o">.</span><span class="n">unhexlify</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">hex_to_b58check</span><span class="p">(</span><span class="n">hash160</span><span class="p">(</span><span class="n">script</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">script_magicbyte</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.addrtoscript">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.addrtoscript">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">addrtoscript</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">addr</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert an output address to a script</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">segwit_hrp</span><span class="p">:</span>
+            <span class="n">witver</span><span class="p">,</span> <span class="n">witprog</span> <span class="o">=</span> <span class="n">segwit_addr</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">segwit_hrp</span><span class="p">,</span> <span class="n">addr</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">witprog</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">mk_p2w_scripthash_script</span><span class="p">(</span><span class="n">witver</span><span class="p">,</span> <span class="n">witprog</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_p2sh</span><span class="p">(</span><span class="n">addr</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">mk_scripthash_script</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">mk_pubkey_script</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.pubtop2w">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.pubtop2w">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pubtop2w</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pub</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a public key to a pay to witness public key hash address (P2WPKH, required for segwit)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">segwit_supported</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Segwit not supported for this coin&quot;</span><span class="p">)</span>
+        <span class="n">compressed_pub</span> <span class="o">=</span> <span class="n">compress</span><span class="p">(</span><span class="n">pub</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scripttoaddr</span><span class="p">(</span><span class="n">mk_p2wpkh_script</span><span class="p">(</span><span class="n">compressed_pub</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.privtop2w">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.privtop2w">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">privtop2w</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">priv</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a private key to a pay to witness public key hash address</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pubtop2w</span><span class="p">(</span><span class="n">privtopub</span><span class="p">(</span><span class="n">priv</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.hash_to_segwit_addr">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.hash_to_segwit_addr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">hash_to_segwit_addr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">hash</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a hash to the new segwit address format outlined in BIP-0173</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">segwit_addr</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">segwit_hrp</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">hash</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.privtosegwit">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.privtosegwit">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">privtosegwit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">privkey</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a private key to the new segwit address format outlined in BIP01743</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pubtosegwit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">privtopub</span><span class="p">(</span><span class="n">privkey</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.pubtosegwit">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.pubtosegwit">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pubtosegwit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pubkey</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a public key to the new segwit address format outlined in BIP01743</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">hash_to_segwit_addr</span><span class="p">(</span><span class="n">pubkey_to_hash</span><span class="p">(</span><span class="n">pubkey</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.script_to_p2wsh">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.script_to_p2wsh">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">script_to_p2wsh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a script to the new segwit address format outlined in BIP01743</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">hash_to_segwit_addr</span><span class="p">(</span><span class="n">sha256</span><span class="p">(</span><span class="n">safe_from_hex</span><span class="p">(</span><span class="n">script</span><span class="p">)))</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.mk_multsig_address">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.mk_multsig_address">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">mk_multsig_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param args: List of public keys to used to create multisig and M, the number of signatures required to spend</span>
+<span class="sd">        :return: multisig script</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">script</span> <span class="o">=</span> <span class="n">mk_multisig_script</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="n">address</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p2sh_scriptaddr</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">script</span><span class="p">,</span> <span class="n">address</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.is_segwit">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.is_segwit">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_segwit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">priv</span><span class="p">,</span> <span class="n">addr</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if addr was generated from priv using segwit script</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">segwit_supported</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">segwit_hrp</span> <span class="ow">and</span> <span class="n">addr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">segwit_hrp</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="n">segwit_addr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">privtop2w</span><span class="p">(</span><span class="n">priv</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">segwit_addr</span> <span class="o">==</span> <span class="n">addr</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.sign">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.sign">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">txobj</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">priv</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sign a transaction input with index using a private key</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">i</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">txobj</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">txobj</span> <span class="o">=</span> <span class="n">deserialize</span><span class="p">(</span><span class="n">txobj</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">priv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">33</span><span class="p">:</span>
+            <span class="n">priv</span> <span class="o">=</span> <span class="n">safe_hexlify</span><span class="p">(</span><span class="n">priv</span><span class="p">)</span>
+        <span class="n">pub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">privtopub</span><span class="p">(</span><span class="n">priv</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">txobj</span><span class="p">[</span><span class="s1">&#39;ins&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;segwit&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">or</span> <span class="n">txobj</span><span class="p">[</span><span class="s1">&#39;ins&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;new_segwit&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">segwit_supported</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Segregated witness is not supported for </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">display_name</span><span class="p">)</span>
+            <span class="n">pub</span> <span class="o">=</span> <span class="n">compress</span><span class="p">(</span><span class="n">pub</span><span class="p">)</span>
+            <span class="n">script</span> <span class="o">=</span> <span class="n">mk_p2wpkh_scriptcode</span><span class="p">(</span><span class="n">pub</span><span class="p">)</span>
+            <span class="n">signing_tx</span> <span class="o">=</span> <span class="n">signature_form</span><span class="p">(</span><span class="n">txobj</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">script</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hashcode</span><span class="p">)</span>
+            <span class="n">sig</span> <span class="o">=</span> <span class="n">ecdsa_tx_sign</span><span class="p">(</span><span class="n">signing_tx</span><span class="p">,</span> <span class="n">priv</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">secondary_hashcode</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">txobj</span><span class="p">[</span><span class="s1">&#39;ins&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;new_segwit&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+                <span class="n">txobj</span><span class="p">[</span><span class="s2">&quot;ins&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;script&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">txobj</span><span class="p">[</span><span class="s2">&quot;ins&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;script&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mk_p2wpkh_redeemscript</span><span class="p">(</span><span class="n">pub</span><span class="p">)</span>
+            <span class="n">txobj</span><span class="p">[</span><span class="s2">&quot;witness&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;scriptCode&quot;</span><span class="p">:</span> <span class="n">serialize_script</span><span class="p">([</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub</span><span class="p">])})</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">address</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pubtoaddr</span><span class="p">(</span><span class="n">pub</span><span class="p">)</span>
+            <span class="n">script</span> <span class="o">=</span> <span class="n">mk_pubkey_script</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+            <span class="n">signing_tx</span> <span class="o">=</span> <span class="n">signature_form</span><span class="p">(</span><span class="n">txobj</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">script</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hashcode</span><span class="p">)</span>
+            <span class="n">sig</span> <span class="o">=</span> <span class="n">ecdsa_tx_sign</span><span class="p">(</span><span class="n">signing_tx</span><span class="p">,</span> <span class="n">priv</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hashcode</span><span class="p">)</span>
+            <span class="n">txobj</span><span class="p">[</span><span class="s2">&quot;ins&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;script&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">serialize_script</span><span class="p">([</span><span class="n">sig</span><span class="p">,</span> <span class="n">pub</span><span class="p">])</span>
+            <span class="k">if</span> <span class="s2">&quot;witness&quot;</span> <span class="ow">in</span> <span class="n">txobj</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">txobj</span><span class="p">[</span><span class="s2">&quot;witness&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;scriptCode&quot;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">})</span>
+        <span class="k">return</span> <span class="n">txobj</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.signall">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.signall">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">signall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">txobj</span><span class="p">,</span> <span class="n">priv</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sign all inputs to a transaction using a private key</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">txobj</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">txobj</span> <span class="o">=</span> <span class="n">deserialize</span><span class="p">(</span><span class="n">txobj</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">priv</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">e</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">txobj</span><span class="p">[</span><span class="s2">&quot;ins&quot;</span><span class="p">]):</span>
+                <span class="n">k</span> <span class="o">=</span> <span class="n">priv</span><span class="p">[</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">:</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s2">&quot;outpoint&quot;</span><span class="p">][</span><span class="s2">&quot;hash&quot;</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="s2">&quot;outpoint&quot;</span><span class="p">][</span><span class="s2">&quot;index&quot;</span><span class="p">])]</span>
+                <span class="n">txobj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">txobj</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">txobj</span><span class="p">[</span><span class="s2">&quot;ins&quot;</span><span class="p">])):</span>
+                <span class="n">txobj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">txobj</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">priv</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">serialize</span><span class="p">(</span><span class="n">txobj</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.multisign">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.multisign">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">multisign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tx</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">script</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">multisign</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">script</span><span class="p">,</span> <span class="n">pk</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hashcode</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.mktx">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.mktx">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">mktx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;[in0, in1...],[out0, out1...] or in0, in1 ... out0 out1 ...</span>
+
+<span class="sd">        Make an unsigned transaction from inputs and outputs. Change is not automatically included so any difference</span>
+<span class="sd">        in value between inputs and outputs will be given as a miner&#39;s fee (transactions with too high fees will</span>
+<span class="sd">        normally be blocked by the explorers)</span>
+
+<span class="sd">        For Bitcoin Cash and other hard forks using SIGHASH_FORKID,</span>
+<span class="sd">        ins must be a list of dicts with each containing the outpoint and value of the input.</span>
+
+<span class="sd">        Inputs originally received with segwit must be a dict in the format: {&#39;outpoint&#39;: &quot;txhash:index&quot;, value:0, &quot;segwit&quot;: True}</span>
+
+<span class="sd">        For other transactions, inputs can be dicts containing only outpoints or strings in the outpoint format.</span>
+<span class="sd">        Outpoint format: txhash:index</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ins</span><span class="p">,</span> <span class="n">outs</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">arg</span><span class="p">:</span> <span class="p">(</span><span class="n">ins</span> <span class="k">if</span> <span class="n">is_inp</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">else</span> <span class="n">outs</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="p">(</span><span class="n">ins</span> <span class="k">if</span> <span class="n">is_inp</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="k">else</span> <span class="n">outs</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+
+        <span class="n">txobj</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;locktime&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;ins&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;outs&quot;</span><span class="p">:</span> <span class="p">[]}</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;segwit&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">or</span> <span class="n">i</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;new_segwit&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ins</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">segwit_supported</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Segregated witness is not allowed for </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">display_name</span><span class="p">)</span>
+            <span class="n">txobj</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;marker&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;flag&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;witness&quot;</span><span class="p">:</span> <span class="p">[]})</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ins</span><span class="p">:</span>
+            <span class="nb">input</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;script&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;sequence&quot;</span><span class="p">:</span> <span class="mi">4294967295</span><span class="p">}</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;output&quot;</span> <span class="ow">in</span> <span class="n">i</span><span class="p">:</span>
+                <span class="nb">input</span><span class="p">[</span><span class="s2">&quot;outpoint&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;hash&quot;</span><span class="p">:</span> <span class="n">i</span><span class="p">[</span><span class="s2">&quot;output&quot;</span><span class="p">][:</span><span class="mi">64</span><span class="p">],</span> <span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s2">&quot;output&quot;</span><span class="p">][</span><span class="mi">65</span><span class="p">:])}</span>
+                <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;amount&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;segwit&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+                    <span class="nb">input</span><span class="p">[</span><span class="s2">&quot;segwit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">elif</span> <span class="n">i</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;new_segwit&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+                    <span class="nb">input</span><span class="p">[</span><span class="s2">&quot;new_segwit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">input</span><span class="p">[</span><span class="s2">&quot;outpoint&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;hash&quot;</span><span class="p">:</span> <span class="n">i</span><span class="p">[:</span><span class="mi">64</span><span class="p">],</span> <span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">65</span><span class="p">:])}</span>
+                <span class="nb">input</span><span class="p">[</span><span class="s1">&#39;amount&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">txobj</span><span class="p">[</span><span class="s2">&quot;ins&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">outs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">string_or_bytes_types</span><span class="p">):</span>
+                <span class="n">addr</span> <span class="o">=</span> <span class="n">o</span><span class="p">[:</span><span class="n">o</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)]</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">o</span><span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:])</span>
+                <span class="n">o</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^[0-9a-fA-F]*$&#39;</span><span class="p">,</span> <span class="n">addr</span><span class="p">):</span>
+                    <span class="n">o</span><span class="p">[</span><span class="s2">&quot;script&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">addr</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">o</span><span class="p">[</span><span class="s2">&quot;address&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">addr</span>
+                <span class="n">o</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+            <span class="n">outobj</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">if</span> <span class="s2">&quot;address&quot;</span> <span class="ow">in</span> <span class="n">o</span><span class="p">:</span>
+                <span class="n">outobj</span><span class="p">[</span><span class="s2">&quot;script&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">addrtoscript</span><span class="p">(</span><span class="n">o</span><span class="p">[</span><span class="s2">&quot;address&quot;</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="s2">&quot;script&quot;</span> <span class="ow">in</span> <span class="n">o</span><span class="p">:</span>
+                <span class="n">outobj</span><span class="p">[</span><span class="s2">&quot;script&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">o</span><span class="p">[</span><span class="s2">&quot;script&quot;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Could not find &#39;address&#39; or &#39;script&#39; in output.&quot;</span><span class="p">)</span>
+            <span class="n">outobj</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">o</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+            <span class="n">txobj</span><span class="p">[</span><span class="s2">&quot;outs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">outobj</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">txobj</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.mksend">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.mksend">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">mksend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">segwit</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;[in0, in1...],[out0, out1...] or in0, in1 ... out0 out1 ...</span>
+
+<span class="sd">        Make an unsigned transaction from inputs, outputs change address and fee. A change output will be added with</span>
+<span class="sd">        change sent to the change address.</span>
+
+<span class="sd">        For Bitcoin Cash and other hard forks using SIGHASH_FORKID and segwit,</span>
+<span class="sd">        ins must be a list of dicts with each containing the outpoint and value of the input.</span>
+
+<span class="sd">        For other transactions, inputs can be dicts containing only outpoints or strings in the outpoint format.</span>
+<span class="sd">        Outpoint format: txhash:index</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">argz</span><span class="p">,</span> <span class="n">change</span><span class="p">,</span> <span class="n">fee</span> <span class="o">=</span> <span class="n">args</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="nb">int</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">ins</span><span class="p">,</span> <span class="n">outs</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">argz</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">arg</span><span class="p">:</span>
+                    <span class="p">(</span><span class="n">ins</span> <span class="k">if</span> <span class="n">is_inp</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">else</span> <span class="n">outs</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="p">(</span><span class="n">ins</span> <span class="k">if</span> <span class="n">is_inp</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="k">else</span> <span class="n">outs</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">segwit</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ins</span><span class="p">:</span>
+                    <span class="n">i</span><span class="p">[</span><span class="s1">&#39;segwit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">isum</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">i</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ins</span><span class="p">])</span>
+        <span class="n">osum</span><span class="p">,</span> <span class="n">outputs2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">outs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">string_types</span><span class="p">):</span>
+                <span class="n">o2</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">&quot;address&quot;</span><span class="p">:</span> <span class="n">o</span><span class="p">[:</span><span class="n">o</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)],</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">o</span><span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:])</span>
+                <span class="p">}</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">o2</span> <span class="o">=</span> <span class="n">o</span>
+            <span class="n">outputs2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">o2</span><span class="p">)</span>
+            <span class="n">osum</span> <span class="o">+=</span> <span class="n">o2</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">isum</span> <span class="o">&lt;</span> <span class="n">osum</span> <span class="o">+</span> <span class="n">fee</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Not enough money&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">isum</span> <span class="o">&gt;</span> <span class="n">osum</span> <span class="o">+</span> <span class="n">fee</span> <span class="o">+</span> <span class="mi">5430</span><span class="p">:</span>
+            <span class="n">outputs2</span> <span class="o">+=</span> <span class="p">[{</span><span class="s2">&quot;address&quot;</span><span class="p">:</span> <span class="n">change</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">isum</span> <span class="o">-</span> <span class="n">osum</span> <span class="o">-</span> <span class="n">fee</span><span class="p">}]</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mktx</span><span class="p">(</span><span class="n">ins</span><span class="p">,</span> <span class="n">outputs2</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.preparesignedtx">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.preparesignedtx">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">preparesignedtx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">privkey</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">fee</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">change_addr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">segwit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">addr</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prepare a tx with a specific amount from address belonging to private key to another address, returning change to the</span>
+<span class="sd">        from address or change address, if set.</span>
+<span class="sd">        Requires private key, target address, value and optionally the change address and fee</span>
+<span class="sd">        segwit paramater specifies that the inputs belong to a segwit address</span>
+<span class="sd">        addr, if provided, will explicity set the from address, overriding the auto-detection of the address from the</span>
+<span class="sd">        private key.It will also be used, along with the privkey, to automatically detect a segwit transaction for coins</span>
+<span class="sd">        which support segwit, overriding the segwit kw</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">preparesignedmultitx</span><span class="p">(</span><span class="n">privkey</span><span class="p">,</span> <span class="n">to</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">fee</span><span class="p">,</span> <span class="n">change_addr</span><span class="o">=</span><span class="n">change_addr</span><span class="p">,</span> <span class="n">segwit</span><span class="o">=</span><span class="n">segwit</span><span class="p">,</span>
+                                         <span class="n">addr</span><span class="o">=</span><span class="n">addr</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.send">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.send">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">privkey</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">fee</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">change_addr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">segwit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">addr</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Send a specific amount from address belonging to private key to another address, returning change to the</span>
+<span class="sd">        from address or change address, if set.</span>
+<span class="sd">        Requires private key, target address, value and optionally the change address and fee</span>
+<span class="sd">        segwit paramater specifies that the inputs belong to a segwit address</span>
+<span class="sd">        addr, if provided, will explicity set the from address, overriding the auto-detection of the address from the</span>
+<span class="sd">        private key.It will also be used, along with the privkey, to automatically detect a segwit transaction for coins</span>
+<span class="sd">        which support segwit, overriding the segwit kw</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sendmultitx</span><span class="p">(</span><span class="n">privkey</span><span class="p">,</span> <span class="n">to</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">fee</span><span class="p">,</span> <span class="n">change_addr</span><span class="o">=</span><span class="n">change_addr</span><span class="p">,</span> <span class="n">segwit</span><span class="o">=</span><span class="n">segwit</span><span class="p">,</span> <span class="n">addr</span><span class="o">=</span><span class="n">addr</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.preparesignedmultitx">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.preparesignedmultitx">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">preparesignedmultitx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">privkey</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">change_addr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">segwit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">addr</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prepare transaction with multiple outputs, with change sent back to from addrss</span>
+<span class="sd">        Requires private key, address:value pairs and optionally the change address and fee</span>
+<span class="sd">        segwit paramater specifies that the inputs belong to a segwit address</span>
+<span class="sd">        addr, if provided, will explicity set the from address, overriding the auto-detection of the address from the</span>
+<span class="sd">        private key.It will also be used, along with the privkey to automatically detect a segwit transaction for coins</span>
+<span class="sd">        which support segwit, overriding the segwit kw</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">addr</span><span class="p">:</span>
+            <span class="n">frm</span> <span class="o">=</span> <span class="n">addr</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">segwit_supported</span><span class="p">:</span>
+                <span class="n">segwit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_segwit</span><span class="p">(</span><span class="n">privkey</span><span class="p">,</span> <span class="n">addr</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">segwit</span><span class="p">:</span>
+            <span class="n">frm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">privtop2w</span><span class="p">(</span><span class="n">privkey</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">frm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">privtoaddr</span><span class="p">(</span><span class="n">privkey</span><span class="p">)</span>
+        <span class="n">tx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">preparemultitx</span><span class="p">(</span><span class="n">frm</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">change_addr</span><span class="o">=</span><span class="n">change_addr</span><span class="p">,</span> <span class="n">segwit</span><span class="o">=</span><span class="n">segwit</span><span class="p">)</span>
+        <span class="n">tx2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">signall</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">privkey</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tx2</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.sendmultitx">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.sendmultitx">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sendmultitx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">privkey</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">change_addr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">segwit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">addr</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Send transaction with multiple outputs, with change sent back to from addrss</span>
+<span class="sd">        Requires private key, address:value pairs and optionally the change address and fee</span>
+<span class="sd">        segwit paramater specifies that the inputs belong to a segwit address</span>
+<span class="sd">        addr, if provided, will explicity set the from address, overriding the auto-detection of the address from the</span>
+<span class="sd">        private key.It will also be used, along with the privkey to automatically detect a segwit transaction for coins</span>
+<span class="sd">        which support segwit, overriding the segwit kw</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">preparesignedmultitx</span><span class="p">(</span><span class="n">privkey</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">change_addr</span><span class="o">=</span><span class="n">change_addr</span><span class="p">,</span> <span class="n">segwit</span><span class="o">=</span><span class="n">segwit</span><span class="p">,</span> <span class="n">addr</span><span class="o">=</span><span class="n">addr</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pushtx</span><span class="p">(</span><span class="n">tx</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.preparetx">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.preparetx">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">preparetx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frm</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">fee</span><span class="p">,</span> <span class="n">change_addr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">segwit</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prepare a transaction using from and to addresses, value and a fee, with change sent back to from address</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tovalues</span> <span class="o">=</span> <span class="n">to</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">preparemultitx</span><span class="p">(</span><span class="n">frm</span><span class="p">,</span> <span class="n">tovalues</span><span class="p">,</span> <span class="n">fee</span><span class="p">,</span> <span class="n">change_addr</span><span class="o">=</span><span class="n">change_addr</span><span class="p">,</span> <span class="n">segwit</span><span class="o">=</span><span class="n">segwit</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.preparemultitx">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.preparemultitx">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">preparemultitx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frm</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">change_addr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">segwit</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prepare transaction with multiple outputs, with change sent to from address</span>
+<span class="sd">        Requires from address, to_address:value pairs and fees</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tv</span><span class="p">,</span> <span class="n">fee</span> <span class="o">=</span> <span class="n">args</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="nb">int</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">outs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">outvalue</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">tv</span><span class="p">:</span>
+            <span class="n">outs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+            <span class="n">outvalue</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="n">u</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unspent</span><span class="p">(</span><span class="n">frm</span><span class="p">)</span>
+        <span class="n">u2</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">outvalue</span><span class="p">)</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">fee</span><span class="p">))</span>
+        <span class="n">change_addr</span> <span class="o">=</span> <span class="n">change_addr</span> <span class="ow">or</span> <span class="n">frm</span>
+        <span class="n">argz</span> <span class="o">=</span> <span class="n">u2</span> <span class="o">+</span> <span class="n">outs</span> <span class="o">+</span> <span class="p">[</span><span class="n">change_addr</span><span class="p">,</span> <span class="n">fee</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mksend</span><span class="p">(</span><span class="o">*</span><span class="n">argz</span><span class="p">,</span> <span class="n">segwit</span><span class="o">=</span><span class="n">segwit</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.block_height">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.block_height">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">block_height</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">txhash</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">explorer</span><span class="o">.</span><span class="n">block_height</span><span class="p">(</span><span class="n">txhash</span><span class="p">,</span> <span class="n">coin_symbol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coin_symbol</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.current_block_height">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.current_block_height">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">current_block_height</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">explorer</span><span class="o">.</span><span class="n">current_block_height</span><span class="p">(</span><span class="n">coin_symbol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coin_symbol</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.block_info">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.block_info">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">block_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">explorer</span><span class="o">.</span><span class="n">block_info</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">coin_symbol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coin_symbol</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.inspect">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.inspect">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inspect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tx</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">tx</span> <span class="o">=</span> <span class="n">deserialize</span><span class="p">(</span><span class="n">tx</span><span class="p">)</span>
+        <span class="n">isum</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">ins</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">_in</span> <span class="ow">in</span> <span class="n">tx</span><span class="p">[</span><span class="s1">&#39;ins&#39;</span><span class="p">]:</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">_in</span><span class="p">[</span><span class="s1">&#39;outpoint&#39;</span><span class="p">][</span><span class="s1">&#39;hash&#39;</span><span class="p">]</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">_in</span><span class="p">[</span><span class="s1">&#39;outpoint&#39;</span><span class="p">][</span><span class="s1">&#39;index&#39;</span><span class="p">]</span>
+            <span class="n">prevout</span> <span class="o">=</span> <span class="n">deserialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fetchtx</span><span class="p">(</span><span class="n">h</span><span class="p">))[</span><span class="s1">&#39;outs&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">isum</span> <span class="o">+=</span> <span class="n">prevout</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scripttoaddr</span><span class="p">(</span><span class="n">prevout</span><span class="p">[</span><span class="s1">&#39;script&#39;</span><span class="p">])</span>
+            <span class="n">ins</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="n">ins</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">prevout</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+        <span class="n">outs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">osum</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">_out</span> <span class="ow">in</span> <span class="n">tx</span><span class="p">[</span><span class="s1">&#39;outs&#39;</span><span class="p">]:</span>
+            <span class="n">outs</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">scripttoaddr</span><span class="p">(</span><span class="n">_out</span><span class="p">[</span><span class="s1">&#39;script&#39;</span><span class="p">]),</span>
+                         <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">_out</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]})</span>
+            <span class="n">osum</span> <span class="o">+=</span> <span class="n">_out</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;fee&#39;</span><span class="p">:</span> <span class="n">isum</span> <span class="o">-</span> <span class="n">osum</span><span class="p">,</span>
+            <span class="s1">&#39;outs&#39;</span><span class="p">:</span> <span class="n">outs</span><span class="p">,</span>
+            <span class="s1">&#39;ins&#39;</span><span class="p">:</span> <span class="n">ins</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.merkle_prove">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.merkle_prove">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">merkle_prove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">txhash</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prove that information an explorer returns about a transaction in the blockchain is valid. Only run on a</span>
+<span class="sd">        tx with at least 1 confirmation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">blocknum</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_height</span><span class="p">(</span><span class="n">txhash</span><span class="p">)</span>
+        <span class="n">blockinfo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_info</span><span class="p">(</span><span class="n">blocknum</span><span class="p">)</span>
+        <span class="n">hashes</span> <span class="o">=</span> <span class="n">blockinfo</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;tx_hashes&#39;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">hashes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">txhash</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Merkle proof failed because transaction </span><span class="si">%s</span><span class="s2"> is not part of the main chain&quot;</span> <span class="o">%</span> <span class="n">txhash</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mk_merkle_proof</span><span class="p">(</span><span class="n">blockinfo</span><span class="p">,</span> <span class="n">hashes</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.encode_privkey">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.encode_privkey">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">encode_privkey</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">privkey</span><span class="p">,</span> <span class="n">formt</span><span class="p">,</span> <span class="n">script_type</span><span class="o">=</span><span class="s2">&quot;p2pkh&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">encode_privkey</span><span class="p">(</span><span class="n">privkey</span><span class="p">,</span> <span class="n">formt</span><span class="o">=</span><span class="n">formt</span><span class="p">,</span> <span class="n">vbyte</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">wif_prefix</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">wif_script_types</span><span class="p">[</span><span class="n">script_type</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.wallet">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.wallet">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wallet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">passphrase</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">bip39_is_checksum_valid</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;BIP39 Checksum failed. This is not a valid BIP39 seed&quot;</span><span class="p">)</span>
+        <span class="n">ks</span> <span class="o">=</span> <span class="n">standard_from_bip39_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">,</span> <span class="n">passphrase</span><span class="p">,</span> <span class="n">coin</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">HDWallet</span><span class="p">(</span><span class="n">ks</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.watch_wallet">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.watch_wallet">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">watch_wallet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xpub</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">ks</span> <span class="o">=</span> <span class="n">from_xpub</span><span class="p">(</span><span class="n">xpub</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;p2pkh&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">HDWallet</span><span class="p">(</span><span class="n">ks</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.p2wpkh_p2sh_wallet">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.p2wpkh_p2sh_wallet">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">p2wpkh_p2sh_wallet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">passphrase</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">segwit_supported</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;P2WPKH-P2SH segwit not enabled for this coin&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">bip39_is_checksum_valid</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;BIP39 Checksum failed. This is not a valid BIP39 seed&quot;</span><span class="p">)</span>
+        <span class="n">ks</span> <span class="o">=</span> <span class="n">p2wpkh_p2sh_from_bip39_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">,</span> <span class="n">passphrase</span><span class="p">,</span> <span class="n">coin</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">HDWallet</span><span class="p">(</span><span class="n">ks</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.watch_p2wpkh_p2sh_wallet">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.watch_p2wpkh_p2sh_wallet">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">watch_p2wpkh_p2sh_wallet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xpub</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">ks</span> <span class="o">=</span> <span class="n">from_xpub</span><span class="p">(</span><span class="n">xpub</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;p2wpkh-p2sh&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">HDWallet</span><span class="p">(</span><span class="n">ks</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.p2wpkh_wallet">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.p2wpkh_wallet">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">p2wpkh_wallet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">passphrase</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">bip39_is_checksum_valid</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;BIP39 Checksum failed. This is not a valid BIP39 seed&quot;</span><span class="p">)</span>
+        <span class="n">ks</span> <span class="o">=</span> <span class="n">p2wpkh_from_bip39_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">,</span> <span class="n">passphrase</span><span class="p">,</span> <span class="n">coin</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">HDWallet</span><span class="p">(</span><span class="n">ks</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.watch_p2wpkh_wallet">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.watch_p2wpkh_wallet">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">watch_p2wpkh_wallet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xpub</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">ks</span> <span class="o">=</span> <span class="n">from_xpub</span><span class="p">(</span><span class="n">xpub</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;p2wpkh&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">HDWallet</span><span class="p">(</span><span class="n">ks</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.electrum_wallet">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.electrum_wallet">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">electrum_wallet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">passphrase</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">ks</span> <span class="o">=</span> <span class="n">from_electrum_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">,</span> <span class="n">passphrase</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">coin</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">HDWallet</span><span class="p">(</span><span class="n">ks</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.watch_electrum_wallet">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.watch_electrum_wallet">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">watch_electrum_wallet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xpub</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">ks</span> <span class="o">=</span> <span class="n">from_xpub</span><span class="p">(</span><span class="n">xpub</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;p2pkh&#39;</span><span class="p">,</span> <span class="n">electrum</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">HDWallet</span><span class="p">(</span><span class="n">ks</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCoin.watch_electrum_p2wpkh_wallet">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.lib.cryptos.coins.html#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.watch_electrum_p2wpkh_wallet">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">watch_electrum_p2wpkh_wallet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xpub</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">ks</span> <span class="o">=</span> <span class="n">from_xpub</span><span class="p">(</span><span class="n">xpub</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;p2wpkh&#39;</span><span class="p">,</span> <span class="n">electrum</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">HDWallet</span><span class="p">(</span><span class="n">ks</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Cryptnox.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

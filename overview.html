@@ -1,0 +1,217 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cryptnox CLI Overview &mdash; cryptnox-cli 1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=0912efa5" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=baaebd52"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/custom.js?v=f0d783cb"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Command Line Interface" href="cli.html" />
+    <link rel="prev" title="Cryptnox CLI Documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #101f2e" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            cryptnox-cli
+              <img src="_static/cryptnox-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Cryptnox CLI Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#supported-hardware">Supported Hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#from-pypi">From PyPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#from-source">From source</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#quick-usage-examples">Quick Usage Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dual-initialization">1. Dual initialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sign-and-send-a-bitcoin-transaction">2. Sign and send a Bitcoin transaction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#change-pin-code">3. Change PIN code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-extended-public-key-xpub">4. Get extended public key (xpub)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#license">License</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #101f2e" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">cryptnox-cli</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Cryptnox CLI Overview</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/overview.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cryptnox-cli-overview">
+<h1>Cryptnox CLI Overview<a class="headerlink" href="#cryptnox-cli-overview" title="Link to this heading"></a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">cryptnox-cli</span></code> is a command-line interface for managing <strong>Cryptnox Smart cards</strong>, enabling secure seed initialization and cryptographic signing for <strong>Bitcoin</strong> and <strong>Ethereum</strong>.</p>
+<section id="supported-hardware">
+<h2>Supported Hardware<a class="headerlink" href="#supported-hardware" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Cryptnox Smart cards</strong> 💳</p></li>
+<li><p><strong>Standard PC/SC Smart card Readers</strong>: either USB NFC reader or a USB smart card reader</p></li>
+</ul>
+<p>Get your card and readers here: <a class="reference external" href="https://shop.cryptnox.com">shop.cryptnox.com</a></p>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is only a minimal setup. Additional packages may be required depending on your operating system.</p>
+</div>
+<section id="from-pypi">
+<h3>From PyPI<a class="headerlink" href="#from-pypi" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>cryptnox-cli
+</pre></div>
+</div>
+</section>
+<section id="from-source">
+<h3>From source<a class="headerlink" href="#from-source" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/cryptnox/cryptnox-cli.git
+<span class="nb">cd</span><span class="w"> </span>cryptnox-cli
+pip<span class="w"> </span>install<span class="w"> </span>.
+</pre></div>
+</div>
+<p>This installs the package and makes the <code class="docutils literal notranslate"><span class="pre">cryptnox</span></code> command available (if your Python installation is in your system <code class="docutils literal notranslate"><span class="pre">PATH</span></code>).</p>
+</section>
+</section>
+<section id="quick-usage-examples">
+<h2>Quick Usage Examples<a class="headerlink" href="#quick-usage-examples" title="Link to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The examples below are only a subset of available commands. The complete list of commands and detailed usage instructions is described in the <a class="reference internal" href="cli.html"><span class="doc">Command Line Interface</span></a> section.</p>
+</div>
+<section id="dual-initialization">
+<h3>1. Dual initialization<a class="headerlink" href="#dual-initialization" title="Link to this heading"></a></h3>
+<ol class="arabic">
+<li><p>Factory reset each card:</p>
+<p><code class="docutils literal notranslate"><span class="pre">cryptnox</span> <span class="pre">reset</span></code> → enter PUK → verify reset.</p>
+</li>
+<li><p>Initialize each card:</p>
+<p><code class="docutils literal notranslate"><span class="pre">cryptnox</span> <span class="pre">init</span></code> → (optional) set name/email → set <strong>PIN</strong> (4–9 digits) → set or generate <strong>PUK</strong> → verify init.</p>
+</li>
+<li><p>Run dual seed procedure:</p>
+<p><code class="docutils literal notranslate"><span class="pre">cryptnox</span> <span class="pre">seed</span> <span class="pre">dual</span></code> — follow prompts: insert Card A (enter PIN), swap to Card B (enter PIN), swap back as requested.</p>
+</li>
+</ol>
+</section>
+<section id="sign-and-send-a-bitcoin-transaction">
+<h3>2. Sign and send a Bitcoin transaction<a class="headerlink" href="#sign-and-send-a-bitcoin-transaction" title="Link to this heading"></a></h3>
+<ol class="arabic">
+<li><p>Create or obtain a raw unsigned transaction externally.</p></li>
+<li><p>Run the signing &amp; send command:</p>
+<p><code class="docutils literal notranslate"><span class="pre">cryptnox</span> <span class="pre">btc</span> <span class="pre">send</span> <span class="pre">&lt;recipient_address&gt;</span> <span class="pre">&lt;amount&gt;</span> <span class="pre">[-f</span> <span class="pre">&lt;fees&gt;]</span></code></p>
+</li>
+</ol>
+</section>
+<section id="change-pin-code">
+<h3>3. Change PIN code<a class="headerlink" href="#change-pin-code" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Run command: <code class="docutils literal notranslate"><span class="pre">cryptnox</span> <span class="pre">change_pin</span></code></p></li>
+<li><p>Enter current PIN → enter new PIN → verify change.</p></li>
+<li><p>Check with <code class="docutils literal notranslate"><span class="pre">cryptnox</span> <span class="pre">info</span></code> using new PIN (BTC &amp; ETH accounts displayed).</p></li>
+</ol>
+</section>
+<section id="get-extended-public-key-xpub">
+<h3>4. Get extended public key (xpub)<a class="headerlink" href="#get-extended-public-key-xpub" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Run command: <code class="docutils literal notranslate"><span class="pre">cryptnox</span> <span class="pre">get_xpub</span></code></p></li>
+<li><p>Enter <strong>PIN</strong> → enter <strong>PUK</strong></p></li>
+<li><p>The card returns the <strong>xpub</strong></p></li>
+</ol>
+</section>
+</section>
+<section id="license">
+<h2>License<a class="headerlink" href="#license" title="Link to this heading"></a></h2>
+<p>cryptnox-cli is dual-licensed:</p>
+<ul class="simple">
+<li><p><strong>LGPL-3.0</strong> for open-source projects and proprietary projects that comply with LGPL requirements</p></li>
+<li><p><strong>Commercial license</strong> for projects that require a proprietary license without LGPL obligations (see COMMERCIAL.md for details)</p></li>
+</ul>
+<p>For commercial inquiries, contact: <a class="reference external" href="mailto:contact&#37;&#52;&#48;cryptnox&#46;com">contact<span>&#64;</span>cryptnox<span>&#46;</span>com</a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Cryptnox CLI Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cli.html" class="btn btn-neutral float-right" title="Command Line Interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Cryptnox.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

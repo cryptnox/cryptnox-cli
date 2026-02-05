@@ -1,0 +1,614 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cryptnox_cli.command.user_keys package &mdash; cryptnox-cli 1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=0912efa5" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=baaebd52"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/custom.js?v=f0d783cb"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="cryptnox_cli.command.user_keys.aws_kms package" href="cryptnox_cli.command.user_keys.aws_kms.html" />
+    <link rel="prev" title="cryptnox_cli.command.options package" href="cryptnox_cli.command.options.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #101f2e" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            cryptnox-cli
+              <img src="_static/cryptnox-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Cryptnox CLI Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line Interface</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="cryptnox_cli.html">cryptnox_cli package (Cryptnox CLI)</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="cryptnox_cli.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="cryptnox_cli.command.html">cryptnox_cli.command package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.lib.html">cryptnox_cli.lib package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.html">cryptnox_cli.wallet package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-config-module">cryptnox_cli.config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-enums-module">cryptnox_cli.enums module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-constants-module">cryptnox_cli.constants module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-interactive-cli-module">cryptnox_cli.interactive_cli module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-main-module">cryptnox_cli.main module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#module-cryptnox_cli">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #101f2e" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">cryptnox-cli</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="cryptnox_cli.html">cryptnox_cli package (Cryptnox CLI)</a></li>
+          <li class="breadcrumb-item"><a href="cryptnox_cli.command.html">cryptnox_cli.command package</a></li>
+      <li class="breadcrumb-item active">cryptnox_cli.command.user_keys package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/cryptnox_cli.command.user_keys.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cryptnox-cli-command-user-keys-package">
+<h1>cryptnox_cli.command.user_keys package<a class="headerlink" href="#cryptnox-cli-command-user-keys-package" title="Link to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cryptnox_cli.command.user_keys.aws_kms.html">cryptnox_cli.command.user_keys.aws_kms package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cryptnox_cli.command.user_keys.aws_kms.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cryptnox_cli.command.user_keys.aws_kms.html#cryptnox-cli-command-user-keys-aws-kms-aws-kms-module">cryptnox_cli.command.user_keys.aws_kms.aws_kms module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.command.user_keys.aws_kms.html#cryptnox_cli.command.user_keys.aws_kms.aws_kms.AwsKms"><code class="docutils literal notranslate"><span class="pre">AwsKms</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.aws_kms.html#cryptnox_cli.command.user_keys.aws_kms.aws_kms.AwsKms.name"><code class="docutils literal notranslate"><span class="pre">AwsKms.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.aws_kms.html#cryptnox_cli.command.user_keys.aws_kms.aws_kms.AwsKms.description"><code class="docutils literal notranslate"><span class="pre">AwsKms.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.aws_kms.html#cryptnox_cli.command.user_keys.aws_kms.aws_kms.AwsKms.priority"><code class="docutils literal notranslate"><span class="pre">AwsKms.priority</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.aws_kms.html#cryptnox_cli.command.user_keys.aws_kms.aws_kms.AwsKms.custom_bit"><code class="docutils literal notranslate"><span class="pre">AwsKms.custom_bit</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.aws_kms.html#cryptnox_cli.command.user_keys.aws_kms.aws_kms.AwsKms.KEY_ID"><code class="docutils literal notranslate"><span class="pre">AwsKms.KEY_ID</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.aws_kms.html#cryptnox_cli.command.user_keys.aws_kms.aws_kms.AwsKms.REGION_NAME"><code class="docutils literal notranslate"><span class="pre">AwsKms.REGION_NAME</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.aws_kms.html#cryptnox_cli.command.user_keys.aws_kms.aws_kms.AwsKms.delete"><code class="docutils literal notranslate"><span class="pre">AwsKms.delete()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.aws_kms.html#cryptnox_cli.command.user_keys.aws_kms.aws_kms.AwsKms.public_key"><code class="docutils literal notranslate"><span class="pre">AwsKms.public_key</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.aws_kms.html#cryptnox_cli.command.user_keys.aws_kms.aws_kms.AwsKms.sign"><code class="docutils literal notranslate"><span class="pre">AwsKms.sign()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cryptnox_cli.command.user_keys.aws_kms.html#module-cryptnox_cli.command.user_keys.aws_kms">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.command.user_keys.aws_kms.html#cryptnox_cli.command.user_keys.aws_kms.AwsKms"><code class="docutils literal notranslate"><span class="pre">AwsKms</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.aws_kms.html#cryptnox_cli.command.user_keys.aws_kms.AwsKms.KEY_ID"><code class="docutils literal notranslate"><span class="pre">AwsKms.KEY_ID</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.aws_kms.html#cryptnox_cli.command.user_keys.aws_kms.AwsKms.REGION_NAME"><code class="docutils literal notranslate"><span class="pre">AwsKms.REGION_NAME</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.aws_kms.html#cryptnox_cli.command.user_keys.aws_kms.AwsKms.custom_bit"><code class="docutils literal notranslate"><span class="pre">AwsKms.custom_bit</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.aws_kms.html#cryptnox_cli.command.user_keys.aws_kms.AwsKms.delete"><code class="docutils literal notranslate"><span class="pre">AwsKms.delete()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.aws_kms.html#cryptnox_cli.command.user_keys.aws_kms.AwsKms.description"><code class="docutils literal notranslate"><span class="pre">AwsKms.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.aws_kms.html#cryptnox_cli.command.user_keys.aws_kms.AwsKms.name"><code class="docutils literal notranslate"><span class="pre">AwsKms.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.aws_kms.html#cryptnox_cli.command.user_keys.aws_kms.AwsKms.priority"><code class="docutils literal notranslate"><span class="pre">AwsKms.priority</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.aws_kms.html#cryptnox_cli.command.user_keys.aws_kms.AwsKms.public_key"><code class="docutils literal notranslate"><span class="pre">AwsKms.public_key</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.aws_kms.html#cryptnox_cli.command.user_keys.aws_kms.AwsKms.sign"><code class="docutils literal notranslate"><span class="pre">AwsKms.sign()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html">cryptnox_cli.command.user_keys.hello package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox-cli-command-user-keys-hello-exceptions-module">cryptnox_cli.command.user_keys.hello.exceptions module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.exceptions.WindowsHelloExceptions"><code class="docutils literal notranslate"><span class="pre">WindowsHelloExceptions</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.exceptions.NotSupportedException"><code class="docutils literal notranslate"><span class="pre">NotSupportedException</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.exceptions.UnknownErrorException"><code class="docutils literal notranslate"><span class="pre">UnknownErrorException</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.exceptions.NotFoundException"><code class="docutils literal notranslate"><span class="pre">NotFoundException</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.exceptions.CanceledException"><code class="docutils literal notranslate"><span class="pre">CanceledException</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.exceptions.UserPrefersPasswordException"><code class="docutils literal notranslate"><span class="pre">UserPrefersPasswordException</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.exceptions.SecurityDeviceLockedException"><code class="docutils literal notranslate"><span class="pre">SecurityDeviceLockedException</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox-cli-command-user-keys-hello-hello-module">cryptnox_cli.command.user_keys.hello.hello module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.hello.Hello"><code class="docutils literal notranslate"><span class="pre">Hello</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.hello.Hello.name"><code class="docutils literal notranslate"><span class="pre">Hello.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.hello.Hello.description"><code class="docutils literal notranslate"><span class="pre">Hello.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.hello.Hello.priority"><code class="docutils literal notranslate"><span class="pre">Hello.priority</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.hello.Hello.custom_bit"><code class="docutils literal notranslate"><span class="pre">Hello.custom_bit</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.hello.Hello.__init__"><code class="docutils literal notranslate"><span class="pre">Hello.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.hello.Hello.delete"><code class="docutils literal notranslate"><span class="pre">Hello.delete()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.hello.Hello.public_key"><code class="docutils literal notranslate"><span class="pre">Hello.public_key</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.hello.Hello.sign"><code class="docutils literal notranslate"><span class="pre">Hello.sign()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox-cli-command-user-keys-hello-windows-hello-module">cryptnox_cli.command.user_keys.hello.windows_hello module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.windows_hello.delete"><code class="docutils literal notranslate"><span class="pre">delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.windows_hello.get_public_key"><code class="docutils literal notranslate"><span class="pre">get_public_key()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.windows_hello.sign"><code class="docutils literal notranslate"><span class="pre">sign()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#module-cryptnox_cli.command.user_keys.hello">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.Hello"><code class="docutils literal notranslate"><span class="pre">Hello</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.Hello.__init__"><code class="docutils literal notranslate"><span class="pre">Hello.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.Hello.custom_bit"><code class="docutils literal notranslate"><span class="pre">Hello.custom_bit</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.Hello.delete"><code class="docutils literal notranslate"><span class="pre">Hello.delete()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.Hello.description"><code class="docutils literal notranslate"><span class="pre">Hello.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.Hello.name"><code class="docutils literal notranslate"><span class="pre">Hello.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.Hello.priority"><code class="docutils literal notranslate"><span class="pre">Hello.priority</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.Hello.public_key"><code class="docutils literal notranslate"><span class="pre">Hello.public_key</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.hello.html#cryptnox_cli.command.user_keys.hello.Hello.sign"><code class="docutils literal notranslate"><span class="pre">Hello.sign()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html">cryptnox_cli.command.user_keys.piv package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox-cli-command-user-keys-piv-piv-module">cryptnox_cli.command.user_keys.piv.piv module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv.Piv"><code class="docutils literal notranslate"><span class="pre">Piv</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv.Piv.name"><code class="docutils literal notranslate"><span class="pre">Piv.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv.Piv.description"><code class="docutils literal notranslate"><span class="pre">Piv.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv.Piv.custom_bit"><code class="docutils literal notranslate"><span class="pre">Piv.custom_bit</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv.Piv.delete"><code class="docutils literal notranslate"><span class="pre">Piv.delete()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv.Piv.public_key"><code class="docutils literal notranslate"><span class="pre">Piv.public_key</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv.Piv.sign"><code class="docutils literal notranslate"><span class="pre">Piv.sign()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox-cli-command-user-keys-piv-piv-card-module">cryptnox_cli.command.user_keys.piv.piv_card module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.PIVBaseException"><code class="docutils literal notranslate"><span class="pre">PIVBaseException</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.PIVCardConnectionException"><code class="docutils literal notranslate"><span class="pre">PIVCardConnectionException</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.PIVCardException"><code class="docutils literal notranslate"><span class="pre">PIVCardException</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.PIVCardException.__init__"><code class="docutils literal notranslate"><span class="pre">PIVCardException.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.DataException"><code class="docutils literal notranslate"><span class="pre">DataException</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.NotFoundException"><code class="docutils literal notranslate"><span class="pre">NotFoundException</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.PinException"><code class="docutils literal notranslate"><span class="pre">PinException</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.PinException.__init__"><code class="docutils literal notranslate"><span class="pre">PinException.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.decode_dol"><code class="docutils literal notranslate"><span class="pre">decode_dol()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.decode_do"><code class="docutils literal notranslate"><span class="pre">decode_do()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.PIVcard"><code class="docutils literal notranslate"><span class="pre">PIVcard</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.PIVcard.APPLET_ID"><code class="docutils literal notranslate"><span class="pre">PIVcard.APPLET_ID</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.PIVcard.__init__"><code class="docutils literal notranslate"><span class="pre">PIVcard.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.PIVcard.generate_asymmetric_key"><code class="docutils literal notranslate"><span class="pre">PIVcard.generate_asymmetric_key()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.PIVcard.get_data"><code class="docutils literal notranslate"><span class="pre">PIVcard.get_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.PIVcard.is_locked"><code class="docutils literal notranslate"><span class="pre">PIVcard.is_locked()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.PIVcard.sign"><code class="docutils literal notranslate"><span class="pre">PIVcard.sign()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.PIVcard.verify_pin"><code class="docutils literal notranslate"><span class="pre">PIVcard.verify_pin()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#module-cryptnox_cli.command.user_keys.piv">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.Piv"><code class="docutils literal notranslate"><span class="pre">Piv</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.Piv.custom_bit"><code class="docutils literal notranslate"><span class="pre">Piv.custom_bit</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.Piv.delete"><code class="docutils literal notranslate"><span class="pre">Piv.delete()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.Piv.description"><code class="docutils literal notranslate"><span class="pre">Piv.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.Piv.name"><code class="docutils literal notranslate"><span class="pre">Piv.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.Piv.public_key"><code class="docutils literal notranslate"><span class="pre">Piv.public_key</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.Piv.sign"><code class="docutils literal notranslate"><span class="pre">Piv.sign()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="cryptnox-cli-command-user-keys-authentication-module">
+<h2>cryptnox_cli.command.user_keys.authentication module<a class="headerlink" href="#cryptnox-cli-command-user-keys-authentication-module" title="Link to this heading"></a></h2>
+<p id="module-cryptnox_cli.command.user_keys.authentication">Module for handling user authentication using third party solutions signature.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.authentication.add">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.authentication.</span></span><span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">card</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">cryptnox_sdk_py.Card</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">puk</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/authentication.html#add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.authentication.add" title="Link to this definition"></a></dt>
+<dd><p>Add user key defined by name to the card</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – Name of user key to add to the card</p></li>
+<li><p><strong>card</strong> (<em>cryptnox.Card</em>) – Card to which to add the user key</p></li>
+<li><p><strong>description</strong> (<em>str</em>) – Description of the user key</p></li>
+<li><p><strong>puk</strong> (<em>str</em>) – PUK code of the card</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Whether the key was added</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.authentication.authenticate">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.authentication.</span></span><span class="sig-name descname"><span class="pre">authenticate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">card</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">cryptnox_sdk_py.Card</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">b''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/authentication.html#authenticate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.authentication.authenticate" title="Link to this definition"></a></dt>
+<dd><p>Authenticate the card by using a signature from third party</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>card</strong> (<em>cryptnox_sdk_py.Card</em>) – Card to use to authenticate</p></li>
+<li><p><strong>message</strong> (<em>bytes</em>) – Message to sign to open the card, if left empty, challenge-response
+authentication will be used</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Authorization was successful</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.authentication.delete">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.authentication.</span></span><span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">card</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">cryptnox_sdk_py.Card</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">puk</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/authentication.html#delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.authentication.delete" title="Link to this definition"></a></dt>
+<dd><p>Delete the key from the card</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – Name of the service which to delete</p></li>
+<li><p><strong>card</strong> (<em>cryptnox_sdk_py.Card</em>) – Card to use</p></li>
+<li><p><strong>puk</strong> (<em>str</em>) – PUK code of card</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.authentication.get">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.authentication.</span></span><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">card</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">cryptnox_sdk_py.Card</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">cryptnox_sdk_py.SlotIndex</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/authentication.html#get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.authentication.get" title="Link to this definition"></a></dt>
+<dd><p>Get all user key module names and the slot index they are connected to on the card</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary containing names of services with the slot they take on card</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict[str, cryptnox_sdk_py.SlotIndex]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.authentication.get_user_key_class">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.authentication.</span></span><span class="sig-name descname"><span class="pre">get_user_key_class</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cryptnox_cli.command.user_keys.user_key_base.UserKey" title="cryptnox_cli.command.user_keys.user_key_base.UserKey"><span class="pre">UserKey</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/authentication.html#get_user_key_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.authentication.get_user_key_class" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="cryptnox-cli-command-user-keys-user-key-base-module">
+<h2>cryptnox_cli.command.user_keys.user_key_base module<a class="headerlink" href="#cryptnox-cli-command-user-keys-user-key-base-module" title="Link to this heading"></a></h2>
+<p id="module-cryptnox_cli.command.user_keys.user_key_base">Module containing base class for user key.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.user_key_base.UserKeyException">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.user_key_base.</span></span><span class="sig-name descname"><span class="pre">UserKeyException</span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/user_key_base.html#UserKeyException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.user_key_base.UserKeyException" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Base exception for all exceptions for UserKey</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.user_key_base.ExitException">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.user_key_base.</span></span><span class="sig-name descname"><span class="pre">ExitException</span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/user_key_base.html#ExitException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.user_key_base.ExitException" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cryptnox_cli.command.user_keys.user_key_base.UserKeyException" title="cryptnox_cli.command.user_keys.user_key_base.UserKeyException"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserKeyException</span></code></a></p>
+<p>The user has exited the request</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.user_key_base.NotFoundException">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.user_key_base.</span></span><span class="sig-name descname"><span class="pre">NotFoundException</span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/user_key_base.html#NotFoundException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.user_key_base.NotFoundException" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cryptnox_cli.command.user_keys.user_key_base.UserKeyException" title="cryptnox_cli.command.user_keys.user_key_base.UserKeyException"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserKeyException</span></code></a></p>
+<p>The user key hasn’t been found</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.user_key_base.NotSupportedException">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.user_key_base.</span></span><span class="sig-name descname"><span class="pre">NotSupportedException</span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/user_key_base.html#NotSupportedException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.user_key_base.NotSupportedException" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cryptnox_cli.command.user_keys.user_key_base.UserKeyException" title="cryptnox_cli.command.user_keys.user_key_base.UserKeyException"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserKeyException</span></code></a></p>
+<p>The user key is not supported</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.user_key_base.ProcessingException">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.user_key_base.</span></span><span class="sig-name descname"><span class="pre">ProcessingException</span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/user_key_base.html#ProcessingException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.user_key_base.ProcessingException" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cryptnox_cli.command.user_keys.user_key_base.UserKeyException" title="cryptnox_cli.command.user_keys.user_key_base.UserKeyException"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserKeyException</span></code></a></p>
+<p>There was an issue in processing the user key</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.user_key_base.UserKey">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.user_key_base.</span></span><span class="sig-name descname"><span class="pre">UserKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/user_key_base.html#UserKey"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.user_key_base.UserKey" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Base class on top of which other user key classes should be implemented</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.user_key_base.UserKey.priority">
+<span class="sig-name descname"><span class="pre">priority</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#cryptnox_cli.command.user_keys.user_key_base.UserKey.priority" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.user_key_base.UserKey.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/user_key_base.html#UserKey.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.user_key_base.UserKey.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.user_key_base.UserKey.delete">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/user_key_base.html#UserKey.delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.user_key_base.UserKey.delete" title="Link to this definition"></a></dt>
+<dd><p>Delete the key from the user key provider</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.user_key_base.UserKey.description">
+<em class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#cryptnox_cli.command.user_keys.user_key_base.UserKey.description" title="Link to this definition"></a></dt>
+<dd><p>Description of the user key service
+:rtype: str</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>return</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.user_key_base.UserKey.name">
+<em class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#cryptnox_cli.command.user_keys.user_key_base.UserKey.name" title="Link to this definition"></a></dt>
+<dd><p>Name of the user key service
+:rtype: str</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>return</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.user_key_base.UserKey.public_key">
+<em class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">public_key</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bytes</span></em><a class="headerlink" href="#cryptnox_cli.command.user_keys.user_key_base.UserKey.public_key" title="Link to this definition"></a></dt>
+<dd><p>Public key of the user key service
+:rtype: bytes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>return</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.user_key_base.UserKey.sign">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/user_key_base.html#UserKey.sign"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.user_key_base.UserKey.sign" title="Link to this definition"></a></dt>
+<dd><p>Get signature of message from user key service</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>message</strong> (<em>bytes</em>) – Message to sign</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Signature of the given message</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bytes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.user_key_base.UserKey.slot_index">
+<em class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">slot_index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">cryptnox_sdk_py.SlotIndex</span></em><a class="headerlink" href="#cryptnox_cli.command.user_keys.user_key_base.UserKey.slot_index" title="Link to this definition"></a></dt>
+<dd><p>Compatible slot index on the card
+:rtype: cryptnox_sdk_py.SlotIndex</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>return</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.user_key_base.UserKey.custom_bit">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">custom_bit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#cryptnox_cli.command.user_keys.user_key_base.UserKey.custom_bit" title="Link to this definition"></a></dt>
+<dd><p>Custom bit to use for checking if method is enabled, -1 for not used
+:rtype: int</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>return</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.user_key_base.UserKey.added">
+<span class="sig-name descname"><span class="pre">added</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">card</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/user_key_base.html#UserKey.added"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.user_key_base.UserKey.added" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.user_key_base.UserKey.enabled">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">enabled</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">card</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">cryptnox_sdk_py.Card</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/user_key_base.html#UserKey.enabled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.user_key_base.UserKey.enabled" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-cryptnox_cli.command.user_keys">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-cryptnox_cli.command.user_keys" title="Link to this heading"></a></h2>
+<p>Module for authenticating the card with third party providers</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.add">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.</span></span><span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">card</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">cryptnox_sdk_py.Card</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">puk</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/authentication.html#add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.add" title="Link to this definition"></a></dt>
+<dd><p>Add user key defined by name to the card</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – Name of user key to add to the card</p></li>
+<li><p><strong>card</strong> (<em>cryptnox.Card</em>) – Card to which to add the user key</p></li>
+<li><p><strong>description</strong> (<em>str</em>) – Description of the user key</p></li>
+<li><p><strong>puk</strong> (<em>str</em>) – PUK code of the card</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Whether the key was added</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.authenticate">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.</span></span><span class="sig-name descname"><span class="pre">authenticate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">card</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">cryptnox_sdk_py.Card</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">b''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/authentication.html#authenticate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.authenticate" title="Link to this definition"></a></dt>
+<dd><p>Authenticate the card by using a signature from third party</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>card</strong> (<em>cryptnox_sdk_py.Card</em>) – Card to use to authenticate</p></li>
+<li><p><strong>message</strong> (<em>bytes</em>) – Message to sign to open the card, if left empty, challenge-response
+authentication will be used</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Authorization was successful</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.delete">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.</span></span><span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">card</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">cryptnox_sdk_py.Card</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">puk</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/authentication.html#delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.delete" title="Link to this definition"></a></dt>
+<dd><p>Delete the key from the card</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – Name of the service which to delete</p></li>
+<li><p><strong>card</strong> (<em>cryptnox_sdk_py.Card</em>) – Card to use</p></li>
+<li><p><strong>puk</strong> (<em>str</em>) – PUK code of card</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.get">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.</span></span><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">card</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">cryptnox_sdk_py.Card</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">cryptnox_sdk_py.SlotIndex</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/authentication.html#get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.get" title="Link to this definition"></a></dt>
+<dd><p>Get all user key module names and the slot index they are connected to on the card</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary containing names of services with the slot they take on card</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict[str, cryptnox_sdk_py.SlotIndex]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>The <code class="docutils literal notranslate"><span class="pre">cryptnox_cli.command.user_keys</span></code> package provides authentication functionality and exports:</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.</span></span><span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/authentication.html#add"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Add a new authentication method. See <a class="reference internal" href="#cryptnox_cli.command.user_keys.authentication.add" title="cryptnox_cli.command.user_keys.authentication.add"><code class="xref py py-func docutils literal notranslate"><span class="pre">cryptnox_cli.command.user_keys.authentication.add()</span></code></a> for details.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.</span></span><span class="sig-name descname"><span class="pre">authenticate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/authentication.html#authenticate"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Authenticate using a configured method. See <a class="reference internal" href="#cryptnox_cli.command.user_keys.authentication.authenticate" title="cryptnox_cli.command.user_keys.authentication.authenticate"><code class="xref py py-func docutils literal notranslate"><span class="pre">cryptnox_cli.command.user_keys.authentication.authenticate()</span></code></a> for details.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.</span></span><span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/authentication.html#delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Delete an authentication method. See <a class="reference internal" href="#cryptnox_cli.command.user_keys.authentication.delete" title="cryptnox_cli.command.user_keys.authentication.delete"><code class="xref py py-func docutils literal notranslate"><span class="pre">cryptnox_cli.command.user_keys.authentication.delete()</span></code></a> for details.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.</span></span><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/authentication.html#get"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Get information about authentication methods. See <a class="reference internal" href="#cryptnox_cli.command.user_keys.authentication.get" title="cryptnox_cli.command.user_keys.authentication.get"><code class="xref py py-func docutils literal notranslate"><span class="pre">cryptnox_cli.command.user_keys.authentication.get()</span></code></a> for details.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cryptnox_cli.command.options.html" class="btn btn-neutral float-left" title="cryptnox_cli.command.options package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cryptnox_cli.command.user_keys.aws_kms.html" class="btn btn-neutral float-right" title="cryptnox_cli.command.user_keys.aws_kms package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Cryptnox.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

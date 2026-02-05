@@ -1,0 +1,694 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cryptnox_cli.lib.cryptos.coins package &mdash; cryptnox-cli 1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=0912efa5" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=baaebd52"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/custom.js?v=f0d783cb"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="cryptnox_cli.wallet package" href="cryptnox_cli.wallet.html" />
+    <link rel="prev" title="cryptnox_cli.lib.cryptos package" href="cryptnox_cli.lib.cryptos.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #101f2e" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            cryptnox-cli
+              <img src="_static/cryptnox-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Cryptnox CLI Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line Interface</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="cryptnox_cli.html">cryptnox_cli package (Cryptnox CLI)</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="cryptnox_cli.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.html">cryptnox_cli.command package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="cryptnox_cli.lib.html">cryptnox_cli.lib package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.html">cryptnox_cli.wallet package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-config-module">cryptnox_cli.config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-enums-module">cryptnox_cli.enums module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-constants-module">cryptnox_cli.constants module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-interactive-cli-module">cryptnox_cli.interactive_cli module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-main-module">cryptnox_cli.main module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#module-cryptnox_cli">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #101f2e" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">cryptnox-cli</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="cryptnox_cli.html">cryptnox_cli package (Cryptnox CLI)</a></li>
+          <li class="breadcrumb-item"><a href="cryptnox_cli.lib.html">cryptnox_cli.lib package</a></li>
+          <li class="breadcrumb-item"><a href="cryptnox_cli.lib.cryptos.html">cryptnox_cli.lib.cryptos package</a></li>
+      <li class="breadcrumb-item active">cryptnox_cli.lib.cryptos.coins package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/cryptnox_cli.lib.cryptos.coins.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cryptnox-cli-lib-cryptos-coins-package">
+<h1>cryptnox_cli.lib.cryptos.coins package<a class="headerlink" href="#cryptnox-cli-lib-cryptos-coins-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="cryptnox-cli-lib-cryptos-coins-base-module">
+<h2>cryptnox_cli.lib.cryptos.coins.base module<a class="headerlink" href="#cryptnox-cli-lib-cryptos-coins-base-module" title="Link to this heading"></a></h2>
+<p id="module-cryptnox_cli.lib.cryptos.coins.base">Base classes and shared logic for UTXO-based coin implementations.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.lib.cryptos.coins.base.</span></span><span class="sig-name descname"><span class="pre">BaseCoin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">testnet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Base implementation of crypto coin class
+All child coins must follow same pattern.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.coin_symbol">
+<span class="sig-name descname"><span class="pre">coin_symbol</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.coin_symbol" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.display_name">
+<span class="sig-name descname"><span class="pre">display_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.display_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.enabled">
+<span class="sig-name descname"><span class="pre">enabled</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.enabled" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.segwit_supported">
+<span class="sig-name descname"><span class="pre">segwit_supported</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.segwit_supported" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.magicbyte">
+<span class="sig-name descname"><span class="pre">magicbyte</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.magicbyte" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.script_magicbyte">
+<span class="sig-name descname"><span class="pre">script_magicbyte</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.script_magicbyte" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.segwit_hrp">
+<span class="sig-name descname"><span class="pre">segwit_hrp</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.segwit_hrp" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.client_kwargs">
+<span class="sig-name descname"><span class="pre">client_kwargs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'host':</span> <span class="pre">None,</span> <span class="pre">'loop':</span> <span class="pre">None,</span> <span class="pre">'max_servers':</span> <span class="pre">5,</span> <span class="pre">'port':</span> <span class="pre">50001,</span> <span class="pre">'server_file':</span> <span class="pre">'bitcoin.json',</span> <span class="pre">'servers':</span> <span class="pre">(),</span> <span class="pre">'timeout':</span> <span class="pre">15}</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.client_kwargs" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.testnet_overrides">
+<span class="sig-name descname"><span class="pre">testnet_overrides</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.testnet_overrides" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.hashcode">
+<span class="sig-name descname"><span class="pre">hashcode</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.hashcode" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.hd_path">
+<span class="sig-name descname"><span class="pre">hd_path</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.hd_path" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.wif_prefix">
+<span class="sig-name descname"><span class="pre">wif_prefix</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">128</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.wif_prefix" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.wif_script_types">
+<span class="sig-name descname"><span class="pre">wif_script_types</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'p2pkh':</span> <span class="pre">0,</span> <span class="pre">'p2sh':</span> <span class="pre">5,</span> <span class="pre">'p2wpkh':</span> <span class="pre">1,</span> <span class="pre">'p2wpkh-p2sh':</span> <span class="pre">2,</span> <span class="pre">'p2wsh':</span> <span class="pre">6,</span> <span class="pre">'p2wsh-p2sh':</span> <span class="pre">7}</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.wif_script_types" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.xprv_headers">
+<span class="sig-name descname"><span class="pre">xprv_headers</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'p2pkh':</span> <span class="pre">76066276,</span> <span class="pre">'p2wpkh':</span> <span class="pre">78791436,</span> <span class="pre">'p2wpkh-p2sh':</span> <span class="pre">77428856,</span> <span class="pre">'p2wsh':</span> <span class="pre">44726937,</span> <span class="pre">'p2wsh-p2sh':</span> <span class="pre">43364357}</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.xprv_headers" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.xpub_headers">
+<span class="sig-name descname"><span class="pre">xpub_headers</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'p2pkh':</span> <span class="pre">76067358,</span> <span class="pre">'p2wpkh':</span> <span class="pre">78792518,</span> <span class="pre">'p2wpkh-p2sh':</span> <span class="pre">77429938,</span> <span class="pre">'p2wsh':</span> <span class="pre">44728019,</span> <span class="pre">'p2wsh-p2sh':</span> <span class="pre">43365439}</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.xpub_headers" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.electrum_xprv_headers">
+<span class="sig-name descname"><span class="pre">electrum_xprv_headers</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'p2pkh':</span> <span class="pre">76066276,</span> <span class="pre">'p2wpkh':</span> <span class="pre">78791436,</span> <span class="pre">'p2wpkh-p2sh':</span> <span class="pre">77428856,</span> <span class="pre">'p2wsh':</span> <span class="pre">44726937,</span> <span class="pre">'p2wsh-p2sh':</span> <span class="pre">43364357}</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.electrum_xprv_headers" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.electrum_xpub_headers">
+<span class="sig-name descname"><span class="pre">electrum_xpub_headers</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'p2pkh':</span> <span class="pre">76067358,</span> <span class="pre">'p2wpkh':</span> <span class="pre">78792518,</span> <span class="pre">'p2wpkh-p2sh':</span> <span class="pre">77429938,</span> <span class="pre">'p2wsh':</span> <span class="pre">44728019,</span> <span class="pre">'p2wsh-p2sh':</span> <span class="pre">43365439}</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.electrum_xpub_headers" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">testnet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.is_testnet">
+<span class="sig-name descname"><span class="pre">is_testnet</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.is_testnet" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.address_prefixes">
+<span class="sig-name descname"><span class="pre">address_prefixes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">()</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.address_prefixes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.secondary_hashcode">
+<span class="sig-name descname"><span class="pre">secondary_hashcode</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.secondary_hashcode" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.rpc_client">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rpc_client</span></span><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.rpc_client" title="Link to this definition"></a></dt>
+<dd><p>Connect to remove server</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.unspent">
+<span class="sig-name descname"><span class="pre">unspent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">addrs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.unspent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.unspent" title="Link to this definition"></a></dt>
+<dd><p>Get unspent transactions for addresses</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.history">
+<span class="sig-name descname"><span class="pre">history</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">addrs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.history"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.history" title="Link to this definition"></a></dt>
+<dd><p>Get transaction history for addresses</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.fetchtx">
+<span class="sig-name descname"><span class="pre">fetchtx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.fetchtx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.fetchtx" title="Link to this definition"></a></dt>
+<dd><p>Fetch a tx from the blockchain</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.txinputs">
+<span class="sig-name descname"><span class="pre">txinputs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.txinputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.txinputs" title="Link to this definition"></a></dt>
+<dd><p>Fetch inputs of a transaction on the blockchain</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.pushtx">
+<span class="sig-name descname"><span class="pre">pushtx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.pushtx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.pushtx" title="Link to this definition"></a></dt>
+<dd><p>Push/ Broadcast a transaction to the blockchain</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.privtopub">
+<span class="sig-name descname"><span class="pre">privtopub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">privkey</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.privtopub"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.privtopub" title="Link to this definition"></a></dt>
+<dd><p>Get public key from private key</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.pubtoaddr">
+<span class="sig-name descname"><span class="pre">pubtoaddr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pubkey</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.pubtoaddr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.pubtoaddr" title="Link to this definition"></a></dt>
+<dd><p>Get address from a pubic key</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.privtoaddr">
+<span class="sig-name descname"><span class="pre">privtoaddr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">privkey</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.privtoaddr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.privtoaddr" title="Link to this definition"></a></dt>
+<dd><p>Get address from a private key</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.electrum_address">
+<span class="sig-name descname"><span class="pre">electrum_address</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">masterkey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">for_change</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.electrum_address"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.electrum_address" title="Link to this definition"></a></dt>
+<dd><p>For old electrum seeds</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.is_address">
+<span class="sig-name descname"><span class="pre">is_address</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">addr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.is_address"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.is_address" title="Link to this definition"></a></dt>
+<dd><p>Check if addr is a valid address for this chain</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.is_p2sh">
+<span class="sig-name descname"><span class="pre">is_p2sh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">addr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.is_p2sh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.is_p2sh" title="Link to this definition"></a></dt>
+<dd><p>Check if addr is a a pay to script address</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.output_script_to_address">
+<span class="sig-name descname"><span class="pre">output_script_to_address</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">script</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.output_script_to_address"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.output_script_to_address" title="Link to this definition"></a></dt>
+<dd><p>Convert an output script to an address</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.scripttoaddr">
+<span class="sig-name descname"><span class="pre">scripttoaddr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">script</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.scripttoaddr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.scripttoaddr" title="Link to this definition"></a></dt>
+<dd><p>Convert an input public key hash to an address</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.p2sh_scriptaddr">
+<span class="sig-name descname"><span class="pre">p2sh_scriptaddr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">script</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.p2sh_scriptaddr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.p2sh_scriptaddr" title="Link to this definition"></a></dt>
+<dd><p>Convert an output p2sh script to an address</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.addrtoscript">
+<span class="sig-name descname"><span class="pre">addrtoscript</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">addr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.addrtoscript"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.addrtoscript" title="Link to this definition"></a></dt>
+<dd><p>Convert an output address to a script</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.pubtop2w">
+<span class="sig-name descname"><span class="pre">pubtop2w</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pub</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.pubtop2w"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.pubtop2w" title="Link to this definition"></a></dt>
+<dd><p>Convert a public key to a pay to witness public key hash address (P2WPKH, required for segwit)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.privtop2w">
+<span class="sig-name descname"><span class="pre">privtop2w</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">priv</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.privtop2w"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.privtop2w" title="Link to this definition"></a></dt>
+<dd><p>Convert a private key to a pay to witness public key hash address</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.hash_to_segwit_addr">
+<span class="sig-name descname"><span class="pre">hash_to_segwit_addr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hash</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.hash_to_segwit_addr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.hash_to_segwit_addr" title="Link to this definition"></a></dt>
+<dd><p>Convert a hash to the new segwit address format outlined in BIP-0173</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.privtosegwit">
+<span class="sig-name descname"><span class="pre">privtosegwit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">privkey</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.privtosegwit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.privtosegwit" title="Link to this definition"></a></dt>
+<dd><p>Convert a private key to the new segwit address format outlined in BIP01743</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.pubtosegwit">
+<span class="sig-name descname"><span class="pre">pubtosegwit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pubkey</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.pubtosegwit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.pubtosegwit" title="Link to this definition"></a></dt>
+<dd><p>Convert a public key to the new segwit address format outlined in BIP01743</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.script_to_p2wsh">
+<span class="sig-name descname"><span class="pre">script_to_p2wsh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">script</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.script_to_p2wsh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.script_to_p2wsh" title="Link to this definition"></a></dt>
+<dd><p>Convert a script to the new segwit address format outlined in BIP01743</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.mk_multsig_address">
+<span class="sig-name descname"><span class="pre">mk_multsig_address</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.mk_multsig_address"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.mk_multsig_address" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>args</strong> – List of public keys to used to create multisig and M, the number of signatures required to spend</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>multisig script</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.is_segwit">
+<span class="sig-name descname"><span class="pre">is_segwit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">priv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">addr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.is_segwit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.is_segwit" title="Link to this definition"></a></dt>
+<dd><p>Check if addr was generated from priv using segwit script</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.sign">
+<span class="sig-name descname"><span class="pre">sign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">txobj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priv</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.sign"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.sign" title="Link to this definition"></a></dt>
+<dd><p>Sign a transaction input with index using a private key</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.signall">
+<span class="sig-name descname"><span class="pre">signall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">txobj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priv</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.signall"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.signall" title="Link to this definition"></a></dt>
+<dd><p>Sign all inputs to a transaction using a private key</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.multisign">
+<span class="sig-name descname"><span class="pre">multisign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">script</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.multisign"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.multisign" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.mktx">
+<span class="sig-name descname"><span class="pre">mktx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.mktx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.mktx" title="Link to this definition"></a></dt>
+<dd><p>[in0, in1…],[out0, out1…] or in0, in1 … out0 out1 …</p>
+<p>Make an unsigned transaction from inputs and outputs. Change is not automatically included so any difference
+in value between inputs and outputs will be given as a miner’s fee (transactions with too high fees will
+normally be blocked by the explorers)</p>
+<p>For Bitcoin Cash and other hard forks using SIGHASH_FORKID,
+ins must be a list of dicts with each containing the outpoint and value of the input.</p>
+<p>Inputs originally received with segwit must be a dict in the format: {‘outpoint’: “txhash:index”, value:0, “segwit”: True}</p>
+<p>For other transactions, inputs can be dicts containing only outpoints or strings in the outpoint format.
+Outpoint format: txhash:index</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.mksend">
+<span class="sig-name descname"><span class="pre">mksend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segwit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.mksend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.mksend" title="Link to this definition"></a></dt>
+<dd><p>[in0, in1…],[out0, out1…] or in0, in1 … out0 out1 …</p>
+<p>Make an unsigned transaction from inputs, outputs change address and fee. A change output will be added with
+change sent to the change address.</p>
+<p>For Bitcoin Cash and other hard forks using SIGHASH_FORKID and segwit,
+ins must be a list of dicts with each containing the outpoint and value of the input.</p>
+<p>For other transactions, inputs can be dicts containing only outpoints or strings in the outpoint format.
+Outpoint format: txhash:index</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.preparesignedtx">
+<span class="sig-name descname"><span class="pre">preparesignedtx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">privkey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fee</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">change_addr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segwit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">addr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.preparesignedtx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.preparesignedtx" title="Link to this definition"></a></dt>
+<dd><p>Prepare a tx with a specific amount from address belonging to private key to another address, returning change to the
+from address or change address, if set.
+Requires private key, target address, value and optionally the change address and fee
+segwit paramater specifies that the inputs belong to a segwit address
+addr, if provided, will explicity set the from address, overriding the auto-detection of the address from the
+private key.It will also be used, along with the privkey, to automatically detect a segwit transaction for coins
+which support segwit, overriding the segwit kw</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.send">
+<span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">privkey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fee</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">change_addr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segwit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">addr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.send"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.send" title="Link to this definition"></a></dt>
+<dd><p>Send a specific amount from address belonging to private key to another address, returning change to the
+from address or change address, if set.
+Requires private key, target address, value and optionally the change address and fee
+segwit paramater specifies that the inputs belong to a segwit address
+addr, if provided, will explicity set the from address, overriding the auto-detection of the address from the
+private key.It will also be used, along with the privkey, to automatically detect a segwit transaction for coins
+which support segwit, overriding the segwit kw</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.preparesignedmultitx">
+<span class="sig-name descname"><span class="pre">preparesignedmultitx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">privkey</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">change_addr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segwit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">addr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.preparesignedmultitx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.preparesignedmultitx" title="Link to this definition"></a></dt>
+<dd><p>Prepare transaction with multiple outputs, with change sent back to from addrss
+Requires private key, address:value pairs and optionally the change address and fee
+segwit paramater specifies that the inputs belong to a segwit address
+addr, if provided, will explicity set the from address, overriding the auto-detection of the address from the
+private key.It will also be used, along with the privkey to automatically detect a segwit transaction for coins
+which support segwit, overriding the segwit kw</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.sendmultitx">
+<span class="sig-name descname"><span class="pre">sendmultitx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">privkey</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">change_addr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segwit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">addr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.sendmultitx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.sendmultitx" title="Link to this definition"></a></dt>
+<dd><p>Send transaction with multiple outputs, with change sent back to from addrss
+Requires private key, address:value pairs and optionally the change address and fee
+segwit paramater specifies that the inputs belong to a segwit address
+addr, if provided, will explicity set the from address, overriding the auto-detection of the address from the
+private key.It will also be used, along with the privkey to automatically detect a segwit transaction for coins
+which support segwit, overriding the segwit kw</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.preparetx">
+<span class="sig-name descname"><span class="pre">preparetx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fee</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">change_addr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segwit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.preparetx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.preparetx" title="Link to this definition"></a></dt>
+<dd><p>Prepare a transaction using from and to addresses, value and a fee, with change sent back to from address</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.preparemultitx">
+<span class="sig-name descname"><span class="pre">preparemultitx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frm</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">change_addr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segwit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.preparemultitx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.preparemultitx" title="Link to this definition"></a></dt>
+<dd><p>Prepare transaction with multiple outputs, with change sent to from address
+Requires from address, to_address:value pairs and fees</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.block_height">
+<span class="sig-name descname"><span class="pre">block_height</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">txhash</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.block_height"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.block_height" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.current_block_height">
+<span class="sig-name descname"><span class="pre">current_block_height</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.current_block_height"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.current_block_height" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.block_info">
+<span class="sig-name descname"><span class="pre">block_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.block_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.block_info" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.inspect">
+<span class="sig-name descname"><span class="pre">inspect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.inspect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.inspect" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.merkle_prove">
+<span class="sig-name descname"><span class="pre">merkle_prove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">txhash</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.merkle_prove"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.merkle_prove" title="Link to this definition"></a></dt>
+<dd><p>Prove that information an explorer returns about a transaction in the blockchain is valid. Only run on a
+tx with at least 1 confirmation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.encode_privkey">
+<span class="sig-name descname"><span class="pre">encode_privkey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">privkey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">script_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'p2pkh'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.encode_privkey"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.encode_privkey" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.wallet">
+<span class="sig-name descname"><span class="pre">wallet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">passphrase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.wallet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.wallet" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.watch_wallet">
+<span class="sig-name descname"><span class="pre">watch_wallet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xpub</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.watch_wallet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.watch_wallet" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.p2wpkh_p2sh_wallet">
+<span class="sig-name descname"><span class="pre">p2wpkh_p2sh_wallet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">passphrase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.p2wpkh_p2sh_wallet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.p2wpkh_p2sh_wallet" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.watch_p2wpkh_p2sh_wallet">
+<span class="sig-name descname"><span class="pre">watch_p2wpkh_p2sh_wallet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xpub</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.watch_p2wpkh_p2sh_wallet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.watch_p2wpkh_p2sh_wallet" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.p2wpkh_wallet">
+<span class="sig-name descname"><span class="pre">p2wpkh_wallet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">passphrase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.p2wpkh_wallet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.p2wpkh_wallet" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.watch_p2wpkh_wallet">
+<span class="sig-name descname"><span class="pre">watch_p2wpkh_wallet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xpub</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.watch_p2wpkh_wallet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.watch_p2wpkh_wallet" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.electrum_wallet">
+<span class="sig-name descname"><span class="pre">electrum_wallet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">passphrase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.electrum_wallet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.electrum_wallet" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.watch_electrum_wallet">
+<span class="sig-name descname"><span class="pre">watch_electrum_wallet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xpub</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.watch_electrum_wallet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.watch_electrum_wallet" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.base.BaseCoin.watch_electrum_p2wpkh_wallet">
+<span class="sig-name descname"><span class="pre">watch_electrum_p2wpkh_wallet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xpub</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/base.html#BaseCoin.watch_electrum_p2wpkh_wallet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin.watch_electrum_p2wpkh_wallet" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="cryptnox-cli-lib-cryptos-coins-bitcoin-module">
+<h2>cryptnox_cli.lib.cryptos.coins.bitcoin module<a class="headerlink" href="#cryptnox-cli-lib-cryptos-coins-bitcoin-module" title="Link to this heading"></a></h2>
+<p id="module-cryptnox_cli.lib.cryptos.coins.bitcoin">Bitcoin-specific constants, scripts, and address helpers.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.bitcoin.Bitcoin">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.lib.cryptos.coins.bitcoin.</span></span><span class="sig-name descname"><span class="pre">Bitcoin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">testnet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/bitcoin.html#Bitcoin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.bitcoin.Bitcoin" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin" title="cryptnox_cli.lib.cryptos.coins.base.BaseCoin"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseCoin</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.bitcoin.Bitcoin.coin_symbol">
+<span class="sig-name descname"><span class="pre">coin_symbol</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'BTC'</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.bitcoin.Bitcoin.coin_symbol" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.bitcoin.Bitcoin.display_name">
+<span class="sig-name descname"><span class="pre">display_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Bitcoin'</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.bitcoin.Bitcoin.display_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.bitcoin.Bitcoin.segwit_supported">
+<span class="sig-name descname"><span class="pre">segwit_supported</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.bitcoin.Bitcoin.segwit_supported" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.bitcoin.Bitcoin.magicbyte">
+<span class="sig-name descname"><span class="pre">magicbyte</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.bitcoin.Bitcoin.magicbyte" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.bitcoin.Bitcoin.script_magicbyte">
+<span class="sig-name descname"><span class="pre">script_magicbyte</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.bitcoin.Bitcoin.script_magicbyte" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.bitcoin.Bitcoin.segwit_hrp">
+<span class="sig-name descname"><span class="pre">segwit_hrp</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'bc'</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.bitcoin.Bitcoin.segwit_hrp" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.bitcoin.Bitcoin.client_kwargs">
+<span class="sig-name descname"><span class="pre">client_kwargs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'server_file':</span> <span class="pre">'bitcoin.json'}</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.bitcoin.Bitcoin.client_kwargs" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.bitcoin.Bitcoin.testnet_overrides">
+<span class="sig-name descname"><span class="pre">testnet_overrides</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'client_kwargs':</span> <span class="pre">{'server_file':</span> <span class="pre">'bitcoin_testnet.json'},</span> <span class="pre">'coin_symbol':</span> <span class="pre">'BTCTEST',</span> <span class="pre">'display_name':</span> <span class="pre">'Bitcoin</span> <span class="pre">Testnet',</span> <span class="pre">'hd_path':</span> <span class="pre">1,</span> <span class="pre">'magicbyte':</span> <span class="pre">111,</span> <span class="pre">'script_magicbyte':</span> <span class="pre">196,</span> <span class="pre">'segwit_hrp':</span> <span class="pre">'tb',</span> <span class="pre">'wif_prefix':</span> <span class="pre">239,</span> <span class="pre">'xprv_headers':</span> <span class="pre">{'p2pkh':</span> <span class="pre">70615956,</span> <span class="pre">'p2wpkh':</span> <span class="pre">70615956,</span> <span class="pre">'p2wpkh-p2sh':</span> <span class="pre">71978536,</span> <span class="pre">'p2wsh':</span> <span class="pre">44726937,</span> <span class="pre">'p2wsh-p2sh':</span> <span class="pre">43364357},</span> <span class="pre">'xpub_headers':</span> <span class="pre">{'p2pkh':</span> <span class="pre">70617039,</span> <span class="pre">'p2wpkh':</span> <span class="pre">70617039,</span> <span class="pre">'p2wpkh-p2sh':</span> <span class="pre">71979618,</span> <span class="pre">'p2wsh':</span> <span class="pre">44728019,</span> <span class="pre">'p2wsh-p2sh':</span> <span class="pre">43365439}}</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.bitcoin.Bitcoin.testnet_overrides" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-cryptnox_cli.lib.cryptos.coins">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-cryptnox_cli.lib.cryptos.coins" title="Link to this heading"></a></h2>
+<p>Re-exports available coin implementations for convenience.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.Bitcoin">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.lib.cryptos.coins.</span></span><span class="sig-name descname"><span class="pre">Bitcoin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">testnet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/bitcoin.html#Bitcoin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.Bitcoin" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cryptnox_cli.lib.cryptos.coins.base.BaseCoin" title="cryptnox_cli.lib.cryptos.coins.base.BaseCoin"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseCoin</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.Bitcoin.client_kwargs">
+<span class="sig-name descname"><span class="pre">client_kwargs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'server_file':</span> <span class="pre">'bitcoin.json'}</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.Bitcoin.client_kwargs" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.Bitcoin.coin_symbol">
+<span class="sig-name descname"><span class="pre">coin_symbol</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'BTC'</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.Bitcoin.coin_symbol" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.Bitcoin.display_name">
+<span class="sig-name descname"><span class="pre">display_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Bitcoin'</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.Bitcoin.display_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.Bitcoin.magicbyte">
+<span class="sig-name descname"><span class="pre">magicbyte</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.Bitcoin.magicbyte" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.Bitcoin.script_magicbyte">
+<span class="sig-name descname"><span class="pre">script_magicbyte</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.Bitcoin.script_magicbyte" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.Bitcoin.segwit_hrp">
+<span class="sig-name descname"><span class="pre">segwit_hrp</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'bc'</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.Bitcoin.segwit_hrp" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.Bitcoin.segwit_supported">
+<span class="sig-name descname"><span class="pre">segwit_supported</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.Bitcoin.segwit_supported" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.coins.Bitcoin.testnet_overrides">
+<span class="sig-name descname"><span class="pre">testnet_overrides</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'client_kwargs':</span> <span class="pre">{'server_file':</span> <span class="pre">'bitcoin_testnet.json'},</span> <span class="pre">'coin_symbol':</span> <span class="pre">'BTCTEST',</span> <span class="pre">'display_name':</span> <span class="pre">'Bitcoin</span> <span class="pre">Testnet',</span> <span class="pre">'hd_path':</span> <span class="pre">1,</span> <span class="pre">'magicbyte':</span> <span class="pre">111,</span> <span class="pre">'script_magicbyte':</span> <span class="pre">196,</span> <span class="pre">'segwit_hrp':</span> <span class="pre">'tb',</span> <span class="pre">'wif_prefix':</span> <span class="pre">239,</span> <span class="pre">'xprv_headers':</span> <span class="pre">{'p2pkh':</span> <span class="pre">70615956,</span> <span class="pre">'p2wpkh':</span> <span class="pre">70615956,</span> <span class="pre">'p2wpkh-p2sh':</span> <span class="pre">71978536,</span> <span class="pre">'p2wsh':</span> <span class="pre">44726937,</span> <span class="pre">'p2wsh-p2sh':</span> <span class="pre">43364357},</span> <span class="pre">'xpub_headers':</span> <span class="pre">{'p2pkh':</span> <span class="pre">70617039,</span> <span class="pre">'p2wpkh':</span> <span class="pre">70617039,</span> <span class="pre">'p2wpkh-p2sh':</span> <span class="pre">71979618,</span> <span class="pre">'p2wsh':</span> <span class="pre">44728019,</span> <span class="pre">'p2wsh-p2sh':</span> <span class="pre">43365439}}</span></em><a class="headerlink" href="#cryptnox_cli.lib.cryptos.coins.Bitcoin.testnet_overrides" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<p>The <code class="docutils literal notranslate"><span class="pre">cryptnox_cli.lib.cryptos.coins</span></code> package provides cryptocurrency coin implementations and exports:</p>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.lib.cryptos.coins.</span></span><span class="sig-name descname"><span class="pre">Bitcoin</span></span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/coins/bitcoin.html#Bitcoin"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bitcoin cryptocurrency implementation. See <a class="reference internal" href="#cryptnox_cli.lib.cryptos.coins.bitcoin.Bitcoin" title="cryptnox_cli.lib.cryptos.coins.bitcoin.Bitcoin"><code class="xref py py-class docutils literal notranslate"><span class="pre">cryptnox_cli.lib.cryptos.coins.bitcoin.Bitcoin</span></code></a> for details.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cryptnox_cli.lib.cryptos.html" class="btn btn-neutral float-left" title="cryptnox_cli.lib.cryptos package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cryptnox_cli.wallet.html" class="btn btn-neutral float-right" title="cryptnox_cli.wallet package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Cryptnox.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,315 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cryptnox_cli.command.get_xpub &mdash; cryptnox-cli 1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=0912efa5" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=baaebd52"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/custom.js?v=f0d783cb"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #101f2e" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            cryptnox-cli
+              <img src="../../../_static/cryptnox-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Cryptnox CLI Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #101f2e" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">cryptnox-cli</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cryptnox_cli.command.get_xpub</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cryptnox_cli.command.get_xpub</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module containing command for getting extended public key (xpub) from the card</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">binascii</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cryptnox_sdk_py</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">argparse</span><span class="w"> </span><span class="kn">import</span> <span class="n">Namespace</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.command</span><span class="w"> </span><span class="kn">import</span> <span class="n">Command</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.helper.security</span><span class="w"> </span><span class="kn">import</span> <span class="n">check</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">base58</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">base58</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="n">KNOWN_VERSIONS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x04\x88\xB2\x1E</span><span class="s2">&quot;</span><span class="p">:</span> <span class="s2">&quot;xpub&quot;</span><span class="p">,</span>  <span class="c1"># mainnet</span>
+    <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x04\x35\x87\xCF</span><span class="s2">&quot;</span><span class="p">:</span> <span class="s2">&quot;tpub&quot;</span><span class="p">,</span>  <span class="c1"># testnet</span>
+    <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x04\x9D\x7C\xB2</span><span class="s2">&quot;</span><span class="p">:</span> <span class="s2">&quot;ypub&quot;</span><span class="p">,</span>  <span class="c1"># p2wpkh-p2sh</span>
+    <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x04\xB2\x47\x46</span><span class="s2">&quot;</span><span class="p">:</span> <span class="s2">&quot;zpub&quot;</span><span class="p">,</span>  <span class="c1"># p2wpkh</span>
+    <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x04\x4A\x52\x62</span><span class="s2">&quot;</span><span class="p">:</span> <span class="s2">&quot;upub&quot;</span><span class="p">,</span>  <span class="c1"># testnet p2wpkh-p2sh</span>
+    <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x04\x5F\x1C\xF6</span><span class="s2">&quot;</span><span class="p">:</span> <span class="s2">&quot;vpub&quot;</span><span class="p">,</span>  <span class="c1"># testnet p2wpkh</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_ripemd160</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute RIPEMD-160 hash&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;ripemd160&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">cryptnox_sdk_py.cryptos.ripemd</span><span class="w"> </span><span class="kn">import</span> <span class="n">ripemd160</span>
+            <span class="k">return</span> <span class="n">ripemd160</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;RIPEMD-160 not available&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_double_sha256</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute double SHA256 hash&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">())</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="extended_to_xpub">
+<a class="viewcode-back" href="../../../cryptnox_cli.command.html#cryptnox_cli.command.get_xpub.extended_to_xpub">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">extended_to_xpub</span><span class="p">(</span><span class="n">hex_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert 106-byte Cryptnox extended key format to standard Base58 xpub.</span>
+<span class="sd">    Cryptnox format (106 bytes):</span>
+<span class="sd">    - version: 4 bytes</span>
+<span class="sd">    - depth: 1 byte</span>
+<span class="sd">    - parent_fp32: 32 bytes (SHA256 of parent pubkey)</span>
+<span class="sd">    - child_number: 4 bytes</span>
+<span class="sd">    - chain_code: 32 bytes</span>
+<span class="sd">    - key: 33 bytes (compressed pubkey)</span>
+<span class="sd">    Returns: (success: bool, message: str, xpub: str or None)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">base58</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;base58 module not installed&quot;</span><span class="p">,</span> <span class="kc">None</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">raw</span> <span class="o">=</span> <span class="n">binascii</span><span class="o">.</span><span class="n">unhexlify</span><span class="p">(</span><span class="n">hex_str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Invalid hex: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">106</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Expected 106 bytes, got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="kc">None</span>
+
+    <span class="c1"># Parse fields</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+    <span class="n">depth</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+    <span class="n">parent_fp32</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">37</span><span class="p">]</span>
+    <span class="n">child_number</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="mi">37</span><span class="p">:</span><span class="mi">41</span><span class="p">]</span>
+    <span class="n">chain_code</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="mi">41</span><span class="p">:</span><span class="mi">73</span><span class="p">]</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="mi">73</span><span class="p">:</span><span class="mi">106</span><span class="p">]</span>
+
+    <span class="c1"># Validate version</span>
+    <span class="k">if</span> <span class="n">version</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">KNOWN_VERSIONS</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Unknown version: </span><span class="si">{</span><span class="n">version</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="kc">None</span>
+
+    <span class="c1"># Validate key is compressed</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">33</span> <span class="ow">or</span> <span class="n">key</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mh">0x02</span><span class="p">,</span> <span class="mh">0x03</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Invalid compressed public key&quot;</span><span class="p">,</span> <span class="kc">None</span>
+
+    <span class="c1"># Compute BIP32 4-byte parent fingerprint from 32-byte SHA256</span>
+    <span class="n">parent_fp4</span> <span class="o">=</span> <span class="n">_ripemd160</span><span class="p">(</span><span class="n">parent_fp32</span><span class="p">)[:</span><span class="mi">4</span><span class="p">]</span>
+
+    <span class="c1"># Build canonical 78-byte BIP32 extended key</span>
+    <span class="n">bip32_payload</span> <span class="o">=</span> <span class="n">version</span> <span class="o">+</span> <span class="n">depth</span> <span class="o">+</span> <span class="n">parent_fp4</span> <span class="o">+</span> <span class="n">child_number</span> <span class="o">+</span> <span class="n">chain_code</span> <span class="o">+</span> <span class="n">key</span>
+
+    <span class="c1"># Base58Check encode</span>
+    <span class="n">checksum</span> <span class="o">=</span> <span class="n">_double_sha256</span><span class="p">(</span><span class="n">bip32_payload</span><span class="p">)[:</span><span class="mi">4</span><span class="p">]</span>
+    <span class="n">xpub</span> <span class="o">=</span> <span class="n">base58</span><span class="o">.</span><span class="n">b58encode</span><span class="p">(</span><span class="n">bip32_payload</span> <span class="o">+</span> <span class="n">checksum</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">KNOWN_VERSIONS</span><span class="p">[</span><span class="n">version</span><span class="p">],</span> <span class="n">xpub</span></div>
+
+
+
+<div class="viewcode-block" id="GetXpub">
+<a class="viewcode-back" href="../../../cryptnox_cli.command.html#cryptnox_cli.command.get_xpub.GetXpub">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GetXpub</span><span class="p">(</span><span class="n">Command</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Command to get the extended public key (get_xpub) from the card</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="s2">&quot;get_xpub&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_key_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key_type_value</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key_type_value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">cryptnox_sdk_py</span><span class="o">.</span><span class="n">KeyType</span><span class="p">[</span><span class="n">key_type_value</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+            <span class="k">return</span> <span class="n">key_type_value</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid key type: </span><span class="si">{</span><span class="n">key_type_value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">error</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_print_xpub</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key_type</span><span class="p">,</span> <span class="n">xpub_hex</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print the extended public key in Base58 format</span>
+
+<span class="sd">        :param key_type: The key type (K1 or R1)</span>
+<span class="sd">        :param xpub_hex: The extended public key in hex format from the card (106 bytes)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;K1 Extended Public Key&quot;</span> <span class="k">if</span> <span class="n">key_type</span> <span class="o">==</span> <span class="n">cryptnox_sdk_py</span><span class="o">.</span><span class="n">KeyType</span><span class="o">.</span><span class="n">K1</span> <span class="k">else</span> <span class="s2">&quot;Extended Public Key&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Convert Cryptnox 106-byte format to standard Base58 xpub</span>
+        <span class="n">success</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">xpub</span> <span class="o">=</span> <span class="n">extended_to_xpub</span><span class="p">(</span><span class="n">xpub_hex</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">xpub</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">(</span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">, depth level </span><span class="si">{</span><span class="nb">ord</span><span class="p">(</span><span class="n">binascii</span><span class="o">.</span><span class="n">unhexlify</span><span class="p">(</span><span class="n">xpub_hex</span><span class="p">)[</span><span class="mi">4</span><span class="p">:</span><span class="mi">5</span><span class="p">])</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Fallback to hex if conversion fails</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Raw hex: </span><span class="si">{</span><span class="n">xpub_hex</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">card</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Execute the xpub command to get extended public key from the card</span>
+
+<span class="sd">        :param card: The card instance</span>
+<span class="sd">        :return: 0 if successful, other number indicating an issue</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">check</span><span class="p">(</span><span class="n">card</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Get key type from command line arguments, default to K1</span>
+            <span class="n">key_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_key_type</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;key_type&#39;</span><span class="p">,</span> <span class="s1">&#39;K1&#39;</span><span class="p">))</span>
+
+            <span class="c1"># Get PUK from command line arguments if provided</span>
+            <span class="n">puk</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;puk&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">key_type</span> <span class="o">==</span> <span class="n">cryptnox_sdk_py</span><span class="o">.</span><span class="n">KeyType</span><span class="o">.</span><span class="n">R1</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cannot get extended public key for R1 key.&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># For K1 keys, use clear export for xpub (if enabled or PUK provided)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Getting extended public key for K1 key...&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">puk</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Enabling public key export capability...&quot;</span><span class="p">)</span>
+                    <span class="n">xpubkey</span> <span class="o">=</span> <span class="n">card</span><span class="o">.</span><span class="n">get_public_key_extended</span><span class="p">(</span><span class="n">key_type</span><span class="o">=</span><span class="n">key_type</span><span class="p">,</span> <span class="n">puk</span><span class="o">=</span><span class="n">puk</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_print_xpub</span><span class="p">(</span><span class="n">key_type</span><span class="p">,</span> <span class="n">xpubkey</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error getting K1 public key: </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="k">except</span> <span class="n">cryptnox_sdk_py</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">SeedException</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error: No seed exists on the card. Please initialize the card first.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">except</span> <span class="n">cryptnox_sdk_py</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">ReadPublicKeyException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error reading public key: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected error: </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+<div class="viewcode-block" id="GetXpub.meets_condition">
+<a class="viewcode-back" href="../../../cryptnox_cli.command.html#cryptnox_cli.command.get_xpub.GetXpub.meets_condition">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">meets_condition</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Namespace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if this command should handle the given arguments</span>
+
+<span class="sd">        :param data: Command line arguments</span>
+<span class="sd">        :return: True if this command should handle the arguments</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;command&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">data</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_name</span></div>
+
+
+<div class="viewcode-block" id="GetXpub.add_options">
+<a class="viewcode-back" href="../../../cryptnox_cli.command.html#cryptnox_cli.command.get_xpub.GetXpub.add_options">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add command line options for the xpub command</span>
+
+<span class="sd">        :param subparsers: Argument parser subparsers</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
+            <span class="s2">&quot;get_xpub&quot;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Get public key using clear pubkey reading (P1=0x01) capability&quot;</span>
+        <span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Cryptnox.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

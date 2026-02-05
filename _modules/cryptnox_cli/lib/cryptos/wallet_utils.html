@@ -1,0 +1,440 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cryptnox_cli.lib.cryptos.wallet_utils &mdash; cryptnox-cli 1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=0912efa5" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=baaebd52"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/custom.js?v=f0d783cb"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #101f2e" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            cryptnox-cli
+              <img src="../../../../_static/cryptnox-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Cryptnox CLI Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #101f2e" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">cryptnox-cli</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cryptnox_cli.lib.cryptos.wallet_utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cryptnox_cli.lib.cryptos.wallet_utils</h1><div class="highlight"><pre>
+<span></span><span class="c1"># flake8: noqa</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">General wallet helper functions (formatting, hashing, conversions).</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1">#</span>
+<span class="c1"># Electrum - lightweight Bitcoin client</span>
+<span class="c1"># Copyright (C) 2011 thomasv@gitorious with changes by pycryptools developers</span>
+<span class="c1">#</span>
+<span class="c1"># Permission is hereby granted, free of charge, to any person</span>
+<span class="c1"># obtaining a copy of this software and associated documentation files</span>
+<span class="c1"># (the &quot;Software&quot;), to deal in the Software without restriction,</span>
+<span class="c1"># including without limitation the rights to use, copy, modify, merge,</span>
+<span class="c1"># publish, distribute, sublicense, and/or sell copies of the Software,</span>
+<span class="c1"># and to permit persons to whom the Software is furnished to do so,</span>
+<span class="c1"># subject to the following conditions:</span>
+<span class="c1">#</span>
+<span class="c1"># The above copyright notice and this permission notice shall be</span>
+<span class="c1"># included in all copies or substantial portions of the Software.</span>
+<span class="c1">#</span>
+<span class="c1"># THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,</span>
+<span class="c1"># EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF</span>
+<span class="c1"># MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND</span>
+<span class="c1"># NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS</span>
+<span class="c1"># BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN</span>
+<span class="c1"># ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN</span>
+<span class="c1"># CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE</span>
+<span class="c1"># SOFTWARE.</span>
+
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">decimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decimal</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">constants</span> <span class="k">as</span> <span class="n">version</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.main</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.specials</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># Version numbers for BIP32 extended keys</span>
+<span class="c1"># standard: xprv, xpub</span>
+<span class="c1"># segwit in p2sh: yprv, ypub</span>
+<span class="c1"># native segwit: zprv, zpub</span>
+<span class="n">XPRV_HEADERS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;standard&#39;</span><span class="p">:</span> <span class="mh">0x0488ade4</span><span class="p">,</span>
+    <span class="s1">&#39;p2wpkh-p2sh&#39;</span><span class="p">:</span> <span class="mh">0x049d7878</span><span class="p">,</span>
+    <span class="s1">&#39;p2wsh-p2sh&#39;</span><span class="p">:</span> <span class="mh">0x295b005</span><span class="p">,</span>
+    <span class="s1">&#39;p2wpkh&#39;</span><span class="p">:</span> <span class="mh">0x4b2430c</span><span class="p">,</span>
+    <span class="s1">&#39;p2wsh&#39;</span><span class="p">:</span> <span class="mh">0x2aa7a99</span>
+<span class="p">}</span>
+<span class="n">XPUB_HEADERS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;standard&#39;</span><span class="p">:</span> <span class="mh">0x0488b21e</span><span class="p">,</span>
+    <span class="s1">&#39;p2wpkh-p2sh&#39;</span><span class="p">:</span> <span class="mh">0x049d7cb2</span><span class="p">,</span>
+    <span class="s1">&#39;p2wsh-p2sh&#39;</span><span class="p">:</span> <span class="mh">0x295b43f</span><span class="p">,</span>
+    <span class="s1">&#39;p2wpkh&#39;</span><span class="p">:</span> <span class="mh">0x4b24746</span><span class="p">,</span>
+    <span class="s1">&#39;p2wsh&#39;</span><span class="p">:</span> <span class="mh">0x2aa7ed3</span>
+<span class="p">}</span>
+
+<span class="n">bh2u</span> <span class="o">=</span> <span class="n">safe_hexlify</span>
+<span class="n">hfu</span> <span class="o">=</span> <span class="n">binascii</span><span class="o">.</span><span class="n">hexlify</span>
+<span class="n">bfh</span> <span class="o">=</span> <span class="n">safe_from_hex</span>
+<span class="n">hmac_sha_512</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha512</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="rev_hex">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.rev_hex">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">rev_hex</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">bh2u</span><span class="p">(</span><span class="n">bfh</span><span class="p">(</span><span class="n">s</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="int_to_hex">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.int_to_hex">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">int_to_hex</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="nb">hex</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">length</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">))</span> <span class="o">+</span> <span class="n">s</span>
+    <span class="k">return</span> <span class="n">rev_hex</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="InvalidPassword">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.InvalidPassword">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">InvalidPassword</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;Incorrect password&quot;</span></div>
+
+
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">Cryptodome.Cipher</span><span class="w"> </span><span class="kn">import</span> <span class="n">AES</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">AES</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<div class="viewcode-block" id="InvalidPasswordException">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.InvalidPasswordException">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">InvalidPasswordException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="InvalidPadding">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.InvalidPadding">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">InvalidPadding</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="assert_bytes">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.assert_bytes">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">assert_bytes</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    porting helper, assert args type</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="nb">bytes</span><span class="p">,</span> <span class="nb">bytearray</span><span class="p">))</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;assert bytes failed&#39;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="n">args</span><span class="p">)))</span>
+        <span class="k">raise</span></div>
+
+
+
+<div class="viewcode-block" id="append_PKCS7_padding">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.append_PKCS7_padding">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">append_PKCS7_padding</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">assert_bytes</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">padlen</span> <span class="o">=</span> <span class="mi">16</span> <span class="o">-</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">%</span> <span class="mi">16</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span> <span class="o">+</span> <span class="nb">bytes</span><span class="p">([</span><span class="n">padlen</span><span class="p">])</span> <span class="o">*</span> <span class="n">padlen</span></div>
+
+
+
+<div class="viewcode-block" id="strip_PKCS7_padding">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.strip_PKCS7_padding">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">strip_PKCS7_padding</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">assert_bytes</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">%</span> <span class="mi">16</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">InvalidPadding</span><span class="p">(</span><span class="s2">&quot;invalid length&quot;</span><span class="p">)</span>
+    <span class="n">padlen</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">padlen</span> <span class="o">&gt;</span> <span class="mi">16</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">InvalidPadding</span><span class="p">(</span><span class="s2">&quot;invalid padding byte (large)&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="n">padlen</span><span class="p">:]:</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">padlen</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">InvalidPadding</span><span class="p">(</span><span class="s2">&quot;invalid padding byte (inconsistent)&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="n">padlen</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="aes_encrypt_with_iv">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.aes_encrypt_with_iv">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">aes_encrypt_with_iv</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">iv</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="n">assert_bytes</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">iv</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">append_PKCS7_padding</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">AES</span><span class="p">:</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">AES</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">AES</span><span class="o">.</span><span class="n">MODE_CBC</span><span class="p">,</span> <span class="n">iv</span><span class="p">)</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">aes_cbc</span> <span class="o">=</span> <span class="n">pyaes</span><span class="o">.</span><span class="n">AESModeOfOperationCBC</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">iv</span><span class="o">=</span><span class="n">iv</span><span class="p">)</span>
+        <span class="n">aes</span> <span class="o">=</span> <span class="n">pyaes</span><span class="o">.</span><span class="n">Encrypter</span><span class="p">(</span><span class="n">aes_cbc</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">pyaes</span><span class="o">.</span><span class="n">PADDING_NONE</span><span class="p">)</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">aes</span><span class="o">.</span><span class="n">feed</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">+</span> <span class="n">aes</span><span class="o">.</span><span class="n">feed</span><span class="p">()</span>  <span class="c1"># empty aes.feed() flushes buffer</span>
+    <span class="k">return</span> <span class="n">e</span></div>
+
+
+
+<div class="viewcode-block" id="aes_decrypt_with_iv">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.aes_decrypt_with_iv">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">aes_decrypt_with_iv</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">iv</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="n">assert_bytes</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">iv</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">AES</span><span class="p">:</span>
+        <span class="n">cipher</span> <span class="o">=</span> <span class="n">AES</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">AES</span><span class="o">.</span><span class="n">MODE_CBC</span><span class="p">,</span> <span class="n">iv</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">cipher</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">aes_cbc</span> <span class="o">=</span> <span class="n">pyaes</span><span class="o">.</span><span class="n">AESModeOfOperationCBC</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">iv</span><span class="o">=</span><span class="n">iv</span><span class="p">)</span>
+        <span class="n">aes</span> <span class="o">=</span> <span class="n">pyaes</span><span class="o">.</span><span class="n">Decrypter</span><span class="p">(</span><span class="n">aes_cbc</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">pyaes</span><span class="o">.</span><span class="n">PADDING_NONE</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">aes</span><span class="o">.</span><span class="n">feed</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">+</span> <span class="n">aes</span><span class="o">.</span><span class="n">feed</span><span class="p">()</span>  <span class="c1"># empty aes.feed() flushes buffer</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">strip_PKCS7_padding</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">InvalidPadding</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">InvalidPassword</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="EncodeAES">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.EncodeAES">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">EncodeAES</span><span class="p">(</span><span class="n">secret</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+    <span class="n">assert_bytes</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">iv</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="mi">16</span><span class="p">))</span>
+    <span class="n">ct</span> <span class="o">=</span> <span class="n">aes_encrypt_with_iv</span><span class="p">(</span><span class="n">secret</span><span class="p">,</span> <span class="n">iv</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">iv</span> <span class="o">+</span> <span class="n">ct</span>
+    <span class="k">return</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="DecodeAES">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.DecodeAES">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">DecodeAES</span><span class="p">(</span><span class="n">secret</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+    <span class="n">iv</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">e</span><span class="p">[:</span><span class="mi">16</span><span class="p">],</span> <span class="n">e</span><span class="p">[</span><span class="mi">16</span><span class="p">:]</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">aes_decrypt_with_iv</span><span class="p">(</span><span class="n">secret</span><span class="p">,</span> <span class="n">iv</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">s</span></div>
+
+
+
+<div class="viewcode-block" id="pw_encode">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.pw_encode">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">pw_encode</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">password</span><span class="p">:</span>
+        <span class="n">secret</span> <span class="o">=</span> <span class="n">Hash</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">EncodeAES</span><span class="p">(</span><span class="n">secret</span><span class="p">,</span> <span class="n">to_bytes</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s2">&quot;utf8&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">s</span></div>
+
+
+
+<div class="viewcode-block" id="pw_decode">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.pw_decode">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">pw_decode</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">password</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">secret</span> <span class="o">=</span> <span class="n">Hash</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">to_string</span><span class="p">(</span><span class="n">DecodeAES</span><span class="p">(</span><span class="n">secret</span><span class="p">,</span> <span class="n">s</span><span class="p">),</span> <span class="s2">&quot;utf8&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">InvalidPassword</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">d</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">s</span></div>
+
+
+
+<div class="viewcode-block" id="is_new_seed">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.is_new_seed">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_new_seed</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">version</span><span class="o">.</span><span class="n">SEED_PREFIX</span><span class="p">):</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">mnemonic</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">mnemonic</span><span class="o">.</span><span class="n">normalize_text</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">bh2u</span><span class="p">(</span><span class="n">hmac_sha_512</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;Seed version&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="seed_type">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.seed_type">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">seed_type</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">is_new_seed</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;standard&#39;</span>
+    <span class="k">elif</span> <span class="n">is_new_seed</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">version</span><span class="o">.</span><span class="n">SEED_PREFIX_SW</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;segwit&#39;</span>
+    <span class="k">elif</span> <span class="n">is_new_seed</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">version</span><span class="o">.</span><span class="n">SEED_PREFIX_2FA</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;2fa&#39;</span>
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span></div>
+
+
+
+<span class="n">is_seed</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span><span class="n">seed_type</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+<span class="n">SCRIPT_TYPES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;p2pkh&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s1">&#39;p2wpkh&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s1">&#39;p2wpkh-p2sh&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s1">&#39;p2sh&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s1">&#39;p2wsh&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="s1">&#39;p2wsh-p2sh&#39;</span><span class="p">:</span> <span class="mi">7</span>
+<span class="p">}</span>
+
+<span class="n">__b58chars</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz&#39;</span>
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">__b58chars</span><span class="p">)</span> <span class="o">==</span> <span class="mi">58</span>
+
+<span class="n">__b43chars</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ$*+-./:&#39;</span>
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">__b43chars</span><span class="p">)</span> <span class="o">==</span> <span class="mi">43</span>
+
+
+<div class="viewcode-block" id="inv_dict">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.inv_dict">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">inv_dict</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
+
+
+
+<div class="viewcode-block" id="is_minikey">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.is_minikey">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_minikey</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="c1"># Minikeys are typically 22 or 30 characters, but this routine</span>
+    <span class="c1"># permits any length of 20 or more provided the minikey is valid.</span>
+    <span class="c1"># A valid minikey must begin with an &#39;S&#39;, be in base58, and when</span>
+    <span class="c1"># suffixed with &#39;?&#39; have its SHA256 hash begin with a zero byte.</span>
+    <span class="c1"># They are widely used in Casascius physical bitcoins.</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">20</span> <span class="ow">and</span> <span class="n">text</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;S&#39;</span>
+            <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="ow">in</span> <span class="n">__b58chars</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">text</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="n">sha256</span><span class="p">(</span><span class="n">text</span> <span class="o">+</span> <span class="s1">&#39;?&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mh">0x00</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="minikey_to_private_key">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.minikey_to_private_key">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">minikey_to_private_key</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">sha256</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></div>
+
+
+
+<span class="c1">###################################### BIP32 ##############################</span>
+
+<span class="n">BIP32_PRIME</span> <span class="o">=</span> <span class="mh">0x80000000</span>
+
+
+<div class="viewcode-block" id="get_pubkeys_from_secret">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.get_pubkeys_from_secret">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_pubkeys_from_secret</span><span class="p">(</span><span class="n">secret</span><span class="p">):</span>
+    <span class="c1"># public key</span>
+    <span class="n">pubkey</span> <span class="o">=</span> <span class="n">compress</span><span class="p">(</span><span class="n">privtopub</span><span class="p">(</span><span class="n">secret</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">pubkey</span><span class="p">,</span> <span class="kc">True</span></div>
+
+
+
+<div class="viewcode-block" id="xprv_header">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.xprv_header">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">xprv_header</span><span class="p">(</span><span class="n">xtype</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">bfh</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%08x</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">XPRV_HEADERS</span><span class="p">[</span><span class="n">xtype</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="xpub_header">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.xpub_header">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">xpub_header</span><span class="p">(</span><span class="n">xtype</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">bfh</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%08x</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">XPUB_HEADERS</span><span class="p">[</span><span class="n">xtype</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="number_of_significant_digits">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.number_of_significant_digits">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">number_of_significant_digits</span><span class="p">(</span><span class="n">number</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="n">number</span> <span class="o">=</span> <span class="n">Decimal</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">number</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">number</span> <span class="o">-</span> <span class="nb">int</span><span class="p">(</span><span class="n">number</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">number_of_significant_digits</span><span class="p">(</span><span class="n">number</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Cryptnox.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

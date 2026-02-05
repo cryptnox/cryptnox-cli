@@ -1,0 +1,248 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cryptnox_cli.command.card package &mdash; cryptnox-cli 1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=0912efa5" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=baaebd52"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/custom.js?v=f0d783cb"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="cryptnox_cli.command.erc_token package" href="cryptnox_cli.command.erc_token.html" />
+    <link rel="prev" title="cryptnox_cli.command package" href="cryptnox_cli.command.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #101f2e" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            cryptnox-cli
+              <img src="_static/cryptnox-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Cryptnox CLI Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line Interface</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="cryptnox_cli.html">cryptnox_cli package (Cryptnox CLI)</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="cryptnox_cli.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="cryptnox_cli.command.html">cryptnox_cli.command package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.lib.html">cryptnox_cli.lib package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.html">cryptnox_cli.wallet package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-config-module">cryptnox_cli.config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-enums-module">cryptnox_cli.enums module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-constants-module">cryptnox_cli.constants module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-interactive-cli-module">cryptnox_cli.interactive_cli module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-main-module">cryptnox_cli.main module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#module-cryptnox_cli">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #101f2e" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">cryptnox-cli</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="cryptnox_cli.html">cryptnox_cli package (Cryptnox CLI)</a></li>
+          <li class="breadcrumb-item"><a href="cryptnox_cli.command.html">cryptnox_cli.command package</a></li>
+      <li class="breadcrumb-item active">cryptnox_cli.command.card package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/cryptnox_cli.command.card.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cryptnox-cli-command-card-package">
+<h1>cryptnox_cli.command.card package<a class="headerlink" href="#cryptnox-cli-command-card-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="cryptnox-cli-command-card-info-module">
+<h2>cryptnox_cli.command.card.info module<a class="headerlink" href="#cryptnox-cli-command-card-info-module" title="Link to this heading"></a></h2>
+<p id="module-cryptnox_cli.command.card.info">Module containing command for getting information about the card</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.command.card.info.Cards">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.card.info.</span></span><span class="sig-name descname"><span class="pre">Cards</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Namespace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cards</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cryptnox_cli.command.helper.html#cryptnox_cli.command.helper.cards.CardManager" title="cryptnox_cli.command.helper.cards.CardManager"><span class="pre">CardManager</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/cards.html#Cards"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.card.info.Cards" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="cryptnox_cli.command.html#cryptnox_cli.command.command.Command" title="cryptnox_cli.command.command.Command"><code class="xref py py-class docutils literal notranslate"><span class="pre">Command</span></code></a></p>
+<p>Command to show a table of cards to the user</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.card.info.Cards.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">serial_number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/cards.html#Cards.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.card.info.Cards.execute" title="Link to this definition"></a></dt>
+<dd><p>Base class method overridden to no initialize a card.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>serial_number</strong> – Serial number of the wanted card</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>0 if the command executed without issues. Other number
+indicating and issue</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="cryptnox-cli-command-card-initialize-module">
+<h2>cryptnox_cli.command.card.initialize module<a class="headerlink" href="#cryptnox-cli-command-card-initialize-module" title="Link to this heading"></a></h2>
+<p id="module-cryptnox_cli.command.card.initialize">Module for handling the initialization process of cards, including
+setting up user credentials, PIN/PUK codes, and preparing the card for use
+with cryptocurrency operations.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.command.card.initialize.Cards">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.card.initialize.</span></span><span class="sig-name descname"><span class="pre">Cards</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Namespace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cards</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cryptnox_cli.command.helper.html#cryptnox_cli.command.helper.cards.CardManager" title="cryptnox_cli.command.helper.cards.CardManager"><span class="pre">CardManager</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/cards.html#Cards"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.card.initialize.Cards" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="cryptnox_cli.command.html#cryptnox_cli.command.command.Command" title="cryptnox_cli.command.command.Command"><code class="xref py py-class docutils literal notranslate"><span class="pre">Command</span></code></a></p>
+<p>Command to show a table of cards to the user</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.card.initialize.Cards.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">serial_number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/cards.html#Cards.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.card.initialize.Cards.execute" title="Link to this definition"></a></dt>
+<dd><p>Base class method overridden to no initialize a card.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>serial_number</strong> – Serial number of the wanted card</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>0 if the command executed without issues. Other number
+indicating and issue</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-cryptnox_cli.command.card">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-cryptnox_cli.command.card" title="Link to this heading"></a></h2>
+<p>Module for card management including initialization and information display</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.command.card.Info">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.card.</span></span><span class="sig-name descname"><span class="pre">Info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Namespace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cards</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cryptnox_cli.command.helper.html#cryptnox_cli.command.helper.cards.CardManager" title="cryptnox_cli.command.helper.cards.CardManager"><span class="pre">CardManager</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/card/info.html#Info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.card.Info" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.card.Info.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Namespace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cards</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cryptnox_cli.command.helper.html#cryptnox_cli.command.helper.cards.CardManager" title="cryptnox_cli.command.helper.cards.CardManager"><span class="pre">CardManager</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/card/info.html#Info.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.card.Info.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.card.Info.execute">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">card</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/card/info.html#Info.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.card.Info.execute" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.command.card.Initialize">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.card.</span></span><span class="sig-name descname"><span class="pre">Initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Namespace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cards</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cryptnox_cli.command.helper.html#cryptnox_cli.command.helper.cards.CardManager" title="cryptnox_cli.command.helper.cards.CardManager"><span class="pre">CardManager</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/card/initialize.html#Initialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.card.Initialize" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.card.Initialize.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Namespace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cards</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cryptnox_cli.command.helper.html#cryptnox_cli.command.helper.cards.CardManager" title="cryptnox_cli.command.helper.cards.CardManager"><span class="pre">CardManager</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/card/initialize.html#Initialize.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.card.Initialize.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.card.Initialize.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">card</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/card/initialize.html#Initialize.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.card.Initialize.execute" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<p>The <code class="docutils literal notranslate"><span class="pre">cryptnox_cli.command.card</span></code> package provides card management functionality and exports:</p>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.card.</span></span><span class="sig-name descname"><span class="pre">Info</span></span><a class="reference internal" href="_modules/cryptnox_cli/command/card/info.html#Info"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Command class for displaying card information. See <a class="reference internal" href="#cryptnox_cli.command.card.Info" title="cryptnox_cli.command.card.info.Info"><code class="xref py py-class docutils literal notranslate"><span class="pre">cryptnox_cli.command.card.info.Info</span></code></a> for details.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.card.</span></span><span class="sig-name descname"><span class="pre">Initialize</span></span><a class="reference internal" href="_modules/cryptnox_cli/command/card/initialize.html#Initialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Command class for initializing cards. See <a class="reference internal" href="#cryptnox_cli.command.card.Initialize" title="cryptnox_cli.command.card.initialize.Initialize"><code class="xref py py-class docutils literal notranslate"><span class="pre">cryptnox_cli.command.card.initialize.Initialize</span></code></a> for details.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cryptnox_cli.command.html" class="btn btn-neutral float-left" title="cryptnox_cli.command package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cryptnox_cli.command.erc_token.html" class="btn btn-neutral float-right" title="cryptnox_cli.command.erc_token package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Cryptnox.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

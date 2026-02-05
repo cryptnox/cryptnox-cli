@@ -1,0 +1,319 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cryptnox_cli.command.user_keys.authentication &mdash; cryptnox-cli 1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=0912efa5" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=baaebd52"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/custom.js?v=f0d783cb"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #101f2e" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            cryptnox-cli
+              <img src="../../../../_static/cryptnox-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Cryptnox CLI Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #101f2e" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">cryptnox-cli</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cryptnox_cli.command.user_keys.authentication</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cryptnox_cli.command.user_keys.authentication</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module for handling user authentication using third party solutions signature.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">Type</span>
+<span class="p">)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">cryptnox_sdk_py</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">user_key_base</span>
+
+<span class="c1"># Handle dynamic module imports for both regular and PyInstaller frozen environments</span>
+<span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="s1">&#39;frozen&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="c1"># When frozen by PyInstaller, explicitly import known submodules</span>
+    <span class="n">_submodules</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;aws_kms&#39;</span><span class="p">,</span> <span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="s1">&#39;piv&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">submodule</span> <span class="ow">in</span> <span class="n">_submodules</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">submodule</span><span class="p">,</span> <span class="n">package</span><span class="o">=</span><span class="n">__package__</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">pass</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="c1"># When running normally, dynamically discover submodules</span>
+    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">iterdir</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+            <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">path</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">package</span><span class="o">=</span><span class="n">__package__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="add">
+<a class="viewcode-back" href="../../../../cryptnox_cli.command.user_keys.html#cryptnox_cli.command.user_keys.authentication.add">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">card</span><span class="p">:</span> <span class="n">cryptnox_sdk_py</span><span class="o">.</span><span class="n">Card</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">puk</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add user key defined by name to the card</span>
+
+<span class="sd">    :param str name: Name of user key to add to the card</span>
+<span class="sd">    :param cryptnox.Card card: Card to which to add the user key</span>
+<span class="sd">    :param str description: Description of the user key</span>
+<span class="sd">    :param str puk: PUK code of the card</span>
+
+<span class="sd">    :return: Whether the key was added</span>
+<span class="sd">    :rtype: bool</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">user_key_cls</span> <span class="o">=</span> <span class="n">get_user_key_class</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">user_key</span> <span class="o">=</span> <span class="n">user_key_cls</span><span class="p">(</span><span class="s2">&quot;cryptnox_card&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">card</span><span class="o">.</span><span class="n">serial_number</span><span class="p">))</span>
+    <span class="k">except</span> <span class="n">user_key_base</span><span class="o">.</span><span class="n">NotSupportedException</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="n">user_key_cls</span><span class="o">.</span><span class="n">enabled</span><span class="p">(</span><span class="n">card</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Key already exist. First delete the existing one.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">description</span> <span class="o">=</span> <span class="n">description</span> <span class="ow">or</span> <span class="n">user_key</span><span class="o">.</span><span class="n">description</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">public_key</span> <span class="o">=</span> <span class="n">user_key</span><span class="o">.</span><span class="n">public_key</span>
+    <span class="k">except</span> <span class="n">user_key_base</span><span class="o">.</span><span class="n">UserKeyException</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">card</span><span class="o">.</span><span class="n">user_key_add</span><span class="p">(</span><span class="n">user_key</span><span class="o">.</span><span class="n">slot_index</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">public_key</span><span class="p">,</span> <span class="n">puk</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Checking newly added key&#39;</span><span class="p">)</span>
+    <span class="n">nonce</span> <span class="o">=</span> <span class="n">card</span><span class="o">.</span><span class="n">user_key_challenge_response_nonce</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">signature</span> <span class="o">=</span> <span class="n">user_key</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">nonce</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">user_key_base</span><span class="o">.</span><span class="n">UserKeyException</span><span class="p">:</span>
+        <span class="n">card</span><span class="o">.</span><span class="n">user_key_delete</span><span class="p">(</span><span class="n">user_key</span><span class="o">.</span><span class="n">slot_index</span><span class="p">,</span> <span class="n">puk</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;User canceled add key&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">card</span><span class="o">.</span><span class="n">user_key_challenge_response_open</span><span class="p">(</span><span class="n">user_key</span><span class="o">.</span><span class="n">slot_index</span><span class="p">,</span> <span class="n">signature</span><span class="p">)</span>
+    <span class="n">card</span><span class="o">.</span><span class="n">custom_bits</span><span class="p">[</span><span class="n">user_key_cls</span><span class="o">.</span><span class="n">custom_bit</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+
+<div class="viewcode-block" id="authenticate">
+<a class="viewcode-back" href="../../../../cryptnox_cli.command.user_keys.html#cryptnox_cli.command.user_keys.authentication.authenticate">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">authenticate</span><span class="p">(</span><span class="n">card</span><span class="p">:</span> <span class="n">cryptnox_sdk_py</span><span class="o">.</span><span class="n">Card</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Authenticate the card by using a signature from third party</span>
+
+<span class="sd">    :param cryptnox_sdk_py.Card card: Card to use to authenticate</span>
+<span class="sd">    :param bytes message: Message to sign to open the card, if left empty, challenge-response</span>
+<span class="sd">                          authentication will be used</span>
+
+<span class="sd">    :return: Authorization was successful</span>
+<span class="sd">    :rtype: bool</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">user_key_classes</span> <span class="o">=</span> <span class="n">user_key_base</span><span class="o">.</span><span class="n">UserKey</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">()</span>
+    <span class="n">user_key_classes</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">priority</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">digest</span> <span class="o">=</span> <span class="n">message</span> <span class="k">if</span> <span class="n">message</span> <span class="k">else</span> <span class="n">card</span><span class="o">.</span><span class="n">user_key_challenge_response_nonce</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">user_key_cls</span> <span class="ow">in</span> <span class="n">user_key_classes</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">user_key</span> <span class="o">=</span> <span class="n">user_key_cls</span><span class="p">(</span><span class="s2">&quot;cryptnox_card&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">card</span><span class="o">.</span><span class="n">serial_number</span><span class="p">))</span>
+        <span class="k">except</span> <span class="n">user_key_base</span><span class="o">.</span><span class="n">NotSupportedException</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">user_key_cls</span><span class="o">.</span><span class="n">enabled</span><span class="p">(</span><span class="n">card</span><span class="p">):</span>
+            <span class="k">continue</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">signature</span> <span class="o">=</span> <span class="n">user_key</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">digest</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">user_key_base</span><span class="o">.</span><span class="n">NotFoundException</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">except</span> <span class="n">user_key_base</span><span class="o">.</span><span class="n">UserKeyException</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">user_key</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">message</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">card</span><span class="o">.</span><span class="n">user_key_signature_open</span><span class="p">(</span><span class="n">user_key</span><span class="o">.</span><span class="n">slot_index</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">signature</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">card</span><span class="o">.</span><span class="n">user_key_challenge_response_open</span><span class="p">(</span><span class="n">user_key</span><span class="o">.</span><span class="n">slot_index</span><span class="p">,</span> <span class="n">signature</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
+                <span class="k">break</span>
+
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+
+<div class="viewcode-block" id="delete">
+<a class="viewcode-back" href="../../../../cryptnox_cli.command.user_keys.html#cryptnox_cli.command.user_keys.authentication.delete">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">card</span><span class="p">:</span> <span class="n">cryptnox_sdk_py</span><span class="o">.</span><span class="n">Card</span><span class="p">,</span> <span class="n">puk</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Delete the key from the card</span>
+
+<span class="sd">    :param str name: Name of the service which to delete</span>
+<span class="sd">    :param cryptnox_sdk_py.Card card: Card to use</span>
+<span class="sd">    :param str puk: PUK code of card</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">user_key_cls</span> <span class="o">=</span> <span class="n">get_user_key_class</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">user_key</span> <span class="o">=</span> <span class="n">user_key_cls</span><span class="p">(</span><span class="s2">&quot;cryptnox_card&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">card</span><span class="o">.</span><span class="n">serial_number</span><span class="p">))</span>
+    <span class="k">except</span> <span class="n">user_key_base</span><span class="o">.</span><span class="n">NotSupportedException</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">user_key_cls</span><span class="o">.</span><span class="n">enabled</span><span class="p">(</span><span class="n">card</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Key not found.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">user_key</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+    <span class="k">except</span> <span class="n">user_key_base</span><span class="o">.</span><span class="n">UserKeyException</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="n">card</span><span class="o">.</span><span class="n">user_key_delete</span><span class="p">(</span><span class="n">user_key</span><span class="o">.</span><span class="n">slot_index</span><span class="p">,</span> <span class="n">puk</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+
+<div class="viewcode-block" id="get">
+<a class="viewcode-back" href="../../../../cryptnox_cli.command.user_keys.html#cryptnox_cli.command.user_keys.authentication.get">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="n">card</span><span class="p">:</span> <span class="n">cryptnox_sdk_py</span><span class="o">.</span><span class="n">Card</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">cryptnox_sdk_py</span><span class="o">.</span><span class="n">SlotIndex</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get all user key module names and the slot index they are connected to on the card</span>
+
+<span class="sd">    :return: A dictionary containing names of services with the slot they take on card</span>
+<span class="sd">    :rtype: Dict[str, cryptnox_sdk_py.SlotIndex]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">user_keys</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="n">user_key_classes</span> <span class="o">=</span> <span class="n">user_key_base</span><span class="o">.</span><span class="n">UserKey</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">()</span>
+    <span class="n">user_key_classes</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">priority</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">user_key_cls</span> <span class="ow">in</span> <span class="n">user_key_classes</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">user_key</span> <span class="o">=</span> <span class="n">user_key_cls</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">user_key_base</span><span class="o">.</span><span class="n">NotSupportedException</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+            <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="n">card</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">user_key_cls</span><span class="o">.</span><span class="n">enabled</span><span class="p">(</span><span class="n">card</span><span class="p">):</span>
+            <span class="k">continue</span>
+
+        <span class="n">user_keys</span><span class="p">[</span><span class="n">user_key</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">user_key</span><span class="o">.</span><span class="n">slot_index</span>
+
+    <span class="k">return</span> <span class="n">user_keys</span></div>
+
+
+
+<div class="viewcode-block" id="get_user_key_class">
+<a class="viewcode-back" href="../../../../cryptnox_cli.command.user_keys.html#cryptnox_cli.command.user_keys.authentication.get_user_key_class">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_user_key_class</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">user_key_base</span><span class="o">.</span><span class="n">UserKey</span><span class="p">]:</span>
+    <span class="k">for</span> <span class="n">user_key_cls</span> <span class="ow">in</span> <span class="n">user_key_base</span><span class="o">.</span><span class="n">UserKey</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">user_key_cls</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">user_key_cls</span>
+
+    <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Cryptnox.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

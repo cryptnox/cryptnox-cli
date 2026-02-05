@@ -1,0 +1,732 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cryptnox_cli.wallet package &mdash; cryptnox-cli 1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=0912efa5" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=baaebd52"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/custom.js?v=f0d783cb"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="cryptnox_cli.wallet.eth package" href="cryptnox_cli.wallet.eth.html" />
+    <link rel="prev" title="cryptnox_cli.lib.cryptos.coins package" href="cryptnox_cli.lib.cryptos.coins.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #101f2e" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            cryptnox-cli
+              <img src="_static/cryptnox-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Cryptnox CLI Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line Interface</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="cryptnox_cli.html">cryptnox_cli package (Cryptnox CLI)</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="cryptnox_cli.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.html">cryptnox_cli.command package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.lib.html">cryptnox_cli.lib package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">cryptnox_cli.wallet package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-config-module">cryptnox_cli.config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-enums-module">cryptnox_cli.enums module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-constants-module">cryptnox_cli.constants module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-interactive-cli-module">cryptnox_cli.interactive_cli module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-main-module">cryptnox_cli.main module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#module-cryptnox_cli">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #101f2e" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">cryptnox-cli</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="cryptnox_cli.html">cryptnox_cli package (Cryptnox CLI)</a></li>
+      <li class="breadcrumb-item active">cryptnox_cli.wallet package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/cryptnox_cli.wallet.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cryptnox-cli-wallet-package">
+<h1>cryptnox_cli.wallet package<a class="headerlink" href="#cryptnox-cli-wallet-package" title="Link to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cryptnox_cli.wallet.eth.html">cryptnox_cli.wallet.eth package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#module-cryptnox_cli.wallet.eth.api">cryptnox_cli.wallet.eth.api module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.address"><code class="docutils literal notranslate"><span class="pre">address()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.checksum_address"><code class="docutils literal notranslate"><span class="pre">checksum_address()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.Api"><code class="docutils literal notranslate"><span class="pre">Api</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.Api.PATH"><code class="docutils literal notranslate"><span class="pre">Api.PATH</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.Api.SYMBOL"><code class="docutils literal notranslate"><span class="pre">Api.SYMBOL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.Api.__init__"><code class="docutils literal notranslate"><span class="pre">Api.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.Api.block_number"><code class="docutils literal notranslate"><span class="pre">Api.block_number</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.Api.contract"><code class="docutils literal notranslate"><span class="pre">Api.contract()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.Api.get_transaction_count"><code class="docutils literal notranslate"><span class="pre">Api.get_transaction_count()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.Api.get_balance"><code class="docutils literal notranslate"><span class="pre">Api.get_balance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.Api.gas_price"><code class="docutils literal notranslate"><span class="pre">Api.gas_price</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.Api.network"><code class="docutils literal notranslate"><span class="pre">Api.network</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.Api.transaction_hash"><code class="docutils literal notranslate"><span class="pre">Api.transaction_hash()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.Api.push"><code class="docutils literal notranslate"><span class="pre">Api.push()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.EthValidator"><code class="docutils literal notranslate"><span class="pre">EthValidator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.EthValidator.__init__"><code class="docutils literal notranslate"><span class="pre">EthValidator.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.EthValidator.endpoint"><code class="docutils literal notranslate"><span class="pre">EthValidator.endpoint</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.EthValidator.network"><code class="docutils literal notranslate"><span class="pre">EthValidator.network</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.EthValidator.price"><code class="docutils literal notranslate"><span class="pre">EthValidator.price</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.EthValidator.limit"><code class="docutils literal notranslate"><span class="pre">EthValidator.limit</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.EthValidator.derivation"><code class="docutils literal notranslate"><span class="pre">EthValidator.derivation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.EthValidator.api_key"><code class="docutils literal notranslate"><span class="pre">EthValidator.api_key</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.EthValidator.validate"><code class="docutils literal notranslate"><span class="pre">EthValidator.validate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#module-cryptnox_cli.wallet.eth.endpoint">cryptnox_cli.wallet.eth.endpoint module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.EndpointValidator"><code class="docutils literal notranslate"><span class="pre">EndpointValidator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.EndpointValidator.__init__"><code class="docutils literal notranslate"><span class="pre">EndpointValidator.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.EndpointValidator.validate"><code class="docutils literal notranslate"><span class="pre">EndpointValidator.validate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.Endpoint"><code class="docutils literal notranslate"><span class="pre">Endpoint</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.Endpoint.__init__"><code class="docutils literal notranslate"><span class="pre">Endpoint.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.Endpoint.available_networks"><code class="docutils literal notranslate"><span class="pre">Endpoint.available_networks</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.Endpoint.domain"><code class="docutils literal notranslate"><span class="pre">Endpoint.domain</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.Endpoint.name"><code class="docutils literal notranslate"><span class="pre">Endpoint.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.Endpoint.provider"><code class="docutils literal notranslate"><span class="pre">Endpoint.provider</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.InfuraEndpoint"><code class="docutils literal notranslate"><span class="pre">InfuraEndpoint</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.InfuraEndpoint.name"><code class="docutils literal notranslate"><span class="pre">InfuraEndpoint.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.InfuraEndpoint.available_networks"><code class="docutils literal notranslate"><span class="pre">InfuraEndpoint.available_networks</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.InfuraEndpoint.__init__"><code class="docutils literal notranslate"><span class="pre">InfuraEndpoint.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.InfuraEndpoint.domain"><code class="docutils literal notranslate"><span class="pre">InfuraEndpoint.domain</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.InfuraEndpoint.provider"><code class="docutils literal notranslate"><span class="pre">InfuraEndpoint.provider</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.CryptnoxEndpoint"><code class="docutils literal notranslate"><span class="pre">CryptnoxEndpoint</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.CryptnoxEndpoint.name"><code class="docutils literal notranslate"><span class="pre">CryptnoxEndpoint.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.CryptnoxEndpoint.available_networks"><code class="docutils literal notranslate"><span class="pre">CryptnoxEndpoint.available_networks</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.CryptnoxEndpoint.domain"><code class="docutils literal notranslate"><span class="pre">CryptnoxEndpoint.domain</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.CryptnoxEndpoint.provider"><code class="docutils literal notranslate"><span class="pre">CryptnoxEndpoint.provider</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.PublicNodeEndpoint"><code class="docutils literal notranslate"><span class="pre">PublicNodeEndpoint</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.PublicNodeEndpoint.name"><code class="docutils literal notranslate"><span class="pre">PublicNodeEndpoint.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.PublicNodeEndpoint.available_networks"><code class="docutils literal notranslate"><span class="pre">PublicNodeEndpoint.available_networks</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.PublicNodeEndpoint.domain"><code class="docutils literal notranslate"><span class="pre">PublicNodeEndpoint.domain</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.PublicNodeEndpoint.provider"><code class="docutils literal notranslate"><span class="pre">PublicNodeEndpoint.provider</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.DirectEndpoint"><code class="docutils literal notranslate"><span class="pre">DirectEndpoint</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.DirectEndpoint.__init__"><code class="docutils literal notranslate"><span class="pre">DirectEndpoint.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.DirectEndpoint.provider"><code class="docutils literal notranslate"><span class="pre">DirectEndpoint.provider</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.endpoint.factory"><code class="docutils literal notranslate"><span class="pre">factory()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cryptnox_cli.wallet.eth.html#module-cryptnox_cli.wallet.eth">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-cryptnox_cli.wallet.btc">
+<span id="cryptnox-cli-wallet-btc-module"></span><h2>cryptnox_cli.wallet.btc module<a class="headerlink" href="#module-cryptnox_cli.wallet.btc" title="Link to this heading"></a></h2>
+<p>A basic BTC wallet library</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BtcNetworks">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.btc.</span></span><span class="sig-name descname"><span class="pre">BtcNetworks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BtcNetworks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BtcNetworks" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>Class defining possible Bitcoin networks</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BtcNetworks.MAINNET">
+<span class="sig-name descname"><span class="pre">MAINNET</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'mainnet'</span></em><a class="headerlink" href="#cryptnox_cli.wallet.btc.BtcNetworks.MAINNET" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BtcNetworks.TESTNET">
+<span class="sig-name descname"><span class="pre">TESTNET</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'testnet'</span></em><a class="headerlink" href="#cryptnox_cli.wallet.btc.BtcNetworks.TESTNET" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BlockCypherApi">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.btc.</span></span><span class="sig-name descname"><span class="pre">BlockCypherApi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BlockCypherApi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BlockCypherApi" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BlockCypherApi.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BlockCypherApi.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BlockCypherApi.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BlockCypherApi.get_data">
+<span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BlockCypherApi.get_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BlockCypherApi.get_data" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>endpoint</strong> – str</p></li>
+<li><p><strong>params</strong> – dict</p></li>
+<li><p><strong>data</strong> – bytes</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BlockCypherApi.check_api_resp">
+<span class="sig-name descname"><span class="pre">check_api_resp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BlockCypherApi.check_api_resp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BlockCypherApi.check_api_resp" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BlockCypherApi.get_utx_os">
+<span class="sig-name descname"><span class="pre">get_utx_os</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">addr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_conf</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BlockCypherApi.get_utx_os"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BlockCypherApi.get_utx_os" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>addr</strong> – str</p></li>
+<li><p><strong>n_conf</strong> – int (0 or 1)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BlockCypherApi.push_tx">
+<span class="sig-name descname"><span class="pre">push_tx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tx_hex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BlockCypherApi.push_tx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BlockCypherApi.push_tx" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tx_hex</strong></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BlockCypherApi.get_key">
+<span class="sig-name descname"><span class="pre">get_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key_char</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BlockCypherApi.get_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BlockCypherApi.get_key" title="Link to this definition"></a></dt>
+<dd><p>:param key_char:str
+:return: Dict</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BlkHubApi">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.btc.</span></span><span class="sig-name descname"><span class="pre">BlkHubApi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">network</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BlkHubApi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BlkHubApi" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BlkHubApi.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">network</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BlkHubApi.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BlkHubApi.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BlkHubApi.get_api">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_api</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BlkHubApi.get_api"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BlkHubApi.get_api" title="Link to this definition"></a></dt>
+<dd><p>Get API url for given network</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>network</strong> (<em>str</em>)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>API url</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BlkHubApi.get_data">
+<span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BlkHubApi.get_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BlkHubApi.get_data" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>endpoint</strong> – str</p></li>
+<li><p><strong>params</strong> – dict</p></li>
+<li><p><strong>data</strong> – bytes</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BlkHubApi.check_api_resp">
+<span class="sig-name descname"><span class="pre">check_api_resp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BlkHubApi.check_api_resp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BlkHubApi.check_api_resp" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BlkHubApi.get_fee_estimates">
+<span class="sig-name descname"><span class="pre">get_fee_estimates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blocks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BlkHubApi.get_fee_estimates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BlkHubApi.get_fee_estimates" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BlkHubApi.get_utx_os">
+<span class="sig-name descname"><span class="pre">get_utx_os</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">addr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_n_conf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BlkHubApi.get_utx_os"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BlkHubApi.get_utx_os" title="Link to this definition"></a></dt>
+<dd><p>:param addr:str
+:param int _n_conf: 0 or 1
+:return: list</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BlkHubApi.push_tx">
+<span class="sig-name descname"><span class="pre">push_tx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tx_hex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BlkHubApi.push_tx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BlkHubApi.push_tx" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tx_hex</strong> – str</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BlkHubApi.get_key">
+<span class="sig-name descname"><span class="pre">get_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key_char</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BlkHubApi.get_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BlkHubApi.get_key" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>key_char</strong> – str</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.test_addr">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.btc.</span></span><span class="sig-name descname"><span class="pre">test_addr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">btc_addr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#test_addr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.test_addr" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>btc_addr</strong> – str</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BTCwallet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.btc.</span></span><span class="sig-name descname"><span class="pre">BTCwallet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pubkey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coin_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">card</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BTCwallet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BTCwallet" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pubkey</strong> – str</p></li>
+<li><p><strong>coin_type</strong> – str</p></li>
+<li><p><strong>api</strong></p></li>
+<li><p><strong>connection</strong></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BTCwallet.PATH">
+<span class="sig-name descname"><span class="pre">PATH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&quot;m/44'/0'/0'/0/0&quot;</span></em><a class="headerlink" href="#cryptnox_cli.wallet.btc.BTCwallet.PATH" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BTCwallet.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pubkey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coin_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">card</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BTCwallet.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BTCwallet.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pubkey</strong> – str</p></li>
+<li><p><strong>coin_type</strong> – str</p></li>
+<li><p><strong>api</strong></p></li>
+<li><p><strong>connection</strong></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BTCwallet.get_utx_os">
+<span class="sig-name descname"><span class="pre">get_utx_os</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_conf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BTCwallet.get_utx_os"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BTCwallet.get_utx_os" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n_conf</strong> – int (0 or 1)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BTCwallet.get_balance">
+<span class="sig-name descname"><span class="pre">get_balance</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BTCwallet.get_balance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BTCwallet.get_balance" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BTCwallet.get_fee_estimate">
+<span class="sig-name descname"><span class="pre">get_fee_estimate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BTCwallet.get_fee_estimate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BTCwallet.get_fee_estimate" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BTCwallet.prepare">
+<span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">to_addr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payment_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fee</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BTCwallet.prepare"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BTCwallet.prepare" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>to_addr</strong> – str</p></li>
+<li><p><strong>payment_value</strong> – float</p></li>
+<li><p><strong>fee</strong> – float</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Union[float, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BTCwallet.send">
+<span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">to_addr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payment_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BTCwallet.send"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BTCwallet.send" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>to_addr</strong> – str</p></li>
+<li><p><strong>payment_value</strong> – float</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BTCwallet.balance_fm_utxos">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">balance_fm_utxos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">utxos</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BTCwallet.balance_fm_utxos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BTCwallet.balance_fm_utxos" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>utxos</strong></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BTCwallet.select_utxos">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">select_utxos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amount</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">utxos</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BTCwallet.select_utxos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BTCwallet.select_utxos" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>amount</strong> – float</p></li>
+<li><p><strong>utxos</strong></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BtcValidator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.btc.</span></span><span class="sig-name descname"><span class="pre">BtcValidator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'testnet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derivation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'DERIVE'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BtcValidator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BtcValidator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class defining Bitcoin validators</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BtcValidator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'testnet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derivation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'DERIVE'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BtcValidator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.btc.BtcValidator.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BtcValidator.network">
+<span class="sig-name descname"><span class="pre">network</span></span><a class="headerlink" href="#cryptnox_cli.wallet.btc.BtcValidator.network" title="Link to this definition"></a></dt>
+<dd><p>Class for validating if value is part of the enum</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BtcValidator.fees">
+<span class="sig-name descname"><span class="pre">fees</span></span><a class="headerlink" href="#cryptnox_cli.wallet.btc.BtcValidator.fees" title="Link to this definition"></a></dt>
+<dd><p>Class for validating if value is integer</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.btc.BtcValidator.derivation">
+<span class="sig-name descname"><span class="pre">derivation</span></span><a class="headerlink" href="#cryptnox_cli.wallet.btc.BtcValidator.derivation" title="Link to this definition"></a></dt>
+<dd><p>Class for validating if value is part of the enum</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-cryptnox_cli.wallet.validators">
+<span id="cryptnox-cli-wallet-validators-module"></span><h2>cryptnox_cli.wallet.validators module<a class="headerlink" href="#module-cryptnox_cli.wallet.validators" title="Link to this heading"></a></h2>
+<p>Module for defining validators</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.validators.ValidationError">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.validators.</span></span><span class="sig-name descname"><span class="pre">ValidationError</span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/validators.html#ValidationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.validators.ValidationError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception for indicating that validation criteria are not met</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.validators.Validator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.validators.</span></span><span class="sig-name descname"><span class="pre">Validator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">valid_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/validators.html#Validator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.validators.Validator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Validator class defining setters and getters</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.validators.Validator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">valid_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/validators.html#Validator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.validators.Validator.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.validators.Validator.validate">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/validators.html#Validator.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.validators.Validator.validate" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – Evaluated value</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cryptnox_cli.wallet.validators.ValidationError" title="cryptnox_cli.wallet.validators.ValidationError"><strong>ValidationError</strong></a> – Validation criteria not satisfied</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.validators.AnyValidator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.validators.</span></span><span class="sig-name descname"><span class="pre">AnyValidator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">valid_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/validators.html#AnyValidator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.validators.AnyValidator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cryptnox_cli.wallet.validators.Validator" title="cryptnox_cli.wallet.validators.Validator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Validator</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.validators.AnyValidator.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/validators.html#AnyValidator.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.validators.AnyValidator.validate" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – Evaluated value</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cryptnox_cli.wallet.validators.ValidationError" title="cryptnox_cli.wallet.validators.ValidationError"><strong>ValidationError</strong></a> – Validation criteria not satisfied</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.validators.IntValidator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.validators.</span></span><span class="sig-name descname"><span class="pre">IntValidator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/validators.html#IntValidator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.validators.IntValidator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cryptnox_cli.wallet.validators.Validator" title="cryptnox_cli.wallet.validators.Validator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Validator</span></code></a></p>
+<p>Class for validating if value is integer</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.validators.IntValidator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/validators.html#IntValidator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.validators.IntValidator.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.validators.IntValidator.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/validators.html#IntValidator.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.validators.IntValidator.validate" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – Evaluated value</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cryptnox_cli.wallet.validators.ValidationError" title="cryptnox_cli.wallet.validators.ValidationError"><strong>ValidationError</strong></a> – Validation criteria not satisfied</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.validators.EnumValidator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.validators.</span></span><span class="sig-name descname"><span class="pre">EnumValidator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_enum</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/validators.html#EnumValidator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.validators.EnumValidator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cryptnox_cli.wallet.validators.Validator" title="cryptnox_cli.wallet.validators.Validator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Validator</span></code></a></p>
+<p>Class for validating if value is part of the enum</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.validators.EnumValidator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_enum</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/validators.html#EnumValidator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.validators.EnumValidator.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.validators.EnumValidator.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/validators.html#EnumValidator.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.validators.EnumValidator.validate" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – Evaluated value</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cryptnox_cli.wallet.validators.ValidationError" title="cryptnox_cli.wallet.validators.ValidationError"><strong>ValidationError</strong></a> – Validation criteria not satisfied</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.validators.UrlValidator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.validators.</span></span><span class="sig-name descname"><span class="pre">UrlValidator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">valid_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/validators.html#UrlValidator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.validators.UrlValidator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cryptnox_cli.wallet.validators.Validator" title="cryptnox_cli.wallet.validators.Validator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Validator</span></code></a></p>
+<p>Class for validating URLs</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.validators.UrlValidator.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/validators.html#UrlValidator.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.validators.UrlValidator.validate" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – Evaluated value</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#cryptnox_cli.wallet.validators.ValidationError" title="cryptnox_cli.wallet.validators.ValidationError"><strong>ValidationError</strong></a> – Validation criteria not satisfied</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.validators.is_int">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.validators.</span></span><span class="sig-name descname"><span class="pre">is_int</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/validators.html#is_int"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.validators.is_int" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-cryptnox_cli.wallet">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-cryptnox_cli.wallet" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">cryptnox_cli.wallet</span></code> package provides wallet functionality for various cryptocurrencies.
+It includes Bitcoin wallet operations, Ethereum wallet utilities, and validation functions.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cryptnox_cli.lib.cryptos.coins.html" class="btn btn-neutral float-left" title="cryptnox_cli.lib.cryptos.coins package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cryptnox_cli.wallet.eth.html" class="btn btn-neutral float-right" title="cryptnox_cli.wallet.eth package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Cryptnox.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

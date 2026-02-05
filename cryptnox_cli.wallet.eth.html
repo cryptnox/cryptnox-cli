@@ -1,0 +1,564 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cryptnox_cli.wallet.eth package &mdash; cryptnox-cli 1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=0912efa5" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=baaebd52"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/custom.js?v=f0d783cb"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="License" href="license.html" />
+    <link rel="prev" title="cryptnox_cli.wallet package" href="cryptnox_cli.wallet.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #101f2e" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            cryptnox-cli
+              <img src="_static/cryptnox-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Cryptnox CLI Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line Interface</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="cryptnox_cli.html">cryptnox_cli package (Cryptnox CLI)</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="cryptnox_cli.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.command.html">cryptnox_cli.command package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.lib.html">cryptnox_cli.lib package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="cryptnox_cli.wallet.html">cryptnox_cli.wallet package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-config-module">cryptnox_cli.config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-enums-module">cryptnox_cli.enums module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-constants-module">cryptnox_cli.constants module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-interactive-cli-module">cryptnox_cli.interactive_cli module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-main-module">cryptnox_cli.main module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#module-cryptnox_cli">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #101f2e" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">cryptnox-cli</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="cryptnox_cli.html">cryptnox_cli package (Cryptnox CLI)</a></li>
+          <li class="breadcrumb-item"><a href="cryptnox_cli.wallet.html">cryptnox_cli.wallet package</a></li>
+      <li class="breadcrumb-item active">cryptnox_cli.wallet.eth package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/cryptnox_cli.wallet.eth.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cryptnox-cli-wallet-eth-package">
+<h1>cryptnox_cli.wallet.eth package<a class="headerlink" href="#cryptnox-cli-wallet-eth-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-cryptnox_cli.wallet.eth.api">
+<span id="cryptnox-cli-wallet-eth-api-module"></span><h2>cryptnox_cli.wallet.eth.api module<a class="headerlink" href="#module-cryptnox_cli.wallet.eth.api" title="Link to this heading"></a></h2>
+<p>A basic Ethereum wallet library</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.api.address">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.eth.api.</span></span><span class="sig-name descname"><span class="pre">address</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">public_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/api.html#address"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.eth.api.address" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.api.checksum_address">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.eth.api.</span></span><span class="sig-name descname"><span class="pre">checksum_address</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">public_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/api.html#checksum_address"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.eth.api.checksum_address" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.api.Api">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.eth.api.</span></span><span class="sig-name descname"><span class="pre">Api</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cryptnox_cli.html#cryptnox_cli.enums.EthNetwork" title="cryptnox_cli.enums.EthNetwork"><span class="pre">EthNetwork</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/api.html#Api"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.eth.api.Api" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.api.Api.PATH">
+<span class="sig-name descname"><span class="pre">PATH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&quot;m/44'/60'/0'/0/0&quot;</span></em><a class="headerlink" href="#cryptnox_cli.wallet.eth.api.Api.PATH" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.api.Api.SYMBOL">
+<span class="sig-name descname"><span class="pre">SYMBOL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'eth'</span></em><a class="headerlink" href="#cryptnox_cli.wallet.eth.api.Api.SYMBOL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.api.Api.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cryptnox_cli.html#cryptnox_cli.enums.EthNetwork" title="cryptnox_cli.enums.EthNetwork"><span class="pre">EthNetwork</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/api.html#Api.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.eth.api.Api.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.api.Api.block_number">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">block_number</span></span><a class="headerlink" href="#cryptnox_cli.wallet.eth.api.Api.block_number" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.api.Api.contract">
+<span class="sig-name descname"><span class="pre">contract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">abi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/api.html#Api.contract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.eth.api.Api.contract" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.api.Api.get_transaction_count">
+<span class="sig-name descname"><span class="pre">get_transaction_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blocks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/api.html#Api.get_transaction_count"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.eth.api.Api.get_transaction_count" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.api.Api.get_balance">
+<span class="sig-name descname"><span class="pre">get_balance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/api.html#Api.get_balance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.eth.api.Api.get_balance" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.api.Api.gas_price">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gas_price</span></span><a class="headerlink" href="#cryptnox_cli.wallet.eth.api.Api.gas_price" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.api.Api.network">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">network</span></span><a class="headerlink" href="#cryptnox_cli.wallet.eth.api.Api.network" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.api.Api.transaction_hash">
+<span class="sig-name descname"><span class="pre">transaction_hash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transaction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vrs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/api.html#Api.transaction_hash"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.eth.api.Api.transaction_hash" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.api.Api.push">
+<span class="sig-name descname"><span class="pre">push</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transaction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">public_key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/api.html#Api.push"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.eth.api.Api.push" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.api.EthValidator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.eth.api.</span></span><span class="sig-name descname"><span class="pre">EthValidator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'publicnode'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'sepolia'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">price</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derivation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'DERIVE'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/api.html#EthValidator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.eth.api.EthValidator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class defining Ethereum validators</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.api.EthValidator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'publicnode'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'sepolia'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">price</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derivation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'DERIVE'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/api.html#EthValidator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.eth.api.EthValidator.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.api.EthValidator.endpoint">
+<span class="sig-name descname"><span class="pre">endpoint</span></span><a class="headerlink" href="#cryptnox_cli.wallet.eth.api.EthValidator.endpoint" title="Link to this definition"></a></dt>
+<dd><p>Validator to validate endpoints for the Ethereum network</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.api.EthValidator.network">
+<span class="sig-name descname"><span class="pre">network</span></span><a class="headerlink" href="#cryptnox_cli.wallet.eth.api.EthValidator.network" title="Link to this definition"></a></dt>
+<dd><p>Class for validating if value is part of the enum</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.api.EthValidator.price">
+<span class="sig-name descname"><span class="pre">price</span></span><a class="headerlink" href="#cryptnox_cli.wallet.eth.api.EthValidator.price" title="Link to this definition"></a></dt>
+<dd><p>Class for validating if value is integer</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.api.EthValidator.limit">
+<span class="sig-name descname"><span class="pre">limit</span></span><a class="headerlink" href="#cryptnox_cli.wallet.eth.api.EthValidator.limit" title="Link to this definition"></a></dt>
+<dd><p>Class for validating if value is integer</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.api.EthValidator.derivation">
+<span class="sig-name descname"><span class="pre">derivation</span></span><a class="headerlink" href="#cryptnox_cli.wallet.eth.api.EthValidator.derivation" title="Link to this definition"></a></dt>
+<dd><p>Class for validating if value is part of the enum</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.api.EthValidator.api_key">
+<span class="sig-name descname"><span class="pre">api_key</span></span><a class="headerlink" href="#cryptnox_cli.wallet.eth.api.EthValidator.api_key" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.api.EthValidator.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/api.html#EthValidator.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.eth.api.EthValidator.validate" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-cryptnox_cli.wallet.eth.endpoint">
+<span id="cryptnox-cli-wallet-eth-endpoint-module"></span><h2>cryptnox_cli.wallet.eth.endpoint module<a class="headerlink" href="#module-cryptnox_cli.wallet.eth.endpoint" title="Link to this heading"></a></h2>
+<p>Module for endpoints that can be used for working with the Ethereum network</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.EndpointValidator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.eth.endpoint.</span></span><span class="sig-name descname"><span class="pre">EndpointValidator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">valid_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/endpoint.html#EndpointValidator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.EndpointValidator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="cryptnox_cli.wallet.html#cryptnox_cli.wallet.validators.Validator" title="cryptnox_cli.wallet.validators.Validator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Validator</span></code></a></p>
+<p>Validator to validate endpoints for the Ethereum network</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.EndpointValidator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">valid_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/endpoint.html#EndpointValidator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.EndpointValidator.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.EndpointValidator.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/endpoint.html#EndpointValidator.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.EndpointValidator.validate" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – Evaluated value</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="cryptnox_cli.wallet.html#cryptnox_cli.wallet.validators.ValidationError" title="cryptnox_cli.wallet.validators.ValidationError"><strong>ValidationError</strong></a> – Validation criteria not satisfied</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.Endpoint">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.eth.endpoint.</span></span><span class="sig-name descname"><span class="pre">Endpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cryptnox_cli.html#cryptnox_cli.enums.EthNetwork" title="cryptnox_cli.enums.EthNetwork"><span class="pre">EthNetwork</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/endpoint.html#Endpoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.Endpoint" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Abstract base class for interface for endpoint implementations</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.Endpoint.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cryptnox_cli.html#cryptnox_cli.enums.EthNetwork" title="cryptnox_cli.enums.EthNetwork"><span class="pre">EthNetwork</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/endpoint.html#Endpoint.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.Endpoint.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.Endpoint.available_networks">
+<em class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">available_networks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="cryptnox_cli.html#cryptnox_cli.enums.EthNetwork" title="cryptnox_cli.enums.EthNetwork"><span class="pre">EthNetwork</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.Endpoint.available_networks" title="Link to this definition"></a></dt>
+<dd><p>Ethereum networks handled by the endpoint implementation
+:rtype: List[enums.EthNetwork]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>return</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.Endpoint.domain">
+<em class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">domain</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.Endpoint.domain" title="Link to this definition"></a></dt>
+<dd><p>Domain that is used by the endpoint implementation
+:rtype: str</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>return</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.Endpoint.name">
+<em class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.Endpoint.name" title="Link to this definition"></a></dt>
+<dd><p>Name of the endpoint implementation
+:rtype: str</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>return</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.Endpoint.provider">
+<em class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">provider</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.Endpoint.provider" title="Link to this definition"></a></dt>
+<dd><p>Full URL that can be used as Web3 provider
+:rtype: str</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>return</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.InfuraEndpoint">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.eth.endpoint.</span></span><span class="sig-name descname"><span class="pre">InfuraEndpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cryptnox_cli.html#cryptnox_cli.enums.EthNetwork" title="cryptnox_cli.enums.EthNetwork"><span class="pre">EthNetwork</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/endpoint.html#InfuraEndpoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.InfuraEndpoint" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cryptnox_cli.wallet.eth.endpoint.Endpoint" title="cryptnox_cli.wallet.eth.endpoint.Endpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Endpoint</span></code></a></p>
+<p>Implementation of the Infura endpoint</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.InfuraEndpoint.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'infura'</span></em><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.InfuraEndpoint.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.InfuraEndpoint.available_networks">
+<span class="sig-name descname"><span class="pre">available_networks</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['MAINNET',</span> <span class="pre">'KOVAN',</span> <span class="pre">'GOERLI',</span> <span class="pre">'RINKEBY',</span> <span class="pre">'SEPOLIA']</span></em><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.InfuraEndpoint.available_networks" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.InfuraEndpoint.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cryptnox_cli.html#cryptnox_cli.enums.EthNetwork" title="cryptnox_cli.enums.EthNetwork"><span class="pre">EthNetwork</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/endpoint.html#InfuraEndpoint.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.InfuraEndpoint.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.InfuraEndpoint.domain">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">domain</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.InfuraEndpoint.domain" title="Link to this definition"></a></dt>
+<dd><p>Domain that is used by the endpoint implementation
+:rtype: str</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>return</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.InfuraEndpoint.provider">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">provider</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.InfuraEndpoint.provider" title="Link to this definition"></a></dt>
+<dd><p>Full URL that can be used as Web3 provider
+:rtype: str</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>return</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.CryptnoxEndpoint">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.eth.endpoint.</span></span><span class="sig-name descname"><span class="pre">CryptnoxEndpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cryptnox_cli.html#cryptnox_cli.enums.EthNetwork" title="cryptnox_cli.enums.EthNetwork"><span class="pre">EthNetwork</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/endpoint.html#CryptnoxEndpoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.CryptnoxEndpoint" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cryptnox_cli.wallet.eth.endpoint.Endpoint" title="cryptnox_cli.wallet.eth.endpoint.Endpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Endpoint</span></code></a></p>
+<p>Implementation of the Cryptnox endpoint</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.CryptnoxEndpoint.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'cryptnox'</span></em><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.CryptnoxEndpoint.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.CryptnoxEndpoint.available_networks">
+<span class="sig-name descname"><span class="pre">available_networks</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['MAINNET',</span> <span class="pre">'SEPOLIA']</span></em><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.CryptnoxEndpoint.available_networks" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.CryptnoxEndpoint.domain">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">domain</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.CryptnoxEndpoint.domain" title="Link to this definition"></a></dt>
+<dd><p>Domain that is used by the endpoint implementation
+:rtype: str</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>return</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.CryptnoxEndpoint.provider">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">provider</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.CryptnoxEndpoint.provider" title="Link to this definition"></a></dt>
+<dd><p>Full URL that can be used as Web3 provider
+:rtype: str</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>return</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.PublicNodeEndpoint">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.eth.endpoint.</span></span><span class="sig-name descname"><span class="pre">PublicNodeEndpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cryptnox_cli.html#cryptnox_cli.enums.EthNetwork" title="cryptnox_cli.enums.EthNetwork"><span class="pre">EthNetwork</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/endpoint.html#PublicNodeEndpoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.PublicNodeEndpoint" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cryptnox_cli.wallet.eth.endpoint.Endpoint" title="cryptnox_cli.wallet.eth.endpoint.Endpoint"><code class="xref py py-class docutils literal notranslate"><span class="pre">Endpoint</span></code></a></p>
+<p>Implementation of the PublicNode public RPC endpoint (free, no API key required)</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.PublicNodeEndpoint.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'publicnode'</span></em><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.PublicNodeEndpoint.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.PublicNodeEndpoint.available_networks">
+<span class="sig-name descname"><span class="pre">available_networks</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['MAINNET',</span> <span class="pre">'SEPOLIA']</span></em><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.PublicNodeEndpoint.available_networks" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.PublicNodeEndpoint.domain">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">domain</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.PublicNodeEndpoint.domain" title="Link to this definition"></a></dt>
+<dd><p>Domain that is used by the endpoint implementation
+:rtype: str</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>return</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.PublicNodeEndpoint.provider">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">provider</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.PublicNodeEndpoint.provider" title="Link to this definition"></a></dt>
+<dd><p>Full URL that can be used as Web3 provider
+:rtype: str</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>return</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.DirectEndpoint">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.eth.endpoint.</span></span><span class="sig-name descname"><span class="pre">DirectEndpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cryptnox_cli.html#cryptnox_cli.enums.EthNetwork" title="cryptnox_cli.enums.EthNetwork"><span class="pre">EthNetwork</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/endpoint.html#DirectEndpoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.DirectEndpoint" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.DirectEndpoint.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cryptnox_cli.html#cryptnox_cli.enums.EthNetwork" title="cryptnox_cli.enums.EthNetwork"><span class="pre">EthNetwork</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/endpoint.html#DirectEndpoint.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.DirectEndpoint.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.DirectEndpoint.provider">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">provider</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.DirectEndpoint.provider" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.wallet.eth.endpoint.factory">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.eth.endpoint.</span></span><span class="sig-name descname"><span class="pre">factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="cryptnox_cli.html#cryptnox_cli.enums.EthNetwork" title="cryptnox_cli.enums.EthNetwork"><span class="pre">EthNetwork</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cryptnox_cli.wallet.eth.endpoint.Endpoint" title="cryptnox_cli.wallet.eth.endpoint.Endpoint"><span class="pre">Endpoint</span></a></span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/endpoint.html#factory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.wallet.eth.endpoint.factory" title="Link to this definition"></a></dt>
+<dd><p>Factory method for Endpoint instances</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>endpoint</strong> – Name of the endpoint to use</p></li>
+<li><p><strong>network</strong> – Ethereum network to use</p></li>
+<li><p><strong>api_key</strong> – API key to use on the endpoint</p></li>
+</ul>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="cryptnox_cli.html#cryptnox_cli.enums.EthNetwork" title="cryptnox_cli.enums.EthNetwork">enums.EthNetwork</a></p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Return an Endpoint instance that can be used to get the urls</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#cryptnox_cli.wallet.eth.endpoint.Endpoint" title="cryptnox_cli.wallet.eth.endpoint.Endpoint">Endpoint</a></p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – In case endpoint with endpoint name wasn’t found</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-cryptnox_cli.wallet.eth">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-cryptnox_cli.wallet.eth" title="Link to this heading"></a></h2>
+<p>Ethereum wallet utilities - aggregates and re-exports API components for easier imports.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">cryptnox_cli.wallet.eth</span></code> package provides Ethereum wallet utilities and exports:</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.eth.</span></span><span class="sig-name descname"><span class="pre">address</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">public_key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/api.html#address"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Generate an Ethereum address from a public key. See <a class="reference internal" href="#cryptnox_cli.wallet.eth.api.address" title="cryptnox_cli.wallet.eth.api.address"><code class="xref py py-func docutils literal notranslate"><span class="pre">cryptnox_cli.wallet.eth.api.address()</span></code></a> for details.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.eth.</span></span><span class="sig-name descname"><span class="pre">Api</span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/api.html#Api"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Ethereum API interface. See <a class="reference internal" href="#cryptnox_cli.wallet.eth.api.Api" title="cryptnox_cli.wallet.eth.api.Api"><code class="xref py py-class docutils literal notranslate"><span class="pre">cryptnox_cli.wallet.eth.api.Api</span></code></a> for details.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.eth.</span></span><span class="sig-name descname"><span class="pre">checksum_address</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address_str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/api.html#checksum_address"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Convert an address to checksummed format. See <a class="reference internal" href="#cryptnox_cli.wallet.eth.api.checksum_address" title="cryptnox_cli.wallet.eth.api.checksum_address"><code class="xref py py-func docutils literal notranslate"><span class="pre">cryptnox_cli.wallet.eth.api.checksum_address()</span></code></a> for details.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.wallet.eth.</span></span><span class="sig-name descname"><span class="pre">EthValidator</span></span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/api.html#EthValidator"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Ethereum address and transaction validator. See <a class="reference internal" href="#cryptnox_cli.wallet.eth.api.EthValidator" title="cryptnox_cli.wallet.eth.api.EthValidator"><code class="xref py py-class docutils literal notranslate"><span class="pre">cryptnox_cli.wallet.eth.api.EthValidator</span></code></a> for details.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cryptnox_cli.wallet.html" class="btn btn-neutral float-left" title="cryptnox_cli.wallet package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="license.html" class="btn btn-neutral float-right" title="License" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Cryptnox.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

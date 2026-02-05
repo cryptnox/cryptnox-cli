@@ -1,0 +1,631 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cryptnox_cli.wallet.btc &mdash; cryptnox-cli 1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=0912efa5" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=baaebd52"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/custom.js?v=f0d783cb"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #101f2e" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            cryptnox-cli
+              <img src="../../../_static/cryptnox-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Cryptnox CLI Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #101f2e" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">cryptnox-cli</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cryptnox_cli.wallet.btc</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cryptnox_cli.wallet.btc</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">A basic BTC wallet library</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.parse</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.request</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">cryptnox_sdk_py</span><span class="w"> </span><span class="kn">import</span> <span class="n">Derivation</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tabulate</span><span class="w"> </span><span class="kn">import</span> <span class="n">tabulate</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.validators</span><span class="w"> </span><span class="kn">import</span> <span class="n">EnumValidator</span><span class="p">,</span> <span class="n">IntValidator</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">cryptos</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">lib.cryptos.wallet_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">number_of_significant_digits</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">cryptos</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..lib.cryptos.wallet_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">number_of_significant_digits</span>
+
+
+<div class="viewcode-block" id="BtcNetworks">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BtcNetworks">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BtcNetworks</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class defining possible Bitcoin networks</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">MAINNET</span> <span class="o">=</span> <span class="s2">&quot;mainnet&quot;</span>
+    <span class="n">TESTNET</span> <span class="o">=</span> <span class="s2">&quot;testnet&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="BlockCypherApi">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BlockCypherApi">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BlockCypherApi</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    BlockCypherApi</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BlockCypherApi.__init__">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BlockCypherApi.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="p">,</span> <span class="n">network</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">apikey</span> <span class="o">=</span> <span class="n">api_key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://api.blockcypher.com/v1/btc/main/&quot;</span>
+        <span class="k">if</span> <span class="n">network</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;testnet&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://api.blockcypher.com/v1/btc/test3/&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;token&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">apikey</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">js_res</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">web_rsc</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="BlockCypherApi.get_data">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BlockCypherApi.get_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> \
+            <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :rtype: None</span>
+<span class="sd">        :param endpoint: str</span>
+<span class="sd">        :param params: dict</span>
+<span class="sd">        :param data: bytes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">params</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">parameters</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">params_enc</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">urlencode</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">req</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="n">endpoint</span> <span class="o">+</span> <span class="s2">&quot;?&quot;</span> <span class="o">+</span> <span class="n">params_enc</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;User-Agent&#39;</span><span class="p">:</span> <span class="s1">&#39;Mozilla/5.0&#39;</span><span class="p">},</span>
+                <span class="n">data</span><span class="o">=</span><span class="n">data</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">web_rsc</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">js_res</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">web_rsc</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">web_rsc</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s2">&quot;Error while processing request:</span><span class="se">\n</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="n">endpoint</span> <span class="o">+</span> <span class="s2">&quot;?&quot;</span> <span class="o">+</span> <span class="n">params_enc</span>
+            <span class="p">))</span> <span class="kn">from</span><span class="w"> </span><span class="nn">ex</span></div>
+
+
+<div class="viewcode-block" id="BlockCypherApi.check_api_resp">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BlockCypherApi.check_api_resp">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_api_resp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :rtype: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s1">&#39;error&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">js_res</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; !! ERROR :&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">js_res</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s1">&#39;errors&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">js_res</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; !! ERRORS :&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">js_res</span><span class="p">[</span><span class="s1">&#39;errors&#39;</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="BlockCypherApi.get_utx_os">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BlockCypherApi.get_utx_os">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_utx_os</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">addr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n_conf</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>  <span class="c1"># n_conf 0 or 1</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :param addr: str</span>
+<span class="sd">        :param n_conf: int (0 or 1)</span>
+<span class="sd">        :return: List</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s2">&quot;addrs/&quot;</span> <span class="o">+</span> <span class="n">addr</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;unspentOnly&#39;</span><span class="p">:</span> <span class="s1">&#39;true&#39;</span><span class="p">})</span>
+        <span class="c1"># translate inputs from blockcypher to pybitcoinlib</span>
+        <span class="n">addr_utxos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_key</span><span class="p">(</span><span class="s1">&#39;txrefs&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">n_conf</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">addr_utxos</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_key</span><span class="p">(</span><span class="s1">&#39;unconfirmed_txrefs&#39;</span><span class="p">))</span>
+        <span class="n">sel_utxos</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">utxo</span> <span class="ow">in</span> <span class="n">addr_utxos</span><span class="p">:</span>
+            <span class="n">sel_utxos</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">utxo</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="n">utxo</span><span class="p">[</span><span class="s1">&#39;tx_hash&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">utxo</span><span class="p">[</span><span class="s1">&#39;tx_output_n&#39;</span><span class="p">])</span>
+            <span class="p">})</span>
+        <span class="k">return</span> <span class="n">sel_utxos</span></div>
+
+
+<div class="viewcode-block" id="BlockCypherApi.push_tx">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BlockCypherApi.push_tx">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">push_tx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tx_hex</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param tx_hex:</span>
+<span class="sd">        :return: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data_tx</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s1">&#39;tx&#39;</span><span class="p">:</span> <span class="n">tx_hex</span><span class="p">})</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s2">&quot;txs/push&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data_tx</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_api_resp</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_key</span><span class="p">(</span><span class="s1">&#39;tx/hash&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BlockCypherApi.get_key">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BlockCypherApi.get_key">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key_char</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :param key_char:str</span>
+<span class="sd">        :return: Dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">js_res</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">key_char</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">return</span> <span class="n">out</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="BlkHubApi">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BlkHubApi">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BlkHubApi</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    BlkHubApi</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BlkHubApi.__init__">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BlkHubApi.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">network</span><span class="p">):</span>
+        <span class="n">network</span> <span class="o">=</span> <span class="n">network</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">BlkHubApi</span><span class="o">.</span><span class="n">get_api</span><span class="p">(</span><span class="n">network</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">js_res</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">web_rsc</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="BlkHubApi.get_api">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BlkHubApi.get_api">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_api</span><span class="p">(</span><span class="n">network</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get API url for given network</span>
+
+<span class="sd">        :param str network:</span>
+<span class="sd">        :return: API url</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">network</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;mainnet&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;https://blkhub.net/api/&quot;</span>
+        <span class="k">if</span> <span class="n">network</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;testnet&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;https://blockstream.info/testnet/api/&quot;</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Unknown BC network name&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BlkHubApi.get_data">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BlkHubApi.get_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> \
+            <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :param endpoint: str</span>
+<span class="sd">        :param params: dict</span>
+<span class="sd">        :param data: bytes</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">params</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">params_enc</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">urlencode</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">req</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="n">endpoint</span> <span class="o">+</span> <span class="s2">&quot;?&quot;</span> <span class="o">+</span> <span class="n">params_enc</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;User-Agent&#39;</span><span class="p">:</span> <span class="s1">&#39;Mozilla/5.0&#39;</span><span class="p">},</span>
+                <span class="n">data</span><span class="o">=</span><span class="n">data</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">web_rsc</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+            <span class="n">b_rep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">web_rsc</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">b_rep</span><span class="p">)</span> <span class="o">==</span> <span class="mi">64</span> <span class="ow">and</span> <span class="n">b_rep</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;{&#39;</span><span class="p">):</span>
+                <span class="n">b_rep</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;{&quot;txid&quot;:&quot;&#39;</span> <span class="o">+</span> <span class="n">b_rep</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">&#39;&quot;}&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">js_res</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">b_rep</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">urllib</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">HTTPError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error while processing request:</span><span class="se">\n</span><span class="si">{</span><span class="n">error</span><span class="o">.</span><span class="n">code</span><span class="si">}</span><span class="s2"> - &quot;</span>
+                          <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">error</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">error</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error while processing request:</span><span class="se">\n</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="si">}{</span><span class="n">endpoint</span><span class="si">}</span><span class="s2">?params_enc</span><span class="se">\n</span><span class="s2">&quot;</span>
+                          <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">error</span></div>
+
+
+<div class="viewcode-block" id="BlkHubApi.check_api_resp">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BlkHubApi.check_api_resp">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_api_resp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :rtype: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s1">&#39;error&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">js_res</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; !! ERROR :&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">js_res</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s1">&#39;errors&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">js_res</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; !! ERRORS :&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">js_res</span><span class="p">[</span><span class="s1">&#39;errors&#39;</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="BlkHubApi.get_fee_estimates">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BlkHubApi.get_fee_estimates">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_fee_estimates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blocks</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s2">&quot;fee-estimates&quot;</span><span class="p">)</span>
+        <span class="n">block_entries</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">js_res</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">blocks</span><span class="p">]</span>
+        <span class="n">block_entries</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">js_res</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">block_entries</span><span class="o">.</span><span class="n">pop</span><span class="p">())])</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span></div>
+
+
+<div class="viewcode-block" id="BlkHubApi.get_utx_os">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BlkHubApi.get_utx_os">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_utx_os</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">addr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">_n_conf</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :param addr:str</span>
+<span class="sd">        :param int _n_conf: 0 or 1</span>
+<span class="sd">        :return: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s2">&quot;address/&quot;</span> <span class="o">+</span> <span class="n">addr</span> <span class="o">+</span> <span class="s2">&quot;/utxo&quot;</span><span class="p">)</span>
+        <span class="n">addr_utx_os</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">js_res</span>
+        <span class="n">sel_utx_os</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># translate inputs from blkhub to pybitcoinlib</span>
+        <span class="k">for</span> <span class="n">utxo</span> <span class="ow">in</span> <span class="n">addr_utx_os</span><span class="p">:</span>
+            <span class="n">sel_utx_os</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">utxo</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="n">utxo</span><span class="p">[</span><span class="s1">&#39;txid&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">utxo</span><span class="p">[</span><span class="s1">&#39;vout&#39;</span><span class="p">])</span>
+            <span class="p">})</span>
+        <span class="k">return</span> <span class="n">sel_utx_os</span></div>
+
+
+<div class="viewcode-block" id="BlkHubApi.push_tx">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BlkHubApi.push_tx">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">push_tx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tx_hex</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :param tx_hex: str</span>
+<span class="sd">        :return: List</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s2">&quot;tx&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">tx_hex</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_api_resp</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_key</span><span class="p">(</span><span class="s1">&#39;txid&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BlkHubApi.get_key">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BlkHubApi.get_key">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key_char</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :param key_char: str</span>
+<span class="sd">        :return: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">js_res</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">key_char</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">LookupError</span><span class="p">:</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="test_addr">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.test_addr">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_addr</span><span class="p">(</span><span class="n">btc_addr</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    :param btc_addr: str</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Safe test of the address format</span>
+    <span class="k">if</span> <span class="n">btc_addr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">btc_addr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;3&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$&#39;</span><span class="p">,</span> <span class="n">btc_addr</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">btc_addr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">btc_addr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span>
+            <span class="s2">&quot;m&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">btc_addr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;2&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^[2nm][a-km-zA-HJ-NP-Z1-9]{25,34}$&#39;</span><span class="p">,</span> <span class="n">btc_addr</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="BTCwallet">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BTCwallet">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BTCwallet</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    BTCwallet</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">PATH</span> <span class="o">=</span> <span class="s2">&quot;m/44&#39;/0&#39;/0&#39;/0/0&quot;</span>
+
+<div class="viewcode-block" id="BTCwallet.__init__">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BTCwallet.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pubkey</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">coin_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">api</span><span class="p">,</span>
+                 <span class="n">card</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param pubkey: str</span>
+<span class="sd">        :param coin_type: str</span>
+<span class="sd">        :param api:</span>
+<span class="sd">        :param connection:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">addr_header</span> <span class="o">=</span> <span class="mh">0x00</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">testnet</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">coin_type</span> <span class="o">=</span> <span class="n">coin_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">coin_type</span> <span class="o">==</span> <span class="s2">&quot;testnet&quot;</span><span class="p">:</span>
+            <span class="n">addr_header</span> <span class="o">=</span> <span class="mh">0x6F</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">testnet</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pubkey</span> <span class="o">=</span> <span class="n">pubkey</span>
+        <span class="n">pkh</span> <span class="o">=</span> <span class="n">cryptos</span><span class="o">.</span><span class="n">bin_hash160</span><span class="p">(</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">pubkey</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">address</span> <span class="o">=</span> <span class="n">cryptos</span><span class="o">.</span><span class="n">bin_to_b58check</span><span class="p">(</span><span class="n">pkh</span><span class="p">,</span> <span class="n">addr_header</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api</span> <span class="o">=</span> <span class="n">api</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">card</span> <span class="o">=</span> <span class="n">card</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">balance</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var_tx</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">len_inputs</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_hash</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fee</span> <span class="o">=</span> <span class="mi">2000</span></div>
+
+
+<div class="viewcode-block" id="BTCwallet.get_utx_os">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BTCwallet.get_utx_os">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_utx_os</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_conf</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param n_conf: int (0 or 1)</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_utx_os</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="p">,</span> <span class="n">n_conf</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BTCwallet.get_balance">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BTCwallet.get_balance">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_balance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :return: float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">utx_os</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_utx_os</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">balance_fm_utxos</span><span class="p">(</span><span class="n">utx_os</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BTCwallet.get_fee_estimate">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BTCwallet.get_fee_estimate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_fee_estimate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_fee_estimate</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="BTCwallet.prepare">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BTCwallet.prepare">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to_addr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">payment_value</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">fee</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> \
+            <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :param to_addr: str</span>
+<span class="sd">        :param payment_value: float</span>
+<span class="sd">        :param fee: float</span>
+<span class="sd">        :return: Union[float, int]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fee</span> <span class="o">=</span> <span class="n">fee</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">test_addr</span><span class="p">(</span><span class="n">to_addr</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Bad address format.&quot;</span><span class="p">)</span>
+        <span class="n">utx_os</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_utx_os</span><span class="p">()</span>
+        <span class="n">balance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">balance_fm_utxos</span><span class="p">(</span><span class="n">utx_os</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">balance</span> <span class="o">=</span> <span class="n">balance</span> <span class="o">/</span> <span class="mf">10.0</span> <span class="o">**</span> <span class="mi">8</span>
+        <span class="n">max_spendable</span> <span class="o">=</span> <span class="n">balance</span> <span class="o">-</span> <span class="n">fee</span>
+        <span class="k">if</span> <span class="n">payment_value</span> <span class="o">&gt;</span> <span class="n">max_spendable</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Not enough fund for the tx&quot;</span><span class="p">)</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">select_utxos</span><span class="p">(</span><span class="n">payment_value</span> <span class="o">+</span> <span class="n">fee</span><span class="p">,</span> <span class="n">utx_os</span><span class="p">)</span>
+        <span class="n">in_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">balance_fm_utxos</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+        <span class="n">change_value</span> <span class="o">=</span> <span class="n">in_value</span> <span class="o">-</span> <span class="n">payment_value</span> <span class="o">-</span> <span class="n">fee</span>
+        <span class="n">outs</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">payment_value</span><span class="p">,</span> <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="n">to_addr</span><span class="p">}]</span>
+        <span class="k">if</span> <span class="n">change_value</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">outs</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">change_value</span><span class="p">,</span> <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var_tx</span> <span class="o">=</span> <span class="n">cryptos</span><span class="o">.</span><span class="n">coins</span><span class="o">.</span><span class="n">bitcoin</span><span class="o">.</span><span class="n">Bitcoin</span><span class="p">(</span><span class="n">testnet</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">testnet</span><span class="p">)</span><span class="o">.</span> \
+            <span class="n">mktx</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outs</span><span class="p">)</span>
+        <span class="n">script</span> <span class="o">=</span> <span class="n">cryptos</span><span class="o">.</span><span class="n">mk_pubkey_script</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="p">)</span>
+        <span class="c1"># Finish tx</span>
+        <span class="c1"># Sign each input</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">len_inputs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">len_inputs</span><span class="p">):</span>
+            <span class="n">signing_tx</span> <span class="o">=</span> <span class="n">cryptos</span><span class="o">.</span><span class="n">signature_form</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">var_tx</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">script</span><span class="p">,</span> <span class="n">cryptos</span><span class="o">.</span><span class="n">SIGHASH_ALL</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_hash</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cryptos</span><span class="o">.</span><span class="n">bin_txhash</span><span class="p">(</span><span class="n">signing_tx</span><span class="p">,</span> <span class="n">cryptos</span><span class="o">.</span><span class="n">SIGHASH_ALL</span><span class="p">))</span>
+        <span class="k">return</span> <span class="mi">0</span></div>
+
+
+<div class="viewcode-block" id="BTCwallet.send">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BTCwallet.send">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to_addr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">payment_value</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">signature</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">bytes</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :param to_addr: str</span>
+<span class="sd">        :param payment_value: float</span>
+<span class="sd">        :return: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Cryptnox Sign</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">len_inputs</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">var_tx</span><span class="p">[</span><span class="s2">&quot;ins&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;script&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cryptos</span><span class="o">.</span><span class="n">serialize_script</span><span class="p">([</span><span class="n">signature</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;01&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pubkey</span><span class="p">])</span>
+
+        <span class="n">tabulate_table</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">[</span><span class="s2">&quot;BALANCE:&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">balance</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;BTC&quot;</span><span class="p">,</span> <span class="s2">&quot;ON&quot;</span><span class="p">,</span> <span class="s2">&quot;ACCOUNT:&quot;</span><span class="p">,</span>
+             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span>
+            <span class="p">[</span><span class="s2">&quot;TRANSACTION:&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">payment_value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="mi">8</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;BTC&quot;</span><span class="p">,</span> <span class="s2">&quot;FROM&quot;</span><span class="p">,</span>
+             <span class="s2">&quot;ACCOUNT:&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">to_addr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span>
+            <span class="p">[</span><span class="s2">&quot;FEE:&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">fee</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="mi">8</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span>
+            <span class="p">[</span><span class="s2">&quot;TOTAL:&quot;</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fee</span> <span class="o">+</span> <span class="n">payment_value</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span> <span class="o">**</span> <span class="mi">8</span><span class="p">]</span>
+        <span class="p">]</span>
+
+        <span class="n">floating_points</span> <span class="o">=</span> <span class="n">number_of_significant_digits</span><span class="p">(</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fee</span> <span class="o">+</span> <span class="n">payment_value</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span> <span class="o">**</span> <span class="mi">8</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">--- Transaction Ready ---</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">tabulate_table</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s1">&#39;plain&#39;</span><span class="p">,</span>
+                       <span class="n">floatfmt</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;.</span><span class="si">{</span><span class="n">floating_points</span><span class="si">}</span><span class="s2">f&quot;</span><span class="p">),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">conf</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Confirm ? [y/N] &gt; &quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">conf</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span>
+            <span class="n">tx_hex</span> <span class="o">=</span> <span class="n">cryptos</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">var_tx</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">DONE, txID : &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">push_tx</span><span class="p">(</span><span class="n">tx_hex</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;Canceled by the user.&quot;</span></div>
+
+
+<div class="viewcode-block" id="BTCwallet.balance_fm_utxos">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BTCwallet.balance_fm_utxos">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">balance_fm_utxos</span><span class="p">(</span><span class="n">utxos</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :param utxos:</span>
+<span class="sd">        :return: float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">bal</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">utxo</span> <span class="ow">in</span> <span class="n">utxos</span><span class="p">:</span>
+            <span class="n">bal</span> <span class="o">+=</span> <span class="n">utxo</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">bal</span></div>
+
+
+<div class="viewcode-block" id="BTCwallet.select_utxos">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BTCwallet.select_utxos">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">select_utxos</span><span class="p">(</span><span class="n">amount</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">utxos</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :param amount: float</span>
+<span class="sd">        :param utxos:</span>
+<span class="sd">        :return: float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sorted_utxos</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">utxos</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">sel_utxos</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">s_utxo</span> <span class="ow">in</span> <span class="n">sorted_utxos</span><span class="p">:</span>
+            <span class="n">amount</span> <span class="o">-=</span> <span class="n">s_utxo</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+            <span class="n">sel_utxos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s_utxo</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">amount</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="n">amount</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">sel_utxos</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Not enough utxos values for the tx&quot;</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="BtcValidator">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BtcValidator">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BtcValidator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class defining Bitcoin validators</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">network</span> <span class="o">=</span> <span class="n">EnumValidator</span><span class="p">(</span><span class="n">BtcNetworks</span><span class="p">)</span>
+    <span class="n">fees</span> <span class="o">=</span> <span class="n">IntValidator</span><span class="p">()</span>
+    <span class="n">derivation</span> <span class="o">=</span> <span class="n">EnumValidator</span><span class="p">(</span><span class="n">Derivation</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BtcValidator.__init__">
+<a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.command.helper.config.BtcValidator.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">network</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;testnet&quot;</span><span class="p">,</span> <span class="n">fees</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">,</span>
+                 <span class="n">derivation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;DERIVE&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">network</span> <span class="o">=</span> <span class="n">network</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fees</span> <span class="o">=</span> <span class="n">fees</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">derivation</span> <span class="o">=</span> <span class="n">derivation</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Cryptnox.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

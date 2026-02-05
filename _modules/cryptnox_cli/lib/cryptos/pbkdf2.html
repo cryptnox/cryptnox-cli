@@ -1,0 +1,374 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cryptnox_cli.lib.cryptos.pbkdf2 &mdash; cryptnox-cli 1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=0912efa5" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=baaebd52"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/custom.js?v=f0d783cb"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #101f2e" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            cryptnox-cli
+              <img src="../../../../_static/cryptnox-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Cryptnox CLI Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #101f2e" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">cryptnox-cli</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cryptnox_cli.lib.cryptos.pbkdf2</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cryptnox_cli.lib.cryptos.pbkdf2</h1><div class="highlight"><pre>
+<span></span><span class="c1"># flake8: noqa</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">PBKDF2 key derivation function implementation and helpers.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">struct</span><span class="w"> </span><span class="kn">import</span> <span class="n">pack</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">random</span><span class="w"> </span><span class="kn">import</span> <span class="n">randint</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">string</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+<span class="k">try</span><span class="p">:</span>
+	<span class="c1"># Use PyCrypto (if available).</span>
+	<span class="kn">from</span><span class="w"> </span><span class="nn">Crypto.Hash</span><span class="w"> </span><span class="kn">import</span> <span class="n">HMAC</span><span class="p">,</span> <span class="n">SHA</span> <span class="k">as</span> <span class="n">SHA1</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+	<span class="c1"># PyCrypto not available.  Use the Python standard library.</span>
+	<span class="kn">import</span><span class="w"> </span><span class="nn">hmac</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">HMAC</span>
+	<span class="k">try</span><span class="p">:</span>
+		<span class="kn">from</span><span class="w"> </span><span class="nn">hashlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">sha1</span> <span class="k">as</span> <span class="n">SHA1</span>
+	<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+		<span class="c1"># hashlib not available.  Use the old sha module.</span>
+		<span class="kn">import</span><span class="w"> </span><span class="nn">sha</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">SHA1</span>
+
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+	<span class="n">_0xffffffffL</span> <span class="o">=</span> <span class="n">long</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="mi">32</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">isunicode</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+		<span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">unicode</span><span class="p">)</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">isbytes</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+		<span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">isinteger</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+		<span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">long</span><span class="p">))</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">b</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+		<span class="k">return</span> <span class="n">s</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">binxor</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+		<span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">chr</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">^</span> <span class="nb">ord</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)])</span>
+	<span class="k">def</span><span class="w"> </span><span class="nf">b64encode</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">chars</span><span class="o">=</span><span class="s2">&quot;+/&quot;</span><span class="p">):</span>
+		<span class="n">tt</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s2">&quot;+/&quot;</span><span class="p">,</span> <span class="n">chars</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;base64&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+	<span class="kn">from</span><span class="w"> </span><span class="nn">binascii</span><span class="w"> </span><span class="kn">import</span> <span class="n">b2a_hex</span>
+<span class="k">else</span><span class="p">:</span>
+	<span class="n">_0xffffffffL</span> <span class="o">=</span> <span class="mh">0xffffffff</span>
+<div class="viewcode-block" id="isunicode">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.pbkdf2.isunicode">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="nf">isunicode</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+		<span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="isbytes">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.pbkdf2.isbytes">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="nf">isbytes</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+		<span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="isinteger">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.pbkdf2.isinteger">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="nf">isinteger</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+		<span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="callable">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.pbkdf2.callable">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="nf">callable</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+		<span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;__call__&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="b">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.pbkdf2.b">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="nf">b</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+		<span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;latin-1&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="binxor">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.pbkdf2.binxor">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="nf">binxor</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+		<span class="k">return</span> <span class="nb">bytes</span><span class="p">([</span><span class="n">x</span> <span class="o">^</span> <span class="n">y</span> <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)])</span></div>
+
+	<span class="kn">from</span><span class="w"> </span><span class="nn">base64</span><span class="w"> </span><span class="kn">import</span> <span class="n">b64encode</span> <span class="k">as</span> <span class="n">_b64encode</span>
+<div class="viewcode-block" id="b64encode">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.pbkdf2.b64encode">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="nf">b64encode</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">chars</span><span class="o">=</span><span class="s2">&quot;+/&quot;</span><span class="p">):</span>
+		<span class="k">if</span> <span class="n">isunicode</span><span class="p">(</span><span class="n">chars</span><span class="p">):</span>
+			<span class="k">return</span> <span class="n">_b64encode</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">chars</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="k">return</span> <span class="n">_b64encode</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">chars</span><span class="p">)</span></div>
+
+	<span class="kn">from</span><span class="w"> </span><span class="nn">binascii</span><span class="w"> </span><span class="kn">import</span> <span class="n">b2a_hex</span> <span class="k">as</span> <span class="n">_b2a_hex</span>
+<div class="viewcode-block" id="b2a_hex">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.pbkdf2.b2a_hex">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="nf">b2a_hex</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+		<span class="k">return</span> <span class="n">_b2a_hex</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;us-ascii&#39;</span><span class="p">)</span></div>
+
+	<span class="n">xrange</span> <span class="o">=</span> <span class="nb">range</span>
+
+<div class="viewcode-block" id="PBKDF2">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.pbkdf2.PBKDF2">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PBKDF2</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+<div class="viewcode-block" id="PBKDF2.__init__">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.pbkdf2.PBKDF2.__init__">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">passphrase</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+				 <span class="n">digestmodule</span><span class="o">=</span><span class="n">SHA1</span><span class="p">,</span> <span class="n">macmodule</span><span class="o">=</span><span class="n">HMAC</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__macmodule</span> <span class="o">=</span> <span class="n">macmodule</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__digestmodule</span> <span class="o">=</span> <span class="n">digestmodule</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_setup</span><span class="p">(</span><span class="n">passphrase</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">iterations</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pseudorandom</span><span class="p">)</span></div>
+
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">_pseudorandom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;Pseudorandom function.  e.g. HMAC-SHA1&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__macmodule</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="n">msg</span><span class="p">,</span>
+			<span class="n">digestmod</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__digestmodule</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+
+<div class="viewcode-block" id="PBKDF2.read">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.pbkdf2.PBKDF2.read">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;Read the specified number of key bytes.&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">closed</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;file-like object is closed&quot;</span><span class="p">)</span>
+
+		<span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__buf</span><span class="p">)</span>
+		<span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__buf</span><span class="p">]</span>
+		<span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__blockNum</span>
+		<span class="k">while</span> <span class="n">size</span> <span class="o">&lt;</span> <span class="nb">bytes</span><span class="p">:</span>
+			<span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+			<span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">_0xffffffffL</span> <span class="ow">or</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+				<span class="c1"># We could return &quot;&quot; here, but</span>
+				<span class="k">raise</span> <span class="ne">OverflowError</span><span class="p">(</span><span class="s2">&quot;derived key too long&quot;</span><span class="p">)</span>
+			<span class="n">block</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__f</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+			<span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
+			<span class="n">size</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
+		<span class="n">buf</span> <span class="o">=</span> <span class="n">b</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">blocks</span><span class="p">)</span>
+		<span class="n">retval</span> <span class="o">=</span> <span class="n">buf</span><span class="p">[:</span><span class="nb">bytes</span><span class="p">]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__buf</span> <span class="o">=</span> <span class="n">buf</span><span class="p">[</span><span class="nb">bytes</span><span class="p">:]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__blockNum</span> <span class="o">=</span> <span class="n">i</span>
+		<span class="k">return</span> <span class="n">retval</span></div>
+
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">__f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+		<span class="c1"># i must fit within 32 bits</span>
+		<span class="k">assert</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">_0xffffffffL</span>
+		<span class="n">U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__prf</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__passphrase</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__salt</span> <span class="o">+</span> <span class="n">pack</span><span class="p">(</span><span class="s2">&quot;!L&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
+		<span class="n">result</span> <span class="o">=</span> <span class="n">U</span>
+		<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">__iterations</span><span class="p">):</span>
+			<span class="n">U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__prf</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__passphrase</span><span class="p">,</span> <span class="n">U</span><span class="p">)</span>
+			<span class="n">result</span> <span class="o">=</span> <span class="n">binxor</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">U</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">result</span>
+
+<div class="viewcode-block" id="PBKDF2.hexread">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.pbkdf2.PBKDF2.hexread">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="nf">hexread</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">octets</span><span class="p">):</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;Read the specified number of octets. Return them as hexadecimal.</span>
+
+<span class="sd">		Note that len(obj.hexread(n)) == 2*n.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="n">b2a_hex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">octets</span><span class="p">))</span></div>
+
+
+	<span class="k">def</span><span class="w"> </span><span class="nf">_setup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">passphrase</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">iterations</span><span class="p">,</span> <span class="n">prf</span><span class="p">):</span>
+		<span class="c1"># Sanity checks:</span>
+
+		<span class="c1"># passphrase and salt must be str or unicode (in the latter</span>
+		<span class="c1"># case, we convert to UTF-8)</span>
+		<span class="k">if</span> <span class="n">isunicode</span><span class="p">(</span><span class="n">passphrase</span><span class="p">):</span>
+			<span class="n">passphrase</span> <span class="o">=</span> <span class="n">passphrase</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span>
+		<span class="k">elif</span> <span class="ow">not</span> <span class="n">isbytes</span><span class="p">(</span><span class="n">passphrase</span><span class="p">):</span>
+			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;passphrase must be str or unicode&quot;</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">isunicode</span><span class="p">(</span><span class="n">salt</span><span class="p">):</span>
+			<span class="n">salt</span> <span class="o">=</span> <span class="n">salt</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span>
+		<span class="k">elif</span> <span class="ow">not</span> <span class="n">isbytes</span><span class="p">(</span><span class="n">salt</span><span class="p">):</span>
+			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;salt must be str or unicode&quot;</span><span class="p">)</span>
+
+		<span class="c1"># iterations must be an integer &gt;= 1</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="n">isinteger</span><span class="p">(</span><span class="n">iterations</span><span class="p">):</span>
+			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;iterations must be an integer&quot;</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">iterations</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;iterations must be at least 1&quot;</span><span class="p">)</span>
+
+		<span class="c1"># prf must be callable</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">prf</span><span class="p">):</span>
+			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;prf must be callable&quot;</span><span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">__passphrase</span> <span class="o">=</span> <span class="n">passphrase</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__salt</span> <span class="o">=</span> <span class="n">salt</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__iterations</span> <span class="o">=</span> <span class="n">iterations</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__prf</span> <span class="o">=</span> <span class="n">prf</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__blockNum</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__buf</span> <span class="o">=</span> <span class="n">b</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">closed</span> <span class="o">=</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="PBKDF2.close">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.pbkdf2.PBKDF2.close">[docs]</a>
+	<span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">		</span><span class="sd">&quot;&quot;&quot;Close the stream.&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">closed</span><span class="p">:</span>
+			<span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__passphrase</span>
+			<span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__salt</span>
+			<span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__iterations</span>
+			<span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__prf</span>
+			<span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__blockNum</span>
+			<span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__buf</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">closed</span> <span class="o">=</span> <span class="kc">True</span></div>
+</div>
+
+
+<div class="viewcode-block" id="crypt">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.pbkdf2.crypt">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">crypt</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">salt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">	</span><span class="sd">&quot;&quot;&quot;PBKDF2-based unix crypt(3) replacement.</span>
+
+<span class="sd">	The number of iterations specified in the salt overrides the &#39;iterations&#39;</span>
+<span class="sd">	parameter.</span>
+
+<span class="sd">	The effective hash length is 192 bits.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+
+	<span class="c1"># Generate a (pseudo-)random salt if the user hasn&#39;t provided one.</span>
+	<span class="k">if</span> <span class="n">salt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+		<span class="n">salt</span> <span class="o">=</span> <span class="n">_makesalt</span><span class="p">()</span>
+
+	<span class="c1"># salt must be a string or the us-ascii subset of unicode</span>
+	<span class="k">if</span> <span class="n">isunicode</span><span class="p">(</span><span class="n">salt</span><span class="p">):</span>
+		<span class="n">salt</span> <span class="o">=</span> <span class="n">salt</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;us-ascii&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;us-ascii&#39;</span><span class="p">)</span>
+	<span class="k">elif</span> <span class="n">isbytes</span><span class="p">(</span><span class="n">salt</span><span class="p">):</span>
+		<span class="n">salt</span> <span class="o">=</span> <span class="n">salt</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;us-ascii&#39;</span><span class="p">)</span>
+	<span class="k">else</span><span class="p">:</span>
+		<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;salt must be a string&quot;</span><span class="p">)</span>
+
+	<span class="c1"># word must be a string or unicode (in the latter case, we convert to UTF-8)</span>
+	<span class="k">if</span> <span class="n">isunicode</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+		<span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span>
+	<span class="k">elif</span> <span class="ow">not</span> <span class="n">isbytes</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+		<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;word must be a string or unicode&quot;</span><span class="p">)</span>
+
+	<span class="c1"># Try to extract the real salt and iteration count from the salt</span>
+	<span class="k">if</span> <span class="n">salt</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;$p5k2$&quot;</span><span class="p">):</span>
+		<span class="p">(</span><span class="n">iterations</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">dummy</span><span class="p">)</span> <span class="o">=</span> <span class="n">salt</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;$&quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+		<span class="k">if</span> <span class="n">iterations</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+			<span class="n">iterations</span> <span class="o">=</span> <span class="mi">400</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="n">converted</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">iterations</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+			<span class="k">if</span> <span class="n">iterations</span> <span class="o">!=</span> <span class="s2">&quot;</span><span class="si">%x</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">converted</span><span class="p">:</span>  <span class="c1"># lowercase hex, minimum digits</span>
+				<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid salt&quot;</span><span class="p">)</span>
+			<span class="n">iterations</span> <span class="o">=</span> <span class="n">converted</span>
+			<span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">iterations</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">):</span>
+				<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid salt&quot;</span><span class="p">)</span>
+
+	<span class="c1"># Make sure the salt matches the allowed character set</span>
+	<span class="n">allowed</span> <span class="o">=</span> <span class="s2">&quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789./&quot;</span>
+	<span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">salt</span><span class="p">:</span>
+		<span class="k">if</span> <span class="n">ch</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">allowed</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Illegal character </span><span class="si">%r</span><span class="s2"> in salt&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">ch</span><span class="p">,))</span>
+
+	<span class="k">if</span> <span class="n">iterations</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">iterations</span> <span class="o">==</span> <span class="mi">400</span><span class="p">:</span>
+		<span class="n">iterations</span> <span class="o">=</span> <span class="mi">400</span>
+		<span class="n">salt</span> <span class="o">=</span> <span class="s2">&quot;$p5k2$$&quot;</span> <span class="o">+</span> <span class="n">salt</span>
+	<span class="k">else</span><span class="p">:</span>
+		<span class="n">salt</span> <span class="o">=</span> <span class="s2">&quot;$p5k2$</span><span class="si">%x</span><span class="s2">$</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">iterations</span><span class="p">,</span> <span class="n">salt</span><span class="p">)</span>
+	<span class="n">rawhash</span> <span class="o">=</span> <span class="n">PBKDF2</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">iterations</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">24</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">salt</span> <span class="o">+</span> <span class="s2">&quot;$&quot;</span> <span class="o">+</span> <span class="n">b64encode</span><span class="p">(</span><span class="n">rawhash</span><span class="p">,</span> <span class="s2">&quot;./&quot;</span><span class="p">)</span></div>
+
+
+<span class="c1"># Add crypt as a static method of the PBKDF2 class</span>
+<span class="c1"># This makes it easier to do &quot;from PBKDF2 import PBKDF2&quot; and still use</span>
+<span class="c1"># crypt.</span>
+<span class="n">PBKDF2</span><span class="o">.</span><span class="n">crypt</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">crypt</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_makesalt</span><span class="p">():</span>
+<span class="w">	</span><span class="sd">&quot;&quot;&quot;Return a 48-bit pseudorandom salt for crypt().</span>
+
+<span class="sd">	This function is not suitable for generating cryptographic secrets.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">binarysalt</span> <span class="o">=</span> <span class="n">b</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">pack</span><span class="p">(</span><span class="s2">&quot;@H&quot;</span><span class="p">,</span> <span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mh">0xffff</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)])</span>
+	<span class="k">return</span> <span class="n">b64encode</span><span class="p">(</span><span class="n">binarysalt</span><span class="p">,</span> <span class="s2">&quot;./&quot;</span><span class="p">)</span>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Cryptnox.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

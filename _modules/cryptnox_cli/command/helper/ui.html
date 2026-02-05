@@ -1,0 +1,402 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cryptnox_cli.command.helper.ui &mdash; cryptnox-cli 1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=0912efa5" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=baaebd52"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/custom.js?v=f0d783cb"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #101f2e" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            cryptnox-cli
+              <img src="../../../../_static/cryptnox-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Cryptnox CLI Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #101f2e" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">cryptnox-cli</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cryptnox_cli.command.helper.ui</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cryptnox_cli.command.helper.ui</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module providing user interface components including input validation,</span>
+<span class="sd">confirmation dialogs, data collection forms, and display formatting</span>
+<span class="sd">for the command-line interface.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">secrets</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">namedtuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">cryptnox_sdk_py</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">stdiomask</span><span class="w"> </span><span class="kn">import</span> <span class="n">getpass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tabulate</span><span class="w"> </span><span class="kn">import</span> <span class="n">tabulate</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">security</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cryptnox_cli.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">MAX_PASSPHRASE_LENGTH</span>
+
+<span class="n">InitData</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;InitData&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="p">,</span> <span class="s2">&quot;pin&quot;</span><span class="p">,</span> <span class="s2">&quot;puk&quot;</span><span class="p">])</span>
+
+
+<div class="viewcode-block" id="ExitException">
+<a class="viewcode-back" href="../../../../cryptnox_cli.command.helper.html#cryptnox_cli.command.helper.ui.ExitException">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ExitException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when user has indicated he want&#39;s to exit the command&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="StringConvert">
+<a class="viewcode-back" href="../../../../cryptnox_cli.command.helper.html#cryptnox_cli.command.helper.ui.StringConvert">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">StringConvert</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class for finding if string can be converted to ascii.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="StringConvert.isascii_">
+<a class="viewcode-back" href="../../../../cryptnox_cli.command.helper.html#cryptnox_cli.command.helper.ui.StringConvert.isascii_">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">isascii_</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Finding if string can be converted or is ascii.</span>
+
+<span class="sd">        :return: Can be or is ascii.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">UnicodeEncodeError</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">isascii</span><span class="p">()</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="confirm">
+<a class="viewcode-back" href="../../../../cryptnox_cli.command.helper.html#cryptnox_cli.command.helper.ui.confirm">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">confirm</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">warning</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="n">print_warning</span><span class="p">(</span><span class="n">warning</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">conf</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s2"> [y/N] &gt; &quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">conf</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+            <span class="k">break</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Type &quot;y&quot;, &quot;n&quot; or leave empty for no.&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">conf</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;y&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="input_with_exit">
+<a class="viewcode-back" href="../../../../cryptnox_cli.command.helper.html#cryptnox_cli.command.helper.ui.input_with_exit">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">input_with_exit</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">input_method</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">input_method</span> <span class="o">=</span> <span class="n">input_method</span> <span class="ow">or</span> <span class="nb">input</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">input_method</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;exit&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ExitException</span>
+        <span class="k">if</span> <span class="n">required</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">value</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This entry is required&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">break</span>
+
+    <span class="k">return</span> <span class="n">value</span></div>
+
+
+
+<div class="viewcode-block" id="input_type">
+<a class="viewcode-back" href="../../../../cryptnox_cli.command.helper.html#cryptnox_cli.command.helper.ui.input_type">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">input_type</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">type_of_input</span><span class="o">=</span><span class="nb">str</span><span class="p">):</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">input_with_exit</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">required</span><span class="p">,</span> <span class="nb">input</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">type_of_input</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="get_init_data">
+<a class="viewcode-back" href="../../../../cryptnox_cli.command.helper.html#cryptnox_cli.command.helper.ui.get_init_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_init_data</span><span class="p">(</span><span class="n">card</span><span class="p">:</span> <span class="n">cryptnox_sdk_py</span><span class="o">.</span><span class="n">card</span><span class="p">,</span> <span class="n">easy_mode</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InitData</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">easy_mode</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">confirm</span><span class="p">(</span><span class="s2">&quot;Do you wish to proceed?&quot;</span><span class="p">,</span>
+                                 <span class="sa">f</span><span class="s2">&quot;WARNING: THIS WILL INITIALIZE THE CARD &quot;</span>
+                                 <span class="sa">f</span><span class="s2">&quot;IN </span><span class="si">{</span><span class="n">security</span><span class="o">.</span><span class="n">EASY_MODE_TEXT</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ExitException</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;You can enter exit at any point to exit initialisation process.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Setting Cryptnox parameters</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">easy_mode</span><span class="p">:</span>
+        <span class="n">init_data</span> <span class="o">=</span> <span class="n">InitData</span><span class="p">(</span><span class="n">security</span><span class="o">.</span><span class="n">EASY_MODE_TEXT</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">security</span><span class="o">.</span><span class="n">EASY_MODE_TEXT</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span>
+                             <span class="n">security</span><span class="o">.</span><span class="n">EASY_MODE_PIN</span><span class="p">,</span> <span class="n">security</span><span class="o">.</span><span class="n">easy_mode_puk</span><span class="p">(</span><span class="n">card</span><span class="p">))</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">[</span><span class="s2">&quot;Owner&#39;s name&quot;</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">init_data</span><span class="o">.</span><span class="n">name</span><span class="p">],</span>
+            <span class="p">[</span><span class="s2">&quot;Owner&#39;s email&quot;</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">init_data</span><span class="o">.</span><span class="n">email</span><span class="p">],</span>
+            <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Card PIN code (</span><span class="si">{</span><span class="n">card</span><span class="o">.</span><span class="n">pin_rule</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">init_data</span><span class="o">.</span><span class="n">pin</span><span class="p">],</span>
+            <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Card PUK code (</span><span class="si">{</span><span class="n">card</span><span class="o">.</span><span class="n">puk_rule</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">init_data</span><span class="o">.</span><span class="n">puk</span><span class="p">]</span>
+        <span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s2">&quot;plain&quot;</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">init_data</span> <span class="o">=</span> <span class="n">InitData</span><span class="p">(</span><span class="n">_get_name</span><span class="p">(),</span> <span class="n">_get_email</span><span class="p">(),</span> <span class="n">_get_pin_code</span><span class="p">(</span><span class="n">card</span><span class="p">),</span> <span class="n">_get_puk_code</span><span class="p">(</span><span class="n">card</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">init_data</span></div>
+
+
+
+<div class="viewcode-block" id="option_input">
+<a class="viewcode-back" href="../../../../cryptnox_cli.command.helper.html#cryptnox_cli.command.helper.ui.option_input">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">option_input</span><span class="p">(</span><span class="n">options</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">options</span><span class="p">}</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">name</span> <span class="ow">or</span> <span class="s2">&quot;option&quot;</span>
+    <span class="k">if</span> <span class="n">default</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Default value is marked with a star, press ENTER to select it.&#39;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">([(</span><span class="s2">&quot;* &quot;</span> <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">default</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">value</span>
+                              <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">options</span><span class="o">.</span><span class="n">items</span><span class="p">()],</span> <span class="mi">1</span><span class="p">)))</span>
+    <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">choice</span> <span class="o">=</span> <span class="n">input_with_exit</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Choose </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> (1 - </span><span class="si">{</span><span class="n">length</span><span class="si">}</span><span class="s2">): &quot;</span><span class="p">,</span> <span class="ow">not</span> <span class="n">default</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">choice</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;exit&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ExitException</span><span class="p">(</span><span class="s2">&quot;Exited by user&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">default</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">choice</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">default</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="nb">int</span><span class="p">(</span><span class="n">choice</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">IndexError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Please, enter a number between 1 and </span><span class="si">{</span><span class="n">length</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">+</span>
+                  <span class="p">(</span><span class="s2">&quot; or press ENTER for default value&quot;</span> <span class="k">if</span> <span class="n">default</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="print_warning">
+<a class="viewcode-back" href="../../../../cryptnox_cli.command.helper.html#cryptnox_cli.command.helper.ui.print_warning">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">print_warning</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">text</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">([[</span><span class="nb">str</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()]],</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s2">&quot;rst&quot;</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="secret_with_exit">
+<a class="viewcode-back" href="../../../../cryptnox_cli.command.helper.html#cryptnox_cli.command.helper.ui.secret_with_exit">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">secret_with_exit</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">input_with_exit</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">required</span><span class="p">,</span> <span class="n">getpass</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_email</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">_get_valid_input</span><span class="p">(</span><span class="s2">&quot;Owner&#39;s email: &quot;</span><span class="p">,</span>
+                            <span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">value</span><span class="o">.</span><span class="n">isascii_</span><span class="p">()</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">60</span><span class="p">,</span>
+                            <span class="s2">&quot;ERROR when input owner email, should be ASCII string no longer than &quot;</span>
+                            <span class="s2">&quot;60 chars.&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_name</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">_get_valid_input</span><span class="p">(</span><span class="s2">&quot;Name: &quot;</span><span class="p">,</span>
+                            <span class="k">lambda</span> <span class="n">text</span><span class="p">:</span> <span class="n">text</span><span class="o">.</span><span class="n">isascii_</span><span class="p">()</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">20</span><span class="p">,</span>
+                            <span class="s2">&quot;ERROR when input owner name, should be ASCII string no longer than &quot;</span>
+                            <span class="s2">&quot;20 chars.&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_pin_code</span><span class="p">(</span><span class="n">card</span><span class="p">:</span> <span class="n">cryptnox_sdk_py</span><span class="o">.</span><span class="n">Card</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">_verify_input</span><span class="p">(</span><span class="n">card</span><span class="p">,</span> <span class="n">security</span><span class="o">.</span><span class="n">get_pin_code</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Set card PIN code (</span><span class="si">{</span><span class="n">card</span><span class="o">.</span><span class="n">pin_rule</span><span class="si">}</span><span class="s2">): &quot;</span><span class="p">,</span>
+                         <span class="sa">f</span><span class="s2">&quot;  Repeat PIN code (</span><span class="si">{</span><span class="n">card</span><span class="o">.</span><span class="n">pin_rule</span><span class="si">}</span><span class="s2">): &quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_puk_code</span><span class="p">(</span><span class="n">card</span><span class="p">:</span> <span class="n">cryptnox_sdk_py</span><span class="o">.</span><span class="n">Card</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;For the PUK code: 1) Input your own </span><span class="si">{</span><span class="n">card</span><span class="o">.</span><span class="n">puk_rule</span><span class="si">}</span><span class="s2"> PUK&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;                   2) Generate a random one &quot;</span><span class="p">)</span>
+    <span class="n">puk_choice</span> <span class="o">=</span> <span class="n">input_with_exit</span><span class="p">(</span><span class="s2">&quot;&gt; &quot;</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">puk_choice</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Not a valid choice. Please, enter 1 or 2.&quot;</span><span class="p">)</span>
+        <span class="n">puk_choice</span> <span class="o">=</span> <span class="n">input_with_exit</span><span class="p">(</span><span class="s2">&quot;&gt; &quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">puk_choice</span> <span class="o">==</span> <span class="s2">&quot;2&quot;</span><span class="p">:</span>
+        <span class="n">puk_code</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">secrets</span><span class="o">.</span><span class="n">randbelow</span><span class="p">(</span><span class="mi">10</span> <span class="o">**</span> <span class="n">card</span><span class="o">.</span><span class="n">PUK_LENGTH</span><span class="p">))</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="n">card</span><span class="o">.</span><span class="n">PUK_LENGTH</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-- Card PUK code : &quot;</span><span class="p">,</span> <span class="n">puk_code</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-- Save the PUK on a paper for security  --&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">puk_code</span> <span class="o">=</span> <span class="n">_verify_input</span><span class="p">(</span><span class="n">card</span><span class="p">,</span> <span class="n">security</span><span class="o">.</span><span class="n">get_puk_code</span><span class="p">,</span>
+                                 <span class="sa">f</span><span class="s2">&quot; Set card PUK code (</span><span class="si">{</span><span class="n">card</span><span class="o">.</span><span class="n">puk_rule</span><span class="si">}</span><span class="s2">): &quot;</span><span class="p">,</span>
+                                 <span class="sa">f</span><span class="s2">&quot;   Repeat PUK code (</span><span class="si">{</span><span class="n">card</span><span class="o">.</span><span class="n">puk_rule</span><span class="si">}</span><span class="s2">): &quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">puk_code</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_valid_input</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">valid</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Invalid value&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">user_input</span> <span class="o">=</span> <span class="n">StringConvert</span><span class="p">(</span><span class="n">input_with_exit</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">valid</span><span class="p">(</span><span class="n">user_input</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+        <span class="n">user_input</span> <span class="o">=</span> <span class="n">StringConvert</span><span class="p">(</span><span class="n">input_with_exit</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">user_input</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_verify_input</span><span class="p">(</span><span class="n">card</span><span class="p">:</span> <span class="n">cryptnox_sdk_py</span><span class="o">.</span><span class="n">Card</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">verify_text</span><span class="p">,</span>
+                  <span class="n">error</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;The given values are not the same.&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">method</span><span class="p">(</span><span class="n">card</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+        <span class="n">verify_value</span> <span class="o">=</span> <span class="n">method</span><span class="p">(</span><span class="n">card</span><span class="p">,</span> <span class="n">verify_text</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="n">verify_value</span><span class="p">:</span>
+            <span class="k">break</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">value</span>
+
+
+<div class="viewcode-block" id="get_bip39_passphrase">
+<a class="viewcode-back" href="../../../../cryptnox_cli.command.helper.html#cryptnox_cli.command.helper.ui.get_bip39_passphrase">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_bip39_passphrase</span><span class="p">(</span><span class="n">confirm_required</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="n">print_warning</span><span class="p">(</span><span class="s2">&quot;BIP39 PASSPHRASE FEATURE&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;A BIP39 passphrase is an optional extra password that provides additional security.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Different passphrases create completely different wallets from the same mnemonic.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;IMPORTANT WARNINGS:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  • If you forget your passphrase, your funds are PERMANENTLY LOST&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  • Passphrases are case-sensitive and spaces matter&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  • There is NO way to recover funds without the exact passphrase&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  • Press ENTER to skip passphrase (standard BIP39 with empty passphrase)&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+
+    <span class="n">use_passphrase</span> <span class="o">=</span> <span class="n">confirm</span><span class="p">(</span><span class="s2">&quot;Do you want to use a BIP39 passphrase?&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">use_passphrase</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Enter your BIP39 passphrase:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;(Any UTF-8 characters are valid, but avoid unusual characters you might forget)&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">confirm_required</span><span class="p">:</span>
+        <span class="n">passphrase</span> <span class="o">=</span> <span class="n">_verify_passphrase_input</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">passphrase</span> <span class="o">=</span> <span class="n">getpass</span><span class="p">(</span><span class="s2">&quot;Passphrase: &quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">passphrase</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">MAX_PASSPHRASE_LENGTH</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ERROR: Passphrase must be at most 100 characters. Please try again.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">ExitException</span><span class="p">(</span><span class="s2">&quot;Passphrase exceeds 100 characters&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Please write down your passphrase and store it securely.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Without this exact passphrase, you CANNOT access your wallet.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">confirm</span><span class="p">(</span><span class="s2">&quot;Have you securely stored your passphrase?&quot;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ExitException</span><span class="p">(</span><span class="s2">&quot;User needs to store passphrase securely&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">passphrase</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_verify_passphrase_input</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">passphrase</span> <span class="o">=</span> <span class="n">getpass</span><span class="p">(</span><span class="s2">&quot;Passphrase: &quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">passphrase</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">MAX_PASSPHRASE_LENGTH</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ERROR: Passphrase must be at most 100 characters. Please try again.&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">()</span>
+            <span class="k">continue</span>
+        <span class="n">verify_passphrase</span> <span class="o">=</span> <span class="n">getpass</span><span class="p">(</span><span class="s2">&quot;Confirm passphrase: &quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">passphrase</span> <span class="o">==</span> <span class="n">verify_passphrase</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">passphrase</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ERROR: Passphrases do not match. Please try again.&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Cryptnox.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

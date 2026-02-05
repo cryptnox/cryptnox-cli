@@ -1,0 +1,253 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cryptnox_cli.command.options.eth &mdash; cryptnox-cli 1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=0912efa5" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=baaebd52"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/custom.js?v=f0d783cb"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #101f2e" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            cryptnox-cli
+              <img src="../../../../_static/cryptnox-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Cryptnox CLI Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #101f2e" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">cryptnox-cli</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cryptnox_cli.command.options.eth</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cryptnox_cli.command.options.eth</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module for Ethereum-specific command-line argument parsing and validation,</span>
+<span class="sd">including transaction parameters, gas settings, and network configuration.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">decimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decimal</span><span class="p">,</span> <span class="n">InvalidOperation</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">add_config_sub_parser</span><span class="p">,</span>
+    <span class="n">add_pin_option</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..helper.helper_methods</span><span class="w"> </span><span class="kn">import</span> <span class="n">try_eval</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">enums</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">...</span><span class="w"> </span><span class="kn">import</span> <span class="n">enums</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_validate_decimal</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Decimal</span><span class="p">:</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Decimal</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">InvalidOperation</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentTypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Invalid amount: &#39;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&#39;. Please provide a valid number&quot;</span>
+        <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_argument_parser</span><span class="p">(</span><span class="n">arguments</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">arguments</span> <span class="k">if</span> <span class="n">arguments</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;0x&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">try_eval</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_network_choices</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">enums</span><span class="o">.</span><span class="n">EthNetwork</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_validate</span><span class="p">(</span><span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="nb">int</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentTypeError</span><span class="p">(</span><span class="s2">&quot;Not a valid ETH address&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">address</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;0x&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">address</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">42</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentTypeError</span><span class="p">(</span><span class="s2">&quot;Not a valid ETH address&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">address</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_add_options</span><span class="p">(</span><span class="n">sub_parser</span><span class="p">):</span>
+    <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-n&quot;</span><span class="p">,</span> <span class="s2">&quot;--network&quot;</span><span class="p">,</span>
+                            <span class="n">choices</span><span class="o">=</span><span class="n">_network_choices</span><span class="p">(),</span>
+                            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Network to use for transaction&quot;</span><span class="p">)</span>
+    <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-p&quot;</span><span class="p">,</span> <span class="s2">&quot;--price&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Gas price&quot;</span><span class="p">)</span>
+    <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-l&quot;</span><span class="p">,</span> <span class="s2">&quot;--limit&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Gas limit&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_add_contract_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_add</span><span class="p">(</span><span class="n">subparsers</span><span class="p">):</span>
+        <span class="n">sub_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;add&quot;</span><span class="p">,</span>
+                                           <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Add contract to application &quot;</span>
+                                                <span class="s2">&quot;to be later called with an &quot;</span>
+                                                <span class="s2">&quot;alias&quot;</span><span class="p">)</span>
+        <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;alias&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Alias for the application to recognize the &quot;</span>
+                                              <span class="s2">&quot;contract by&quot;</span><span class="p">)</span>
+        <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">_validate</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Address of the contract&quot;</span><span class="p">)</span>
+        <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;abi&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;ABI of the contract in a &quot;</span>
+                                                                 <span class="s2">&quot;JSON format or ERC code&quot;</span><span class="p">)</span>
+        <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-n&quot;</span><span class="p">,</span> <span class="s2">&quot;--network&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">_network_choices</span><span class="p">(),</span>
+                                <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Network to use for transaction&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_call</span><span class="p">(</span><span class="n">subparsers</span><span class="p">):</span>
+        <span class="n">sub_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;call&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Call a contract function&quot;</span><span class="p">)</span>
+
+        <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;alias&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Alias for the application to recognize the &quot;</span>
+                                              <span class="s2">&quot;contract by&quot;</span><span class="p">)</span>
+        <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;function&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Name of the function to call&quot;</span><span class="p">)</span>
+        <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;arguments&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[],</span> <span class="nb">type</span><span class="o">=</span><span class="n">_argument_parser</span><span class="p">,</span>
+                                <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Arguments for the function&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_list</span><span class="p">(</span><span class="n">subparsers</span><span class="p">):</span>
+        <span class="n">sub_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;list&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;List all contract aliases and their &quot;</span>
+                                                        <span class="s2">&quot;connected addresses or contract &quot;</span>
+                                                        <span class="s2">&quot;functions&quot;</span><span class="p">)</span>
+
+        <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;alias&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span>
+                                <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Alias of the contract which functions to list. If given &quot;</span>
+                                     <span class="s2">&quot;list all function the contract has.&quot;</span><span class="p">)</span>
+        <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-e&quot;</span><span class="p">,</span> <span class="s2">&quot;--event&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+                                <span class="n">help</span><span class="o">=</span><span class="s2">&quot;List events of the selected contract&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_logs</span><span class="p">(</span><span class="n">subparsers</span><span class="p">):</span>
+        <span class="n">sub_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;list_events&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;List events that have been &quot;</span>
+                                                               <span class="s2">&quot;triggered since last running &quot;</span>
+                                                               <span class="s2">&quot;of this command&quot;</span><span class="p">)</span>
+        <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;alias&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Name of the contract to list events for&quot;</span><span class="p">)</span>
+        <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;event&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Name of the event to list&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_transact</span><span class="p">(</span><span class="n">subparsers</span><span class="p">):</span>
+        <span class="n">sub_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;transact&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Call a contract function&quot;</span><span class="p">)</span>
+
+        <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;alias&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Alias for the application to recognize the &quot;</span>
+                                              <span class="s2">&quot;contract by&quot;</span><span class="p">)</span>
+        <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;function&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Name of the function to call&quot;</span><span class="p">)</span>
+        <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;arguments&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[],</span> <span class="nb">type</span><span class="o">=</span><span class="n">_argument_parser</span><span class="p">,</span>
+                                <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Arguments for the function&quot;</span><span class="p">)</span>
+        <span class="n">_add_options</span><span class="p">(</span><span class="n">sub_parser</span><span class="p">)</span>
+
+    <span class="n">sub_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;contract&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Smart contract operations&quot;</span><span class="p">)</span>
+
+    <span class="n">action_sub_parser</span> <span class="o">=</span> <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span><span class="n">dest</span><span class="o">=</span><span class="s2">&quot;contract_action&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                  <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Action to execute&quot;</span><span class="p">)</span>
+    <span class="n">_add_add</span><span class="p">(</span><span class="n">action_sub_parser</span><span class="p">)</span>
+    <span class="n">_add_call</span><span class="p">(</span><span class="n">action_sub_parser</span><span class="p">)</span>
+    <span class="n">_add_list</span><span class="p">(</span><span class="n">action_sub_parser</span><span class="p">)</span>
+    <span class="n">_add_transact</span><span class="p">(</span><span class="n">action_sub_parser</span><span class="p">)</span>
+    <span class="n">_add_logs</span><span class="p">(</span><span class="n">action_sub_parser</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_add_send</span><span class="p">(</span><span class="n">subparsers</span><span class="p">):</span>
+    <span class="n">sub_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;send&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Simple command to send Ethereum system token&quot;</span><span class="p">)</span>
+    <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">_validate</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Address where to send funds&quot;</span><span class="p">)</span>
+    <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;amount&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">_validate_decimal</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Amount to send&quot;</span><span class="p">)</span>
+    <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-c&quot;</span><span class="p">,</span> <span class="s2">&quot;--contract&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">_validate</span><span class="p">,</span>
+                            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Contract address of the contract&quot;</span><span class="p">)</span>
+
+    <span class="n">_add_options</span><span class="p">(</span><span class="n">sub_parser</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="options">
+<a class="viewcode-back" href="../../../../cryptnox_cli.command.options.html#cryptnox_cli.command.options.eth.options">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">pin_option</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+    <span class="n">eth_sub_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="n">enums</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">ETH</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Ethereum subcommands&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">pin_option</span><span class="p">:</span>
+        <span class="n">add_pin_option</span><span class="p">(</span><span class="n">eth_sub_parser</span><span class="p">)</span>
+
+    <span class="n">action_sub_parser</span> <span class="o">=</span> <span class="n">eth_sub_parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span><span class="n">dest</span><span class="o">=</span><span class="s2">&quot;eth_action&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">_add_send</span><span class="p">(</span><span class="n">action_sub_parser</span><span class="p">)</span>
+    <span class="n">_add_contract_options</span><span class="p">(</span><span class="n">action_sub_parser</span><span class="p">)</span>
+    <span class="n">add_config_sub_parser</span><span class="p">(</span><span class="n">action_sub_parser</span><span class="p">,</span> <span class="s2">&quot;Ethereum&quot;</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Cryptnox.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

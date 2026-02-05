@@ -1,0 +1,850 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Command Line Interface &mdash; cryptnox-cli 1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=0912efa5" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=baaebd52"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/custom.js?v=f0d783cb"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Reference" href="modules.html" />
+    <link rel="prev" title="Cryptnox CLI Overview" href="overview.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #101f2e" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            cryptnox-cli
+              <img src="_static/cryptnox-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Cryptnox CLI Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Command Line Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#basic-usage">Basic Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#global-options">Global Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#commands-overview">Commands Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#card-management-commands">Card Management Commands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#list">list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#init">init</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reset">reset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#info">info</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cert">cert</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#seed-management-commands">Seed Management Commands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#seed-backup">seed backup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#seed-chip">seed chip</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#seed-dual">seed dual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#seed-recover">seed recover</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#seed-restore">seed restore</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#seed-upload">seed upload</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#security-commands">Security Commands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#change-pin">change_pin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#change-puk">change_puk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#unlock-pin">unlock_pin</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#card-configuration">Card Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#card-conf">card_conf</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#bitcoin-commands">Bitcoin Commands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#btc-send">btc send</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#btc-config">btc config</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#ethereum-commands">Ethereum Commands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#eth-send">eth send</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eth-config">eth config</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#erc-token-commands">ERC Token Commands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#eth-erc20-init">eth erc20 init</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eth-erc20-info">eth erc20 info</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eth-erc20-send">eth erc20 send</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transfer">transfer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#configuration-commands">Configuration Commands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#config">config</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#history-and-information">History and Information</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#history">history</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#advanced-commands">Advanced Commands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#get-xpub">get_xpub</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get-clearpubkey">get_clearpubkey</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#decrypt">decrypt</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#user-key-management">User Key Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#user-key-list">user_key list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#user-key-add">user_key add</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#user-key-delete">user_key delete</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#server-mode">Server Mode</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#server">server</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#interactive-mode">Interactive Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bip39-passphrase-support">BIP39 Passphrase Support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#what-is-a-bip39-passphrase">What is a BIP39 Passphrase?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-bip39-passphrase">Using BIP39 Passphrase</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#exit-codes">Exit Codes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#error-handling">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#see-also">See Also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #101f2e" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">cryptnox-cli</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Command Line Interface</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/cli.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="command-line-interface">
+<h1>Command Line Interface<a class="headerlink" href="#command-line-interface" title="Link to this heading"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">cryptnox</span></code> command provides a comprehensive CLI for managing Cryptnox cards and performing cryptocurrency operations.</p>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<p>After installing the cryptnox-cli package, the <code class="docutils literal notranslate"><span class="pre">cryptnox</span></code> command becomes available in your system:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>cryptnox-cli
+</pre></div>
+</div>
+</section>
+<section id="basic-usage">
+<h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+</pre></div>
+</div>
+</section>
+<section id="global-options">
+<h2>Global Options<a class="headerlink" href="#global-options" title="Link to this heading"></a></h2>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-v">
+<span id="cmdoption-version"></span><span class="sig-name descname"><span class="pre">-v</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--version</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-v" title="Link to this definition"></a></dt>
+<dd><p>Show the version and exit.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-verbose">
+<span class="sig-name descname"><span class="pre">--verbose</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-verbose" title="Link to this definition"></a></dt>
+<dd><p>Turn on logging for detailed output.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-s">
+<span id="cmdoption-serial"></span><span class="sig-name descname"><span class="pre">-s</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--serial</span></span><span class="sig-prename descclassname"> <span class="pre">SERIAL</span></span><a class="headerlink" href="#cmdoption-s" title="Link to this definition"></a></dt>
+<dd><p>Serial number of the card to be used for the command.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-port">
+<span class="sig-name descname"><span class="pre">--port</span></span><span class="sig-prename descclassname"> <span class="pre">PORT</span></span><a class="headerlink" href="#cmdoption-port" title="Link to this definition"></a></dt>
+<dd><p>Define port to enable remote feature.</p>
+</dd></dl>
+
+</section>
+<section id="commands-overview">
+<h2>Commands Overview<a class="headerlink" href="#commands-overview" title="Link to this heading"></a></h2>
+<section id="card-management-commands">
+<h3>Card Management Commands<a class="headerlink" href="#card-management-commands" title="Link to this heading"></a></h3>
+<section id="list">
+<h4>list<a class="headerlink" href="#list" title="Link to this heading"></a></h4>
+<p>List all connected Cryptnox cards.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>list
+</pre></div>
+</div>
+</section>
+<section id="init">
+<h4>init<a class="headerlink" href="#init" title="Link to this heading"></a></h4>
+<p>Initialize a Cryptnox card with owner information and PIN/PUK codes.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>init<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>Options:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">-e,</span> <span class="pre">--easy_mode</span></code>: Initialize card in easy mode (sets PIN and PUK to all zeros)</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="reset">
+<h4>reset<a class="headerlink" href="#reset" title="Link to this heading"></a></h4>
+<p>Reset the card to factory defaults.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>reset
+</pre></div>
+</div>
+<p><strong>Warning:</strong> This will erase all data on the card.</p>
+</section>
+<section id="info">
+<h4>info<a class="headerlink" href="#info" title="Link to this heading"></a></h4>
+<p>Display default accounts information for the card.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>info
+</pre></div>
+</div>
+<dl class="simple">
+<dt>Shows:</dt><dd><ul class="simple">
+<li><p>Card serial number and type</p></li>
+<li><p>Ethereum and Bitcoin addresses</p></li>
+<li><p>Public keys</p></li>
+<li><p>Derivation information</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="cert">
+<h4>cert<a class="headerlink" href="#cert" title="Link to this heading"></a></h4>
+<p>Retrieve and display the manufacturer certificate from the card in a human-readable format.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>cert
+</pre></div>
+</div>
+<dl class="simple">
+<dt><strong>Features:</strong></dt><dd><ul class="simple">
+<li><p>Retrieves the full manufacturer certificate from the card</p></li>
+<li><p>Displays certificate details (Issuer, Subject, Validity, Public Key, Signature)</p></li>
+<li><p>Human-readable format similar to <code class="docutils literal notranslate"><span class="pre">openssl</span> <span class="pre">x509</span> <span class="pre">-text</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</section>
+</section>
+<section id="seed-management-commands">
+<h3>Seed Management Commands<a class="headerlink" href="#seed-management-commands" title="Link to this heading"></a></h3>
+<section id="seed-backup">
+<h4>seed backup<a class="headerlink" href="#seed-backup" title="Link to this heading"></a></h4>
+<p>Generate seed in host, backup to AWS KMS, and upload to card.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>seed<span class="w"> </span>backup
+</pre></div>
+</div>
+<dl class="simple">
+<dt><strong>Features:</strong></dt><dd><ul class="simple">
+<li><p>Generates new 32-byte random seed</p></li>
+<li><p>Stores encrypted backup in AWS KMS (Hardware Security Module)</p></li>
+<li><p>Supports BIP39 passphrase (13th/25th word)</p></li>
+<li><p>Loads seed onto card</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="seed-chip">
+<h4>seed chip<a class="headerlink" href="#seed-chip" title="Link to this heading"></a></h4>
+<p>Generate new root key directly in the card’s secure chip.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>seed<span class="w"> </span>chip
+</pre></div>
+</div>
+<p><strong>Note:</strong> The seed never leaves the card and cannot be backed up.</p>
+</section>
+<section id="seed-dual">
+<h4>seed dual<a class="headerlink" href="#seed-dual" title="Link to this heading"></a></h4>
+<p>Generate the same seed on two cards for redundancy.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>seed<span class="w"> </span>dual
+</pre></div>
+</div>
+<p><strong>Requirements:</strong> Two initialized Cryptnox cards</p>
+<dl class="simple">
+<dt><strong>Process:</strong></dt><dd><ol class="arabic simple">
+<li><p>Generate seed on first card</p></li>
+<li><p>Swap cards</p></li>
+<li><p>Load same seed on second card</p></li>
+<li><p>Results in two cards with identical keys</p></li>
+</ol>
+</dd>
+</dl>
+</section>
+<section id="seed-recover">
+<h4>seed recover<a class="headerlink" href="#seed-recover" title="Link to this heading"></a></h4>
+<p>Recover a wallet from an existing BIP39 mnemonic phrase (12 or 24 words).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>seed<span class="w"> </span>recover
+</pre></div>
+</div>
+<dl class="simple">
+<dt><strong>Input Required:</strong></dt><dd><ul class="simple">
+<li><p>Existing BIP39 mnemonic (12 or 24 words)</p></li>
+<li><p>Optional: BIP39 passphrase (13th/25th word)</p></li>
+</ul>
+</dd>
+<dt><strong>Options:</strong></dt><dd><ul class="simple">
+<li><p>Backup to AWS KMS</p></li>
+<li><p>Load directly to card</p></li>
+</ul>
+</dd>
+<dt><strong>Use Cases:</strong></dt><dd><ul class="simple">
+<li><p>Restoring existing wallet</p></li>
+<li><p>Migrating wallet from another device</p></li>
+<li><p>Recovering from backup mnemonic</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Important:</strong> If the original wallet used a BIP39 passphrase, you <strong>must</strong> provide the same passphrase during recovery.</p>
+</section>
+<section id="seed-restore">
+<h4>seed restore<a class="headerlink" href="#seed-restore" title="Link to this heading"></a></h4>
+<p>Restore seed from AWS KMS backup.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>seed<span class="w"> </span>restore
+</pre></div>
+</div>
+<dl class="simple">
+<dt><strong>Requirements:</strong></dt><dd><ul class="simple">
+<li><p>AWS access credentials</p></li>
+<li><p>Backup name/alias in KMS</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Important:</strong> If a BIP39 passphrase was used when creating the backup, you must provide the same passphrase during restore.</p>
+</section>
+<section id="seed-upload">
+<h4>seed upload<a class="headerlink" href="#seed-upload" title="Link to this heading"></a></h4>
+<p>Generate new random seed, upload to card, and display BIP39 mnemonic for backup.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>seed<span class="w"> </span>upload
+</pre></div>
+</div>
+<dl class="simple">
+<dt><strong>Features:</strong></dt><dd><ul class="simple">
+<li><p>Generates new 32-byte random seed using card’s hardware RNG</p></li>
+<li><p>Converts to BIP39 mnemonic (12 or 24 words)</p></li>
+<li><p>Optional: Add BIP39 passphrase (13th/25th word) for extra security</p></li>
+<li><p>Displays mnemonic for manual backup</p></li>
+<li><p>Optional: Backup to AWS KMS</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Output:</strong> The generated mnemonic phrase (save it securely!)</p>
+<p><strong>Important:</strong> If you use a BIP39 passphrase, you <strong>must</strong> remember it. It cannot be recovered.</p>
+</section>
+</section>
+<section id="security-commands">
+<h3>Security Commands<a class="headerlink" href="#security-commands" title="Link to this heading"></a></h3>
+<section id="change-pin">
+<h4>change_pin<a class="headerlink" href="#change-pin" title="Link to this heading"></a></h4>
+<p>Change the PIN code of the card.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>change_pin
+</pre></div>
+</div>
+<p><strong>Requirements:</strong> Current PIN code</p>
+</section>
+<section id="change-puk">
+<h4>change_puk<a class="headerlink" href="#change-puk" title="Link to this heading"></a></h4>
+<p>Change the PUK (PIN Unblocking Key) code of the card.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>change_puk
+</pre></div>
+</div>
+<p><strong>Requirements:</strong> Current PUK code</p>
+</section>
+<section id="unlock-pin">
+<h4>unlock_pin<a class="headerlink" href="#unlock-pin" title="Link to this heading"></a></h4>
+<p>Unlock a card with blocked PIN using the PUK code and set a new PIN.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>unlock_pin
+</pre></div>
+</div>
+<p><strong>Requirements:</strong> PUK code</p>
+<p><strong>Note:</strong> PIN becomes blocked after multiple failed attempts.</p>
+</section>
+</section>
+<section id="card-configuration">
+<h3>Card Configuration<a class="headerlink" href="#card-configuration" title="Link to this heading"></a></h3>
+<section id="card-conf">
+<h4>card_conf<a class="headerlink" href="#card-conf" title="Link to this heading"></a></h4>
+<p>Show or modify card configuration settings.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>card_conf<span class="w"> </span><span class="o">[</span>KEY<span class="o">]</span><span class="w"> </span><span class="o">[</span>VALUE<span class="o">]</span>
+</pre></div>
+</div>
+<p><strong>Available Settings:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pinless</span></code>: Enable/disable PIN-less path</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pin</span></code>: Enable/disable PIN authentication</p></li>
+</ul>
+<p><strong>Values:</strong> <code class="docutils literal notranslate"><span class="pre">yes</span></code> or <code class="docutils literal notranslate"><span class="pre">no</span></code></p>
+<p><strong>Examples:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Show current configuration</span>
+cryptnox<span class="w"> </span>card_conf
+
+<span class="c1"># Enable PIN-less path</span>
+cryptnox<span class="w"> </span>card_conf<span class="w"> </span>pinless<span class="w"> </span>yes
+
+<span class="c1"># Disable PIN-less path</span>
+cryptnox<span class="w"> </span>card_conf<span class="w"> </span>pinless<span class="w"> </span>no
+</pre></div>
+</div>
+</section>
+</section>
+<section id="bitcoin-commands">
+<h3>Bitcoin Commands<a class="headerlink" href="#bitcoin-commands" title="Link to this heading"></a></h3>
+<section id="btc-send">
+<h4>btc send<a class="headerlink" href="#btc-send" title="Link to this heading"></a></h4>
+<p>Send Bitcoin to an address.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>btc<span class="w"> </span>send<span class="w"> </span>ADDRESS<span class="w"> </span>AMOUNT<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt><strong>Arguments:</strong></dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ADDRESS</span></code>: Bitcoin address (P2PKH, P2SH, or Bech32)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AMOUNT</span></code>: Amount in BTC</p></li>
+</ul>
+</dd>
+<dt><strong>Options:</strong></dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">-n,</span> <span class="pre">--network</span> <span class="pre">{mainnet,testnet}</span></code>: Network to use</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-f,</span> <span class="pre">--fees</span> <span class="pre">SATOSHIS</span></code>: Transaction fees in satoshis per byte</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Example:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>btc<span class="w"> </span>send<span class="w"> </span>1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa<span class="w"> </span><span class="m">0</span>.001<span class="w"> </span>-n<span class="w"> </span>mainnet<span class="w"> </span>-f<span class="w"> </span><span class="m">10</span>
+</pre></div>
+</div>
+</section>
+<section id="btc-config">
+<h4>btc config<a class="headerlink" href="#btc-config" title="Link to this heading"></a></h4>
+<p>View or modify Bitcoin configuration.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>btc<span class="w"> </span>config<span class="w"> </span><span class="o">[</span>KEY<span class="o">]</span><span class="w"> </span><span class="o">[</span>VALUE<span class="o">]</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt><strong>Settings:</strong></dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">network</span></code>: mainnet or testnet</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">derivation</span></code>: Key derivation method</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+</section>
+<section id="ethereum-commands">
+<h3>Ethereum Commands<a class="headerlink" href="#ethereum-commands" title="Link to this heading"></a></h3>
+<section id="eth-send">
+<h4>eth send<a class="headerlink" href="#eth-send" title="Link to this heading"></a></h4>
+<p>Send Ether (ETH) to an address.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>eth<span class="w"> </span>send<span class="w"> </span>ADDRESS<span class="w"> </span>AMOUNT<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt><strong>Arguments:</strong></dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ADDRESS</span></code>: Ethereum address (0x…)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AMOUNT</span></code>: Amount in ETH</p></li>
+</ul>
+</dd>
+<dt><strong>Options:</strong></dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">-n,</span> <span class="pre">--network</span> <span class="pre">{mainnet,sepolia,goerli}</span></code>: Network to use</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--price</span> <span class="pre">GWEI</span></code>: Gas price in Gwei</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--limit</span> <span class="pre">GAS</span></code>: Gas limit</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Example:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>eth<span class="w"> </span>send<span class="w"> </span>0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb<span class="w"> </span><span class="m">0</span>.1<span class="w"> </span>-n<span class="w"> </span>mainnet<span class="w"> </span>--price<span class="w"> </span><span class="m">20</span>
+</pre></div>
+</div>
+</section>
+<section id="eth-config">
+<h4>eth config<a class="headerlink" href="#eth-config" title="Link to this heading"></a></h4>
+<p>View or modify Ethereum configuration.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>eth<span class="w"> </span>config<span class="w"> </span><span class="o">[</span>KEY<span class="o">]</span><span class="w"> </span><span class="o">[</span>VALUE<span class="o">]</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt><strong>Settings:</strong></dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">network</span></code>: mainnet, sepolia, or other networks</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">derivation</span></code>: Key derivation method</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">api_key</span></code>: Etherscan/Infura API key</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">endpoint</span></code>: RPC endpoint</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+</section>
+<section id="erc-token-commands">
+<h3>ERC Token Commands<a class="headerlink" href="#erc-token-commands" title="Link to this heading"></a></h3>
+<section id="eth-erc20-init">
+<h4>eth erc20 init<a class="headerlink" href="#eth-erc20-init" title="Link to this heading"></a></h4>
+<p>Initialize ERC-20 token contract for transactions.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>eth<span class="w"> </span>erc20<span class="w"> </span>init<span class="w"> </span>CONTRACT_ADDRESS<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+<section id="eth-erc20-info">
+<h4>eth erc20 info<a class="headerlink" href="#eth-erc20-info" title="Link to this heading"></a></h4>
+<p>Display information about configured ERC-20 tokens.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>eth<span class="w"> </span>erc20<span class="w"> </span>info
+</pre></div>
+</div>
+</section>
+<section id="eth-erc20-send">
+<h4>eth erc20 send<a class="headerlink" href="#eth-erc20-send" title="Link to this heading"></a></h4>
+<p>Send ERC-20 tokens.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>eth<span class="w"> </span>erc20<span class="w"> </span>send<span class="w"> </span>TOKEN_ADDRESS<span class="w"> </span>RECIPIENT_ADDRESS<span class="w"> </span>AMOUNT<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+<section id="transfer">
+<h4>transfer<a class="headerlink" href="#transfer" title="Link to this heading"></a></h4>
+<p>Transfer ERC-20 or ERC-721 tokens.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>transfer<span class="w"> </span>ADDRESS<span class="w"> </span>AMOUNT<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt><strong>Options:</strong></dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--price</span> <span class="pre">GWEI</span></code>: Gas price</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--limit</span> <span class="pre">GAS</span></code>: Gas limit</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+</section>
+<section id="configuration-commands">
+<h3>Configuration Commands<a class="headerlink" href="#configuration-commands" title="Link to this heading"></a></h3>
+<section id="config">
+<h4>config<a class="headerlink" href="#config" title="Link to this heading"></a></h4>
+<p>List or modify blockchain configurations.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>config<span class="w"> </span><span class="o">[</span>SECTION<span class="o">]</span><span class="w"> </span><span class="o">[</span>KEY<span class="o">]</span><span class="w"> </span><span class="o">[</span>VALUE<span class="o">]</span>
+</pre></div>
+</div>
+<p><strong>Examples:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Show all configuration</span>
+cryptnox<span class="w"> </span>config
+
+<span class="c1"># Show Ethereum configuration</span>
+cryptnox<span class="w"> </span>config<span class="w"> </span>eth
+
+<span class="c1"># Set Ethereum network</span>
+cryptnox<span class="w"> </span>config<span class="w"> </span>eth<span class="w"> </span>network<span class="w"> </span>mainnet
+
+<span class="c1"># Set Bitcoin derivation</span>
+cryptnox<span class="w"> </span>config<span class="w"> </span>btc<span class="w"> </span>derivation<span class="w"> </span>DERIVE
+</pre></div>
+</div>
+</section>
+</section>
+<section id="history-and-information">
+<h3>History and Information<a class="headerlink" href="#history-and-information" title="Link to this heading"></a></h3>
+<section id="history">
+<h4>history<a class="headerlink" href="#history" title="Link to this heading"></a></h4>
+<p>List performed signatures and transactions.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span><span class="nb">history</span><span class="w"> </span><span class="o">[</span>PAGE<span class="o">]</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt><strong>Arguments:</strong></dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">PAGE</span></code>: Page number to display (default: 1)</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Note:</strong> Shows up to 148 entries, 25 per page.</p>
+</section>
+</section>
+<section id="advanced-commands">
+<h3>Advanced Commands<a class="headerlink" href="#advanced-commands" title="Link to this heading"></a></h3>
+<section id="get-xpub">
+<h4>get_xpub<a class="headerlink" href="#get-xpub" title="Link to this heading"></a></h4>
+<p>Get extended public key (xpub) for hierarchical deterministic wallets.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>get_xpub<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt><strong>Options:</strong></dt><dd><ul class="simple">
+<li><p>Derivation path</p></li>
+<li><p>Key type</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="get-clearpubkey">
+<h4>get_clearpubkey<a class="headerlink" href="#get-clearpubkey" title="Link to this heading"></a></h4>
+<p>Get clear (uncompressed) public key from the card.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>get_clearpubkey<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+<section id="decrypt">
+<h4>decrypt<a class="headerlink" href="#decrypt" title="Link to this heading"></a></h4>
+<p>Decrypt data using the card’s private key.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>decrypt<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="user-key-management">
+<h3>User Key Management<a class="headerlink" href="#user-key-management" title="Link to this heading"></a></h3>
+<section id="user-key-list">
+<h4>user_key list<a class="headerlink" href="#user-key-list" title="Link to this heading"></a></h4>
+<p>List all configured user keys for authentication.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>user_key<span class="w"> </span>list
+</pre></div>
+</div>
+</section>
+<section id="user-key-add">
+<h4>user_key add<a class="headerlink" href="#user-key-add" title="Link to this heading"></a></h4>
+<p>Add a new user key for authentication (AWS KMS, PIV card, Windows Hello).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>user_key<span class="w"> </span>add<span class="w"> </span>TYPE<span class="w"> </span><span class="o">[</span>DESCRIPTION<span class="o">]</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt><strong>Available Types:</strong></dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">aws_kms</span></code>: AWS Key Management Service</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">piv</span></code>: PIV-compatible smart card</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hello</span></code>: Windows Hello (biometric)</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Example:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>user_key<span class="w"> </span>add<span class="w"> </span>aws_kms<span class="w"> </span><span class="s2">&quot;My AWS Key&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="user-key-delete">
+<h4>user_key delete<a class="headerlink" href="#user-key-delete" title="Link to this heading"></a></h4>
+<p>Delete a user key.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>user_key<span class="w"> </span>delete<span class="w"> </span>TYPE
+</pre></div>
+</div>
+</section>
+</section>
+<section id="server-mode">
+<h3>Server Mode<a class="headerlink" href="#server-mode" title="Link to this heading"></a></h3>
+<section id="server">
+<h4>server<a class="headerlink" href="#server" title="Link to this heading"></a></h4>
+<p>Start a server or establish connection to a remote server.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>server<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt><strong>Options:</strong></dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--port</span> <span class="pre">PORT</span></code>: Server port (default: 5050)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--host</span> <span class="pre">HOST</span></code>: Server host (default: 0.0.0.0)</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Use Case:</strong> Remote card access over network</p>
+</section>
+</section>
+</section>
+<section id="interactive-mode">
+<h2>Interactive Mode<a class="headerlink" href="#interactive-mode" title="Link to this heading"></a></h2>
+<p>Launch interactive CLI mode:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox
+</pre></div>
+</div>
+<dl class="simple">
+<dt>In interactive mode, you can:</dt><dd><ul class="simple">
+<li><p>Execute commands without repeating <code class="docutils literal notranslate"><span class="pre">cryptnox</span></code></p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">use</span></code> command to switch between multiple cards</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">exit</span></code> to quit</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>Example Session:</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ cryptnox
+Cryptnox CLI 1.0.3
+
+&gt; list
+[Shows available cards]
+
+&gt; info
+[Shows card information]
+
+&gt; exit
+</pre></div>
+</div>
+</section>
+<section id="bip39-passphrase-support">
+<h2>BIP39 Passphrase Support<a class="headerlink" href="#bip39-passphrase-support" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">seed</span> <span class="pre">recover</span></code> and <code class="docutils literal notranslate"><span class="pre">seed</span> <span class="pre">upload</span></code> commands support BIP39 passphrases (also known as the 13th/25th word).</p>
+<section id="what-is-a-bip39-passphrase">
+<h3>What is a BIP39 Passphrase?<a class="headerlink" href="#what-is-a-bip39-passphrase" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>A BIP39 passphrase is an optional additional word that enhances security:</dt><dd><ul class="simple">
+<li><p>Acts as a “second factor” for your seed</p></li>
+<li><p>Creates a completely different wallet from the same mnemonic</p></li>
+<li><p>Must be remembered separately (not stored with the mnemonic)</p></li>
+<li><p>Cannot be recovered if forgotten</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="using-bip39-passphrase">
+<h3>Using BIP39 Passphrase<a class="headerlink" href="#using-bip39-passphrase" title="Link to this heading"></a></h3>
+<p><strong>During seed upload (new wallet):</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>seed<span class="w"> </span>upload
+</pre></div>
+</div>
+<p>The command will prompt:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Do you want to use a BIP39 passphrase? [y/N]
+</pre></div>
+</div>
+<dl class="simple">
+<dt>If you choose <code class="docutils literal notranslate"><span class="pre">yes</span></code>:</dt><dd><ul class="simple">
+<li><p>Enter your desired passphrase</p></li>
+<li><p>Confirm the passphrase</p></li>
+<li><p><strong>Remember it!</strong> You’ll need it for recovery</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>During seed recover (existing wallet):</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>seed<span class="w"> </span>recover
+</pre></div>
+</div>
+<p>If your wallet was created with a passphrase, you <strong>must</strong> provide the same passphrase when recovering.</p>
+<dl class="simple">
+<dt><strong>Important Notes:</strong></dt><dd><ul class="simple">
+<li><p>⚠️ The passphrase is <strong>NOT</strong> backed up by AWS KMS</p></li>
+<li><p>⚠️ If you forget your passphrase, your funds are <strong>permanently lost</strong></p></li>
+<li><p>✅ Same mnemonic + different passphrase = completely different wallet</p></li>
+<li><p>✅ Passphrase can be any UTF-8 string (including spaces and special characters)</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+</section>
+<section id="exit-codes">
+<h2>Exit Codes<a class="headerlink" href="#exit-codes" title="Link to this heading"></a></h2>
+<p>The CLI returns the following exit codes:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: Success</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-1</span></code>: Error occurred</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-2</span></code>: Card error or card not found</p></li>
+</ul>
+</section>
+<section id="error-handling">
+<h2>Error Handling<a class="headerlink" href="#error-handling" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>When errors occur:</dt><dd><ul class="simple">
+<li><p>Detailed error messages are displayed</p></li>
+<li><p>Errors are logged to: <code class="docutils literal notranslate"><span class="pre">~/.local/share/cryptnox-cli/error.log</span></code> (Linux/macOS) or <code class="docutils literal notranslate"><span class="pre">%LOCALAPPDATA%\\cryptnox\\cryptnox-cli\\error.log</span></code> (Windows)</p></li>
+<li><p>You can report errors to help improve the application</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<p><strong>Initialize a new card:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>init
+</pre></div>
+</div>
+<p><strong>Generate and backup a seed:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>seed<span class="w"> </span>backup
+</pre></div>
+</div>
+<p><strong>Recover from existing mnemonic:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>seed<span class="w"> </span>recover
+</pre></div>
+</div>
+<p><strong>Send Bitcoin:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>btc<span class="w"> </span>send<span class="w"> </span>1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa<span class="w"> </span><span class="m">0</span>.001<span class="w"> </span>-n<span class="w"> </span>testnet
+</pre></div>
+</div>
+<p><strong>Send Ethereum:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>eth<span class="w"> </span>send<span class="w"> </span>0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb<span class="w"> </span><span class="m">0</span>.1<span class="w"> </span>-n<span class="w"> </span>mainnet
+</pre></div>
+</div>
+<p><strong>View card info:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>info
+</pre></div>
+</div>
+<p><strong>Change PIN:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>change_pin
+</pre></div>
+</div>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="overview.html"><span class="doc">Cryptnox CLI Overview</span></a> - Overview of Cryptnox CLI</p></li>
+<li><p><a class="reference internal" href="cryptnox_cli.command.html#module-cryptnox_cli.command.seed" title="cryptnox_cli.command.seed"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cryptnox_cli.command.seed</span></code></a> - Seed command implementation details</p></li>
+<li><p><a class="reference internal" href="cryptnox_cli.command.html"><span class="doc">cryptnox_cli.command package</span></a> - All command implementations</p></li>
+<li><p><a class="reference internal" href="modules.html"><span class="doc">API Reference</span></a> - Complete API Reference</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="overview.html" class="btn btn-neutral float-left" title="Cryptnox CLI Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modules.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Cryptnox.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

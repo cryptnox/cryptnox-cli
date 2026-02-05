@@ -1,0 +1,423 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cryptnox_cli.command.options.options &mdash; cryptnox-cli 1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=0912efa5" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=baaebd52"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/custom.js?v=f0d783cb"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #101f2e" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            cryptnox-cli
+              <img src="../../../../_static/cryptnox-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Cryptnox CLI Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #101f2e" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">cryptnox-cli</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cryptnox_cli.command.options.options</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cryptnox_cli.command.options.options</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module for defining command-line argument parsers and subcommands</span>
+<span class="sd">for various Cryptnox CLI operations including Bitcoin, Ethereum,</span>
+<span class="sd">and card management commands.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">decimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decimal</span><span class="p">,</span> <span class="n">InvalidOperation</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">eth</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.common</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">add_config_sub_parser</span><span class="p">,</span>
+    <span class="n">add_pin_option</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">user_keys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..helper.helper_methods</span><span class="w"> </span><span class="kn">import</span> <span class="n">IntRange</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">enums</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">...</span><span class="w"> </span><span class="kn">import</span> <span class="n">enums</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_validate_decimal</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Decimal</span><span class="p">:</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Decimal</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">InvalidOperation</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentTypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Invalid amount: &#39;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&#39;. Please provide a valid number&quot;</span>
+        <span class="p">)</span>
+
+
+<div class="viewcode-block" id="add">
+<a class="viewcode-back" href="../../../../cryptnox_cli.command.options.html#cryptnox_cli.command.options.options.add">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">interactive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="n">subparsers</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span><span class="n">dest</span><span class="o">=</span><span class="s2">&quot;command&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Command options&quot;</span><span class="p">)</span>
+
+    <span class="n">_btc_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive</span><span class="p">)</span>
+    <span class="n">eth</span><span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive</span><span class="p">)</span>
+    <span class="n">_transfer</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive</span><span class="p">)</span>
+    <span class="n">_info_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive</span><span class="p">)</span>
+    <span class="n">_history_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive</span><span class="p">)</span>
+    <span class="n">_config_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive</span><span class="p">)</span>
+
+    <span class="n">_card_configuration</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive</span><span class="p">)</span>
+    <span class="n">_change_pin_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive</span><span class="p">)</span>
+    <span class="n">_change_puk_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive</span><span class="p">)</span>
+    <span class="n">_user_key_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive</span><span class="p">)</span>
+    <span class="n">_unlock_pin_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive</span><span class="p">)</span>
+
+    <span class="n">_list_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive</span><span class="p">)</span>
+
+    <span class="n">_initialize_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive</span><span class="p">)</span>
+    <span class="n">_seed_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive</span><span class="p">)</span>
+    <span class="n">_reset_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive</span><span class="p">)</span>
+
+    <span class="n">_server_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive</span><span class="p">)</span>
+    <span class="n">_xpub_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive</span><span class="p">)</span>
+    <span class="n">_get_clearpubkey_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive</span><span class="p">)</span>
+    <span class="n">_decrypt_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive</span><span class="p">)</span>
+    <span class="n">_cert_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">interactive</span><span class="p">:</span>
+        <span class="n">use_sub_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;use&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Change card to be used by default&quot;</span><span class="p">)</span>
+        <span class="n">use_sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;serial_index&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span>
+                                    <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Serial number or index of card to be used&quot;</span><span class="p">)</span>
+        <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;exit&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Full application exit&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">subparsers</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_btc_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive_mode</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_send</span><span class="p">(</span><span class="n">sub_parser</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">_validate</span><span class="p">(</span><span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$&#39;</span><span class="p">,</span> <span class="n">address</span><span class="p">)</span> <span class="ow">or</span> \
+                    <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^[2nm][a-km-zA-HJ-NP-Z1-9]{25,34}$&#39;</span><span class="p">,</span> <span class="n">address</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">address</span>
+            <span class="k">raise</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentTypeError</span><span class="p">(</span><span class="s2">&quot;Not a valid BTC address&quot;</span><span class="p">)</span>
+
+        <span class="n">send_sub_parser</span> <span class="o">=</span> <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;send&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Simple command to send Bitcoin &quot;</span>
+                                                             <span class="s2">&quot;system token&quot;</span><span class="p">)</span>
+        <span class="n">send_sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">_validate</span><span class="p">,</span>
+                                     <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Address where to send funds&quot;</span><span class="p">)</span>
+        <span class="n">send_sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;amount&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">_validate_decimal</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Amount to send&quot;</span><span class="p">)</span>
+        <span class="n">send_sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-n&quot;</span><span class="p">,</span> <span class="s2">&quot;--network&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;mainnet&quot;</span><span class="p">,</span> <span class="s2">&quot;testnet&quot;</span><span class="p">],</span>
+                                     <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Network to use for transaction&quot;</span><span class="p">)</span>
+        <span class="n">send_sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="s2">&quot;--fees&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+                                     <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Fees to pay for the transaction&quot;</span><span class="p">)</span>
+
+    <span class="n">btc_sub_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="n">enums</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">BTC</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Bitcoin commands&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">interactive_mode</span><span class="p">:</span>
+        <span class="n">add_pin_option</span><span class="p">(</span><span class="n">btc_sub_parser</span><span class="p">)</span>
+
+    <span class="n">action_sub_parser</span> <span class="o">=</span> <span class="n">btc_sub_parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span><span class="n">dest</span><span class="o">=</span><span class="s2">&quot;action&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">add_send</span><span class="p">(</span><span class="n">action_sub_parser</span><span class="p">)</span>
+    <span class="n">add_config_sub_parser</span><span class="p">(</span><span class="n">action_sub_parser</span><span class="p">,</span> <span class="s2">&quot;Bitcoin&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_card_configuration</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive_mode</span><span class="p">):</span>
+    <span class="n">sub_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="n">enums</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">CARD_CONFIGURATION</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                       <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Show card configuration and set PIN-less path, &quot;</span>
+                                            <span class="s2">&quot;PIN authentication &quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">interactive_mode</span><span class="p">:</span>
+        <span class="n">add_pin_option</span><span class="p">(</span><span class="n">sub_parser</span><span class="p">)</span>
+
+    <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;key&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;pinless&quot;</span><span class="p">,</span> <span class="s2">&quot;pin&quot;</span><span class="p">],</span>
+                            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Configuration to set&quot;</span><span class="p">)</span>
+    <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;yes&quot;</span><span class="p">,</span> <span class="s2">&quot;no&quot;</span><span class="p">],</span>
+                            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Set/unset card configuration&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_change_pin_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive_mode</span><span class="p">):</span>
+    <span class="n">sub_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="n">enums</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">CHANGE_PIN</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                       <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Change PIN code of the card&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">interactive_mode</span><span class="p">:</span>
+        <span class="n">add_pin_option</span><span class="p">(</span><span class="n">sub_parser</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_change_puk_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+    <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="n">enums</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">CHANGE_PUK</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Change PUK code of the card&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_config_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+    <span class="n">sub_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="n">enums</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">CONFIG</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                       <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Lists blockchain configurations per type&quot;</span><span class="p">)</span>
+    <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;section&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Define section to use&quot;</span><span class="p">)</span>
+    <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;key&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Define key to use&quot;</span><span class="p">)</span>
+    <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Define a new value for the given section and key&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_history_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive_mode</span><span class="p">):</span>
+    <span class="n">entries_per_page</span> <span class="o">=</span> <span class="mi">25</span>
+    <span class="n">number_of_history_entries</span> <span class="o">=</span> <span class="mi">148</span>
+
+    <span class="n">sub_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="n">enums</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">HISTORY</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                       <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Lists performed signatures&quot;</span><span class="p">)</span>
+
+    <span class="n">number_of_pages</span> <span class="o">=</span> <span class="n">number_of_history_entries</span> <span class="o">//</span> <span class="n">entries_per_page</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;page&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">IntRange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">number_of_pages</span><span class="p">),</span>
+                            <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Page number to show&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">interactive_mode</span><span class="p">:</span>
+        <span class="n">add_pin_option</span><span class="p">(</span><span class="n">sub_parser</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_info_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">pin_options</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+    <span class="n">sub_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="n">enums</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">INFO</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                       <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Default accounts information&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">pin_options</span><span class="p">:</span>
+        <span class="n">add_pin_option</span><span class="p">(</span><span class="n">sub_parser</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_initialize_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+    <span class="n">sub_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="n">enums</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">INITIALIZE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Initialize a card&quot;</span><span class="p">)</span>
+
+    <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-e&quot;</span><span class="p">,</span> <span class="s2">&quot;--easy_mode&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Initialize card in easy mode. Set PIN and PUK code to all 0&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_list_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+    <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="n">enums</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">CARD</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;List all cards&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_server_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+    <span class="n">sub_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="n">enums</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">SERVER</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                       <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Create a server or establish connection to server&quot;</span><span class="p">)</span>
+    <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--port&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">5050</span><span class="p">,</span>
+                            <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Define port to server port, default 5050&#39;</span><span class="p">)</span>
+    <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--host&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="p">,</span>
+                            <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Define port to server host, default 0.0.0.0&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_reset_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+    <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="n">enums</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">RESET</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Reset card&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_seed_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive_mode</span><span class="p">):</span>
+    <span class="n">sub_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="n">enums</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">SEED</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Generate seed for the card&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">interactive_mode</span><span class="p">:</span>
+        <span class="n">add_pin_option</span><span class="p">(</span><span class="n">sub_parser</span><span class="p">)</span>
+
+    <span class="n">action_sub_parser</span> <span class="o">=</span> <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span><span class="n">dest</span><span class="o">=</span><span class="s2">&quot;action&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">action_sub_parser</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;backup&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Generate seed in host, backup to KMS in HSM and &quot;</span>
+                                                <span class="s2">&quot;upload to card.&quot;</span><span class="p">)</span>
+    <span class="n">action_sub_parser</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;chip&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Generate new root key in the chip.&quot;</span><span class="p">)</span>
+    <span class="n">action_sub_parser</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;dual&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Generate same seed on two cards. &quot;</span>
+                                              <span class="s2">&quot;(Requires two cards)&quot;</span><span class="p">)</span>
+    <span class="n">action_sub_parser</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;recover&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Recover a key from a BIP39 word list.&quot;</span><span class="p">)</span>
+    <span class="n">action_sub_parser</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;restore&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Restore from seed stored on KMS in HSM.&quot;</span><span class="p">)</span>
+    <span class="n">action_sub_parser</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;upload&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Generate seed in host, upload to card and show &quot;</span>
+                                                <span class="s2">&quot;BIP39 word list for backup.&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_unlock_pin_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+    <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="n">enums</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">UNLOCK_PIN</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                          <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Set new PIN code for the card, PUK code required&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_user_key_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_key_type_options</span><span class="p">(</span><span class="n">sub_parser</span><span class="p">):</span>
+        <span class="n">types</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">names</span> <span class="o">=</span> <span class="n">user_keys</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+            <span class="n">types</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">types</span><span class="p">:</span>
+            <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">types</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Network to use for transaction&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_add_sub_parser</span><span class="p">(</span><span class="n">sub_parser</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">description_type</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">isalnum</span><span class="p">()</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">64</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">value</span>
+            <span class="k">raise</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentTypeError</span><span class="p">(</span><span class="s2">&quot;Description must be alphanumeric&quot;</span><span class="p">)</span>
+
+        <span class="n">add_parser</span> <span class="o">=</span> <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;add&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Add a new key to the card&quot;</span><span class="p">)</span>
+        <span class="n">_add_key_type_options</span><span class="p">(</span><span class="n">add_parser</span><span class="p">)</span>
+        <span class="n">add_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">description_type</span><span class="p">,</span>
+                                <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Add a description for the entry&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_delete_sub_parser</span><span class="p">(</span><span class="n">sub_parser</span><span class="p">):</span>
+        <span class="n">delete_parser</span> <span class="o">=</span> <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;delete&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Delete key from the card&quot;</span><span class="p">)</span>
+        <span class="n">_add_key_type_options</span><span class="p">(</span><span class="n">delete_parser</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_list_sub_parser</span><span class="p">(</span><span class="n">sub_parser</span><span class="p">):</span>
+        <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;list&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;List user keys&quot;</span><span class="p">)</span>
+
+    <span class="n">user_key_sub_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="n">enums</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">USER_KEY</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                                <span class="n">help</span><span class="o">=</span><span class="s2">&quot;User Key subcommand&quot;</span><span class="p">)</span>
+
+    <span class="n">action_sub_parser</span> <span class="o">=</span> <span class="n">user_key_sub_parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span><span class="n">dest</span><span class="o">=</span><span class="s2">&quot;subaction&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">_add_list_sub_parser</span><span class="p">(</span><span class="n">action_sub_parser</span><span class="p">)</span>
+    <span class="n">_add_add_sub_parser</span><span class="p">(</span><span class="n">action_sub_parser</span><span class="p">)</span>
+    <span class="n">_add_delete_sub_parser</span><span class="p">(</span><span class="n">action_sub_parser</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_transfer</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive_mode</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_validate</span><span class="p">(</span><span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentTypeError</span><span class="p">(</span><span class="s2">&quot;Not a valid ETH address&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">address</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;0x&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">address</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">42</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentTypeError</span><span class="p">(</span><span class="s2">&quot;Not a valid ETH address&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">address</span>
+
+    <span class="n">sub_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="n">enums</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">TRANSFER</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Transfer tokens&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">interactive_mode</span><span class="p">:</span>
+        <span class="n">add_pin_option</span><span class="p">(</span><span class="n">sub_parser</span><span class="p">)</span>
+
+    <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">_validate</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Address where to send funds&quot;</span><span class="p">)</span>
+    <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;amount&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Decimal</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Amount to send&quot;</span><span class="p">)</span>
+    <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--price&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Gas price&quot;</span><span class="p">)</span>
+    <span class="n">sub_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--limit&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Gas limit&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_xpub_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive_mode</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add xpub command options</span>
+
+<span class="sd">    :param subparsers: Argument parser subparsers</span>
+<span class="sd">    :param interactive_mode: Whether running in interactive mode</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..get_xpub</span><span class="w"> </span><span class="kn">import</span> <span class="n">GetXpub</span>
+
+    <span class="n">GetXpub</span><span class="o">.</span><span class="n">add_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_clearpubkey_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive_mode</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add get_clearpubkey command options</span>
+
+<span class="sd">    :param subparsers: Argument parser subparsers</span>
+<span class="sd">    :param interactive_mode: Whether running in interactive mode</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..get_clearpubkey</span><span class="w"> </span><span class="kn">import</span> <span class="n">GetClearpubkey</span>
+
+    <span class="n">GetClearpubkey</span><span class="o">.</span><span class="n">add_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_decrypt_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">interactive_mode</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add decrypt command options</span>
+
+<span class="sd">    :param subparsers: Argument parser subparsers</span>
+<span class="sd">    :param interactive_mode: Whether running in interactive mode</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..decrypt</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decrypt</span>
+    <span class="n">Decrypt</span><span class="o">.</span><span class="n">add_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_cert_options</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add manufacturer certificate command options</span>
+
+<span class="sd">    :param subparsers: Argument parser subparsers</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="n">enums</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">CERTIFICATE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                          <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Retrieve and display the manufacturer certificate&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Cryptnox.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

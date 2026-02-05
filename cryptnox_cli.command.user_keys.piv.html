@@ -1,0 +1,453 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cryptnox_cli.command.user_keys.piv package &mdash; cryptnox-cli 1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=0912efa5" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=baaebd52"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/custom.js?v=f0d783cb"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="cryptnox_cli.lib package" href="cryptnox_cli.lib.html" />
+    <link rel="prev" title="cryptnox_cli.command.user_keys.hello package" href="cryptnox_cli.command.user_keys.hello.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #101f2e" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            cryptnox-cli
+              <img src="_static/cryptnox-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Cryptnox CLI Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line Interface</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="cryptnox_cli.html">cryptnox_cli package (Cryptnox CLI)</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="cryptnox_cli.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="cryptnox_cli.command.html">cryptnox_cli.command package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.lib.html">cryptnox_cli.lib package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.html">cryptnox_cli.wallet package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-config-module">cryptnox_cli.config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-enums-module">cryptnox_cli.enums module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-constants-module">cryptnox_cli.constants module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-interactive-cli-module">cryptnox_cli.interactive_cli module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-main-module">cryptnox_cli.main module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#module-cryptnox_cli">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #101f2e" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">cryptnox-cli</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="cryptnox_cli.html">cryptnox_cli package (Cryptnox CLI)</a></li>
+          <li class="breadcrumb-item"><a href="cryptnox_cli.command.html">cryptnox_cli.command package</a></li>
+          <li class="breadcrumb-item"><a href="cryptnox_cli.command.user_keys.html">cryptnox_cli.command.user_keys package</a></li>
+      <li class="breadcrumb-item active">cryptnox_cli.command.user_keys.piv package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/cryptnox_cli.command.user_keys.piv.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cryptnox-cli-command-user-keys-piv-package">
+<h1>cryptnox_cli.command.user_keys.piv package<a class="headerlink" href="#cryptnox-cli-command-user-keys-piv-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="cryptnox-cli-command-user-keys-piv-piv-module">
+<h2>cryptnox_cli.command.user_keys.piv.piv module<a class="headerlink" href="#cryptnox-cli-command-user-keys-piv-piv-module" title="Link to this heading"></a></h2>
+<p id="module-cryptnox_cli.command.user_keys.piv.piv">Module for working with PIV based on UserKey class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.piv.Piv">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.piv.piv.</span></span><span class="sig-name descname"><span class="pre">Piv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/piv/piv.html#Piv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.piv.Piv" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="cryptnox_cli.command.user_keys.html#cryptnox_cli.command.user_keys.user_key_base.UserKey" title="cryptnox_cli.command.user_keys.user_key_base.UserKey"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserKey</span></code></a></p>
+<p>Class for handling PIV operations compatible with UserKey class</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.piv.Piv.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'piv'</span></em><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.piv.Piv.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.piv.Piv.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'PIV</span> <span class="pre">applet'</span></em><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.piv.Piv.description" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.piv.Piv.custom_bit">
+<span class="sig-name descname"><span class="pre">custom_bit</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.piv.Piv.custom_bit" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.piv.Piv.delete">
+<span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/piv/piv.html#Piv.delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.piv.Piv.delete" title="Link to this definition"></a></dt>
+<dd><p>Delete the key from the user key provider</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.piv.Piv.public_key">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">public_key</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bytes</span></em><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.piv.Piv.public_key" title="Link to this definition"></a></dt>
+<dd><p>Public key of the user key service
+:rtype: bytes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>return</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.piv.Piv.sign">
+<span class="sig-name descname"><span class="pre">sign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/piv/piv.html#Piv.sign"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.piv.Piv.sign" title="Link to this definition"></a></dt>
+<dd><p>Get signature of message from user key service</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>message</strong> (<em>bytes</em>) – Message to sign</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Signature of the given message</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bytes</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="cryptnox-cli-command-user-keys-piv-piv-card-module">
+<h2>cryptnox_cli.command.user_keys.piv.piv_card module<a class="headerlink" href="#cryptnox-cli-command-user-keys-piv-piv-card-module" title="Link to this heading"></a></h2>
+<p id="module-cryptnox_cli.command.user_keys.piv.piv_card">Module for handling operations related to PIV.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.piv_card.PIVBaseException">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.piv.piv_card.</span></span><span class="sig-name descname"><span class="pre">PIVBaseException</span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/piv/piv_card.html#PIVBaseException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.piv_card.PIVBaseException" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Base exception for module from which all others are inherited</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.piv_card.PIVCardConnectionException">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.piv.piv_card.</span></span><span class="sig-name descname"><span class="pre">PIVCardConnectionException</span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/piv/piv_card.html#PIVCardConnectionException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.piv_card.PIVCardConnectionException" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cryptnox_cli.command.user_keys.piv.piv_card.PIVBaseException" title="cryptnox_cli.command.user_keys.piv.piv_card.PIVBaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">PIVBaseException</span></code></a></p>
+<p>There was an issue in connecting to PIV</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.piv_card.PIVCardException">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.piv.piv_card.</span></span><span class="sig-name descname"><span class="pre">PIVCardException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sw_byte1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sw_byte2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/piv/piv_card.html#PIVCardException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.piv_card.PIVCardException" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cryptnox_cli.command.user_keys.piv.piv_card.PIVBaseException" title="cryptnox_cli.command.user_keys.piv.piv_card.PIVBaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">PIVBaseException</span></code></a></p>
+<p>The card status code indicates and issue that the module doesn’t handle</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.piv_card.PIVCardException.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sw_byte1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sw_byte2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/piv/piv_card.html#PIVCardException.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.piv_card.PIVCardException.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.piv_card.DataException">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.piv.piv_card.</span></span><span class="sig-name descname"><span class="pre">DataException</span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/piv/piv_card.html#DataException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.piv_card.DataException" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cryptnox_cli.command.user_keys.piv.piv_card.PIVBaseException" title="cryptnox_cli.command.user_keys.piv.piv_card.PIVBaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">PIVBaseException</span></code></a></p>
+<p>There was in issue in receiving data from the PIV</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.piv_card.NotFoundException">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.piv.piv_card.</span></span><span class="sig-name descname"><span class="pre">NotFoundException</span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/piv/piv_card.html#NotFoundException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.piv_card.NotFoundException" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cryptnox_cli.command.user_keys.piv.piv_card.PIVBaseException" title="cryptnox_cli.command.user_keys.piv.piv_card.PIVBaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">PIVBaseException</span></code></a></p>
+<p>PIV wasn’t found</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.piv_card.PinException">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.piv.piv_card.</span></span><span class="sig-name descname"><span class="pre">PinException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">retries_left</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/piv/piv_card.html#PinException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.piv_card.PinException" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cryptnox_cli.command.user_keys.piv.piv_card.PIVBaseException" title="cryptnox_cli.command.user_keys.piv.piv_card.PIVBaseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">PIVBaseException</span></code></a></p>
+<p>Wrong PIN code was given to the PIV.
+retries_left contains the number of retries that are left for the PIV before locked.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.piv_card.PinException.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">retries_left</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/piv/piv_card.html#PinException.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.piv_card.PinException.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.piv_card.decode_dol">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.piv.piv_card.</span></span><span class="sig-name descname"><span class="pre">decode_dol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/piv/piv_card.html#decode_dol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.piv_card.decode_dol" title="Link to this definition"></a></dt>
+<dd><p>Decode ASN1 BER/DER Data Objects into a Python object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>List</em><em>[</em><em>int</em><em>]</em>)</p></li>
+<li><p><strong>level</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.piv_card.decode_do">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.piv.piv_card.</span></span><span class="sig-name descname"><span class="pre">decode_do</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/piv/piv_card.html#decode_do"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.piv_card.decode_do" title="Link to this definition"></a></dt>
+<dd><p>Basic ASN1 BER/DER decoder for a DO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>List</em><em>[</em><em>int</em><em>]</em>) – Data to decode</p></li>
+<li><p><strong>start_index</strong> (<em>int</em>) – Index where the decoding should start</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Decoded data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.piv_card.PIVcard">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.piv.piv_card.</span></span><span class="sig-name descname"><span class="pre">PIVcard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/piv/piv_card.html#PIVcard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.piv_card.PIVcard" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ContextDecorator</span></code></p>
+<p>Class for handling PIV</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.piv_card.PIVcard.APPLET_ID">
+<span class="sig-name descname"><span class="pre">APPLET_ID</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'A000000308000010000100'</span></em><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.piv_card.PIVcard.APPLET_ID" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.piv_card.PIVcard.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/piv/piv_card.html#PIVcard.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.piv_card.PIVcard.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.piv_card.PIVcard.generate_asymmetric_key">
+<span class="sig-name descname"><span class="pre">generate_asymmetric_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/piv/piv_card.html#PIVcard.generate_asymmetric_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.piv_card.PIVcard.generate_asymmetric_key" title="Link to this definition"></a></dt>
+<dd><p>Generate asymmetric key in key location using the algorithm</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<em>int</em>)</p></li>
+<li><p><strong>algorithm</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.piv_card.PIVcard.get_data">
+<span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_tlv_hex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/piv/piv_card.html#PIVcard.get_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.piv_card.PIVcard.get_data" title="Link to this definition"></a></dt>
+<dd><p>Get data on location from the PIV</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_tlv_hex</strong> (<em>str</em>) – HEX code of location in PIV from where to get the information</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Requested information</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bytes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.piv_card.PIVcard.is_locked">
+<span class="sig-name descname"><span class="pre">is_locked</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin_bank</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/piv/piv_card.html#PIVcard.is_locked"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.piv_card.PIVcard.is_locked" title="Link to this definition"></a></dt>
+<dd><p>Check if the PIV is open for PIN verification</p>
+<p>This can be used to check if the PIV is locked before asking the user for PIN</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pin_bank</strong> (<em>int</em>) – The PIN bank to check</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Whether the PIV is locked for pin_bank</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.piv_card.PIVcard.sign">
+<span class="sig-name descname"><span class="pre">sign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/piv/piv_card.html#PIVcard.sign"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.piv_card.PIVcard.sign" title="Link to this definition"></a></dt>
+<dd><p>Sign the given data in the PIV use key on location key and using the algorithm
+:param int key: Desired location to use
+:param int algorithm: Algorithm to use
+:param bytes data: Data to sign</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Signature from the PIV</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bytes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.piv_card.PIVcard.verify_pin">
+<span class="sig-name descname"><span class="pre">verify_pin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pin_bank</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pin_string</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/piv/piv_card.html#PIVcard.verify_pin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.piv_card.PIVcard.verify_pin" title="Link to this definition"></a></dt>
+<dd><p>Verify PIN code in PIN bank</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pin_bank</strong> (<em>int</em>) – PIN bank to open</p></li>
+<li><p><strong>pin_string</strong> (<em>str</em>) – PIN code to use to open the PIV</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-cryptnox_cli.command.user_keys.piv">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-cryptnox_cli.command.user_keys.piv" title="Link to this heading"></a></h2>
+<p>Module for working with PIV.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.Piv">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.user_keys.piv.</span></span><span class="sig-name descname"><span class="pre">Piv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/piv/piv.html#Piv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.Piv" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="cryptnox_cli.command.user_keys.html#cryptnox_cli.command.user_keys.user_key_base.UserKey" title="cryptnox_cli.command.user_keys.user_key_base.UserKey"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserKey</span></code></a></p>
+<p>Class for handling PIV operations compatible with UserKey class</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.Piv.custom_bit">
+<span class="sig-name descname"><span class="pre">custom_bit</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.Piv.custom_bit" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.Piv.delete">
+<span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/piv/piv.html#Piv.delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.Piv.delete" title="Link to this definition"></a></dt>
+<dd><p>Delete the key from the user key provider</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.Piv.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'PIV</span> <span class="pre">applet'</span></em><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.Piv.description" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.Piv.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'piv'</span></em><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.Piv.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.Piv.public_key">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">public_key</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bytes</span></em><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.Piv.public_key" title="Link to this definition"></a></dt>
+<dd><p>Public key of the user key service
+:rtype: bytes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>return</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.user_keys.piv.Piv.sign">
+<span class="sig-name descname"><span class="pre">sign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/user_keys/piv/piv.html#Piv.sign"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.user_keys.piv.Piv.sign" title="Link to this definition"></a></dt>
+<dd><p>Get signature of message from user key service</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>message</strong> (<em>bytes</em>) – Message to sign</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Signature of the given message</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bytes</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cryptnox_cli.command.user_keys.hello.html" class="btn btn-neutral float-left" title="cryptnox_cli.command.user_keys.hello package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cryptnox_cli.lib.html" class="btn btn-neutral float-right" title="cryptnox_cli.lib package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Cryptnox.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

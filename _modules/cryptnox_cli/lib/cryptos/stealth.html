@@ -1,0 +1,240 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cryptnox_cli.lib.cryptos.stealth &mdash; cryptnox-cli 1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=0912efa5" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=baaebd52"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/custom.js?v=f0d783cb"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #101f2e" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            cryptnox-cli
+              <img src="../../../../_static/cryptnox-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Cryptnox CLI Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #101f2e" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">cryptnox-cli</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cryptnox_cli.lib.cryptos.stealth</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cryptnox_cli.lib.cryptos.stealth</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Stealth address generation and parsing utilities.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">main</span>
+
+<span class="c1"># Shared secrets and uncovering pay keys</span>
+
+
+<div class="viewcode-block" id="shared_secret_sender">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.stealth.shared_secret_sender">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">shared_secret_sender</span><span class="p">(</span><span class="n">scan_pubkey</span><span class="p">,</span> <span class="n">ephem_privkey</span><span class="p">):</span>
+    <span class="n">shared_point</span> <span class="o">=</span> <span class="n">main</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">scan_pubkey</span><span class="p">,</span> <span class="n">ephem_privkey</span><span class="p">)</span>
+    <span class="n">shared_secret</span> <span class="o">=</span> <span class="n">main</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">main</span><span class="o">.</span><span class="n">encode_pubkey</span><span class="p">(</span><span class="n">shared_point</span><span class="p">,</span> <span class="s1">&#39;bin_compressed&#39;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">shared_secret</span></div>
+
+
+
+<div class="viewcode-block" id="shared_secret_receiver">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.stealth.shared_secret_receiver">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">shared_secret_receiver</span><span class="p">(</span><span class="n">ephem_pubkey</span><span class="p">,</span> <span class="n">scan_privkey</span><span class="p">):</span>
+    <span class="n">shared_point</span> <span class="o">=</span> <span class="n">main</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">ephem_pubkey</span><span class="p">,</span> <span class="n">scan_privkey</span><span class="p">)</span>
+    <span class="n">shared_secret</span> <span class="o">=</span> <span class="n">main</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">main</span><span class="o">.</span><span class="n">encode_pubkey</span><span class="p">(</span><span class="n">shared_point</span><span class="p">,</span> <span class="s1">&#39;bin_compressed&#39;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">shared_secret</span></div>
+
+
+
+<div class="viewcode-block" id="uncover_pay_pubkey_sender">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.stealth.uncover_pay_pubkey_sender">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">uncover_pay_pubkey_sender</span><span class="p">(</span><span class="n">scan_pubkey</span><span class="p">,</span> <span class="n">spend_pubkey</span><span class="p">,</span> <span class="n">ephem_privkey</span><span class="p">):</span>
+    <span class="n">shared_secret</span> <span class="o">=</span> <span class="n">shared_secret_sender</span><span class="p">(</span><span class="n">scan_pubkey</span><span class="p">,</span> <span class="n">ephem_privkey</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">main</span><span class="o">.</span><span class="n">add_pubkeys</span><span class="p">(</span><span class="n">spend_pubkey</span><span class="p">,</span> <span class="n">main</span><span class="o">.</span><span class="n">privtopub</span><span class="p">(</span><span class="n">shared_secret</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="uncover_pay_pubkey_receiver">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.stealth.uncover_pay_pubkey_receiver">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">uncover_pay_pubkey_receiver</span><span class="p">(</span><span class="n">scan_privkey</span><span class="p">,</span> <span class="n">spend_pubkey</span><span class="p">,</span> <span class="n">ephem_pubkey</span><span class="p">):</span>
+    <span class="n">shared_secret</span> <span class="o">=</span> <span class="n">shared_secret_receiver</span><span class="p">(</span><span class="n">ephem_pubkey</span><span class="p">,</span> <span class="n">scan_privkey</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">main</span><span class="o">.</span><span class="n">add_pubkeys</span><span class="p">(</span><span class="n">spend_pubkey</span><span class="p">,</span> <span class="n">main</span><span class="o">.</span><span class="n">privtopub</span><span class="p">(</span><span class="n">shared_secret</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="uncover_pay_privkey">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.stealth.uncover_pay_privkey">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">uncover_pay_privkey</span><span class="p">(</span><span class="n">scan_privkey</span><span class="p">,</span> <span class="n">spend_privkey</span><span class="p">,</span> <span class="n">ephem_pubkey</span><span class="p">):</span>
+    <span class="n">shared_secret</span> <span class="o">=</span> <span class="n">shared_secret_receiver</span><span class="p">(</span><span class="n">ephem_pubkey</span><span class="p">,</span> <span class="n">scan_privkey</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">main</span><span class="o">.</span><span class="n">add_privkeys</span><span class="p">(</span><span class="n">spend_privkey</span><span class="p">,</span> <span class="n">shared_secret</span><span class="p">)</span></div>
+
+
+<span class="c1"># Address encoding</span>
+
+<span class="c1"># Functions for basic stealth addresses,</span>
+<span class="c1"># i.e. one scan key, one spend key, no prefix</span>
+
+
+<div class="viewcode-block" id="pubkeys_to_basic_stealth_address">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.stealth.pubkeys_to_basic_stealth_address">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">pubkeys_to_basic_stealth_address</span><span class="p">(</span><span class="n">scan_pubkey</span><span class="p">,</span> <span class="n">spend_pubkey</span><span class="p">,</span> <span class="n">magic_byte</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
+    <span class="c1"># magic_byte = 42 for mainnet, 43 for testnet.</span>
+    <span class="n">hex_scankey</span> <span class="o">=</span> <span class="n">main</span><span class="o">.</span><span class="n">encode_pubkey</span><span class="p">(</span><span class="n">scan_pubkey</span><span class="p">,</span> <span class="s1">&#39;hex_compressed&#39;</span><span class="p">)</span>
+    <span class="n">hex_spendkey</span> <span class="o">=</span> <span class="n">main</span><span class="o">.</span><span class="n">encode_pubkey</span><span class="p">(</span><span class="n">spend_pubkey</span><span class="p">,</span> <span class="s1">&#39;hex_compressed&#39;</span><span class="p">)</span>
+    <span class="n">hex_data</span> <span class="o">=</span> <span class="s1">&#39;00</span><span class="si">{0:066x}</span><span class="s1">01</span><span class="si">{1:066x}</span><span class="s1">0100&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">hex_scankey</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">hex_spendkey</span><span class="p">,</span> <span class="mi">16</span><span class="p">))</span>
+    <span class="n">addr</span> <span class="o">=</span> <span class="n">main</span><span class="o">.</span><span class="n">hex_to_b58check</span><span class="p">(</span><span class="n">hex_data</span><span class="p">,</span> <span class="n">magic_byte</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">addr</span></div>
+
+
+
+<div class="viewcode-block" id="basic_stealth_address_to_pubkeys">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.stealth.basic_stealth_address_to_pubkeys">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">basic_stealth_address_to_pubkeys</span><span class="p">(</span><span class="n">stealth_address</span><span class="p">):</span>
+    <span class="n">hex_data</span> <span class="o">=</span> <span class="n">main</span><span class="o">.</span><span class="n">b58check_to_hex</span><span class="p">(</span><span class="n">stealth_address</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">hex_data</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">140</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Stealth address is not of basic type (one scan key, one spend key, no prefix)&#39;</span><span class="p">)</span>
+
+    <span class="n">scan_pubkey</span> <span class="o">=</span> <span class="n">hex_data</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">68</span><span class="p">]</span>
+    <span class="n">spend_pubkey</span> <span class="o">=</span> <span class="n">hex_data</span><span class="p">[</span><span class="mi">70</span><span class="p">:</span><span class="mi">136</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">scan_pubkey</span><span class="p">,</span> <span class="n">spend_pubkey</span></div>
+
+
+<span class="c1"># Sending stealth payments</span>
+
+
+<div class="viewcode-block" id="mk_stealth_metadata_script">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.stealth.mk_stealth_metadata_script">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">mk_stealth_metadata_script</span><span class="p">(</span><span class="n">ephem_pubkey</span><span class="p">,</span> <span class="n">nonce</span><span class="p">):</span>
+    <span class="n">op_return</span> <span class="o">=</span> <span class="s1">&#39;6a&#39;</span>
+    <span class="n">msg_size</span> <span class="o">=</span> <span class="s1">&#39;26&#39;</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;06&#39;</span>
+    <span class="k">return</span> <span class="n">op_return</span> <span class="o">+</span> <span class="n">msg_size</span> <span class="o">+</span> <span class="n">version</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="si">{0:08x}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nonce</span><span class="p">)</span> <span class="o">+</span> <span class="n">main</span><span class="o">.</span><span class="n">encode_pubkey</span><span class="p">(</span><span class="n">ephem_pubkey</span><span class="p">,</span> <span class="s1">&#39;hex_compressed&#39;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="mk_stealth_tx_outputs">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.stealth.mk_stealth_tx_outputs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">mk_stealth_tx_outputs</span><span class="p">(</span><span class="n">stealth_addr</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">ephem_privkey</span><span class="p">,</span> <span class="n">nonce</span><span class="p">,</span> <span class="n">network</span><span class="o">=</span><span class="s1">&#39;btc&#39;</span><span class="p">):</span>
+
+    <span class="n">scan_pubkey</span><span class="p">,</span> <span class="n">spend_pubkey</span> <span class="o">=</span> <span class="n">basic_stealth_address_to_pubkeys</span><span class="p">(</span><span class="n">stealth_addr</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">network</span> <span class="o">==</span> <span class="s1">&#39;btc&#39;</span><span class="p">:</span>
+        <span class="n">btc_magic_byte</span> <span class="o">=</span> <span class="mi">42</span>
+        <span class="k">if</span> <span class="n">stealth_addr</span> <span class="o">!=</span> <span class="n">pubkeys_to_basic_stealth_address</span><span class="p">(</span><span class="n">scan_pubkey</span><span class="p">,</span> <span class="n">spend_pubkey</span><span class="p">,</span> <span class="n">btc_magic_byte</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Invalid btc mainnet stealth address: &#39;</span> <span class="o">+</span> <span class="n">stealth_addr</span><span class="p">)</span>
+        <span class="n">magic_byte_addr</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">elif</span> <span class="n">network</span> <span class="o">==</span> <span class="s1">&#39;testnet&#39;</span><span class="p">:</span>
+        <span class="n">testnet_magic_byte</span> <span class="o">=</span> <span class="mi">43</span>
+        <span class="k">if</span> <span class="n">stealth_addr</span> <span class="o">!=</span> <span class="n">pubkeys_to_basic_stealth_address</span><span class="p">(</span><span class="n">scan_pubkey</span><span class="p">,</span> <span class="n">spend_pubkey</span><span class="p">,</span> <span class="n">testnet_magic_byte</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Invalid testnet stealth address: &#39;</span> <span class="o">+</span> <span class="n">stealth_addr</span><span class="p">)</span>
+        <span class="n">magic_byte_addr</span> <span class="o">=</span> <span class="mi">111</span>
+
+    <span class="n">ephem_pubkey</span> <span class="o">=</span> <span class="n">main</span><span class="o">.</span><span class="n">privkey_to_pubkey</span><span class="p">(</span><span class="n">ephem_privkey</span><span class="p">)</span>
+    <span class="n">output0</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;script&#39;</span><span class="p">:</span> <span class="n">mk_stealth_metadata_script</span><span class="p">(</span><span class="n">ephem_pubkey</span><span class="p">,</span> <span class="n">nonce</span><span class="p">),</span>
+               <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+
+    <span class="n">pay_pubkey</span> <span class="o">=</span> <span class="n">uncover_pay_pubkey_sender</span><span class="p">(</span><span class="n">scan_pubkey</span><span class="p">,</span> <span class="n">spend_pubkey</span><span class="p">,</span> <span class="n">ephem_privkey</span><span class="p">)</span>
+    <span class="n">pay_addr</span> <span class="o">=</span> <span class="n">main</span><span class="o">.</span><span class="n">pubkey_to_address</span><span class="p">(</span><span class="n">pay_pubkey</span><span class="p">,</span> <span class="n">magic_byte_addr</span><span class="p">)</span>
+    <span class="n">output1</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="n">pay_addr</span><span class="p">,</span>
+               <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">}</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">output0</span><span class="p">,</span> <span class="n">output1</span><span class="p">]</span></div>
+
+
+<span class="c1"># Receiving stealth payments</span>
+
+
+<div class="viewcode-block" id="ephem_pubkey_from_tx_script">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.stealth.ephem_pubkey_from_tx_script">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ephem_pubkey_from_tx_script</span><span class="p">(</span><span class="n">stealth_tx_script</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">stealth_tx_script</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">80</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Wrong format for stealth tx output&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">stealth_tx_script</span><span class="p">[</span><span class="mi">14</span><span class="p">:]</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Cryptnox.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

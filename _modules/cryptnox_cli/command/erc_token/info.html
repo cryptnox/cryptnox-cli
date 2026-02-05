@@ -1,0 +1,383 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cryptnox_cli.command.erc_token.info &mdash; cryptnox-cli 1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=0912efa5" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=baaebd52"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/custom.js?v=f0d783cb"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #101f2e" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            cryptnox-cli
+              <img src="../../../../_static/cryptnox-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Cryptnox CLI Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #101f2e" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">cryptnox-cli</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cryptnox_cli.command.erc_token.info</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cryptnox_cli.command.erc_token.info</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module for displaying comprehensive information about ERC tokens stored</span>
+<span class="sd">on the Cryptnox card, including token balances, ownership verification,</span>
+<span class="sd">metadata display, and dual-card validation for enhanced security.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">gzip</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">secrets</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">cryptnox_sdk_py</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cryptography.exceptions</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">argparse</span><span class="w"> </span><span class="kn">import</span> <span class="n">Namespace</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cryptography.hazmat.primitives</span><span class="w"> </span><span class="kn">import</span> <span class="n">hashes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cryptography.hazmat.primitives.asymmetric</span><span class="w"> </span><span class="kn">import</span> <span class="n">ec</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">eth_typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChecksumAddress</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tabulate</span><span class="w"> </span><span class="kn">import</span> <span class="n">tabulate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">web3</span><span class="w"> </span><span class="kn">import</span> <span class="n">Web3</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..cards</span><span class="w"> </span><span class="kn">import</span> <span class="n">Cards</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..helper.cards</span><span class="w"> </span><span class="kn">import</span> <span class="n">CardManager</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Cards&#39;</span><span class="p">]</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">...</span><span class="w"> </span><span class="kn">import</span> <span class="n">enums</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">...wallet</span><span class="w"> </span><span class="kn">import</span> <span class="n">eth</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">enums</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">wallet</span><span class="w"> </span><span class="kn">import</span> <span class="n">eth</span>
+
+<span class="n">_SEED_SOURCE_TRANSLATION</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">cryptnox_sdk_py</span><span class="o">.</span><span class="n">SeedSource</span><span class="o">.</span><span class="n">NO_SEED</span><span class="p">:</span> <span class="s2">&quot;No seed&quot;</span><span class="p">,</span>
+    <span class="n">cryptnox_sdk_py</span><span class="o">.</span><span class="n">SeedSource</span><span class="o">.</span><span class="n">INTERNAL</span><span class="p">:</span> <span class="s2">&quot;Single card&quot;</span><span class="p">,</span>
+    <span class="n">cryptnox_sdk_py</span><span class="o">.</span><span class="n">SeedSource</span><span class="o">.</span><span class="n">DUAL</span><span class="p">:</span> <span class="s2">&quot;Dual card&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">_ERC_PATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;contract_abi&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_erc_abi_file</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">_ERC_PATH</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;erc</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">.json&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="Info">
+<a class="viewcode-back" href="../../../../cryptnox_cli.command.erc_token.html#cryptnox_cli.command.erc_token.Info">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Info</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Command to show information about accounts connected to the card</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_name</span> <span class="o">=</span> <span class="n">enums</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">INFO</span><span class="o">.</span><span class="n">value</span>
+
+<div class="viewcode-block" id="Info.__init__">
+<a class="viewcode-back" href="../../../../cryptnox_cli.command.erc_token.html#cryptnox_cli.command.erc_token.Info.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Namespace</span><span class="p">,</span> <span class="n">cards</span><span class="p">:</span> <span class="n">CardManager</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cards</span> <span class="o">=</span> <span class="n">cards</span> <span class="ow">or</span> <span class="n">CardManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">verbose</span> <span class="k">if</span> <span class="s2">&quot;verbose&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">serial_number</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="Info.execute">
+<a class="viewcode-back" href="../../../../cryptnox_cli.command.erc_token.html#cryptnox_cli.command.erc_token.Info.execute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">card</span><span class="p">:</span> <span class="n">cryptnox_sdk_py</span><span class="o">.</span><span class="n">Card</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">slots</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+            <span class="n">slots</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gzip</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="n">card</span><span class="o">.</span><span class="n">user_data</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+
+        <span class="n">slot0</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">slots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;UTF8&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="s2">&quot;erc&quot;</span> <span class="ow">in</span> <span class="n">slot0</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">_erc_abi_file</span><span class="p">(</span><span class="n">slot0</span><span class="p">[</span><span class="s2">&quot;erc&quot;</span><span class="p">]))</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">abi</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">abi</span> <span class="o">=</span> <span class="n">slots</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;UTF8&quot;</span><span class="p">)</span>
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="n">slot0</span><span class="p">[</span><span class="s1">&#39;endpoint&#39;</span><span class="p">]</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------&quot;</span><span class="p">)</span>
+        <span class="n">seed_source</span> <span class="o">=</span> <span class="n">card</span><span class="o">.</span><span class="n">seed_source</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">_SEED_SOURCE_TRANSLATION</span><span class="p">[</span><span class="n">seed_source</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------&quot;</span><span class="p">)</span>
+        <span class="n">public_key</span> <span class="o">=</span> <span class="n">card</span><span class="o">.</span><span class="n">get_public_key</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Public key: </span><span class="si">{</span><span class="n">public_key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------&quot;</span><span class="p">)</span>
+        <span class="n">Info</span><span class="o">.</span><span class="n">_private_key_check</span><span class="p">(</span><span class="n">card</span><span class="p">,</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">public_key</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------&quot;</span><span class="p">)</span>
+        <span class="n">Info</span><span class="o">.</span><span class="n">_history_counter</span><span class="p">(</span><span class="n">card</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------&quot;</span><span class="p">)</span>
+        <span class="n">address</span> <span class="o">=</span> <span class="n">eth</span><span class="o">.</span><span class="n">checksum_address</span><span class="p">(</span><span class="n">public_key</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Address: </span><span class="si">{</span><span class="n">address</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;erc&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">slot0</span><span class="p">:</span>
+            <span class="n">Info</span><span class="o">.</span><span class="n">_owner</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">slot0</span><span class="p">[</span><span class="s1">&#39;contract_address&#39;</span><span class="p">],</span> <span class="n">abi</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">slot0</span><span class="p">[</span><span class="s1">&#39;nft_id&#39;</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">slot0</span><span class="p">[</span><span class="s1">&#39;erc&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1155</span><span class="p">:</span>
+            <span class="n">Info</span><span class="o">.</span><span class="n">_owner</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">slot0</span><span class="p">[</span><span class="s1">&#39;contract_address&#39;</span><span class="p">],</span> <span class="n">abi</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">slot0</span><span class="p">[</span><span class="s1">&#39;token_id&#39;</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">seed_source</span> <span class="o">==</span> <span class="n">cryptnox_sdk_py</span><span class="o">.</span><span class="n">SeedSource</span><span class="o">.</span><span class="n">DUAL</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">card</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">index</span>
+            <span class="n">serial_number</span> <span class="o">=</span> <span class="n">card</span><span class="o">.</span><span class="n">serial_number</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cards</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+            <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Please, insert card pair that was used for dual initialization and press ENTER.&quot;</span><span class="p">)</span>
+            <span class="n">card</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cards</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">card</span><span class="p">,</span> <span class="n">cryptnox_sdk_py</span><span class="o">.</span><span class="n">card</span><span class="o">.</span><span class="n">Nft</span><span class="p">):</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This card is not an NFT card&quot;</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">card</span><span class="o">.</span><span class="n">seed_source</span> <span class="o">!=</span> <span class="n">cryptnox_sdk_py</span><span class="o">.</span><span class="n">SeedSource</span><span class="o">.</span><span class="n">DUAL</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This card is not dual initialized&quot;</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">card</span><span class="o">.</span><span class="n">serial_number</span> <span class="o">==</span> <span class="n">serial_number</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This is the same card as the first check was done on.&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cards</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+                <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Please, insert card pair that was used for dual initialization.&quot;</span><span class="p">)</span>
+                <span class="n">card</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cards</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Checking second card public key is same as public key from first card...&quot;</span><span class="p">)</span>
+            <span class="n">second_card_public_key</span> <span class="o">=</span> <span class="n">card</span><span class="o">.</span><span class="n">get_public_key</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;OK&quot;</span> <span class="k">if</span> <span class="n">second_card_public_key</span> <span class="o">!=</span> <span class="n">public_key</span> <span class="k">else</span> <span class="s2">&quot;FAILED! The public keys differ&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------&quot;</span><span class="p">)</span>
+            <span class="n">Info</span><span class="o">.</span><span class="n">_private_key_check</span><span class="p">(</span><span class="n">card</span><span class="p">,</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">second_card_public_key</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------&quot;</span><span class="p">)</span>
+            <span class="n">Info</span><span class="o">.</span><span class="n">_history_counter</span><span class="p">(</span><span class="n">card</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------&quot;</span><span class="p">)</span>
+            <span class="n">same</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">slot</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">slots</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">gzip</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="n">card</span><span class="o">.</span><span class="n">user_data</span><span class="p">[</span><span class="n">index</span><span class="p">])</span> <span class="o">!=</span> <span class="n">slot</span><span class="p">:</span>
+                    <span class="n">same</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">break</span>
+            <span class="k">if</span> <span class="n">same</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Card user data same on both cards.&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Card user data not the same on both cards&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------&quot;</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">Info</span><span class="o">.</span><span class="n">_balance</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">address</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Endpoint: </span><span class="si">{</span><span class="n">slot0</span><span class="p">[</span><span class="s1">&#39;endpoint&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Chain ID: </span><span class="si">{</span><span class="n">slot0</span><span class="p">[</span><span class="s1">&#39;chain_id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Contract address: </span><span class="si">{</span><span class="n">slot0</span><span class="p">[</span><span class="s1">&#39;contract_address&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------&quot;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">erc</span> <span class="o">=</span> <span class="n">slot0</span><span class="p">[</span><span class="s1">&#39;erc&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">erc</span> <span class="o">=</span> <span class="mi">721</span>
+
+        <span class="k">if</span> <span class="n">erc</span> <span class="o">==</span> <span class="mi">20</span><span class="p">:</span>
+            <span class="n">Info</span><span class="o">.</span><span class="n">_token_balance</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">slot0</span><span class="p">[</span><span class="s1">&#39;contract_address&#39;</span><span class="p">],</span> <span class="n">abi</span><span class="p">,</span> <span class="n">address</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">erc</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">721</span><span class="p">,</span> <span class="mi">1155</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Token ID: </span><span class="si">{</span><span class="n">slot0</span><span class="p">[</span><span class="s1">&#39;nft_id&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">erc</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">721</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;token_id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------&quot;</span><span class="p">)</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="n">slots</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;UTF8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;metadata: </span><span class="si">{</span><span class="n">metadata</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------------------------&quot;</span><span class="p">)</span>
+            <span class="n">Info</span><span class="o">.</span><span class="n">_url</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="mi">0</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_balance</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">address</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">w3</span> <span class="o">=</span> <span class="n">Web3</span><span class="p">(</span><span class="n">Web3</span><span class="o">.</span><span class="n">HTTPProvider</span><span class="p">(</span><span class="n">endpoint</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Balance: </span><span class="si">{</span><span class="n">Web3</span><span class="o">.</span><span class="n">from_wei</span><span class="p">(</span><span class="n">w3</span><span class="o">.</span><span class="n">eth</span><span class="o">.</span><span class="n">get_balance</span><span class="p">(</span><span class="n">address</span><span class="p">),</span><span class="w"> </span><span class="s1">&#39;ether&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> ETH&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error getting balance: </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_history_counter</span><span class="p">(</span><span class="n">card</span><span class="p">:</span> <span class="n">cryptnox_sdk_py</span><span class="o">.</span><span class="n">Card</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Checking signature counter and history...&quot;</span><span class="p">)</span>
+        <span class="n">signature_counter</span> <span class="o">=</span> <span class="n">card</span><span class="o">.</span><span class="n">signing_counter</span>
+        <span class="n">history</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">entry</span> <span class="o">=</span> <span class="n">card</span><span class="o">.</span><span class="n">history</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">entry</span><span class="o">.</span><span class="n">signing_counter</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">entry</span><span class="o">.</span><span class="n">signing_counter</span><span class="p">,</span> <span class="n">entry</span><span class="o">.</span><span class="n">hashed_data</span><span class="o">.</span><span class="n">hex</span><span class="p">()])</span>
+            <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">entry</span> <span class="o">=</span> <span class="n">card</span><span class="o">.</span><span class="n">history</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Signature counter: </span><span class="si">{</span><span class="n">signature_counter</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">history</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">history</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No history entries.&quot;</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_private_key_check</span><span class="p">(</span><span class="n">card</span><span class="p">:</span> <span class="n">cryptnox_sdk_py</span><span class="o">.</span><span class="n">Card</span><span class="p">,</span> <span class="n">public_key</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Checking private key on the card...&quot;</span><span class="p">)</span>
+
+        <span class="n">nonce</span> <span class="o">=</span> <span class="n">secrets</span><span class="o">.</span><span class="n">token_bytes</span><span class="p">(</span><span class="n">nbytes</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+        <span class="n">signature_check</span> <span class="o">=</span> <span class="n">card</span><span class="o">.</span><span class="n">signature_check</span><span class="p">(</span><span class="n">nonce</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">signature_check</span><span class="o">.</span><span class="n">message</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">18</span><span class="p">]</span> <span class="o">!=</span> <span class="n">nonce</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FAILED!</span><span class="se">\n</span><span class="s2">Public and private key differ&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">public_key</span> <span class="o">=</span> <span class="n">ec</span><span class="o">.</span><span class="n">EllipticCurvePublicKey</span><span class="o">.</span><span class="n">from_encoded_point</span><span class="p">(</span><span class="n">ec</span><span class="o">.</span><span class="n">SECP256K1</span><span class="p">(),</span> <span class="n">public_key</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FAILED!</span><span class="se">\n</span><span class="s2">Invalid public key&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">public_key</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="n">signature_check</span><span class="o">.</span><span class="n">signature</span><span class="p">,</span> <span class="n">signature_check</span><span class="o">.</span><span class="n">message</span><span class="p">,</span>
+                              <span class="n">ec</span><span class="o">.</span><span class="n">ECDSA</span><span class="p">(</span><span class="n">hashes</span><span class="o">.</span><span class="n">SHA256</span><span class="p">()))</span>
+        <span class="k">except</span> <span class="n">cryptography</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">InvalidSignature</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FAILED!</span><span class="se">\n</span><span class="s2">Public and private key differ&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;OK&quot;</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_owner</span><span class="p">(</span>
+            <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="n">contract_address</span><span class="p">:</span> <span class="n">ChecksumAddress</span><span class="p">,</span>
+            <span class="n">abi</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="n">account</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="n">token_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Checking owner on contract: </span><span class="si">{</span><span class="n">contract_address</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+        <span class="n">w3</span> <span class="o">=</span> <span class="n">Web3</span><span class="p">(</span><span class="n">Web3</span><span class="o">.</span><span class="n">HTTPProvider</span><span class="p">(</span><span class="n">endpoint</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">contract</span> <span class="o">=</span> <span class="n">w3</span><span class="o">.</span><span class="n">eth</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span> <span class="n">abi</span><span class="o">=</span><span class="n">abi</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ABI format is not json&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">function</span> <span class="o">=</span> <span class="n">contract</span><span class="o">.</span><span class="n">get_function_by_name</span><span class="p">(</span><span class="s2">&quot;balanceOf&quot;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">function</span><span class="p">(</span><span class="n">account</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">token_id</span><span class="p">))</span><span class="o">.</span><span class="n">call</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;OK&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FAILED</span><span class="se">\n</span><span class="s2">The Token doesn&#39;t belong to address: </span><span class="si">{</span><span class="n">account</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FAILED!</span><span class="se">\n</span><span class="s2">Issue with checking ownership&quot;</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_token_balance</span><span class="p">(</span><span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">contract_address</span><span class="p">:</span> <span class="n">ChecksumAddress</span><span class="p">,</span> <span class="n">abi</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                       <span class="n">account</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Checking token on contract: </span><span class="si">{</span><span class="n">contract_address</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+        <span class="n">w3</span> <span class="o">=</span> <span class="n">Web3</span><span class="p">(</span><span class="n">Web3</span><span class="o">.</span><span class="n">HTTPProvider</span><span class="p">(</span><span class="n">endpoint</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">contract</span> <span class="o">=</span> <span class="n">w3</span><span class="o">.</span><span class="n">eth</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span> <span class="n">abi</span><span class="o">=</span><span class="n">abi</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ABI format is not json&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">contract</span><span class="o">.</span><span class="n">get_function_by_name</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)()</span><span class="o">.</span><span class="n">call</span><span class="p">()</span>
+            <span class="n">balance</span> <span class="o">=</span> <span class="n">contract</span><span class="o">.</span><span class="n">get_function_by_name</span><span class="p">(</span><span class="s2">&quot;balanceOf&quot;</span><span class="p">)(</span><span class="n">account</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">call</span><span class="p">()</span>
+            <span class="n">symbol</span> <span class="o">=</span> <span class="n">contract</span><span class="o">.</span><span class="n">get_function_by_name</span><span class="p">(</span><span class="s2">&quot;symbol&quot;</span><span class="p">)()</span><span class="o">.</span><span class="n">call</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FAILED!</span><span class="se">\n</span><span class="s2">Issue with checking ownership: </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Contract name: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Balance: </span><span class="si">{</span><span class="n">balance</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">symbol</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_url</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">metadata_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">decoder</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error parsing metadata&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">metadata_json</span><span class="p">[</span><span class="s1">&#39;image&#39;</span><span class="p">])</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;https://ipfs.io/ipfs/</span><span class="si">{</span><span class="n">metadata_json</span><span class="p">[</span><span class="s1">&#39;image_url&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;//&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">):</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Can&#39;t find image&quot;</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Cryptnox.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

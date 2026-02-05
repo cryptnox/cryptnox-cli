@@ -1,0 +1,844 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cryptnox_cli.command.helper package &mdash; cryptnox-cli 1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=0912efa5" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=baaebd52"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/custom.js?v=f0d783cb"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="cryptnox_cli.command.options package" href="cryptnox_cli.command.options.html" />
+    <link rel="prev" title="cryptnox_cli.command.erc_token package" href="cryptnox_cli.command.erc_token.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #101f2e" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            cryptnox-cli
+              <img src="_static/cryptnox-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Cryptnox CLI Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line Interface</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="cryptnox_cli.html">cryptnox_cli package (Cryptnox CLI)</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="cryptnox_cli.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="cryptnox_cli.command.html">cryptnox_cli.command package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.lib.html">cryptnox_cli.lib package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="cryptnox_cli.wallet.html">cryptnox_cli.wallet package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-config-module">cryptnox_cli.config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-enums-module">cryptnox_cli.enums module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-constants-module">cryptnox_cli.constants module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-interactive-cli-module">cryptnox_cli.interactive_cli module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#cryptnox-cli-main-module">cryptnox_cli.main module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cryptnox_cli.html#module-cryptnox_cli">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #101f2e" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">cryptnox-cli</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="cryptnox_cli.html">cryptnox_cli package (Cryptnox CLI)</a></li>
+          <li class="breadcrumb-item"><a href="cryptnox_cli.command.html">cryptnox_cli.command package</a></li>
+      <li class="breadcrumb-item active">cryptnox_cli.command.helper package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/cryptnox_cli.command.helper.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cryptnox-cli-command-helper-package">
+<h1>cryptnox_cli.command.helper package<a class="headerlink" href="#cryptnox-cli-command-helper-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="cryptnox-cli-command-helper-backup-module">
+<h2>cryptnox_cli.command.helper.backup module<a class="headerlink" href="#cryptnox-cli-command-helper-backup-module" title="Link to this heading"></a></h2>
+<p id="module-cryptnox_cli.command.helper.backup">Module for handling backup of seed into the cloud</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.backup.BackupException">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.backup.</span></span><span class="sig-name descname"><span class="pre">BackupException</span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/backup.html#BackupException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.backup.BackupException" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Base exception for all seed backup exceptions</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.backup.ConnectionException">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.backup.</span></span><span class="sig-name descname"><span class="pre">ConnectionException</span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/backup.html#ConnectionException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.backup.ConnectionException" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cryptnox_cli.command.helper.backup.BackupException" title="cryptnox_cli.command.helper.backup.BackupException"><code class="xref py py-class docutils literal notranslate"><span class="pre">BackupException</span></code></a></p>
+<p>Issue connecting to the service</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.backup.ExistsException">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.backup.</span></span><span class="sig-name descname"><span class="pre">ExistsException</span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/backup.html#ExistsException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.backup.ExistsException" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cryptnox_cli.command.helper.backup.BackupException" title="cryptnox_cli.command.helper.backup.BackupException"><code class="xref py py-class docutils literal notranslate"><span class="pre">BackupException</span></code></a></p>
+<p>The backup with given name already exist when creating a new one</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.backup.NotFoundException">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.backup.</span></span><span class="sig-name descname"><span class="pre">NotFoundException</span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/backup.html#NotFoundException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.backup.NotFoundException" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cryptnox_cli.command.helper.backup.BackupException" title="cryptnox_cli.command.helper.backup.BackupException"><code class="xref py py-class docutils literal notranslate"><span class="pre">BackupException</span></code></a></p>
+<p>When retrieving a backup it doesn’t exist</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.backup.AWS">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.backup.</span></span><span class="sig-name descname"><span class="pre">AWS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">access_key_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">secret_access_key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/backup.html#AWS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.backup.AWS" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class for handling backup to AWS cloud using KMS and Secrets manager services</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>access_key_id</strong> (<em>str</em>) – Access key id for AWS service</p></li>
+<li><p><strong>secret_access_key</strong> (<em>str</em>) – Secret access key for AWS service</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#cryptnox_cli.command.helper.backup.ConnectionException" title="cryptnox_cli.command.helper.backup.ConnectionException"><strong>ConnectionException</strong></a> – There is an issue with credentials</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.backup.AWS.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">access_key_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">secret_access_key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/backup.html#AWS.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.backup.AWS.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.backup.AWS.aliases">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">aliases</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cryptnox_cli.command.helper.backup.AWS.aliases" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.backup.AWS.backup">
+<span class="sig-name descname"><span class="pre">backup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/backup.html#AWS.backup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.backup.AWS.backup" title="Link to this definition"></a></dt>
+<dd><p>Backup data under name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – Name of the backup</p></li>
+<li><p><strong>data</strong> (<em>bytes</em>) – Data to be backed up</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.backup.AWS.delete_access_key">
+<span class="sig-name descname"><span class="pre">delete_access_key</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/backup.html#AWS.delete_access_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.backup.AWS.delete_access_key" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.backup.AWS.retrieve">
+<span class="sig-name descname"><span class="pre">retrieve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/backup.html#AWS.retrieve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.backup.AWS.retrieve" title="Link to this definition"></a></dt>
+<dd><p>Retrieve a backup from AWS services</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Name of the backup to retrieve</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The retrieved backup</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bytes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.backup.AWS.regions">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">regions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cryptnox_cli.command.helper.backup.AWS.regions" title="Link to this definition"></a></dt>
+<dd><p>Return a list of services with regions they are available in
+:rtype: Dict[str, List[str]]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>return</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.backup.AWS.region">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">region</span></span><a class="headerlink" href="#cryptnox_cli.command.helper.backup.AWS.region" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="cryptnox-cli-command-helper-cards-module">
+<h2>cryptnox_cli.command.helper.cards module<a class="headerlink" href="#cryptnox-cli-command-helper-cards-module" title="Link to this heading"></a></h2>
+<p id="module-cryptnox_cli.command.helper.cards">Module for comprehensive card management functionality including
+card detection, connection handling, timeout management, and user interaction
+for card operations. It manages the global connection cache and provides
+methods for card enumeration and selection.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.cards.ExitException">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.cards.</span></span><span class="sig-name descname"><span class="pre">ExitException</span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/cards.html#ExitException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.cards.ExitException" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception to handle when the user cancels operation</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.cards.TimeoutException">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.cards.</span></span><span class="sig-name descname"><span class="pre">TimeoutException</span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/cards.html#TimeoutException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.cards.TimeoutException" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Waiting for card has passed it’s waiting time.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.cards.CardManager">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.cards.</span></span><span class="sig-name descname"><span class="pre">CardManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/cards.html#CardManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.cards.CardManager" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.cards.CardManager.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/cards.html#CardManager.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.cards.CardManager.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.cards.CardManager.refresh">
+<span class="sig-name descname"><span class="pre">refresh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/cards.html#CardManager.refresh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.cards.CardManager.refresh" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.cards.CardManager.keys">
+<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">KeysView</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/cards.html#CardManager.keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.cards.CardManager.keys" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.cards.CardManager.print_card_list">
+<span class="sig-name descname"><span class="pre">print_card_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show_warnings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_with_one_card</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/cards.html#CardManager.print_card_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.cards.CardManager.print_card_list" title="Link to this definition"></a></dt>
+<dd><p>Prints list of found Cryptnox cards.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>show_warnings</strong> (<em>bool</em>) – Prints warning when cards are not initialized</p></li>
+<li><p><strong>print_with_one_card</strong> (<em>bool</em>) – Print only if more than one cards are found</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.cards.CardManager.select_card">
+<span class="sig-name descname"><span class="pre">select_card</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">cryptnox_sdk_py.Card</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/cards.html#CardManager.select_card"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.cards.CardManager.select_card" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.cards.CardManager.values">
+<span class="sig-name descname"><span class="pre">values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ValuesView</span><span class="p"><span class="pre">[</span></span><span class="pre">cryptnox_sdk_py.Card</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/cards.html#CardManager.values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.cards.CardManager.values" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.cards.CardManager.printable_flags">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">printable_flags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">card</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">cryptnox_sdk_py.Card</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/cards.html#CardManager.printable_flags"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.cards.CardManager.printable_flags" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="cryptnox-cli-command-helper-config-module">
+<h2>cryptnox_cli.command.helper.config module<a class="headerlink" href="#cryptnox-cli-command-helper-config-module" title="Link to this heading"></a></h2>
+<p id="module-cryptnox_cli.command.helper.config">Module for managing cryptocurrency-specific configurations including
+network settings, API keys, and validation for Bitcoin and Ethereum
+wallet configurations.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.config.BtcValidator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.config.</span></span><span class="sig-name descname"><span class="pre">BtcValidator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'testnet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derivation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'DERIVE'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BtcValidator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.config.BtcValidator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class defining Bitcoin validators</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.config.BtcValidator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'testnet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derivation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'DERIVE'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/btc.html#BtcValidator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.config.BtcValidator.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.config.BtcValidator.derivation">
+<span class="sig-name descname"><span class="pre">derivation</span></span><a class="headerlink" href="#cryptnox_cli.command.helper.config.BtcValidator.derivation" title="Link to this definition"></a></dt>
+<dd><p>Class for validating if value is part of the enum</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.config.BtcValidator.fees">
+<span class="sig-name descname"><span class="pre">fees</span></span><a class="headerlink" href="#cryptnox_cli.command.helper.config.BtcValidator.fees" title="Link to this definition"></a></dt>
+<dd><p>Class for validating if value is integer</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.config.BtcValidator.network">
+<span class="sig-name descname"><span class="pre">network</span></span><a class="headerlink" href="#cryptnox_cli.command.helper.config.BtcValidator.network" title="Link to this definition"></a></dt>
+<dd><p>Class for validating if value is part of the enum</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.config.EthValidator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.config.</span></span><span class="sig-name descname"><span class="pre">EthValidator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'publicnode'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'sepolia'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">price</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derivation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'DERIVE'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/api.html#EthValidator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.config.EthValidator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class defining Ethereum validators</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.config.EthValidator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'publicnode'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'sepolia'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">price</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derivation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'DERIVE'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/api.html#EthValidator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.config.EthValidator.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.config.EthValidator.api_key">
+<span class="sig-name descname"><span class="pre">api_key</span></span><a class="headerlink" href="#cryptnox_cli.command.helper.config.EthValidator.api_key" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.config.EthValidator.derivation">
+<span class="sig-name descname"><span class="pre">derivation</span></span><a class="headerlink" href="#cryptnox_cli.command.helper.config.EthValidator.derivation" title="Link to this definition"></a></dt>
+<dd><p>Class for validating if value is part of the enum</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.config.EthValidator.endpoint">
+<span class="sig-name descname"><span class="pre">endpoint</span></span><a class="headerlink" href="#cryptnox_cli.command.helper.config.EthValidator.endpoint" title="Link to this definition"></a></dt>
+<dd><p>Validator to validate endpoints for the Ethereum network</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.config.EthValidator.limit">
+<span class="sig-name descname"><span class="pre">limit</span></span><a class="headerlink" href="#cryptnox_cli.command.helper.config.EthValidator.limit" title="Link to this definition"></a></dt>
+<dd><p>Class for validating if value is integer</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.config.EthValidator.network">
+<span class="sig-name descname"><span class="pre">network</span></span><a class="headerlink" href="#cryptnox_cli.command.helper.config.EthValidator.network" title="Link to this definition"></a></dt>
+<dd><p>Class for validating if value is part of the enum</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.config.EthValidator.price">
+<span class="sig-name descname"><span class="pre">price</span></span><a class="headerlink" href="#cryptnox_cli.command.helper.config.EthValidator.price" title="Link to this definition"></a></dt>
+<dd><p>Class for validating if value is integer</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.config.EthValidator.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/wallet/eth/api.html#EthValidator.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.config.EthValidator.validate" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="cryptnox-cli-command-helper-download-folder-module">
+<h2>cryptnox_cli.command.helper.download_folder module<a class="headerlink" href="#cryptnox-cli-command-helper-download-folder-module" title="Link to this heading"></a></h2>
+<p id="module-cryptnox_cli.command.helper.download_folder">Module for cross-platform download folder detection, providing
+platform-specific functionality to detect the user’s download folder
+path on both Windows and Unix-like systems for file operations
+and backup storage.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.download_folder.GUID">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.download_folder.</span></span><span class="sig-name descname"><span class="pre">GUID</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uuidstr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/download_folder.html#GUID"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.download_folder.GUID" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Structure</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.download_folder.GUID.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uuidstr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/download_folder.html#GUID.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.download_folder.GUID.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.download_folder.GUID.Data1">
+<span class="sig-name descname"><span class="pre">Data1</span></span><a class="headerlink" href="#cryptnox_cli.command.helper.download_folder.GUID.Data1" title="Link to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.download_folder.GUID.Data2">
+<span class="sig-name descname"><span class="pre">Data2</span></span><a class="headerlink" href="#cryptnox_cli.command.helper.download_folder.GUID.Data2" title="Link to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.download_folder.GUID.Data3">
+<span class="sig-name descname"><span class="pre">Data3</span></span><a class="headerlink" href="#cryptnox_cli.command.helper.download_folder.GUID.Data3" title="Link to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.download_folder.GUID.Data4">
+<span class="sig-name descname"><span class="pre">Data4</span></span><a class="headerlink" href="#cryptnox_cli.command.helper.download_folder.GUID.Data4" title="Link to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.download_folder.get_download_folder">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.download_folder.</span></span><span class="sig-name descname"><span class="pre">get_download_folder</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/download_folder.html#get_download_folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.download_folder.get_download_folder" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="cryptnox-cli-command-helper-helper-methods-module">
+<h2>cryptnox_cli.command.helper.helper_methods module<a class="headerlink" href="#cryptnox-cli-command-helper-helper-methods-module" title="Link to this heading"></a></h2>
+<p id="module-cryptnox_cli.command.helper.helper_methods">Module providing various utility functions including dictionary operations,
+input validation, cryptographic operations, and other common helper methods
+used throughout the application.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.helper_methods.deep_update">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.helper_methods.</span></span><span class="sig-name descname"><span class="pre">deep_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overrides</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/helper_methods.html#deep_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.helper_methods.deep_update" title="Link to this definition"></a></dt>
+<dd><p>Update a nested dictionary or similar mapping.
+Modify <code class="docutils literal notranslate"><span class="pre">source</span></code> in place.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.helper_methods.IntRange">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.helper_methods.</span></span><span class="sig-name descname"><span class="pre">IntRange</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">imin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/helper_methods.html#IntRange"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.helper_methods.IntRange" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.helper_methods.IntRange.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">imin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/helper_methods.html#IntRange.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.helper_methods.IntRange.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.helper_methods.IntRange.exception">
+<span class="sig-name descname"><span class="pre">exception</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/helper_methods.html#IntRange.exception"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.helper_methods.IntRange.exception" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.helper_methods.sign">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.helper_methods.</span></span><span class="sig-name descname"><span class="pre">sign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">card</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">cryptnox_sdk_py.Card</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derivation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">cryptnox_sdk_py.Derivation</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">cryptnox_sdk_py.Derivation.CURRENT_KEY</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">cryptnox_sdk_py.KeyType</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">cryptnox_sdk_py.KeyType.K1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_eos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pin_code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/helper_methods.html#sign"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.helper_methods.sign" title="Link to this definition"></a></dt>
+<dd><p>Open the card with a user key or PIN code and sign the given message in the given card</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>card</strong> (<em>crypnoxpy.Card</em>) – Card to use for signature</p></li>
+<li><p><strong>message</strong> (<em>bytes</em>) – Message to sign with the card</p></li>
+<li><p><strong>derivation</strong> (<em>cryptnox_sdk_py.Derivation</em>) – Derivation to use when signing</p></li>
+<li><p><strong>key_type</strong> (<em>cryptnox_sdk_py.KeyType</em>) – Key type to use when signing</p></li>
+<li><p><strong>path</strong> (<em>str</em>) – Path to use for signature generation</p></li>
+<li><p><strong>filter_eos</strong> (<em>bool</em>) – Filter signature to be compatible with eos requirements</p></li>
+<li><p><strong>pin_code</strong> (<em>str</em>) – If PIN code is given use it instead of asking for it</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Signature of the message generated in the card</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bytes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.helper_methods.try_eval">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.helper_methods.</span></span><span class="sig-name descname"><span class="pre">try_eval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/helper_methods.html#try_eval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.helper_methods.try_eval" title="Link to this definition"></a></dt>
+<dd><p>Returns appropriate type for a string</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – Value to evaluate</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Evaluated value</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="cryptnox-cli-command-helper-notification-module">
+<h2>cryptnox_cli.command.helper.notification module<a class="headerlink" href="#cryptnox-cli-command-helper-notification-module" title="Link to this heading"></a></h2>
+<p id="module-cryptnox_cli.command.helper.notification">Module for monitoring and notifying users about ERC token activities,
+transaction events, and other blockchain-related notifications using
+multiprocessing for efficient parallel processing.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.notification.Notification">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.notification.</span></span><span class="sig-name descname"><span class="pre">Notification</span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/notification.html#Notification"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.notification.Notification" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.notification.Notification.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/notification.html#Notification.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.notification.Notification.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.notification.Notification.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/notification.html#Notification.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.notification.Notification.run" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.notification.Notification.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/notification.html#Notification.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.notification.Notification.get" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="cryptnox-cli-command-helper-security-module">
+<h2>cryptnox_cli.command.helper.security module<a class="headerlink" href="#cryptnox-cli-command-helper-security-module" title="Link to this heading"></a></h2>
+<p id="module-cryptnox_cli.command.helper.security">Module dealing with security of the application.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.security.ExitException">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.security.</span></span><span class="sig-name descname"><span class="pre">ExitException</span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/security.html#ExitException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.security.ExitException" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Raised when user has indicated he want’s to exit the command</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.security.Unauthorized">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.security.</span></span><span class="sig-name descname"><span class="pre">Unauthorized</span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/security.html#Unauthorized"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.security.Unauthorized" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>None of the authorization methods has validated the user.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.security.easy_mode_puk">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.security.</span></span><span class="sig-name descname"><span class="pre">easy_mode_puk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">card</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/security.html#easy_mode_puk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.security.easy_mode_puk" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.security.check">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.security.</span></span><span class="sig-name descname"><span class="pre">check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">card</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/security.html#check"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.security.check" title="Link to this definition"></a></dt>
+<dd><p>Check if card is initialized and pin code is saved.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>card</strong> (<em>Card</em>) – Card to use</p></li>
+<li><p><strong>check_seed</strong> (<em>bool</em>) – If True checks if seed is generated</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.security.check_pin_code">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.security.</span></span><span class="sig-name descname"><span class="pre">check_pin_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">card</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Cryptnox</span> <span class="pre">PIN</span> <span class="pre">code:</span> <span class="pre">'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/security.html#check_pin_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.security.check_pin_code" title="Link to this definition"></a></dt>
+<dd><p>Check PIN code entered by user against the card on given connection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>card</strong> (<em>Base</em>) – Card to use</p></li>
+<li><p><strong>text</strong> (<em>str</em>) – Prompt to show to the user</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The entered valid pin code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.security.get_pin_code">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.security.</span></span><span class="sig-name descname"><span class="pre">get_pin_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">card</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">cryptnox_sdk_py.Card</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Enter</span> <span class="pre">PIN</span> <span class="pre">code:'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowed_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/security.html#get_pin_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.security.get_pin_code" title="Link to this definition"></a></dt>
+<dd><p>Get PIN code from the user according to the rules.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>card</strong> (<em>Card</em>) – Card to use for PIN code check</p></li>
+<li><p><strong>text</strong> (<em>str</em>) – Prompt to show to the user</p></li>
+<li><p><strong>allowed_values</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – Valid values besides the those defined
+in the rules</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>PIN code entered by the user</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.security.is_easy_mode">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.security.</span></span><span class="sig-name descname"><span class="pre">is_easy_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">card_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/security.html#is_easy_mode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.security.is_easy_mode" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.security.process_command_with_puk">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.security.</span></span><span class="sig-name descname"><span class="pre">process_command_with_puk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">card</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">cryptnox_sdk_py.Card</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/security.html#process_command_with_puk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.security.process_command_with_puk" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.security.get_puk_code">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.security.</span></span><span class="sig-name descname"><span class="pre">get_puk_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">card</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">cryptnox_sdk_py.Card</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowed_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/security.html#get_puk_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.security.get_puk_code" title="Link to this definition"></a></dt>
+<dd><p>Get user input for puk code and check if it is valid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>card</strong> (<em>Card</em>) – Card for use to check PUK code validity</p></li>
+<li><p><strong>text</strong> (<em>str</em>) – Text displayed to user for value input.</p></li>
+<li><p><strong>allowed_values</strong> (<em>List</em>) – Values other than 15 digits long strings
+that can be accepted.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Entered puk code.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="cryptnox-cli-command-helper-seed-backup-module">
+<h2>cryptnox_cli.command.helper.seed_backup module<a class="headerlink" href="#cryptnox-cli-command-helper-seed-backup-module" title="Link to this heading"></a></h2>
+<p id="module-cryptnox_cli.command.helper.seed_backup">Module for secure seed backup and recovery functionality using
+AWS KMS and Secrets Manager services. It handles encryption, storage,
+and retrieval of sensitive seed data with proper key management.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.seed_backup.create_data_key">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.seed_backup.</span></span><span class="sig-name descname"><span class="pre">create_data_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmk_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'AES_256'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/seed_backup.html#create_data_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.seed_backup.create_data_key" title="Link to this definition"></a></dt>
+<dd><p>Generate a data key to use when encrypting and decrypting data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cmk_id</strong> – KMS CMK ID or ARN under which to generate and encrypt the
+data key.</p></li>
+<li><p><strong>key_spec</strong> – Length of the data encryption key. Supported values:
+‘AES_128’: Generate a 128-bit symmetric key
+‘AES_256’: Generate a 256-bit symmetric key</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Tuple(EncryptedDataKey, PlaintextDataKey) where:
+EncryptedDataKey: Encrypted CiphertextBlob data key as binary string
+PlaintextDataKey: Plaintext base64-encoded data key as binary string</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple(None, None) if error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.seed_backup.encrypt_data">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.seed_backup.</span></span><span class="sig-name descname"><span class="pre">encrypt_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/seed_backup.html#encrypt_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.seed_backup.encrypt_data" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.seed_backup.decrypt_data_key">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.seed_backup.</span></span><span class="sig-name descname"><span class="pre">decrypt_data_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_key_encrypted</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/seed_backup.html#decrypt_data_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.seed_backup.decrypt_data_key" title="Link to this definition"></a></dt>
+<dd><p>Decrypt an encrypted data key</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.seed_backup.decrypt_data">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.seed_backup.</span></span><span class="sig-name descname"><span class="pre">decrypt_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/seed_backup.html#decrypt_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.seed_backup.decrypt_data" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.seed_backup.create_secret">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.seed_backup.</span></span><span class="sig-name descname"><span class="pre">create_secret</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">secret_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/seed_backup.html#create_secret"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.seed_backup.create_secret" title="Link to this definition"></a></dt>
+<dd><p>Creates a new secret. The secret value can only be bytes here.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – The name of the secret to create.</p></li>
+<li><p><strong>secret_value</strong> – The value of the secret.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Metadata about the newly created secret.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.seed_backup.get_secret">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.seed_backup.</span></span><span class="sig-name descname"><span class="pre">get_secret</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_secret_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/seed_backup.html#get_secret"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.seed_backup.get_secret" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="cryptnox-cli-command-helper-ui-module">
+<h2>cryptnox_cli.command.helper.ui module<a class="headerlink" href="#cryptnox-cli-command-helper-ui-module" title="Link to this heading"></a></h2>
+<p id="module-cryptnox_cli.command.helper.ui">Module providing user interface components including input validation,
+confirmation dialogs, data collection forms, and display formatting
+for the command-line interface.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.ui.InitData">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.ui.</span></span><span class="sig-name descname"><span class="pre">InitData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">puk</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptnox_cli.command.helper.ui.InitData" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
+<p>Create new instance of InitData(name, email, pin, puk)</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.ui.InitData.email">
+<span class="sig-name descname"><span class="pre">email</span></span><a class="headerlink" href="#cryptnox_cli.command.helper.ui.InitData.email" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.ui.InitData.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#cryptnox_cli.command.helper.ui.InitData.name" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.ui.InitData.pin">
+<span class="sig-name descname"><span class="pre">pin</span></span><a class="headerlink" href="#cryptnox_cli.command.helper.ui.InitData.pin" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.ui.InitData.puk">
+<span class="sig-name descname"><span class="pre">puk</span></span><a class="headerlink" href="#cryptnox_cli.command.helper.ui.InitData.puk" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.ui.ExitException">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.ui.</span></span><span class="sig-name descname"><span class="pre">ExitException</span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/ui.html#ExitException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.ui.ExitException" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Raised when user has indicated he want’s to exit the command</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.ui.StringConvert">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.ui.</span></span><span class="sig-name descname"><span class="pre">StringConvert</span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/ui.html#StringConvert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.ui.StringConvert" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+<p>Class for finding if string can be converted to ascii.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.ui.StringConvert.isascii_">
+<span class="sig-name descname"><span class="pre">isascii_</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/ui.html#StringConvert.isascii_"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.ui.StringConvert.isascii_" title="Link to this definition"></a></dt>
+<dd><p>Finding if string can be converted or is ascii.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Can be or is ascii.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.ui.confirm">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.ui.</span></span><span class="sig-name descname"><span class="pre">confirm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">warning</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/ui.html#confirm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.ui.confirm" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.ui.input_with_exit">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.ui.</span></span><span class="sig-name descname"><span class="pre">input_with_exit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/ui.html#input_with_exit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.ui.input_with_exit" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.ui.input_type">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.ui.</span></span><span class="sig-name descname"><span class="pre">input_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type_of_input=&lt;class</span> <span class="pre">'str'&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/ui.html#input_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.ui.input_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.ui.get_init_data">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.ui.</span></span><span class="sig-name descname"><span class="pre">get_init_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">card</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">cryptnox_sdk_py.card</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">easy_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cryptnox_cli.command.helper.ui.InitData" title="cryptnox_cli.command.helper.ui.InitData"><span class="pre">InitData</span></a></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/ui.html#get_init_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.ui.get_init_data" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.ui.option_input">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.ui.</span></span><span class="sig-name descname"><span class="pre">option_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/ui.html#option_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.ui.option_input" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.ui.print_warning">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.ui.</span></span><span class="sig-name descname"><span class="pre">print_warning</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/ui.html#print_warning"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.ui.print_warning" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.ui.secret_with_exit">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.ui.</span></span><span class="sig-name descname"><span class="pre">secret_with_exit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/ui.html#secret_with_exit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.ui.secret_with_exit" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.command.helper.ui.get_bip39_passphrase">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.helper.ui.</span></span><span class="sig-name descname"><span class="pre">get_bip39_passphrase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">confirm_required</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/helper/ui.html#get_bip39_passphrase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.helper.ui.get_bip39_passphrase" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-cryptnox_cli.command.helper">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-cryptnox_cli.command.helper" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">cryptnox_cli.command.helper</span></code> package provides utility functions and helper modules for command implementations.
+This package contains shared functionality used across multiple commands, including user interface components,
+security helpers, configuration management, and backup utilities.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cryptnox_cli.command.erc_token.html" class="btn btn-neutral float-left" title="cryptnox_cli.command.erc_token package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cryptnox_cli.command.options.html" class="btn btn-neutral float-right" title="cryptnox_cli.command.options package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Cryptnox.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

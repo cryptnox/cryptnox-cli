@@ -1,0 +1,482 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cryptnox_cli.command.user_keys.piv.piv_card &mdash; cryptnox-cli 1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/custom.css?v=0912efa5" />
+
+  
+      <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../../_static/documentation_options.js?v=baaebd52"></script>
+      <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../../_static/custom.js?v=f0d783cb"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #101f2e" >
+
+          
+          
+          <a href="../../../../../index.html" class="icon icon-home">
+            cryptnox-cli
+              <img src="../../../../../_static/cryptnox-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../overview.html">Cryptnox CLI Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #101f2e" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">cryptnox-cli</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cryptnox_cli.command.user_keys.piv.piv_card</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cryptnox_cli.command.user_keys.piv.piv_card</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module for handling operations related to PIV.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContextDecorator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">List</span><span class="p">,</span>
+    <span class="n">Tuple</span><span class="p">,</span>
+    <span class="n">Union</span>
+<span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">smartcard.CardConnection</span><span class="w"> </span><span class="kn">import</span> <span class="n">CardConnection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">smartcard.Exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">CardConnectionException</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">smartcard.System</span><span class="w"> </span><span class="kn">import</span> <span class="n">readers</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">smartcard.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">toBytes</span><span class="p">,</span> <span class="n">toHexString</span>
+
+
+<div class="viewcode-block" id="PIVBaseException">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.PIVBaseException">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PIVBaseException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base exception for module from which all others are inherited</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="PIVCardConnectionException">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.PIVCardConnectionException">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PIVCardConnectionException</span><span class="p">(</span><span class="n">PIVBaseException</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    There was an issue in connecting to PIV</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="PIVCardException">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.PIVCardException">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PIVCardException</span><span class="p">(</span><span class="n">PIVBaseException</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The card status code indicates and issue that the module doesn&#39;t handle</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PIVCardException.__init__">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.PIVCardException.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sw_byte1</span><span class="p">,</span> <span class="n">sw_byte2</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sw_byte1</span> <span class="o">=</span> <span class="n">sw_byte1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sw_byte2</span> <span class="o">=</span> <span class="n">sw_byte2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sw_code</span> <span class="o">=</span> <span class="p">(</span><span class="n">sw_byte1</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="p">)</span> <span class="o">|</span> <span class="n">sw_byte2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Error status : 0x</span><span class="si">%02X%02X</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">sw_byte1</span><span class="p">,</span> <span class="n">sw_byte2</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="DataException">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.DataException">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DataException</span><span class="p">(</span><span class="n">PIVBaseException</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    There was in issue in receiving data from the PIV</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="NotFoundException">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.NotFoundException">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NotFoundException</span><span class="p">(</span><span class="n">PIVBaseException</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    PIV wasn&#39;t found</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="PinException">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.PinException">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PinException</span><span class="p">(</span><span class="n">PIVBaseException</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wrong PIN code was given to the PIV.</span>
+<span class="sd">    retries_left contains the number of retries that are left for the PIV before locked.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PinException.__init__">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.PinException.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">retries_left</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">retries_left</span> <span class="o">=</span> <span class="n">retries_left</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">retries_left</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Wrong PIN. </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">retries_left</span><span class="si">}</span><span class="s2"> tries left&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Wrong PIN. </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">retries_left</span><span class="si">}</span><span class="s2"> try left&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="decode_dol">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.decode_dol">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">decode_dol</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Decode ASN1 BER/DER Data Objects into a Python object</span>
+
+<span class="sd">    :param List[int] data:</span>
+<span class="sd">    :param int level:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dol_out</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">len_all_data</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="n">len_all_data</span><span class="p">:</span>
+        <span class="n">tag</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">data_list</span> <span class="o">=</span> <span class="n">decode_do</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">tag</span> <span class="o">&lt;</span> <span class="mi">256</span> <span class="ow">and</span> <span class="n">tag</span> <span class="o">&amp;</span> <span class="mi">32</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">tag</span> <span class="o">&gt;=</span> <span class="mi">256</span> <span class="ow">and</span> <span class="n">tag</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">32</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="p">)):</span>
+            <span class="n">dol_out</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tag</span><span class="si">:</span><span class="s2">02X</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">decode_dol</span><span class="p">(</span><span class="n">data_list</span><span class="p">,</span> <span class="n">level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dol_out</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tag</span><span class="si">:</span><span class="s2">02X</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">data_list</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">dol_out</span></div>
+
+
+
+<div class="viewcode-block" id="decode_do">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.decode_do">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">decode_do</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">start_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Basic ASN1 BER/DER decoder for a DO</span>
+
+<span class="sd">    :param List[int] data: Data to decode</span>
+<span class="sd">    :param int start_index: Index where the decoding should start</span>
+
+<span class="sd">    :return: Decoded data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">start_index</span>
+    <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mi">31</span> <span class="o">==</span> <span class="mi">31</span><span class="p">:</span>
+        <span class="c1"># Tag has 2 bytes</span>
+        <span class="n">tag</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="mi">256</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">2</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># tag is 1 byte</span>
+        <span class="n">tag</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mi">128</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># composed len</span>
+        <span class="n">len_len</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mi">128</span>
+        <span class="n">len_data</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">len_len</span><span class="p">:</span>
+            <span class="n">len_data</span> <span class="o">*=</span> <span class="mi">256</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">len_data</span> <span class="o">+=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">len_len</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># simple len</span>
+        <span class="n">len_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">data_read</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">len_data</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">tag</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">len_data</span><span class="p">,</span> <span class="n">data_read</span></div>
+
+
+
+<div class="viewcode-block" id="PIVcard">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.PIVcard">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PIVcard</span><span class="p">(</span><span class="n">ContextDecorator</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class for handling PIV</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">APPLET_ID</span> <span class="o">=</span> <span class="n">toBytes</span><span class="p">(</span><span class="s2">&quot;A000000308000010000100&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PIVcard.__init__">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.PIVcard.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">debug</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">found_readers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Yubico&quot;</span><span class="p">),</span> <span class="n">readers</span><span class="p">()))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">piv</span> <span class="o">=</span> <span class="n">found_readers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">IndexError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">NotFoundException</span><span class="p">(</span><span class="s2">&quot;PIV not found&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">error</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">piv</span><span class="o">.</span><span class="n">createConnection</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">CardConnection</span><span class="o">.</span><span class="n">T1_protocol</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">CardConnectionException</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PIVCardConnectionException</span><span class="p">(</span><span class="s2">&quot;Error in connecting to PIV&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">error</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_select</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">disconnect</span><span class="p">()</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span>
+
+<div class="viewcode-block" id="PIVcard.generate_asymmetric_key">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.PIVcard.generate_asymmetric_key">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_asymmetric_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate asymmetric key in key location using the algorithm</span>
+
+<span class="sd">        :param int key:</span>
+<span class="sd">        :param int algorithm:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">apdu_command</span> <span class="o">=</span> <span class="p">[</span><span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x47</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="n">key</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mh">0xAC</span><span class="p">,</span> <span class="mh">0x06</span><span class="p">,</span> <span class="mh">0x80</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">,</span> <span class="mh">0xAB</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">]</span>
+
+        <span class="n">gen_resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_command</span><span class="p">(</span><span class="n">apdu_command</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">gen_resp</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="p">[</span><span class="mh">0x7F</span><span class="p">,</span> <span class="mh">0x49</span><span class="p">]</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">gen_resp</span><span class="p">)</span> <span class="o">!=</span> <span class="n">gen_resp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DataException</span><span class="p">(</span><span class="s2">&quot;Bad data received from Generate Asymmetric command&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">decode_dol</span><span class="p">(</span><span class="n">gen_resp</span><span class="p">[</span><span class="mi">3</span><span class="p">:])</span></div>
+
+
+<div class="viewcode-block" id="PIVcard.get_data">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.PIVcard.get_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_tlv_hex</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get data on location from the PIV</span>
+
+<span class="sd">        :param str file_tlv_hex: HEX code of location in PIV from where to get the information</span>
+
+<span class="sd">        :return: Requested information</span>
+<span class="sd">        :rtype: bytes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">address_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">file_tlv_hex</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="n">data_hex</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;5C</span><span class="si">{</span><span class="s1">&#39;</span><span class="si">%02X</span><span class="s1">&#39;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">address_length</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">file_tlv_hex</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Read Data </span><span class="si">{</span><span class="n">data_hex</span><span class="si">}</span><span class="s2"> in 0x</span><span class="si">{</span><span class="n">file_tlv_hex</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">apdu_command</span> <span class="o">=</span> <span class="p">[</span><span class="mh">0x00</span><span class="p">,</span> <span class="mh">0xCB</span><span class="p">,</span> <span class="mh">0x3F</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">data_hex</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_command</span><span class="p">(</span><span class="n">apdu_command</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">address_length</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">response</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mh">0x53</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">DataException</span><span class="p">(</span><span class="s2">&quot;Bad data received from Get Data command&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">decode_dol</span><span class="p">(</span><span class="n">response</span><span class="p">)[</span><span class="s2">&quot;53&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">address_length</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">response</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">int</span><span class="p">(</span><span class="n">file_tlv_hex</span><span class="p">,</span> <span class="mi">16</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">DataException</span><span class="p">(</span><span class="s2">&quot;Bad data received from Get Data command&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">decode_dol</span><span class="p">(</span><span class="n">response</span><span class="p">)[</span><span class="n">file_tlv_hex</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="PIVcard.is_locked">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.PIVcard.is_locked">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_locked</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin_bank</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if the PIV is open for PIN verification</span>
+
+<span class="sd">        This can be used to check if the PIV is locked before asking the user for PIN</span>
+
+<span class="sd">        :param int pin_bank: The PIN bank to check</span>
+<span class="sd">        :return: Whether the PIV is locked for pin_bank</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">verify_pin</span><span class="p">(</span><span class="n">pin_bank</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">PinException</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">except</span> <span class="n">PIVCardException</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">error</span><span class="o">.</span><span class="n">sw_code</span> <span class="o">==</span> <span class="mh">0x6983</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">raise</span>
+
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="PIVcard.sign">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.PIVcard.sign">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sign the given data in the PIV use key on location key and using the algorithm</span>
+<span class="sd">        :param int key: Desired location to use</span>
+<span class="sd">        :param int algorithm: Algorithm to use</span>
+<span class="sd">        :param bytes data: Data to sign</span>
+
+<span class="sd">        :return: Signature from the PIV</span>
+<span class="sd">        :rtype: bytes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mh">0x82</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x81</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="o">*</span><span class="n">data</span><span class="p">]</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_command</span><span class="p">([</span><span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x87</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">,</span> <span class="n">key</span><span class="p">],</span> <span class="p">[</span><span class="mh">0x7C</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="o">*</span><span class="n">data</span><span class="p">])</span>
+        <span class="n">decoded</span> <span class="o">=</span> <span class="n">decode_dol</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">decoded</span><span class="p">[</span><span class="s2">&quot;7C&quot;</span><span class="p">][</span><span class="s2">&quot;82&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="PIVcard.verify_pin">
+<a class="viewcode-back" href="../../../../../cryptnox_cli.command.user_keys.piv.html#cryptnox_cli.command.user_keys.piv.piv_card.PIVcard.verify_pin">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">verify_pin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pin_bank</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">pin_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verify PIN code in PIN bank</span>
+
+<span class="sd">        :param int pin_bank: PIN bank to open</span>
+<span class="sd">        :param str pin_string: PIN code to use to open the PIV</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">pin_string</span><span class="p">:</span>
+            <span class="n">pin_string</span> <span class="o">=</span> <span class="n">pin_string</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">)</span>
+            <span class="n">pin_string</span> <span class="o">+=</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;FF&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">8</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">pin_string</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_send_command</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mh">0x20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">pin_bank</span><span class="p">],</span> <span class="n">pin_string</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_send_command</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mh">0x20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">pin_bank</span><span class="p">],</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_select</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">apdu_select</span> <span class="o">=</span> <span class="p">[</span><span class="mh">0x00</span><span class="p">,</span> <span class="mh">0xA4</span><span class="p">,</span> <span class="mh">0x04</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">PIVcard</span><span class="o">.</span><span class="n">APPLET_ID</span><span class="p">)]</span> <span class="o">+</span> <span class="n">PIVcard</span><span class="o">.</span><span class="n">APPLET_ID</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_apdu</span><span class="p">(</span><span class="n">apdu_select</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_send_apdu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">apdu</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="n">t_env</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; Sending 0x</span><span class="si">{</span><span class="n">apdu</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">X</span><span class="si">}</span><span class="s2"> command with </span><span class="si">{</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">apdu</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="si">}</span><span class="s2"> bytes data&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-&gt; </span><span class="si">{</span><span class="n">toHexString</span><span class="p">(</span><span class="n">apdu</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">t_env</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+        <span class="n">data</span><span class="p">,</span> <span class="n">sw_byte1</span><span class="p">,</span> <span class="n">sw_byte2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">transmit</span><span class="p">(</span><span class="n">apdu</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+            <span class="n">t_ans</span> <span class="o">=</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t_env</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Received </span><span class="si">%i</span><span class="s2"> bytes data : SW 0x</span><span class="si">%02X%02X</span><span class="s2"> - duration: </span><span class="si">%.1f</span><span class="s2"> ms&quot;</span> <span class="o">%</span>
+                  <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">sw_byte1</span><span class="p">,</span> <span class="n">sw_byte2</span><span class="p">,</span> <span class="n">t_ans</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&lt;- </span><span class="si">{</span><span class="n">toHexString</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">sw_byte1</span><span class="p">,</span> <span class="n">sw_byte2</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_send_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">apdu</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="nb">bytes</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="n">t_env</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">data_block_size</span> <span class="o">=</span> <span class="mi">247</span>
+        <span class="n">current_block</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">data_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">full_data</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="n">data</span>
+
+        <span class="k">while</span> <span class="n">data_length</span> <span class="o">&gt;</span> <span class="n">data_block_size</span><span class="p">:</span>
+            <span class="n">data_apdu</span> <span class="o">=</span> <span class="n">full_data</span><span class="p">[</span><span class="n">current_block</span><span class="p">:</span><span class="n">current_block</span> <span class="o">+</span> <span class="n">data_block_size</span><span class="p">]</span>
+            <span class="n">apdu_command</span> <span class="o">=</span> <span class="n">apdu</span> <span class="o">+</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">data_apdu</span><span class="p">)]</span> <span class="o">+</span> <span class="n">toBytes</span><span class="p">(</span><span class="n">data_apdu</span><span class="o">.</span><span class="n">hex</span><span class="p">())</span>
+            <span class="n">apdu_command</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">|=</span> <span class="mh">0x10</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_send_apdu</span><span class="p">(</span><span class="n">apdu_command</span><span class="p">)</span>
+            <span class="n">current_block</span> <span class="o">+=</span> <span class="n">data_block_size</span>
+            <span class="n">data_length</span> <span class="o">-=</span> <span class="n">data_block_size</span>
+
+        <span class="n">data_apdu</span> <span class="o">=</span> <span class="n">full_data</span><span class="p">[</span><span class="n">current_block</span><span class="p">:]</span>
+        <span class="n">apdu_command</span> <span class="o">=</span> <span class="n">apdu</span> <span class="o">+</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">data_apdu</span><span class="p">)]</span> <span class="o">+</span> <span class="n">toBytes</span><span class="p">(</span><span class="n">data_apdu</span><span class="o">.</span><span class="n">hex</span><span class="p">())</span>
+        <span class="n">received</span><span class="p">,</span> <span class="n">sw_byte1</span><span class="p">,</span> <span class="n">sw_byte2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_send_apdu</span><span class="p">(</span><span class="n">apdu_command</span><span class="p">)</span>
+
+        <span class="k">while</span> <span class="n">sw_byte1</span> <span class="o">==</span> <span class="mh">0x61</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+                <span class="n">t_env</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="n">partial</span><span class="p">,</span> <span class="n">sw_byte1</span><span class="p">,</span> <span class="n">sw_byte2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">transmit</span><span class="p">([</span><span class="mh">0x00</span><span class="p">,</span> <span class="mh">0xC0</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+                <span class="n">t_ans</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t_env</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10000</span><span class="p">)</span> <span class="o">/</span> <span class="mf">10.0</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Received remaining </span><span class="si">%i</span><span class="s2"> bytes : 0x</span><span class="si">%02X%02X</span><span class="s2"> - duration: </span><span class="si">%.1f</span><span class="s2"> ms&quot;</span>
+                      <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">partial</span><span class="p">),</span> <span class="n">sw_byte1</span><span class="p">,</span> <span class="n">sw_byte2</span><span class="p">,</span> <span class="n">t_ans</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&lt;- </span><span class="si">{</span><span class="n">toHexString</span><span class="p">(</span><span class="n">partial</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">received</span> <span class="o">+=</span> <span class="n">partial</span>
+
+        <span class="k">if</span> <span class="n">sw_byte1</span> <span class="o">==</span> <span class="mh">0x63</span> <span class="ow">and</span> <span class="n">sw_byte2</span> <span class="o">&amp;</span> <span class="mh">0xF0</span> <span class="o">==</span> <span class="mh">0xC0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PinException</span><span class="p">(</span><span class="n">sw_byte2</span> <span class="o">-</span> <span class="mh">0xC0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sw_byte1</span> <span class="o">!=</span> <span class="mh">0x90</span> <span class="ow">or</span> <span class="n">sw_byte2</span> <span class="o">!=</span> <span class="mh">0x00</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PIVCardException</span><span class="p">(</span><span class="n">sw_byte1</span><span class="p">,</span> <span class="n">sw_byte2</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">received</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Cryptnox.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

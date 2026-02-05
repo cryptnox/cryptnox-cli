@@ -1,0 +1,337 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cryptnox_cli.lib.cryptos.wallet &mdash; cryptnox-cli 1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=0912efa5" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=baaebd52"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/custom.js?v=f0d783cb"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #101f2e" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            cryptnox-cli
+              <img src="../../../../_static/cryptnox-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Cryptnox CLI Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #101f2e" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">cryptnox-cli</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cryptnox_cli.lib.cryptos.wallet</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cryptnox_cli.lib.cryptos.wallet</h1><div class="highlight"><pre>
+<span></span><span class="c1"># flake8: noqa</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Simple wallet abstractions for addresses, balances, and signing flows.</span>
+
+<span class="sd">This module is based on code from pybtctools:</span>
+<span class="sd">https://github.com/primal100/pybitcointools/blob/master/cryptos/wallet.py</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.main</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.keystore</span><span class="w"> </span><span class="kn">import</span> <span class="n">xpubkey_to_address</span>
+
+
+<div class="viewcode-block" id="HDWallet">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">HDWallet</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+<div class="viewcode-block" id="HDWallet.__init__">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keystore</span><span class="p">,</span> <span class="n">num_addresses</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">last_receiving_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">last_change_index</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coin</span> <span class="o">=</span> <span class="n">keystore</span><span class="o">.</span><span class="n">coin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span> <span class="o">=</span> <span class="n">keystore</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addresses</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_receiving_index</span> <span class="o">=</span> <span class="n">last_receiving_index</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_change_index</span> <span class="o">=</span> <span class="n">last_change_index</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">new_receiving_addresses</span><span class="p">(</span><span class="n">num</span><span class="o">=</span><span class="n">num_addresses</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">new_change_addresses</span><span class="p">(</span><span class="n">num</span><span class="o">=</span><span class="n">num_addresses</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_watching_only</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">is_watching_only</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">electrum</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">script_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">xtype</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">script_type</span> <span class="o">=</span> <span class="s2">&quot;p2pkh&quot;</span></div>
+
+
+<div class="viewcode-block" id="HDWallet.privkey">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.privkey">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">privkey</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">formt</span><span class="o">=</span><span class="s2">&quot;wif_compressed&quot;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_watching_only</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">addr_derivation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">addresses</span><span class="p">[</span><span class="n">address</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="s2">&quot;Address </span><span class="si">%s</span><span class="s2"> has not been generated yet. Generate new addresses with new_receiving_addresses or new_change_addresses methods&quot;</span> <span class="o">%</span> <span class="n">address</span><span class="p">)</span>
+        <span class="n">pk</span><span class="p">,</span> <span class="n">compressed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">get_private_key</span><span class="p">(</span><span class="n">addr_derivation</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">coin</span><span class="o">.</span><span class="n">encode_privkey</span><span class="p">(</span><span class="n">pk</span><span class="p">,</span> <span class="n">formt</span><span class="p">,</span> <span class="n">script_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">script_type</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HDWallet.export_privkeys">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.export_privkeys">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">export_privkeys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_watching_only</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;receiving&#39;</span><span class="p">:</span> <span class="p">{</span><span class="n">addr</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">privkey</span><span class="p">(</span><span class="n">addr</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span> <span class="k">for</span> <span class="n">addr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">receiving_addresses</span><span class="p">},</span>
+            <span class="s1">&#39;change&#39;</span><span class="p">:</span> <span class="p">{</span><span class="n">addr</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">privkey</span><span class="p">(</span><span class="n">addr</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span> <span class="k">for</span> <span class="n">addr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_addresses</span><span class="p">}</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="HDWallet.pubkey_receiving">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.pubkey_receiving">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pubkey_receiving</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">derive_pubkey</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HDWallet.pubkey_change">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.pubkey_change">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pubkey_change</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">derive_pubkey</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HDWallet.pubtoaddr">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.pubtoaddr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pubtoaddr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pubkey</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">xtype</span> <span class="o">==</span> <span class="s2">&quot;p2pkh&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">coin</span><span class="o">.</span><span class="n">pubtoaddr</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">xtype</span> <span class="o">==</span> <span class="s2">&quot;p2wpkh&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">coin</span><span class="o">.</span><span class="n">pubtosegwit</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">xtype</span> <span class="o">==</span> <span class="s2">&quot;p2wpkh-p2sh&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">coin</span><span class="o">.</span><span class="n">pubtop2w</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HDWallet.receiving_address">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.receiving_address">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">receiving_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="n">pubkey</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pubkey_receiving</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+        <span class="n">address</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pubtoaddr</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addresses</span><span class="p">[</span><span class="n">address</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">address</span></div>
+
+
+<div class="viewcode-block" id="HDWallet.change_address">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.change_address">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">change_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="n">pubkey</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pubkey_change</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+        <span class="n">address</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pubtoaddr</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addresses</span><span class="p">[</span><span class="n">address</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">address</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">receiving_addresses</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">addr</span> <span class="k">for</span> <span class="n">addr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">addresses</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">addresses</span><span class="p">[</span><span class="n">addr</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">change_addresses</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">addr</span> <span class="k">for</span> <span class="n">addr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">addresses</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">addresses</span><span class="p">[</span><span class="n">addr</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span>
+
+<div class="viewcode-block" id="HDWallet.new_receiving_address_range">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.new_receiving_address_range">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">new_receiving_address_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_receiving_index</span>
+        <span class="k">return</span> <span class="nb">range</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">index</span><span class="o">+</span><span class="n">num</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HDWallet.new_change_address_range">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.new_change_address_range">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">new_change_address_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_change_index</span>
+        <span class="k">return</span> <span class="nb">range</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">index</span><span class="o">+</span><span class="n">num</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HDWallet.new_receiving_addresses">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.new_receiving_addresses">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">new_receiving_addresses</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="n">addresses</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">receiving_address</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_receiving_address_range</span><span class="p">(</span><span class="n">num</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_receiving_index</span> <span class="o">+=</span> <span class="n">num</span>
+        <span class="k">return</span> <span class="n">addresses</span></div>
+
+
+<div class="viewcode-block" id="HDWallet.new_change_addresses">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.new_change_addresses">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">new_change_addresses</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="n">addresses</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">change_address</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_change_address_range</span><span class="p">(</span><span class="n">num</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_change_index</span> <span class="o">+=</span> <span class="n">num</span>
+        <span class="k">return</span> <span class="n">addresses</span></div>
+
+
+<div class="viewcode-block" id="HDWallet.new_receiving_address">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.new_receiving_address">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">new_receiving_address</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_receiving_addresses</span><span class="p">(</span><span class="n">num</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="HDWallet.new_change_address">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.new_change_address">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">new_change_address</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_change_addresses</span><span class="p">(</span><span class="n">num</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="HDWallet.balance">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.balance">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">balance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<div class="viewcode-block" id="HDWallet.unspent">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.unspent">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">unspent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<div class="viewcode-block" id="HDWallet.select">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.select">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">select</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<div class="viewcode-block" id="HDWallet.history">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.history">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">history</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<div class="viewcode-block" id="HDWallet.sign">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.sign">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tx</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_watching_only</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<div class="viewcode-block" id="HDWallet.mksend">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.mksend">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">mksend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outs</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<div class="viewcode-block" id="HDWallet.sign_message">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.sign_message">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sign_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_watching_only</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<div class="viewcode-block" id="HDWallet.is_mine">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.is_mine">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_mine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">address</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">addresses</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="HDWallet.is_change">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.is_change">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_change</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">address</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_addresses</span></div>
+
+
+<div class="viewcode-block" id="HDWallet.account">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.account">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">derivation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">addresses</span><span class="p">[</span><span class="n">address</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">privkey</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">privkey</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">formt</span><span class="o">=</span><span class="s2">&quot;wif_compressed&quot;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
+        <span class="n">pub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coin</span><span class="o">.</span><span class="n">privtopub</span><span class="p">(</span><span class="n">privkey</span><span class="p">)</span>
+        <span class="n">derivation</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">&#39;/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">root_derivation</span><span class="p">,</span> <span class="n">derivation</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">derivation</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">derivation</span><span class="p">,</span> <span class="n">privkey</span><span class="p">,</span> <span class="n">pub</span><span class="p">,</span> <span class="n">address</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HDWallet.details">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.details">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">details</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s2">&quot;Electrum&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">electrum</span> <span class="k">else</span> <span class="s2">&quot;BIP39&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">xtype</span><span class="p">),</span>
+            <span class="s1">&#39;xkeys&#39;</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">root_derivation</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">xpriv</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">xpub</span><span class="p">),</span>
+            <span class="s1">&#39;xreceiving&#39;</span><span class="p">:</span> <span class="p">(),</span>
+            <span class="s1">&#39;xchange&#39;</span><span class="p">:</span> <span class="p">(),</span>
+            <span class="s1">&#39;receiving&#39;</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">account</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">receiving_addresses</span><span class="p">],</span>
+            <span class="s1">&#39;change&#39;</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">account</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_addresses</span><span class="p">]</span>
+        <span class="p">}</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Cryptnox.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
