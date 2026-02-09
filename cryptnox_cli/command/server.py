@@ -2,7 +2,7 @@
 """
 Module containing command for starting the server
 """
-import pickle
+import json
 import selectors
 import types
 import socket
@@ -91,18 +91,21 @@ class Server(Command):
         except ValueError:
             return b''
 
-        pickled_data = sock.recv(message_length)
-        if not pickled_data:
+        raw_data = sock.recv(message_length)
+        if not raw_data:
             self._close(sock, address)
             return b''
 
-        return self._process_in_card(pickled_data)
+        return self._process_in_card(raw_data)
 
-    def _process_in_card(self, pickled_data: str) -> bytes:
+    def _process_in_card(self, raw_data: bytes) -> bytes:
         print('Transmitting APDU command to card')
         try:
-            command = pickle.loads(pickled_data)
-        except pickle.UnpicklingError:
+            command = json.loads(raw_data)
+        except (json.JSONDecodeError, UnicodeDecodeError):
+            return b''
+
+        if not isinstance(command, list) or not all(isinstance(b, int) and 0 <= b <= 255 for b in command):
             return b''
 
         try:
@@ -112,9 +115,9 @@ class Server(Command):
             return b''
 
         print('Responding back to server')
-        pickled_response = pickle.dumps(response)
-        msg_length = len(pickled_response)
+        json_response = json.dumps(response).encode(Server._ENCODING)
+        msg_length = len(json_response)
         send_length = str(msg_length).encode(Server._ENCODING)
         send_length += (' ' * (Server._HEADER_SIZE - len(send_length))).encode(Server._ENCODING)
 
-        return send_length + pickled_response
+        return send_length + json_response
