@@ -101,9 +101,11 @@ def create_secret(session, secret_value, name):
         kwargs = {"Name": name}
         kwargs["SecretBinary"] = secret_value
         response = client.create_secret(**kwargs)
-        logger.info("Created secret %s.", name)
+        # Security: Only log that a secret was created, not the name which might be sensitive
+        logger.info("Created secret successfully.")
     except ClientError:
-        logger.exception("Couldn't get secret %s.", name)
+        # Security: Don't log secret name in exception as it may contain sensitive info
+        logger.exception("Couldn't create secret.")
         raise
     else:
         return response

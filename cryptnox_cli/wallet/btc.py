@@ -9,6 +9,7 @@ import urllib.parse
 import urllib.request
 from enum import Enum
 from typing import Union, List, Dict
+from urllib.parse import urlparse
 
 from cryptnox_sdk_py import Derivation
 from tabulate import tabulate
@@ -45,6 +46,21 @@ class BlockCypherApi:
         self.js_res = []
         self.web_rsc = None
 
+    def _validate_endpoint(self, endpoint: str) -> str:
+        """
+        Validate and sanitize endpoint to prevent URL manipulation attacks.
+
+        :param endpoint: The endpoint path to validate
+        :return: Validated endpoint
+        :raises ValueError: If endpoint contains suspicious characters
+        """
+        # Security: Prevent path traversal and URL manipulation
+        if any(char in endpoint for char in ['..', '//', '@', ':', '?', '#']):
+            # Allow single forward slashes but not suspicious patterns
+            if not all(part.isalnum() or part in ['-', '_'] for part in endpoint.split('/')):
+                raise ValueError(f"Invalid endpoint: contains suspicious characters")
+        return endpoint
+
     def get_data(self, endpoint: str, params: Dict = None, data: bytes = None) \
             -> None:
         """
@@ -54,17 +70,26 @@ class BlockCypherApi:
         :param params: dict
         :param data: bytes
         """
+        # Security: Validate endpoint before using in URL construction
+        endpoint = self._validate_endpoint(endpoint)
+
         params = params or {}
         parameters = dict(params)
         parameters.update(self.params)
         params_enc = urllib.parse.urlencode(parameters)
         try:
+            # Construct full URL and validate it stays within expected domain
+            full_url = self.url + endpoint + "?" + params_enc
+            parsed = urlparse(full_url)
+            if not parsed.hostname or 'blockcypher.com' not in parsed.hostname:
+                raise ValueError(f"Invalid URL: must be blockcypher.com domain")
+
             req = urllib.request.Request(
-                self.url + endpoint + "?" + params_enc,
+                full_url,
                 headers={'User-Agent': 'Mozilla/5.0'},
                 data=data
             )
-            self.web_rsc = urllib.request.urlopen(req)
+            self.web_rsc = urllib.request.urlopen(req, timeout=30)
             self.js_res = json.load(self.web_rsc)
             self.web_rsc = None
         except Exception as ex:
@@ -160,6 +185,21 @@ class BlkHubApi:
             return "https://blockstream.info/testnet/api/"
         raise Exception("Unknown BC network name")
 
+    def _validate_endpoint(self, endpoint: str) -> str:
+        """
+        Validate and sanitize endpoint to prevent URL manipulation attacks.
+
+        :param endpoint: The endpoint path to validate
+        :return: Validated endpoint
+        :raises ValueError: If endpoint contains suspicious characters
+        """
+        # Security: Prevent path traversal and URL manipulation
+        if any(char in endpoint for char in ['..', '//', '@', ':', '?', '#']):
+            # Allow single forward slashes but not suspicious patterns
+            if not all(part.isalnum() or part in ['-', '_'] for part in endpoint.split('/')):
+                raise ValueError(f"Invalid endpoint: contains suspicious characters")
+        return endpoint
+
     def get_data(self, endpoint: str, params: Dict = None, data: bytes = None) \
             -> None:
         """
@@ -169,16 +209,26 @@ class BlkHubApi:
         :param data: bytes
         :return: None
         """
+        # Security: Validate endpoint before using in URL construction
+        endpoint = self._validate_endpoint(endpoint)
+
         params = params or {}
         parameters = dict(params)
         params_enc = urllib.parse.urlencode(parameters)
         try:
+            # Construct full URL and validate it stays within expected domain
+            full_url = self.url + endpoint + "?" + params_enc
+            parsed = urlparse(full_url)
+            if not parsed.hostname or not any(domain in parsed.hostname
+                                             for domain in ['blkhub.net', 'blockstream.info']):
+                raise ValueError(f"Invalid URL: must be blkhub.net or blockstream.info domain")
+
             req = urllib.request.Request(
-                self.url + endpoint + "?" + params_enc,
+                full_url,
                 headers={'User-Agent': 'Mozilla/5.0'},
                 data=data
             )
-            self.web_rsc = urllib.request.urlopen(req)
+            self.web_rsc = urllib.request.urlopen(req, timeout=30)
             b_rep = self.web_rsc.read()
             if len(b_rep) == 64 and b_rep[0] != ord('{'):
                 b_rep = b'{"txid":"' + b_rep + b'"}'
