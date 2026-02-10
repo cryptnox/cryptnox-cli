@@ -64,7 +64,6 @@ class BlockCypherApi:
     def get_data(self, endpoint: str, params: Dict = None, data: bytes = None) \
             -> None:
         """
-        
         :rtype: None
         :param endpoint: str
         :param params: dict
