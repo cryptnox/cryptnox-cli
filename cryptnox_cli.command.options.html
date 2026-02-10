@@ -8,15 +8,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>cryptnox_cli.command.options package &mdash; cryptnox-cli 1.0.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=0912efa5" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=baaebd52"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/custom.js?v=f0d783cb"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -105,82 +105,20 @@
 </section>
 <section id="cryptnox-cli-command-options-common-module">
 <h2>cryptnox_cli.command.options.common module<a class="headerlink" href="#cryptnox-cli-command-options-common-module" title="Link to this heading"></a></h2>
-<p id="module-cryptnox_cli.command.options.common">Module for common argument parsing utilities and validation functions
-used across different command-line options and subcommands.</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="cryptnox_cli.command.options.common.add_pin_option">
-<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.options.common.</span></span><span class="sig-name descname"><span class="pre">add_pin_option</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub_parser</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/options/common.html#add_pin_option"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.options.common.add_pin_option" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="cryptnox_cli.command.options.common.add_config_sub_parser">
-<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.options.common.</span></span><span class="sig-name descname"><span class="pre">add_config_sub_parser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub_parser</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crypto_currency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/cryptnox_cli/command/options/common.html#add_config_sub_parser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.options.common.add_config_sub_parser" title="Link to this definition"></a></dt>
-<dd><p>Add config subparser</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>sub_parser</strong> – Parser object to be added to</p></li>
-<li><p><strong>crypto_currency</strong> – Name of the cryptocurrency</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="cryptnox_cli.command.options.common.pin_validator">
-<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.options.common.</span></span><span class="sig-name descname"><span class="pre">pin_validator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/options/common.html#pin_validator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.options.common.pin_validator" title="Link to this definition"></a></dt>
-<dd><p>Checks if pin is in correct format.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>value</strong> (<em>str</em>) – Pin to check if valid</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Given value</p>
-</dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>argparse.ArgumentTypeError</strong> – When value is not valid</p>
-</dd>
-</dl>
-</dd></dl>
-
 </section>
 <section id="cryptnox-cli-command-options-eth-module">
 <h2>cryptnox_cli.command.options.eth module<a class="headerlink" href="#cryptnox-cli-command-options-eth-module" title="Link to this heading"></a></h2>
-<p id="module-cryptnox_cli.command.options.eth">Module for Ethereum-specific command-line argument parsing and validation,
-including transaction parameters, gas settings, and network configuration.</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="cryptnox_cli.command.options.eth.options">
-<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.options.eth.</span></span><span class="sig-name descname"><span class="pre">options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparsers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pin_option</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/options/eth.html#options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.options.eth.options" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
 </section>
 <section id="cryptnox-cli-command-options-options-module">
 <h2>cryptnox_cli.command.options.options module<a class="headerlink" href="#cryptnox-cli-command-options-options-module" title="Link to this heading"></a></h2>
-<p id="module-cryptnox_cli.command.options.options">Module for defining command-line argument parsers and subcommands
-for various Cryptnox CLI operations including Bitcoin, Ethereum,
-and card management commands.</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="cryptnox_cli.command.options.options.add">
-<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.options.options.</span></span><span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parser</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interactive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/options/options.html#add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.options.options.add" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
 </section>
-<section id="module-cryptnox_cli.command.options">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-cryptnox_cli.command.options" title="Link to this heading"></a></h2>
-<p>Module for command-line argument parsing and option management.</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="cryptnox_cli.command.options.add">
-<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.options.</span></span><span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parser</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interactive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/options/options.html#add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.command.options.add" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
+<section id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">cryptnox_cli.command.options</span></code> package provides command-line argument parsing and exports:</p>
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.options.</span></span><span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparsers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command_class</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/command/options/options.html#add"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Add command-line options for a command class. See <a class="reference internal" href="#cryptnox_cli.command.options.options.add" title="cryptnox_cli.command.options.options.add"><code class="xref py py-func docutils literal notranslate"><span class="pre">cryptnox_cli.command.options.options.add()</span></code></a> for details.</p>
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.command.options.</span></span><span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparsers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command_class</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Add command-line options for a command class. See <code class="xref py py-func docutils literal notranslate"><span class="pre">cryptnox_cli.command.options.options.add()</span></code> for details.</p>
 </dd></dl>
 
 </section>
