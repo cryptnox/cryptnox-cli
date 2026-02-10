@@ -7,7 +7,6 @@ import sys
 import traceback
 from os import makedirs
 from pathlib import Path
-import re
 
 import argparse
 import lazy_import
@@ -104,8 +103,9 @@ def _sanitize_error_log(exc_info) -> str:
     for line in tb_lines:
         # Redact any potential secrets in the stack trace
         # Remove any lines that might contain passwords, keys, mnemonics
-        sanitized = re.sub(r'(password|passwd|pwd|secret|key|token|mnemonic|seed|pin)["\']?\s*[:=]\s*["\']?[^,\s\)"\']+'
-                          , r'\1=***REDACTED***', line, flags=re.IGNORECASE)
+        sanitized = re.sub(
+            r'(password|passwd|pwd|secret|key|token|mnemonic|seed|pin)["\']?\s*[:=]\s*["\']?[^,\s\)"\']+',
+            r'\1=***REDACTED***', line, flags=re.IGNORECASE)
         error_lines.append(sanitized)
 
     error_lines.extend([

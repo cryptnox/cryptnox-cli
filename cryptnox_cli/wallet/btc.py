@@ -58,13 +58,13 @@ class BlockCypherApi:
         if any(char in endpoint for char in ['..', '//', '@', ':', '?', '#']):
             # Allow single forward slashes but not suspicious patterns
             if not all(part.isalnum() or part in ['-', '_'] for part in endpoint.split('/')):
-                raise ValueError(f"Invalid endpoint: contains suspicious characters")
+                raise ValueError("Invalid endpoint: contains suspicious characters")
         return endpoint
 
     def get_data(self, endpoint: str, params: Dict = None, data: bytes = None) \
             -> None:
         """
-
+        
         :rtype: None
         :param endpoint: str
         :param params: dict
@@ -82,7 +82,7 @@ class BlockCypherApi:
             full_url = self.url + endpoint + "?" + params_enc
             parsed = urlparse(full_url)
             if not parsed.hostname or 'blockcypher.com' not in parsed.hostname:
-                raise ValueError(f"Invalid URL: must be blockcypher.com domain")
+                raise ValueError("Invalid URL: must be blockcypher.com domain")
 
             req = urllib.request.Request(
                 full_url,
@@ -197,7 +197,7 @@ class BlkHubApi:
         if any(char in endpoint for char in ['..', '//', '@', ':', '?', '#']):
             # Allow single forward slashes but not suspicious patterns
             if not all(part.isalnum() or part in ['-', '_'] for part in endpoint.split('/')):
-                raise ValueError(f"Invalid endpoint: contains suspicious characters")
+                raise ValueError("Invalid endpoint: contains suspicious characters")
         return endpoint
 
     def get_data(self, endpoint: str, params: Dict = None, data: bytes = None) \
@@ -219,9 +219,10 @@ class BlkHubApi:
             # Construct full URL and validate it stays within expected domain
             full_url = self.url + endpoint + "?" + params_enc
             parsed = urlparse(full_url)
-            if not parsed.hostname or not any(domain in parsed.hostname
-                                             for domain in ['blkhub.net', 'blockstream.info']):
-                raise ValueError(f"Invalid URL: must be blkhub.net or blockstream.info domain")
+            if not parsed.hostname or not any(
+                    domain in parsed.hostname
+                    for domain in ['blkhub.net', 'blockstream.info']):
+                raise ValueError("Invalid URL: must be blkhub.net or blockstream.info domain")
 
             req = urllib.request.Request(
                 full_url,

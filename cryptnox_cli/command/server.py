@@ -8,7 +8,6 @@ import types
 import socket
 import secrets
 import hmac
-import hashlib
 
 import cryptnox_sdk_py
 
@@ -46,7 +45,7 @@ class Server(Command):
             response = input("\nType 'ACCEPT' to proceed with 0.0.0.0 or press Enter for localhost: ").strip()
             if response != 'ACCEPT':
                 host = '127.0.0.1'
-                print(f"Binding to localhost (127.0.0.1) instead.")
+                print("Binding to localhost (127.0.0.1) instead.")
 
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
