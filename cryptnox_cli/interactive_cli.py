@@ -95,6 +95,15 @@ class ErrorParser(argparse.ArgumentParser):
         }
         message = super().format_help()
         lines = message.split("\n")
+
+        # Only apply custom grouping if this is the top-level parser
+        # (i.e., help text contains a {cmd1,cmd2,...} line listing subcommands).
+        # Subparsers (like config, info, etc.) don't have that line and
+        # should fall back to the default help output.
+        has_command_list = any(line.strip().startswith("{") for line in lines)
+        if not has_command_list:
+            return message
+
         ErrorParser._remove_lines(lines)
 
         lines_out = []
