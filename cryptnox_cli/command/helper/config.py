@@ -145,6 +145,12 @@ def find_endpoint(section: str, key: str, value: str, append: str = "") -> str:
     return ""
 
 
+_VALIDATORS = {
+    "btc": BtcValidator,
+    "eth": EthValidator,
+}
+
+
 def write_config(card: cryptnox_sdk_py.Card, section: str, key: str, value: str) -> int:
     """
     Writes new value at chosen section and key.
@@ -158,11 +164,12 @@ def write_config(card: cryptnox_sdk_py.Card, section: str, key: str, value: str)
     :rtype: int
     """
     config = get_configuration(card)
-    try:
-        instance = eval(f"{section.capitalize()}Validator")()
-    except NameError:
+    validator_class = _VALIDATORS.get(section.lower())
+    if validator_class is None:
         print("Invalid section")
         return 1
+
+    instance = validator_class()
     try:
         getattr(instance, key)
         setattr(instance, key, value)

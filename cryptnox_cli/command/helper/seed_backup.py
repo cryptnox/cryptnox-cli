@@ -101,9 +101,11 @@ def create_secret(session, secret_value, name):
         kwargs = {"Name": name}
         kwargs["SecretBinary"] = secret_value
         response = client.create_secret(**kwargs)
-        logger.info("Created secret %s.", name)
+        # Security: Only log that a secret was created, not the name which might be sensitive
+        logger.info("Created secret successfully.")
     except ClientError:
-        logger.exception("Couldn't get secret %s.", name)
+        # Security: Don't log secret name in exception as it may contain sensitive info
+        logger.exception("Couldn't create secret.")
         raise
     else:
         return response
@@ -145,41 +147,40 @@ def get_secret(session, store_secret_name):
 
 
 if __name__ == "__main__":
-    print("CREATING RANDOM SEED IN BYTES")
-    print(bseed)
+    logger.info("Creating random seed in bytes")
 
     # CREATING A DATA KEY
     data_key_encrypted, data_key_plaintext = create_data_key(session, key)
+    if data_key_encrypted is None:
+        logger.error("Failed to create data key")
+        raise SystemExit(1)
 
-    print("CREATED DATA KEY IN PLAINTEXT")
-    print(data_key_plaintext)
+    logger.info("Data key created successfully")
 
     # ENCRYPT THE SEED WITH DATA KEY AND DECODE INTO BYTES
     encrypted_data_b64_decoded = base64.urlsafe_b64decode(
         encrypt_data(bseed, data_key_plaintext)
     )
 
-    #  FOR SECRET CONCATENATION, NEEDS LENGH OF ENCRYPTED KEY STORED INTO FOUR BYTES
-
-    data_key_encrypted_lengh = len(data_key_encrypted).to_bytes(
+    #  FOR SECRET CONCATENATION, NEEDS LENGTH OF ENCRYPTED KEY STORED INTO FOUR BYTES
+    data_key_encrypted_length = len(data_key_encrypted).to_bytes(
         NUM_BYTES_FOR_LEN, byteorder="big"
     )
 
-    # PREPARING SECRET TO STORE = CONCATENATION IN BYTES OF
+    # PREPARING SECRET TO STORE = CONCATENATION IN BYTES
     secret_to_store = (
-        data_key_encrypted_lengh + data_key_encrypted + encrypted_data_b64_decoded
+        data_key_encrypted_length + data_key_encrypted + encrypted_data_b64_decoded
     )
 
-    print("CONCATENATED SECRET CREATED")
-    print(secret_to_store)
+    logger.info("Concatenated secret created (%d bytes)", len(secret_to_store))
 
-    # NOW STORING ENCRYPTED SERCRET WITH SECRET MANAGER
+    # NOW STORING ENCRYPTED SECRET WITH SECRET MANAGER
     create_secret(session, secret_to_store, store_secret_name)
 
     # RETRIEVING ENCRYPTED SECRET
     retrieved_encrypted_secret = get_secret(session, store_secret_name)
 
-    # RETRIEVEING ENCRYPTED KEY LENGH PLUS "NUM_BYTES_FOR_LEN"
+    # RETRIEVING ENCRYPTED KEY LENGTH PLUS "NUM_BYTES_FOR_LEN"
     from_secret_data_key_encrypted_len = (
         int.from_bytes(retrieved_encrypted_secret[:NUM_BYTES_FOR_LEN], byteorder="big")
         + NUM_BYTES_FOR_LEN
@@ -200,8 +201,6 @@ if __name__ == "__main__":
         retrieved_encrypted_secret[from_secret_data_key_encrypted_len:]
     )
 
-    print("returned decrypted data")
-
     decrypted_seed = decrypt_data(data_to_decrypt, r_data_key_plaintext)
 
-    print(decrypted_seed)
+    logger.info("Seed backup round-trip completed successfully")

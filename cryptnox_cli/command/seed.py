@@ -490,10 +490,23 @@ class Seed(Command):
             print(error)
             return -1
 
-        print("\nMnemonic root :")
-        print(mnemonic)
+        # Security: Prompt before displaying sensitive mnemonic
+        ui.print_warning("SECURITY WARNING: Mnemonic Recovery Phrase")
+        print("The mnemonic phrase is highly sensitive. Anyone with access to it can control your wallet.")
+        print("Ensure:")
+        print("  - No one is looking at your screen")
+        print("  - Screen recording/sharing is disabled")
+        print("  - Terminal logging is disabled")
 
-        print("\nMnemonic loaded, please save this root mnemonic for backup.")
+        confirm = input("\nType 'SHOW' to display the mnemonic phrase: ").strip()
+
+        if confirm == 'SHOW':
+            print("\nMnemonic root :")
+            print(mnemonic)
+            print("\nMnemonic loaded, please save this root mnemonic for backup.")
+        else:
+            print("\nMnemonic display cancelled. The seed has been loaded to the card.")
+            print("You can retrieve it later using the backup service if configured.")
 
         if passphrase:
             print()
