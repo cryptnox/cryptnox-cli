@@ -16,7 +16,7 @@ from . import user_key_base
 # Handle dynamic module imports for both regular and PyInstaller frozen environments
 if getattr(sys, 'frozen', False):
     # When frozen by PyInstaller, explicitly import known submodules
-    _submodules = ['aws_kms', 'hello', 'piv']
+    _submodules = ['hello', 'piv']
     for submodule in _submodules:
         try:
             importlib.import_module("." + submodule, package=__package__)

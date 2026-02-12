@@ -40,12 +40,6 @@ autodoc_mock_imports = [
     # Input/Output
     'stdiomask',
     'tabulate',
-    # AWS
-    'boto3',
-    'botocore',
-    'botocore.exceptions',
-    'botocore.client',
-    'botocore.config',
     # Web3 and Ethereum
     'web3',
     'web3.eth',

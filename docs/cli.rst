@@ -463,14 +463,13 @@ List all configured user keys for authentication.
 user_key add
 ^^^^^^^^^^^^
 
-Add a new user key for authentication (AWS KMS, PIV card, Windows Hello).
+Add a new user key for authentication (PIV card, Windows Hello).
 
 .. code-block:: bash
 
    cryptnox user_key add TYPE [DESCRIPTION]
 
 **Available Types:**
-  - ``aws_kms``: AWS Key Management Service
   - ``piv``: PIV-compatible smart card
   - ``hello``: Windows Hello (biometric)
 
@@ -478,7 +477,7 @@ Add a new user key for authentication (AWS KMS, PIV card, Windows Hello).
 
 .. code-block:: bash
 
-   cryptnox user_key add aws_kms "My AWS Key"
+   cryptnox user_key add piv "My PIV Key"
 
 user_key delete
 ^^^^^^^^^^^^^^^
