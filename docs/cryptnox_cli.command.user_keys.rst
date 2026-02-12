@@ -7,7 +7,6 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   cryptnox_cli.command.user_keys.aws_kms
    cryptnox_cli.command.user_keys.hello
    cryptnox_cli.command.user_keys.piv
 

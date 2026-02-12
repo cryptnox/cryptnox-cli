@@ -34,8 +34,6 @@ a = Analysis(
         'urllib3',
         'websockets',
         'aiohttp',
-        'botocore',
-        'awscrt',
         # Dynamically imported command modules
         'cryptnox_cli.command.btc',
         'cryptnox_cli.command.card_configuration',
@@ -65,7 +63,6 @@ a = Analysis(
         'cryptnox_cli.command.erc_token.info',
         'cryptnox_cli.command.erc_token.initialize',
         # Dynamically imported user_keys submodules
-        'cryptnox_cli.command.user_keys.aws_kms',
         'cryptnox_cli.command.user_keys.hello',
         'cryptnox_cli.command.user_keys.piv',
         # lib.cryptos modules (dynamically imported)
