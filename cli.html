@@ -594,20 +594,19 @@ cryptnox<span class="w"> </span>config<span class="w"> </span>btc<span class="w"
 </section>
 <section id="user-key-add">
 <h4>user_key add<a class="headerlink" href="#user-key-add" title="Link to this heading"></a></h4>
-<p>Add a new user key for authentication (AWS KMS, PIV card, Windows Hello).</p>
+<p>Add a new user key for authentication (PIV card, Windows Hello).</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>user_key<span class="w"> </span>add<span class="w"> </span>TYPE<span class="w"> </span><span class="o">[</span>DESCRIPTION<span class="o">]</span>
 </pre></div>
 </div>
 <dl class="simple">
 <dt><strong>Available Types:</strong></dt><dd><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">aws_kms</span></code>: AWS Key Management Service</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">piv</span></code>: PIV-compatible smart card</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">hello</span></code>: Windows Hello (biometric)</p></li>
 </ul>
 </dd>
 </dl>
 <p><strong>Example:</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>user_key<span class="w"> </span>add<span class="w"> </span>aws_kms<span class="w"> </span><span class="s2">&quot;My AWS Key&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>user_key<span class="w"> </span>add<span class="w"> </span>piv<span class="w"> </span><span class="s2">&quot;My PIV Key&quot;</span>
 </pre></div>
 </div>
 </section>
