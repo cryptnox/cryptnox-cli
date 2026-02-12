@@ -108,21 +108,6 @@ Retrieve and display the manufacturer certificate from the card in a human-reada
 Seed Management Commands
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-seed backup
-^^^^^^^^^^^
-
-Generate seed in host, backup to AWS KMS, and upload to card.
-
-.. code-block:: bash
-
-   cryptnox seed backup
-
-**Features:**
-  - Generates new 32-byte random seed
-  - Stores encrypted backup in AWS KMS (Hardware Security Module)
-  - Supports BIP39 passphrase (13th/25th word)
-  - Loads seed onto card
-
 seed chip
 ^^^^^^^^^
 
@@ -164,31 +149,12 @@ Recover a wallet from an existing BIP39 mnemonic phrase (12 or 24 words).
   - Existing BIP39 mnemonic (12 or 24 words)
   - Optional: BIP39 passphrase (13th/25th word)
 
-**Options:**
-  - Backup to AWS KMS
-  - Load directly to card
-
 **Use Cases:**
   - Restoring existing wallet
   - Migrating wallet from another device
   - Recovering from backup mnemonic
 
 **Important:** If the original wallet used a BIP39 passphrase, you **must** provide the same passphrase during recovery.
-
-seed restore
-^^^^^^^^^^^^
-
-Restore seed from AWS KMS backup.
-
-.. code-block:: bash
-
-   cryptnox seed restore
-
-**Requirements:**
-  - AWS access credentials
-  - Backup name/alias in KMS
-
-**Important:** If a BIP39 passphrase was used when creating the backup, you must provide the same passphrase during restore.
 
 seed upload
 ^^^^^^^^^^^
@@ -204,7 +170,6 @@ Generate new random seed, upload to card, and display BIP39 mnemonic for backup.
   - Converts to BIP39 mnemonic (12 or 24 words)
   - Optional: Add BIP39 passphrase (13th/25th word) for extra security
   - Displays mnemonic for manual backup
-  - Optional: Backup to AWS KMS
 
 **Output:** The generated mnemonic phrase (save it securely!)
 
@@ -614,7 +579,6 @@ If you choose ``yes``:
 If your wallet was created with a passphrase, you **must** provide the same passphrase when recovering.
 
 **Important Notes:**
-  - ⚠️ The passphrase is **NOT** backed up by AWS KMS
   - ⚠️ If you forget your passphrase, your funds are **permanently lost**
   - ✅ Same mnemonic + different passphrase = completely different wallet
   - ✅ Passphrase can be any UTF-8 string (including spaces and special characters)
@@ -645,11 +609,11 @@ Examples
 
    cryptnox init
 
-**Generate and backup a seed:**
+**Generate and upload a seed:**
 
 .. code-block:: bash
 
-   cryptnox seed backup
+   cryptnox seed upload
 
 **Recover from existing mnemonic:**
 

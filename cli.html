@@ -62,11 +62,9 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#seed-management-commands">Seed Management Commands</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#seed-backup">seed backup</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#seed-chip">seed chip</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#seed-dual">seed dual</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#seed-recover">seed recover</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#seed-restore">seed restore</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#seed-upload">seed upload</a></li>
 </ul>
 </li>
@@ -272,22 +270,6 @@
 </section>
 <section id="seed-management-commands">
 <h3>Seed Management Commands<a class="headerlink" href="#seed-management-commands" title="Link to this heading"></a></h3>
-<section id="seed-backup">
-<h4>seed backup<a class="headerlink" href="#seed-backup" title="Link to this heading"></a></h4>
-<p>Generate seed in host, backup to AWS KMS, and upload to card.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>seed<span class="w"> </span>backup
-</pre></div>
-</div>
-<dl class="simple">
-<dt><strong>Features:</strong></dt><dd><ul class="simple">
-<li><p>Generates new 32-byte random seed</p></li>
-<li><p>Stores encrypted backup in AWS KMS (Hardware Security Module)</p></li>
-<li><p>Supports BIP39 passphrase (13th/25th word)</p></li>
-<li><p>Loads seed onto card</p></li>
-</ul>
-</dd>
-</dl>
-</section>
 <section id="seed-chip">
 <h4>seed chip<a class="headerlink" href="#seed-chip" title="Link to this heading"></a></h4>
 <p>Generate new root key directly in the card’s secure chip.</p>
@@ -325,11 +307,6 @@
 <li><p>Optional: BIP39 passphrase (13th/25th word)</p></li>
 </ul>
 </dd>
-<dt><strong>Options:</strong></dt><dd><ul class="simple">
-<li><p>Backup to AWS KMS</p></li>
-<li><p>Load directly to card</p></li>
-</ul>
-</dd>
 <dt><strong>Use Cases:</strong></dt><dd><ul class="simple">
 <li><p>Restoring existing wallet</p></li>
 <li><p>Migrating wallet from another device</p></li>
@@ -338,21 +315,6 @@
 </dd>
 </dl>
 <p><strong>Important:</strong> If the original wallet used a BIP39 passphrase, you <strong>must</strong> provide the same passphrase during recovery.</p>
-</section>
-<section id="seed-restore">
-<h4>seed restore<a class="headerlink" href="#seed-restore" title="Link to this heading"></a></h4>
-<p>Restore seed from AWS KMS backup.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>seed<span class="w"> </span>restore
-</pre></div>
-</div>
-<dl class="simple">
-<dt><strong>Requirements:</strong></dt><dd><ul class="simple">
-<li><p>AWS access credentials</p></li>
-<li><p>Backup name/alias in KMS</p></li>
-</ul>
-</dd>
-</dl>
-<p><strong>Important:</strong> If a BIP39 passphrase was used when creating the backup, you must provide the same passphrase during restore.</p>
 </section>
 <section id="seed-upload">
 <h4>seed upload<a class="headerlink" href="#seed-upload" title="Link to this heading"></a></h4>
@@ -366,7 +328,6 @@
 <li><p>Converts to BIP39 mnemonic (12 or 24 words)</p></li>
 <li><p>Optional: Add BIP39 passphrase (13th/25th word) for extra security</p></li>
 <li><p>Displays mnemonic for manual backup</p></li>
-<li><p>Optional: Backup to AWS KMS</p></li>
 </ul>
 </dd>
 </dl>
@@ -745,7 +706,6 @@ Cryptnox CLI 1.0.3
 <p>If your wallet was created with a passphrase, you <strong>must</strong> provide the same passphrase when recovering.</p>
 <dl class="simple">
 <dt><strong>Important Notes:</strong></dt><dd><ul class="simple">
-<li><p>⚠️ The passphrase is <strong>NOT</strong> backed up by AWS KMS</p></li>
 <li><p>⚠️ If you forget your passphrase, your funds are <strong>permanently lost</strong></p></li>
 <li><p>✅ Same mnemonic + different passphrase = completely different wallet</p></li>
 <li><p>✅ Passphrase can be any UTF-8 string (including spaces and special characters)</p></li>
@@ -780,8 +740,8 @@ Cryptnox CLI 1.0.3
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>init
 </pre></div>
 </div>
-<p><strong>Generate and backup a seed:</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>seed<span class="w"> </span>backup
+<p><strong>Generate and upload a seed:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cryptnox<span class="w"> </span>seed<span class="w"> </span>upload
 </pre></div>
 </div>
 <p><strong>Recover from existing mnemonic:</strong></p>
