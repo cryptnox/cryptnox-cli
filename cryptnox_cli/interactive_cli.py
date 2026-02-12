@@ -63,6 +63,8 @@ class ErrorParser(argparse.ArgumentParser):
     Parser to override how argparse is showing messages on error.
     """
 
+    is_main_menu = False
+
     def error(self, message):
         if "the following arguments are required" in message:
             message = self.format_usage()
@@ -71,50 +73,31 @@ class ErrorParser(argparse.ArgumentParser):
 
         self.exit(2, "%(message)s\n" % args)
 
-    @staticmethod
-    def _remove_lines(lines: List[str]):
-        try:
-            lines.remove("                        Command options")
-        except ValueError:
-            pass
-
-        try:
-            optional_index = lines.index("optional arguments:")
-        except ValueError:
-            pass
-        else:
-            del lines[optional_index]
-            del lines[optional_index - 1]
-
     def format_help(self):
+        message = super().format_help()
+
+        if not self.is_main_menu:
+            return message
+
         groups = {
             enums.Command.BTC.value: "Blockchain Operations",
             enums.Command.CARD_CONFIGURATION.value: "Card Administration",
             "use": "General",
-            "-h,": "General"
         }
-        message = super().format_help()
-        lines = message.split("\n")
-        ErrorParser._remove_lines(lines)
-
         lines_out = []
         skip = True
-
-        for line in lines:
+        for line in message.split("\n"):
             if line.strip().startswith("{"):
                 skip = False
                 continue
             if skip:
                 continue
-
             command = line.strip().split(" ")[0]
             if command in groups:
                 lines_out += ["", f"{groups[command]}:", ""]
             lines_out.append(line)
 
-        message = "\n".join(lines_out)
-
-        return message
+        return "\n".join(lines_out)
 
 
 class UsageParser(ErrorParser):
@@ -424,6 +407,7 @@ class InteractiveCli:
 
     def _prepare_parser(self) -> None:
         self.parser = UsageParser(description="Cryptnox command line interface")
+        self.parser.is_main_menu = True
         self.parser.add_argument(" version", action="version",
                                  version=f"Cryptnox CLI {self.version}",
                                  help="Show program's version number")

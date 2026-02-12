@@ -54,6 +54,7 @@ def get_parser() -> argparse.ArgumentParser:
     :rtype: argparse.ArgumentParser
     """
     parser = interactive_cli.ErrorParser(description="Cryptnox command line interface.")
+    parser.is_main_menu = True
 
     parser.add_argument("-v", "--version", action="version", version=f"Cryptnox CLI {__version__}")
     parser.add_argument("--verbose", action="store_true", help="Turn on logging")
