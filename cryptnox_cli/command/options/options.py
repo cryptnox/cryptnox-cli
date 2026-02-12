@@ -190,13 +190,10 @@ def _seed_options(subparsers, interactive_mode):
 
     action_sub_parser = sub_parser.add_subparsers(dest="action", required=True)
 
-    action_sub_parser.add_parser("backup", help="Generate seed in host, backup to KMS in HSM and "
-                                                "upload to card.")
     action_sub_parser.add_parser("chip", help="Generate new root key in the chip.")
     action_sub_parser.add_parser("dual", help="Generate same seed on two cards. "
                                               "(Requires two cards)")
     action_sub_parser.add_parser("recover", help="Recover a key from a BIP39 word list.")
-    action_sub_parser.add_parser("restore", help="Restore from seed stored on KMS in HSM.")
     action_sub_parser.add_parser("upload", help="Generate seed in host, upload to card and show "
                                                 "BIP39 word list for backup.")
 

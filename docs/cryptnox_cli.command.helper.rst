@@ -4,14 +4,6 @@ cryptnox_cli.command.helper package
 Submodules
 ----------
 
-cryptnox_cli.command.helper.backup module
-----------------------------------------
-
-.. automodule:: cryptnox_cli.command.helper.backup
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 cryptnox_cli.command.helper.cards module
 ---------------------------------------
 
@@ -24,14 +16,6 @@ cryptnox_cli.command.helper.config module
 ----------------------------------------
 
 .. automodule:: cryptnox_cli.command.helper.config
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-cryptnox_cli.command.helper.download\_folder module
---------------------------------------------------
-
-.. automodule:: cryptnox_cli.command.helper.download_folder
    :members:
    :undoc-members:
    :show-inheritance:
@@ -60,14 +44,6 @@ cryptnox_cli.command.helper.security module
    :undoc-members:
    :show-inheritance:
 
-cryptnox_cli.command.helper.seed\_backup module
-----------------------------------------------
-
-.. automodule:: cryptnox_cli.command.helper.seed_backup
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 cryptnox_cli.command.helper.ui module
 ------------------------------------
 
@@ -86,5 +62,5 @@ Module contents
 
 The ``cryptnox_cli.command.helper`` package provides utility functions and helper modules for command implementations.
 This package contains shared functionality used across multiple commands, including user interface components,
-security helpers, configuration management, and backup utilities.
+security helpers, and configuration management.
 
