@@ -84,12 +84,6 @@ This installs the package and makes the `cryptnox` command available (if your Py
 2. Enter current PIN → enter new PIN → verify change.  
 3. Check with `cryptnox info` using new PIN (BTC & ETH accounts displayed).
 
-### 3. Change PIN code
-
-1. Run command: `cryptnox change_pin`
-2. Enter current PIN → enter new PIN → verify change.  
-3. Check with `cryptnox info` using new PIN (BTC & ETH accounts displayed).
-
 ### 4. Get extended public key (xpub)
 
 1. Run command: `cryptnox get_xpub`
