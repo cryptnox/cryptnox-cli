@@ -98,7 +98,17 @@ def check_pin_code(card, text: str = "Cryptnox PIN code: ") -> str:
             print("The card is in easy mode, just press ENTER. The PIN will be from easy mode "
                   "regardless of what you type.")
 
-        pin_code = get_pin_code(card, text, [""] if easy_mode else [])
+        try:
+            retries = card.verify_pin(None)
+            if retries is not None:
+                try_str = "attempt" if retries == 1 else "attempts"
+                prompt_text = f"Cryptnox PIN code ({retries} {try_str} remaining): "
+            else:
+                prompt_text = text
+        except Exception:
+            prompt_text = text
+
+        pin_code = get_pin_code(card, prompt_text, [""] if easy_mode else [])
 
         if easy_mode:
             pin_code = EASY_MODE_PIN
