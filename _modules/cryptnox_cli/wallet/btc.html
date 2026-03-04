@@ -449,8 +449,6 @@
     <span class="k">if</span> <span class="n">btc_addr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">btc_addr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span>
             <span class="s2">&quot;m&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">btc_addr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;2&quot;</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^[2nm][a-km-zA-HJ-NP-Z1-9]{25,34}$&#39;</span><span class="p">,</span> <span class="n">btc_addr</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">btc_addr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;bc1&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">btc_addr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;tb1&quot;</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^(bc1|tb1)[a-zA-HJ-NP-Z0-9]{25,62}$&#39;</span><span class="p">,</span> <span class="n">btc_addr</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="kc">False</span></div>
 
