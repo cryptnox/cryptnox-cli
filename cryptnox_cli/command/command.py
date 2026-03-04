@@ -89,6 +89,10 @@ class Command(metaclass=abc.ABCMeta):
         except cryptnox_sdk_py.exceptions.GenericException as error:
             print(f"Generic exception with status code: 0x{error.status.hex().upper()}")
             return -2
+        except (cryptnox_sdk_py.exceptions.PinException,
+                cryptnox_sdk_py.exceptions.PinAuthenticationException,
+                cryptnox_sdk_py.exceptions.PinBlockedException):
+            result = -1
         except (cryptnox_sdk_py.exceptions.CryptnoxException, NotImplementedError) as error:
             print(error)
             result = -1

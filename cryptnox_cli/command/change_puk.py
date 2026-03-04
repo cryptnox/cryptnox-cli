@@ -30,26 +30,27 @@ class ChangePuk(Command):
             return -1
 
         easy_mode = security.is_easy_mode(card.info)
-        if easy_mode:
-            print("The card is in easy mode, just press ENTER. The PUK will be from EASY mode "
-                  "regardless of what you type.")
 
-        puk_code = security.get_puk_code(card, f"   Enter the PUK ({card.puk_rule}): ",
-                                         [""] if easy_mode else [])
+        while True:
+            if easy_mode:
+                puk_code = security.easy_mode_puk(card)
+                print(f"Card is in {security.EASY_MODE_TEXT}. Setting same PUK code automatically.")
+                new_puk_code = puk_code
+            else:
+                puk_code = security.get_puk_code(card)
+                new_puk_code = security.get_puk_code(card, f"Set new PUK code ({card.puk_rule}): ")
 
-        if easy_mode:
-            puk_code = security.easy_mode_puk(card)
+            try:
+                card.change_puk(puk_code, new_puk_code)
+                break
+            except cryptnox_sdk_py.exceptions.PukException:
+                if easy_mode:
+                    print(f"{security.EASY_MODE_TEXT} PUK doesn't work. Try other PUK code.\n")
+                    easy_mode = False
+                else:
+                    print("Wrong PUK code. Try again.")
 
-        card.change_puk(puk_code, puk_code)
-
-        if security.is_easy_mode(card.info):
-            print(f"Card is in {security.EASY_MODE_TEXT}. Setting same PUK code")
-            new_puk_code = security.easy_mode_puk(card)
-        else:
-            new_puk_code = security.get_puk_code(card, f"Set new PUK code ({card.puk_rule}): ")
-
-        card.change_puk(puk_code, new_puk_code)
-
-        print("PUK changed successfully")
+        if not easy_mode:
+            print("PUK changed successfully")
 
         return 0
