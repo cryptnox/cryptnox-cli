@@ -1,0 +1,48 @@
+name: Dead Code Detection
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  vulture:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: 'pip'
+
+      - name: Install Vulture
+        run: pip install vulture
+
+      - name: Run Vulture and generate report
+        continue-on-error: true
+        run: |
+          echo "Dead Code Detection Report" > vulture-report.txt
+          echo "Generated: $(date -u)" >> vulture-report.txt
+          echo "========================================" >> vulture-report.txt
+          echo "" >> vulture-report.txt
+          vulture cryptnox_cli --min-confidence 60 >> vulture-report.txt 2>&1 || true
+          echo "" >> vulture-report.txt
+          echo "========================================" >> vulture-report.txt
+          echo "Total findings:" >> vulture-report.txt
+          vulture cryptnox_cli --min-confidence 60 2>/dev/null | wc -l >> vulture-report.txt || echo "0" >> vulture-report.txt
+          cat vulture-report.txt
+
+      - name: Upload Vulture report
+        uses: actions/upload-artifact@v4
+        with:
+          name: vulture-dead-code-report
+          path: vulture-report.txt
+          retention-days: 30
