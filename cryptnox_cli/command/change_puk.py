@@ -29,12 +29,6 @@ class ChangePuk(Command):
 
             return -1
 
-        try:
-            if card.verify_pin(None) == 0:
-                ui.print_warning("PIN is locked. After changing PUK, use 'unlock_pin' to unlock the card.")
-        except Exception:
-            pass
-
         easy_mode = security.is_easy_mode(card.info)
 
         while True:
