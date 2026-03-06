@@ -31,8 +31,7 @@ class ChangePuk(Command):
 
         try:
             if card.verify_pin(None) == 0:
-                ui.print_warning("Cannot change PUK while PIN is locked. Use 'unlock_pin' to unlock the card first.")
-                return -1
+                ui.print_warning("PIN is locked. After changing PUK, use 'unlock_pin' to unlock the card.")
         except Exception:
             pass
 
