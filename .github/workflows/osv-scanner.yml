@@ -9,9 +9,6 @@ on:
       - '.github/workflows/osv-scanner.yml'
   pull_request:
     branches: [main]
-    paths:
-      - 'requirements.txt'
-      - 'dev-requirements.txt'
   schedule:
     # Run weekly on Monday at 00:00 UTC to catch new CVEs
     - cron: '0 0 * * 1'
