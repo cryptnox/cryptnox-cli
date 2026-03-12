@@ -75,7 +75,8 @@ def _btc_options(subparsers, interactive_mode):
     def add_send(sub_parser):
         def _validate(address: str) -> str:
             if re.match('^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$', address) or \
-                    re.match('^[2nm][a-km-zA-HJ-NP-Z1-9]{25,34}$', address):
+                    re.match('^[2nm][a-km-zA-HJ-NP-Z1-9]{25,34}$', address) or \
+                    re.match('^(bc1|tb1)[a-zA-HJ-NP-Z0-9]{25,62}$', address):
                 return address
             raise argparse.ArgumentTypeError("Not a valid BTC address")
 
