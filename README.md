@@ -3,7 +3,7 @@
 </p>
 
 <h3 align="center">cryptnox-cli</h3>
-<p align="center">CLI for managing Cryptnox smart card wallets</p>
+<p align="center">CLI for managing Cryptnox Hardware Wallet smart cards</p>
 
 <br/>
 <br/>
@@ -14,17 +14,29 @@
 [![Documentation status](https://img.shields.io/badge/docs-latest-blue)](https://cryptnox.github.io/cryptnox-cli)
 [![License: GPLv3](https://img.shields.io/badge/License-LGPLv3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 
-`cryptnox-cli` is a command-line interface for managing **Cryptnox Smart cards**, enabling secure seed initialization and cryptographic signing for **Bitcoin** and **Ethereum**.
+`cryptnox-cli` is a command-line interface for managing **Cryptnox Hardware Wallet** smart cards, enabling secure seed initialization and cryptographic signing for **Bitcoin** and **Ethereum**.
 
 ---
 
 ## Supported hardware
 
-- **Cryptnox Smart cards** 💳
-- **Standard PC/SC Smart card Readers**: either USB NFC reader or a USB smart card reader
-  → Readers are also available in the Cryptnox shop.
+### Cryptnox Hardware Wallet smart cards
 
-Get your card and readers here: [shop.cryptnox.com](https://shop.cryptnox.com)
+Works with Cryptnox Hardware Wallet smart cards running firmware v1.6.0 or later.
+
+| Smart card | Wallet version |
+|------|---------------|
+| [Crypto Hardware Wallet – Dual Card Set](https://shop.cryptnox.com/product/hardware-wallet-smartcard-dual/) | v1.6.1 |
+
+### Smart card readers
+
+Works with Cryptnox readers and any other standard PC/SC smart card reader:
+
+| Reader | Type | Interface |
+|--------|------|-----------|
+| [Cryptnox® Smartcard Reader](https://shop.cryptnox.com/product/cryptnox-smartcard-reader/) | Contact (ID-1 + SIM) | USB-A |
+| [Compact USB Mini Smartcard Reader](https://shop.cryptnox.com/product/mini-smartcard-reader/) | Contact (ID-1) | USB-A |
+| [Cryptnox NFC Contactless Reader](https://shop.cryptnox.com/product/cryptnox-contactless-reader/) | Contactless (NFC/ISO 14443) | USB-C |
 
 ---
 
@@ -100,7 +112,7 @@ The full **User & Developer documentation** is available at the [Cryptnox CLI Do
 
 ## License
 
-cryptnox-cli is dual-licensed:
+`cryptnox-cli` is dual-licensed:
 
 - **LGPL-3.0** for open-source projects and proprietary projects that comply with LGPL requirements  
 - **Commercial license** for projects that require a proprietary license without LGPL obligations (see COMMERCIAL.md for details)
