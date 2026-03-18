@@ -194,6 +194,9 @@ def process_command_with_puk(
 def _check_pin_code(card, pin_code, handle_exception: bool = True) -> bool:
     try:
         card.verify_pin(str(pin_code))
+    except cryptnox_sdk_py.exceptions.PinBlockedException:
+        print("PIN is locked. Use the unlock_pin command to unlock it before attempting this operation.")
+        raise
     except cryptnox_sdk_py.exceptions.PinException as error:
         if not handle_exception:
             raise error
