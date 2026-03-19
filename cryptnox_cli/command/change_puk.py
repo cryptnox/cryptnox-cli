@@ -33,22 +33,17 @@ class ChangePuk(Command):
 
         while True:
             if easy_mode:
-                puk_code = security.easy_mode_puk(card)
                 print(f"Card is in {security.EASY_MODE_TEXT}. Setting same PUK code automatically.")
-                new_puk_code = puk_code
+                break
             else:
                 puk_code = security.get_puk_code(card)
                 new_puk_code = security.get_puk_code(card, f"Set new PUK code ({card.puk_rule}): ")
 
-            try:
-                card.change_puk(puk_code, new_puk_code)
-                break
-            except cryptnox_sdk_py.exceptions.PukException:
-                if easy_mode:
-                    print(f"{security.EASY_MODE_TEXT} PUK doesn't work. Try other PUK code.\n")
-                    easy_mode = False
-                else:
-                    print("Wrong PUK code. Try again.")
+                try:
+                    card.change_puk(puk_code, new_puk_code)
+                    break
+                except cryptnox_sdk_py.exceptions.PukException:
+                    print("Invalid PUK. Try another PUK code.")
 
         if not easy_mode:
             print("PUK changed successfully")
