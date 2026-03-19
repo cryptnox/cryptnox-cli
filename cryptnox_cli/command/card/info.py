@@ -21,11 +21,13 @@ try:
     from ...config import get_configuration
     from ...wallet import eth
     from ...wallet.btc import BTCwallet, BlkHubApi
+    from ...wallet import xrp as xrp_wallet
 except ImportError:
     import enums
     from config import get_configuration
     from wallet import eth
     from wallet.btc import BTCwallet, BlkHubApi
+    from wallet import xrp as xrp_wallet
 
 __all__ = ['Cards']
 
@@ -43,7 +45,12 @@ class Info:
         print("Gathering information from the network...")
         eth_info = Info._get_eth_info(card)
 
-        Info._print_info_table([Info._get_btc_info(card), eth_info])
+        Info._print_info_table([
+            Info._get_btc_info(card),
+            eth_info,
+            Info._get_xrp_info(card),
+            Info._get_bnb_info(card),
+        ])
 
         config = get_configuration(card)
         if not config["eth"]["api_key"] and config["eth"]["endpoint"] == "infura":
@@ -113,6 +120,59 @@ class Info:
             tabulate_data["balance"] = f"{web3.Web3.from_wei(api.get_balance(address), 'ether')} ETH"
         except Exception as error:
             print(f"There's an issue in retrieving ETH data: {error}")
+            tabulate_data["balance"] = "Network issue"
+
+        return tabulate_data
+
+    @staticmethod
+    def _get_xrp_info(card) -> dict:
+        tabulate_data = {"name": "XRP", "network": "mainnet", "balance": "--"}
+        try:
+            pubkey = card.get_public_key(
+                cryptnox_sdk_py.Derivation.DERIVE,
+                path=xrp_wallet.PATH
+            )
+            tabulate_data["address"] = xrp_wallet.address(pubkey)
+        except Exception as error:
+            print(f"There's an issue in retrieving XRP address: {error}")
+            tabulate_data["address"] = "Error"
+            return tabulate_data
+
+        try:
+            balance = xrp_wallet.get_balance(tabulate_data["address"])
+            tabulate_data["balance"] = f"{balance} XRP"
+        except Exception as error:
+            print(f"There's an issue in retrieving XRP balance: {error}")
+            tabulate_data["balance"] = "Network issue"
+
+        return tabulate_data
+
+    @staticmethod
+    def _get_bnb_info(card) -> dict:
+        # BNB on Binance Smart Chain (BSC) is EVM-compatible: same secp256k1
+        # curve, same derivation path, and same address format as Ethereum.
+        config = get_configuration(card)["eth"]
+        try:
+            derivation = cryptnox_sdk_py.Derivation[config["derivation"]].value
+        except KeyError:
+            return {"name": "BNB", "address": "Bad derivation type", "network": "BSC mainnet"}
+
+        tabulate_data = {"name": "BNB", "network": "BSC mainnet", "balance": "--"}
+        try:
+            path = "" if derivation == cryptnox_sdk_py.Derivation.CURRENT_KEY else eth.Api.PATH
+            public_key = card.get_public_key(derivation, path=path, compressed=False)
+            tabulate_data["address"] = eth.checksum_address(public_key)
+        except Exception as error:
+            print(f"There's an issue in retrieving BNB address: {error}")
+            tabulate_data["address"] = "Error"
+            return tabulate_data
+
+        try:
+            w3 = web3.Web3(web3.Web3.HTTPProvider("https://bsc-dataseed.binance.org/"))
+            balance_wei = w3.eth.get_balance(tabulate_data["address"])
+            tabulate_data["balance"] = f"{web3.Web3.from_wei(balance_wei, 'ether')} BNB"
+        except Exception as error:
+            print(f"There's an issue in retrieving BNB balance: {error}")
             tabulate_data["balance"] = "Network issue"
 
         return tabulate_data

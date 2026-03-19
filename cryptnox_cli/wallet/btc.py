@@ -319,6 +319,8 @@ def test_addr(btc_addr: str):
     if btc_addr.startswith("n") or btc_addr.startswith(
             "m") or btc_addr.startswith("2"):
         return re.match('^[2nm][a-km-zA-HJ-NP-Z1-9]{25,34}$', btc_addr)
+    if btc_addr.startswith("bc1") or btc_addr.startswith("tb1"):
+        return re.match('^(bc1|tb1)[a-zA-HJ-NP-Z0-9]{25,62}$', btc_addr)
 
     return False
 
