@@ -95,21 +95,36 @@ def check_pin_code(card, text: str = "Cryptnox PIN code: ") -> str:
 
     while not authorized:
         if easy_mode:
-            print("The card is in easy mode, just press ENTER. The PIN will be from easy mode "
-                  "regardless of what you type.")
-
-        pin_code = get_pin_code(card, text, [""] if easy_mode else [])
-
-        if easy_mode:
+            print(f"Card is in {EASY_MODE_TEXT}. Using easy mode PIN automatically.")
             pin_code = EASY_MODE_PIN
+            authorized = True
+        else:
+            try:
+                retries = card.verify_pin(None)
+                if retries is not None:
+                    if retries == 0:
+                        raise cryptnox_sdk_py.exceptions.PinBlockedException(
+                            "PIN is locked. Use the unlock_pin command to unlock it."
+                        )
+                    try_str = "attempt" if retries == 1 else "attempts"
+                    prompt_text = f"Cryptnox PIN code ({retries} {try_str} remaining): "
+                else:
+                    prompt_text = text
+            except cryptnox_sdk_py.exceptions.PinBlockedException:
+                raise
+            except cryptnox_sdk_py.exceptions.PinException:
+                print("Card requires a power cycle. Please remove and re-tap the card, then try again.")
+                raise
+            except Exception:
+                prompt_text = text
 
-        try:
-            authorized = _check_pin_code(card, pin_code, not easy_mode)
-        except cryptnox_sdk_py.exceptions.PinException:
-            if easy_mode:
-                print(f"{EASY_MODE_TEXT} PIN doesn't work. Try other PIN code.\n")
-                easy_mode = False
-            else:
+            pin_code = get_pin_code(card, prompt_text)
+
+            try:
+                authorized = _check_pin_code(card, pin_code)
+            except (cryptnox_sdk_py.exceptions.PinAuthenticationException,
+                    cryptnox_sdk_py.exceptions.SoftLock):
+                print("Card requires a power cycle. Please remove and re-tap the card, then try again.")
                 raise
 
     return pin_code
@@ -146,12 +161,10 @@ def process_command_with_puk(
 
     while True:
         if easy_mode:
-            print(f"The card is in {EASY_MODE_TEXT}, just press ENTER. "
-                  f"The PUK will be from {EASY_MODE_TEXT.upper()} regardless of what you type.")
-
-        puk_code = get_puk_code(card, allowed_values=[""] if is_easy_mode else [])
-        if easy_mode:
+            print(f"Card is in {EASY_MODE_TEXT}. Using easy mode PUK automatically.")
             puk_code = easy_mode_puk(card)
+        else:
+            puk_code = get_puk_code(card)
 
         try:
             result = function(*args, **kwargs, puk=puk_code)
@@ -174,14 +187,19 @@ def process_command_with_puk(
 def _check_pin_code(card, pin_code, handle_exception: bool = True) -> bool:
     try:
         card.verify_pin(str(pin_code))
+    except cryptnox_sdk_py.exceptions.PinBlockedException:
+        print("PIN is locked. Use the unlock_pin command to unlock it before attempting this operation.")
+        raise
     except cryptnox_sdk_py.exceptions.PinException as error:
         if not handle_exception:
             raise error
         number_of_retries = error.number_of_retries
+        print("Wrong PIN code.")
         if number_of_retries == 0:
+            print("PIN is locked. Use the unlock_pin command to unlock it.")
             raise
-        try_str = "tries" if number_of_retries > 1 else "try"
-        print(f"Wrong pin code. You have {number_of_retries} {try_str} before the card is locked.")
+        try_str = "attempt" if number_of_retries == 1 else "attempts"
+        print(f"{number_of_retries} {try_str} remaining before the card is locked.")
 
         return False
 
