@@ -26,8 +26,14 @@ try:
 except ImportError:
     import config
 
-# Global connection cache to preserve connections across CardManager instances
+# Global caches preserved across CardManager instances within the same CLI session.
+# Reusing the same Connection/card preserves the card's secure channel session,
+# which means soft lock state (SW=0x6985) persists until a physical power cycle
+# breaks the NFC connection (detected via card.alive returning False).
 _GLOBAL_CONNECTIONS: Dict[int, cryptnox_sdk_py.Connection] = {}
+_GLOBAL_CARDS: Dict[int, cryptnox_sdk_py.Card] = {}
+# Maps reader index -> card serial number, used to clear soft lock on reconnect
+_GLOBAL_SERIAL_MAP: Dict[int, int] = {}
 
 
 class ExitException(Exception):
@@ -185,32 +191,38 @@ class CardManager:
 
     def _open_card(self, index: int, remote: bool = False) -> cryptnox_sdk_py.Card:
 
-        global _GLOBAL_CONNECTIONS  # noqa: F824
+        global _GLOBAL_CONNECTIONS, _GLOBAL_CARDS, _GLOBAL_SERIAL_MAP  # noqa: F824
 
-        if index in _GLOBAL_CONNECTIONS:
-            connection = _GLOBAL_CONNECTIONS[index]
+        if index in _GLOBAL_CARDS:
+            card = _GLOBAL_CARDS[index]
             try:
-                test_response = connection._reader.send([0x00, 0xA4, 0x04, 0x00, 0x00])
-                if test_response:
-                    if index in self._cards_by_index:
-                        return self._cards_by_index[index]
-            except (BaseException, cryptnox_sdk_py.exceptions.ConnectionException):
-                # Connection is stale, remove it and create new one
-                del _GLOBAL_CONNECTIONS[index]
-                if index in self._cards_by_index:
-                    self._remove_card(self._cards_by_index[index].serial_number)
+                if card.alive:
+                    # Reuse card without re-selecting the applet. This preserves the
+                    # secure channel session so the card's soft lock state (SW=0x6985)
+                    # remains visible to verify_pin(None) on the next command.
+                    self._cards[card.serial_number] = self._cards_by_index[index] = card
+                    return card
+            except Exception:
+                pass
+            # card.alive returned False or raised — physical power cycle detected.
+            # Clear cached state so a fresh connection is created below.
+            _GLOBAL_CARDS.pop(index, None)
+            _GLOBAL_CONNECTIONS.pop(index, None)
+            if index in _GLOBAL_SERIAL_MAP:
+                security.clear_softlock(_GLOBAL_SERIAL_MAP.pop(index))
 
-        # Create new connection only if needed
         connection = cryptnox_sdk_py.Connection(index, self.debug, config.REMOTE_CONNECTIONS, remote)
-        _GLOBAL_CONNECTIONS[index] = connection  # Cache globally
+        _GLOBAL_CONNECTIONS[index] = connection
 
         card = cryptnox_sdk_py.factory.get_card(connection, self.debug)
+        _GLOBAL_CARDS[index] = card
+        _GLOBAL_SERIAL_MAP[index] = card.serial_number
         self._cards[card.serial_number] = self._cards_by_index[index] = card
 
         return card
 
     def _remove_card(self, key: int) -> None:
-        global _GLOBAL_CONNECTIONS  # noqa: F824
+        global _GLOBAL_CONNECTIONS, _GLOBAL_CARDS  # noqa: F824
 
         serial_number = index = key
         try:
@@ -226,8 +238,8 @@ class CardManager:
         del self._cards[serial_number]
         del self._cards_by_index[index]
 
-        if index in _GLOBAL_CONNECTIONS:
-            del _GLOBAL_CONNECTIONS[index]
+        _GLOBAL_CONNECTIONS.pop(index, None)
+        _GLOBAL_CARDS.pop(index, None)
 
     @staticmethod
     def printable_flags(card: cryptnox_sdk_py.Card) -> List[str]:
