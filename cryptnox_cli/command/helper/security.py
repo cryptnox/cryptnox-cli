@@ -16,24 +16,19 @@ class ExitException(Exception):
 
 def _getpass(prompt='Password: ', mask='*'):
     """
-    Cross-platform getpass that properly raises KeyboardInterrupt on Ctrl+C.
-
-    On Windows, msvcrt.getch() blocks the Python interpreter so pending
-    KeyboardInterrupt (from Ctrl+C) is never delivered. We poll with kbhit()
-    and short sleeps so Python can process signals between polls.
+    Cross-platform getpass that raises KeyboardInterrupt on Ctrl+C.
+    On Windows, getch() returns 0x03 for Ctrl+C in raw mode,
+    sow we catch it directly without polling.
     """
     import sys
     if sys.platform == 'win32':
-        import time
-        from msvcrt import getch, kbhit
+        from msvcrt import getch
         entered = []
         sys.stdout.write(prompt)
         sys.stdout.flush()
         while True:
-            while not kbhit():
-                time.sleep(0.05)  # allow Python to raise KeyboardInterrupt
             key = ord(getch())
-            if key == 3:  # Ctrl+C returned as character (non-processed mode)
+            if key == 3:  # Ctrl+C
                 sys.stdout.write('\n')
                 sys.stdout.flush()
                 raise KeyboardInterrupt
