@@ -52,7 +52,7 @@ def _prompt_power_cycle_exit() -> None:
     try:
         input("Press Enter to exit and relaunch the application: ")
     except (KeyboardInterrupt, EOFError):
-        pass
+        pass  # User interrupted the prompt; proceed to exit anyway
     sys.exit(0)
 
 

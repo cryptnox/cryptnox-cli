@@ -203,7 +203,7 @@ class CardManager:
                     self._cards[card.serial_number] = self._cards_by_index[index] = card
                     return card
             except Exception:
-                pass
+                pass  # card.alive check raised — treat as disconnected and reconnect below
             # card.alive returned False or raised — physical power cycle detected.
             # Clear cached state so a fresh connection is created below.
             _GLOBAL_CARDS.pop(index, None)
