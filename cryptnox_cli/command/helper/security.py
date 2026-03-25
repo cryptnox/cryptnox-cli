@@ -2,58 +2,54 @@
 """
 Module dealing with security of the application.
 """
-import sys
 import typing
+from time import sleep
 from typing import List, Dict
 
 import cryptnox_sdk_py
 
 from .. import user_keys
 
-# Maps card serial number -> remaining attempt count at the time soft lock was detected.
-# Cleared when the card is power-cycled (new NFC connection) or PIN is verified successfully.
-_SOFT_LOCKED_CARDS: Dict[int, int] = {}
-
-
-def mark_softlock(serial_number: int, remaining: int) -> None:
-    """Record that a soft lock occurred with the given remaining attempt count."""
-    _SOFT_LOCKED_CARDS[serial_number] = remaining
-
-
-def clear_softlock(serial_number: int) -> None:
-    """Remove soft lock state for a card (called on successful auth or power cycle)."""
-    _SOFT_LOCKED_CARDS.pop(serial_number, None)
-
-
-def _is_softlocked(serial_number: int, remaining: int) -> bool:
-    """
-    Return True if the card is still in the same soft-locked state.
-
-    Returns False (and clears the state) if the remaining count has changed,
-    which indicates the card was power-cycled and an attempt was used.
-    """
-    stored = _SOFT_LOCKED_CARDS.get(serial_number)
-    if stored is None:
-        return False
-    if stored == remaining:
-        return True
-    # Count changed since soft lock — card was power-cycled and used; clear state.
-    _SOFT_LOCKED_CARDS.pop(serial_number, None)
-    return False
-
 
 class ExitException(Exception):
     """Raised when user has indicated he want's to exit the command"""
 
 
-def _prompt_power_cycle_exit() -> None:
-    """Prompt the user to press Enter, then exit the application for a power cycle."""
-    print("Card requires a power cycle.")
+def _wait_for_power_cycle(card) -> None:
+    """
+    Prompt the user to power-cycle the card, then restore the connection.
+
+    Automatic removal detection via card.alive is unreliable here: a soft-locked
+    card returns SW=0x6985 even for the manufacturer-certificate APDU, raising
+    PinAuthenticationException inside alive — making the card look absent while
+    it is still physically present.  Using input() lets the user confirm removal
+    explicitly.  Reinsertion is then auto-detected by polling Connection(), which
+    raises CardException until the card is back in the reader.
+
+    The existing card object is updated in-place via __dict__ so every caller
+    reference stays valid without requiring a new card parameter.
+    """
+    index = card.connection.index
+    debug = card.connection.debug
+
     try:
-        input("Press Enter to exit and relaunch the application: ")
+        input("\nCard requires a power cycle. "
+              "Remove the card from the reader and press Enter: ")
+        print("Waiting for card to be re-tapped...")
+
+        while True:
+            try:
+                new_connection = cryptnox_sdk_py.Connection(index, debug)
+                new_card = cryptnox_sdk_py.factory.get_card(new_connection, debug)
+                card.__class__ = new_card.__class__
+                card.__dict__.update(new_card.__dict__)
+                print("Card detected. Continuing.\n")
+                return
+            except Exception:
+                pass
+            sleep(0.2)
     except (KeyboardInterrupt, EOFError):
-        pass  # User interrupted the prompt; proceed to exit anyway
-    sys.exit(0)
+        raise ExitException("Aborted.")
 
 
 def _secret_with_exit(text, required=True):
@@ -134,7 +130,8 @@ def check_pin_code(card, text: str = "Cryptnox PIN code: ") -> str:
     authorized = False
     pin_code = "1"
     easy_mode = is_easy_mode(card.info)
-    retries = None
+    power_cycled = False
+    had_wrong_pin = False
 
     while not authorized:
         if easy_mode:
@@ -142,6 +139,7 @@ def check_pin_code(card, text: str = "Cryptnox PIN code: ") -> str:
             pin_code = EASY_MODE_PIN
             authorized = True
         else:
+            prompt_text = text
             try:
                 retries = card.verify_pin(None)
                 if retries is not None:
@@ -149,19 +147,28 @@ def check_pin_code(card, text: str = "Cryptnox PIN code: ") -> str:
                         raise cryptnox_sdk_py.exceptions.PinBlockedException(
                             "PIN is locked. Use the unlock_pin command to unlock it."
                         )
-                    if _is_softlocked(card.serial_number, retries):
-                        _prompt_power_cycle_exit()
+                    # Only prompt for power cycle when the user has already made a wrong
+                    # attempt this session (retries == 3 after a wrong PIN), not on a
+                    # fresh start or after a successful power cycle.
+                    if retries == 3 and had_wrong_pin and not power_cycled:
+                        _wait_for_power_cycle(card)
+                        power_cycled = True
+                        continue
+                    power_cycled = False
                     try_str = "attempt" if retries == 1 else "attempts"
                     prompt_text = f"Cryptnox PIN code ({retries} {try_str} remaining): "
                 else:
                     prompt_text = text
+                    power_cycled = False
             except cryptnox_sdk_py.exceptions.PinBlockedException:
                 raise
             except ExitException:
                 raise
             except (cryptnox_sdk_py.exceptions.PinException,
                     cryptnox_sdk_py.exceptions.SoftLock):
-                _prompt_power_cycle_exit()
+                _wait_for_power_cycle(card)
+                power_cycled = True
+                continue
             except Exception:
                 prompt_text = text
 
@@ -169,13 +176,14 @@ def check_pin_code(card, text: str = "Cryptnox PIN code: ") -> str:
 
             try:
                 authorized = _check_pin_code(card, pin_code)
+                power_cycled = False
+                if not authorized:
+                    had_wrong_pin = True
             except (cryptnox_sdk_py.exceptions.PinAuthenticationException,
                     cryptnox_sdk_py.exceptions.SoftLock):
-                if retries is not None:
-                    mark_softlock(card.serial_number, retries)
-                _prompt_power_cycle_exit()
+                _wait_for_power_cycle(card)
+                power_cycled = True
 
-    clear_softlock(card.serial_number)
     return pin_code
 
 
