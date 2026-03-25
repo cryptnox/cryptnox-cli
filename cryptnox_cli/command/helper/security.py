@@ -45,7 +45,7 @@ def _wait_for_power_cycle(card) -> None:
                 card.__dict__.update(new_card.__dict__)
                 print("Card detected. Continuing.\n")
                 return
-            except Exception:
+            except Exception:  # Card not yet present; keep polling
                 pass
             sleep(0.2)
     except (KeyboardInterrupt, EOFError):
@@ -139,7 +139,6 @@ def check_pin_code(card, text: str = "Cryptnox PIN code: ") -> str:
             pin_code = EASY_MODE_PIN
             authorized = True
         else:
-            prompt_text = text
             try:
                 retries = card.verify_pin(None)
                 if retries is not None:
