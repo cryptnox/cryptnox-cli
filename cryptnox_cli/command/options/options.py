@@ -85,7 +85,7 @@ def _btc_options(subparsers, interactive_mode):
         send_sub_parser.add_argument("address", type=_validate,
                                      help="Address where to send funds")
         send_sub_parser.add_argument("amount", type=_validate_decimal, help="Amount to send")
-        send_sub_parser.add_argument("-n", "--network", choices=["mainnet", "testnet"],
+        send_sub_parser.add_argument("-n", "--network", choices=["mainnet", "testnet", "testnet4"],
                                      help="Network to use for transaction")
         send_sub_parser.add_argument("-f", "--fees", type=int,
                                      help="Fees to pay for the transaction")

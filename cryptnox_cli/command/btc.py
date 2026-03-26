@@ -6,6 +6,8 @@ from typing import List
 
 import cryptnox_sdk_py
 
+from concurrent.futures import ThreadPoolExecutor
+
 from .command import Command
 from .helper.config import create_config_method
 from .helper.helper_methods import sign
@@ -63,12 +65,17 @@ class Btc(Command):
 
         if self.data.fees:
             fees = self.data.fees
+            utx_os = wallet.get_utx_os()
         else:
-            fees = endpoint.get_fee_estimates()
+            with ThreadPoolExecutor(max_workers=2) as executor:
+                f_fees = executor.submit(endpoint.get_fee_estimates)
+                f_utxos = executor.submit(wallet.get_utx_os)
+            fees = f_fees.result()
+            utx_os = f_utxos.result()
             print(f"\nUsing fee (override with -f): {fees} Satoshi\n")
 
         try:
-            wallet.prepare(self.data.address, amount, fees)
+            wallet.prepare(self.data.address, amount, fees, utx_os=utx_os)
 
             signatures = Btc._sign(card, derivation, wallet.data_hash)
             message = wallet.send(self.data.address, amount, signatures)
