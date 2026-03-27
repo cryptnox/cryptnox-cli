@@ -18,7 +18,7 @@ try:
 except ImportError:
     from .. import enums
     from ..config import get_configuration
-    from ..wallet.btc import BTCwallet, BlkHubApi, get_btc_api
+    from ..wallet.btc import BTCwallet, get_btc_api
 
 
 class Btc(Command):
