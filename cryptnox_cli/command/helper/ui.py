@@ -10,7 +10,7 @@ from collections import namedtuple
 from typing import List, Union, Dict
 
 import cryptnox_sdk_py
-from stdiomask import getpass
+from .security import _getpass as getpass
 from tabulate import tabulate
 
 from . import security
@@ -60,7 +60,10 @@ def confirm(text: str, warning: str = "") -> bool:
 def input_with_exit(text, required=True, input_method=None):
     input_method = input_method or input
     while True:
-        value = input_method(text).strip()
+        try:
+            value = input_method(text).strip()
+        except KeyboardInterrupt:
+            raise ExitException()
         if value.lower() == "exit":
             raise ExitException
         if required and not value:

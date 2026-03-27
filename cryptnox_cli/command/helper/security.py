@@ -14,17 +14,52 @@ class ExitException(Exception):
     """Raised when user has indicated he want's to exit the command"""
 
 
+def _getpass(prompt='Password: ', mask='*'):
+    """
+    Cross-platform getpass that raises KeyboardInterrupt on Ctrl+C.
+    On Windows, getch() returns 0x03 for Ctrl+C in raw mode,
+    sow we catch it directly without polling.
+    """
+    import sys
+    if sys.platform == 'win32':
+        from msvcrt import getch
+        entered = []
+        sys.stdout.write(prompt)
+        sys.stdout.flush()
+        while True:
+            key = ord(getch())
+            if key == 3:  # Ctrl+C
+                sys.stdout.write('\n')
+                sys.stdout.flush()
+                raise KeyboardInterrupt
+            elif key == 13:  # Enter
+                sys.stdout.write('\n')
+                sys.stdout.flush()
+                return ''.join(entered)
+            elif key in (8, 127):  # Backspace/Del
+                if entered:
+                    sys.stdout.write('\b \b')
+                    sys.stdout.flush()
+                    entered.pop()
+            elif 32 <= key <= 126:  # Printable ASCII
+                entered.append(chr(key))
+                sys.stdout.write(mask)
+                sys.stdout.flush()
+    else:
+        from stdiomask import getpass
+        return getpass(prompt, mask)
+
+
 def _secret_with_exit(text, required=True):
     """
     Local implementation of secret_with_exit to avoid circular import.
     Replicates the functionality of ui.secret_with_exit.
     """
-    from stdiomask import getpass
-
     while True:
-        value = getpass(text).strip()
-        if value.lower() == "exit":
-            raise ExitException
+        try:
+            value = _getpass(text).strip()
+        except KeyboardInterrupt:
+            raise ExitException()
         if required and not value:
             print("This entry is required")
         else:
@@ -93,6 +128,9 @@ def check_pin_code(card, text: str = "Cryptnox PIN code: ") -> str:
     pin_code = "1"
     easy_mode = is_easy_mode(card.info)
 
+    if not easy_mode:
+        print("Press Ctrl+C to cancel.")
+
     while not authorized:
         if easy_mode:
             print(f"Card is in {EASY_MODE_TEXT}. Using easy mode PIN automatically.")
@@ -111,6 +149,8 @@ def check_pin_code(card, text: str = "Cryptnox PIN code: ") -> str:
                 else:
                     prompt_text = text
             except cryptnox_sdk_py.exceptions.PinBlockedException:
+                raise
+            except ExitException:
                 raise
             except cryptnox_sdk_py.exceptions.PinException:
                 print("Card requires a power cycle. Please remove and re-tap the card, then try again.")
@@ -158,6 +198,9 @@ def process_command_with_puk(
         *args,
         **kwargs) -> bool:
     easy_mode = is_easy_mode(card.info)
+
+    if not easy_mode:
+        print("Press Ctrl+C to cancel.")
 
     while True:
         if easy_mode:

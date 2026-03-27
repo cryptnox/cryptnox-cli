@@ -98,7 +98,7 @@ class Command(metaclass=abc.ABCMeta):
         except (cryptnox_sdk_py.exceptions.CryptnoxException, NotImplementedError) as error:
             print(error)
             result = -1
-        except ui.ExitException:
+        except (ui.ExitException, security.ExitException):
             print("Exited by user.")
             result = -1
         except Unauthorized as error:
