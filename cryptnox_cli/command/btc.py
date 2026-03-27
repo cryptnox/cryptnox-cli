@@ -18,7 +18,7 @@ try:
 except ImportError:
     from .. import enums
     from ..config import get_configuration
-    from ..wallet.btc import BTCwallet, BlkHubApi
+    from ..wallet.btc import BTCwallet, BlkHubApi, get_btc_api
 
 
 class Btc(Command):
@@ -51,7 +51,7 @@ class Btc(Command):
             print("Derivation is invalid")
             return
 
-        endpoint = BlkHubApi(network)
+        endpoint = get_btc_api(network, config.get("endpoint", ""), config.get("api_key", ""))
 
         path = b"" if derivation == cryptnox_sdk_py.Derivation.CURRENT_KEY else BTCwallet.PATH
         pubkey = card.get_public_key(derivation, path=path)

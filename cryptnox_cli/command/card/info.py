@@ -20,13 +20,13 @@ try:
     from ... import enums
     from ...config import get_configuration
     from ...wallet import eth
-    from ...wallet.btc import BTCwallet, BlkHubApi
+    from ...wallet.btc import BTCwallet, BlkHubApi, get_btc_api
     from ...wallet import xrp as xrp_wallet
 except ImportError:
     import enums
     from config import get_configuration
     from wallet import eth
-    from wallet.btc import BTCwallet, BlkHubApi
+    from wallet.btc import BTCwallet, BlkHubApi, get_btc_api
     from wallet import xrp as xrp_wallet
 
 __all__ = ['Cards']
@@ -70,18 +70,19 @@ class Info:
         except KeyError:
             return {"name": "Bad derivation type"}
         network = config.get("network", "testnet").lower()
-        endpoint = BlkHubApi(network)
+        endpoint = get_btc_api(network, config.get("endpoint", ""), config.get("api_key", ""))
 
         path = b"" if derivation == cryptnox_sdk_py.Derivation.CURRENT_KEY else BTCwallet.PATH
         pubkey = card.get_public_key(derivation, path=path)
 
         wallet = BTCwallet(pubkey, network, endpoint, card)
 
+        from urllib.parse import urlparse as _urlparse
         tabulate_data = {
             "name": "BTC",
             "address": wallet.address,
             "network": f"{network}"
-                       f"\n   -{wallet.api.url.replace('https://', '')}"
+                       f"\n   -{_urlparse(wallet.api.url).hostname}"
         }
 
         try:

@@ -163,16 +163,20 @@ class BlkHubApi:
     BlkHubApi
     """
 
-    def __init__(self, network):
+    _BUILTIN_DOMAINS = ['blkhub.net', 'blockstream.info', 'mempool.space']
+
+    def __init__(self, network, endpoint: str = ""):
         network = network.lower()
-        self.url = BlkHubApi.get_api(network)
+        self.url = endpoint if endpoint else BlkHubApi.get_api(network)
+        self._custom = bool(endpoint)
+        self._blockbook = False
         self.js_res = []
         self.web_rsc = None
 
     @staticmethod
     def get_api(network: str) -> str:
         """
-        Get API url for given network
+        Get default API url for given network
 
         :param str network:
         :return: API url
@@ -182,6 +186,8 @@ class BlkHubApi:
             return "https://blkhub.net/api/"
         if network.lower() == "testnet":
             return "https://blockstream.info/testnet/api/"
+        if network.lower() == "testnet4":
+            return "https://mempool.space/testnet4/api/"
         raise Exception("Unknown BC network name")
 
     def _validate_endpoint(self, endpoint: str) -> str:
@@ -216,12 +222,14 @@ class BlkHubApi:
         params_enc = urllib.parse.urlencode(parameters)
         try:
             # Construct full URL and validate it stays within expected domain
-            full_url = self.url + endpoint + "?" + params_enc
+            full_url = self.url + endpoint + ("?" + params_enc if params_enc else "")
             parsed = urlparse(full_url)
-            if not parsed.hostname or not any(
-                    domain in parsed.hostname
-                    for domain in ['blkhub.net', 'blockstream.info']):
-                raise ValueError("Invalid URL: must be blkhub.net or blockstream.info domain")
+            known_domains = ['blkhub.net', 'blockstream.info', 'mempool.space']
+            if not parsed.hostname:
+                raise ValueError("Invalid URL: missing hostname")
+            if not any(domain in parsed.hostname for domain in known_domains):
+                if parsed.scheme != 'https':
+                    raise ValueError("Custom endpoints must use HTTPS")
 
             req = urllib.request.Request(
                 full_url,
@@ -252,14 +260,39 @@ class BlkHubApi:
             print(" !! ERRORS :")
             raise Exception(self.js_res['errors'])
 
+    def _is_404(self, exc: IOError) -> bool:
+        return "404" in str(exc)
+
+    _DEFAULT_FEE = 2000
+
     def get_fee_estimates(self, blocks=6) -> int:
-        self.get_data("fee-estimates")
-        block_entries = [int(x) for x in self.js_res.keys() if int(x) <= blocks]
-        block_entries.sort()
+        if self._blockbook:
+            try:
+                self.get_data(f"api/v2/estimatefee/{blocks}")
+                try:
+                    return max(1, math.ceil(float(self.js_res['result']) * 1e8 / 1000))
+                except (KeyError, ValueError, TypeError):
+                    return 1
+            except IOError as exc:
+                if self._custom and self._is_404(exc):
+                    print(f"Fee estimation not supported by this endpoint. "
+                          f"Using default: {self._DEFAULT_FEE} Satoshi. "
+                          f"Override with -f to set manually.")
+                    return self._DEFAULT_FEE
+                raise
         try:
-            return math.ceil(self.js_res[str(block_entries.pop())])
-        except KeyError:
-            return 0
+            self.get_data("fee-estimates")
+            block_entries = [int(x) for x in self.js_res.keys() if int(x) <= blocks]
+            block_entries.sort()
+            try:
+                return math.ceil(self.js_res[str(block_entries.pop())])
+            except KeyError:
+                return 0
+        except IOError as exc:
+            if self._custom and self._is_404(exc):
+                self._blockbook = True
+                return self.get_fee_estimates(blocks)
+            raise
 
     def get_utx_os(self, addr: str, _n_conf: int) -> List:
         """
@@ -268,16 +301,42 @@ class BlkHubApi:
         :param int _n_conf: 0 or 1
         :return: list
         """
-        self.get_data("address/" + addr + "/utxo")
-        addr_utx_os = self.js_res
-        sel_utx_os = []
-        # translate inputs from blkhub to pybitcoinlib
-        for utxo in addr_utx_os:
-            sel_utx_os.append({
-                'value': utxo['value'],
-                'output': utxo['txid'] + ":" + str(utxo['vout'])
-            })
-        return sel_utx_os
+        if self._blockbook:
+            self.get_data("api/v2/utxo/" + addr)
+            return [{'value': int(u['value']), 'output': u['txid'] + ":" + str(u['vout'])}
+                    for u in self.js_res]
+        try:
+            self.get_data("address/" + addr + "/utxo")
+            return [{'value': u['value'], 'output': u['txid'] + ":" + str(u['vout'])}
+                    for u in self.js_res]
+        except IOError as exc:
+            if self._custom and self._is_404(exc):
+                self._blockbook = True
+                return self.get_utx_os(addr, _n_conf)
+            raise
+
+    def _broadcast_via_rpc(self, tx_hex: str) -> str:
+        """Broadcast transaction via Bitcoin JSON-RPC sendrawtransaction."""
+        payload = json.dumps({
+            "jsonrpc": "2.0",
+            "method": "sendrawtransaction",
+            "params": [tx_hex],
+            "id": 1
+        }).encode('utf-8')
+        req = urllib.request.Request(
+            self.url,
+            headers={'User-Agent': 'Mozilla/5.0', 'Content-Type': 'application/json'},
+            data=payload
+        )
+        try:
+            response = urllib.request.urlopen(req, timeout=30)
+            result = json.loads(response.read())
+            if 'error' in result and result['error']:
+                raise IOError(f"RPC broadcast error: {result['error']}")
+            return result.get('result', '')
+        except urllib.error.HTTPError as error:
+            raise IOError(f"RPC broadcast failed: {error.code} - "
+                          f"{error.read().decode('utf8')}") from error
 
     def push_tx(self, tx_hex: str) -> List:
         """
@@ -285,9 +344,25 @@ class BlkHubApi:
         :param tx_hex: str
         :return: List
         """
-        self.get_data("tx", data=tx_hex.encode('ascii'))
-        self.check_api_resp()
-        return self.get_key('txid')
+        endpoints_to_try = (
+            [("api/v2/sendtx/", "result"), ("tx", "txid")]
+            if self._blockbook
+            else [("tx", "txid"), ("api/v2/sendtx/", "result")]
+        )
+        last_exc = None
+        for path, key in endpoints_to_try:
+            try:
+                self.get_data(path, data=tx_hex.encode('ascii'))
+                self.check_api_resp()
+                return self.get_key(key)
+            except IOError as exc:
+                if self._custom and self._is_404(exc):
+                    last_exc = exc
+                    continue
+                raise
+        if self._custom and last_exc is not None:
+            return self._broadcast_via_rpc(tx_hex)
+        raise last_exc
 
     def get_key(self, key_char: str) -> List:
         """
@@ -305,6 +380,15 @@ class BlkHubApi:
             except LookupError:
                 out = []
         return out
+
+
+def get_btc_api(network: str, endpoint: str = "", api_key: str = ""):
+    """Return the BTC API client for the given network, using a custom endpoint if provided."""
+    if endpoint and api_key:
+        full_endpoint = endpoint.rstrip("/") + "/" + api_key.strip("/") + "/"
+    else:
+        full_endpoint = endpoint
+    return BlkHubApi(network, full_endpoint)
 
 
 def test_addr(btc_addr: str):
@@ -342,7 +426,7 @@ class BTCwallet:
         addr_header = 0x00
         self.testnet = False
         coin_type = coin_type.lower()
-        if coin_type == "testnet":
+        if coin_type in ("testnet", "testnet4"):
             addr_header = 0x6F
             self.testnet = True
         self.pubkey = pubkey
@@ -483,7 +567,9 @@ class BtcValidator:
     derivation = EnumValidator(Derivation)
 
     def __init__(self, network: str = "testnet", fees: int = 2000,
-                 derivation: str = "DERIVE"):
+                 derivation: str = "DERIVE", endpoint: str = "", api_key: str = ""):
         self.network = network
         self.fees = fees
         self.derivation = derivation
+        self.endpoint = endpoint
+        self.api_key = api_key
