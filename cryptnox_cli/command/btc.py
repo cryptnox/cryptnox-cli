@@ -14,7 +14,7 @@ from .helper.security import check_pin_code
 try:
     import enums
     from config import get_configuration
-    from wallet.btc import BTCwallet, BlkHubApi
+    from wallet.btc import BTCwallet, get_btc_api
 except ImportError:
     from .. import enums
     from ..config import get_configuration
