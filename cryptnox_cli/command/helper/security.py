@@ -277,6 +277,28 @@ def get_puk_code(card: cryptnox_sdk_py.Card, text: str = "", allowed_values: Lis
     return _get_code(card.valid_puk, text, allowed_values)
 
 
+def confirm_pin_code(card: cryptnox_sdk_py.Card, text: str, confirm_text: str = "") -> str:
+    """Prompt for new PIN twice and return it only if both entries match."""
+    confirm_text = confirm_text or f"Confirm new PIN code ({card.pin_rule}): "
+    while True:
+        value = get_pin_code(card, text)
+        confirm_value = get_pin_code(card, confirm_text)
+        if value == confirm_value:
+            return value
+        print("The values do not match. Please try again.")
+
+
+def confirm_puk_code(card: cryptnox_sdk_py.Card, text: str, confirm_text: str = "") -> str:
+    """Prompt for new PUK twice and return it only if both entries match."""
+    confirm_text = confirm_text or f"Confirm new PUK code ({card.puk_rule}): "
+    while True:
+        value = get_puk_code(card, text)
+        confirm_value = get_puk_code(card, confirm_text)
+        if value == confirm_value:
+            return value
+        print("The values do not match. Please try again.")
+
+
 def _get_code(
         validation_method: typing.Callable,
         text: str = "",
