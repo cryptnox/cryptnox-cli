@@ -116,7 +116,7 @@ class Info:
             return {"name": "BTC", "address": "Bad derivation type", "network": ""}
         network = config.get("network", "testnet").lower()
         endpoint = BlkHubApi(network)
-        wallet = BTCwallet(pubkey, network, endpoint, card)
+        wallet = BTCwallet(pubkey, network, endpoint, None)
 
         tabulate_data = {
             "name": "BTC",
