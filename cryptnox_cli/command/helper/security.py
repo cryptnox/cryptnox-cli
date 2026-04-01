@@ -281,8 +281,11 @@ def confirm_pin_code(card: cryptnox_sdk_py.Card, text: str, confirm_text: str = 
     """Prompt for new PIN twice and return it only if both entries match."""
     confirm_text = confirm_text or f"Confirm new PIN code ({card.pin_rule}): "
     while True:
-        value = get_pin_code(card, text)
-        confirm_value = get_pin_code(card, confirm_text)
+        try:
+            value = get_pin_code(card, text)
+            confirm_value = get_pin_code(card, confirm_text)
+        except KeyboardInterrupt:
+            raise ExitException("Aborted.")
         if value == confirm_value:
             return value
         print("The values do not match. Please try again.")
@@ -292,8 +295,11 @@ def confirm_puk_code(card: cryptnox_sdk_py.Card, text: str, confirm_text: str = 
     """Prompt for new PUK twice and return it only if both entries match."""
     confirm_text = confirm_text or f"Confirm new PUK code ({card.puk_rule}): "
     while True:
-        value = get_puk_code(card, text)
-        confirm_value = get_puk_code(card, confirm_text)
+        try:
+            value = get_puk_code(card, text)
+            confirm_value = get_puk_code(card, confirm_text)
+        except KeyboardInterrupt:
+            raise ExitException("Aborted.")
         if value == confirm_value:
             return value
         print("The values do not match. Please try again.")
