@@ -57,12 +57,11 @@ def _secret_with_exit(text, required=True):
     Local implementation of secret_with_exit to avoid circular import.
     Replicates the functionality of ui.secret_with_exit.
     """
-    from stdiomask import getpass
-
     while True:
-        value = getpass(text).strip()
-        if value.lower() == "exit":
-            raise ExitException
+        try:
+            value = _getpass(text).strip()
+        except KeyboardInterrupt:
+            raise ExitException()
         if required and not value:
             print("This entry is required")
         else:
@@ -132,6 +131,9 @@ def check_pin_code(card, text: str = "Cryptnox PIN code: ") -> str:
     easy_mode = is_easy_mode(card.info)
     power_cycled = False
     had_wrong_pin = False
+
+    if not easy_mode:
+        print("Press Ctrl+C to cancel.")
 
     while not authorized:
         if easy_mode:
@@ -214,6 +216,9 @@ def process_command_with_puk(
         *args,
         **kwargs) -> bool:
     easy_mode = is_easy_mode(card.info)
+
+    if not easy_mode:
+        print("Press Ctrl+C to cancel.")
 
     while True:
         if easy_mode:
