@@ -108,7 +108,8 @@
 <span class="sd">    Class defining possible Bitcoin networks</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">MAINNET</span> <span class="o">=</span> <span class="s2">&quot;mainnet&quot;</span>
-    <span class="n">TESTNET</span> <span class="o">=</span> <span class="s2">&quot;testnet&quot;</span></div>
+    <span class="n">TESTNET</span> <span class="o">=</span> <span class="s2">&quot;testnet&quot;</span>
+    <span class="n">TESTNET4</span> <span class="o">=</span> <span class="s2">&quot;testnet4&quot;</span></div>
 
 
 
@@ -290,6 +291,8 @@
             <span class="k">return</span> <span class="s2">&quot;https://blkhub.net/api/&quot;</span>
         <span class="k">if</span> <span class="n">network</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;testnet&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="s2">&quot;https://blockstream.info/testnet/api/&quot;</span>
+        <span class="k">if</span> <span class="n">network</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;testnet4&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;https://mempool.space/testnet4/api/&quot;</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Unknown BC network name&quot;</span><span class="p">)</span></div>
 
 
@@ -327,12 +330,12 @@
         <span class="n">params_enc</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">urlencode</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># Construct full URL and validate it stays within expected domain</span>
-            <span class="n">full_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="n">endpoint</span> <span class="o">+</span> <span class="s2">&quot;?&quot;</span> <span class="o">+</span> <span class="n">params_enc</span>
+            <span class="n">full_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="n">endpoint</span> <span class="o">+</span> <span class="p">(</span><span class="s2">&quot;?&quot;</span> <span class="o">+</span> <span class="n">params_enc</span> <span class="k">if</span> <span class="n">params_enc</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
             <span class="n">parsed</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">full_url</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">parsed</span><span class="o">.</span><span class="n">hostname</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span>
                     <span class="n">domain</span> <span class="ow">in</span> <span class="n">parsed</span><span class="o">.</span><span class="n">hostname</span>
-                    <span class="k">for</span> <span class="n">domain</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;blkhub.net&#39;</span><span class="p">,</span> <span class="s1">&#39;blockstream.info&#39;</span><span class="p">]):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid URL: must be blkhub.net or blockstream.info domain&quot;</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">domain</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;blkhub.net&#39;</span><span class="p">,</span> <span class="s1">&#39;blockstream.info&#39;</span><span class="p">,</span> <span class="s1">&#39;mempool.space&#39;</span><span class="p">]):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid URL: must be blkhub.net, blockstream.info, or mempool.space domain&quot;</span><span class="p">)</span>
 
             <span class="n">req</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span>
                 <span class="n">full_url</span><span class="p">,</span>
@@ -477,7 +480,7 @@
         <span class="n">addr_header</span> <span class="o">=</span> <span class="mh">0x00</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">testnet</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">coin_type</span> <span class="o">=</span> <span class="n">coin_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">coin_type</span> <span class="o">==</span> <span class="s2">&quot;testnet&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">coin_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;testnet&quot;</span><span class="p">,</span> <span class="s2">&quot;testnet4&quot;</span><span class="p">):</span>
             <span class="n">addr_header</span> <span class="o">=</span> <span class="mh">0x6F</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">testnet</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pubkey</span> <span class="o">=</span> <span class="n">pubkey</span>
@@ -521,20 +524,22 @@
 
 <div class="viewcode-block" id="BTCwallet.prepare">
 <a class="viewcode-back" href="../../../cryptnox_cli.wallet.html#cryptnox_cli.wallet.btc.BTCwallet.prepare">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to_addr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">payment_value</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">fee</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> \
-            <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to_addr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">payment_value</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">fee</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                <span class="n">utx_os</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        :param to_addr: str</span>
 <span class="sd">        :param payment_value: float</span>
 <span class="sd">        :param fee: float</span>
+<span class="sd">        :param utx_os: pre-fetched UTXOs (fetched in parallel with fee estimate)</span>
 <span class="sd">        :return: Union[float, int]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fee</span> <span class="o">=</span> <span class="n">fee</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">test_addr</span><span class="p">(</span><span class="n">to_addr</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Bad address format.&quot;</span><span class="p">)</span>
-        <span class="n">utx_os</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_utx_os</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">utx_os</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">utx_os</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_utx_os</span><span class="p">()</span>
         <span class="n">balance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">balance_fm_utxos</span><span class="p">(</span><span class="n">utx_os</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">balance</span> <span class="o">=</span> <span class="n">balance</span> <span class="o">/</span> <span class="mf">10.0</span> <span class="o">**</span> <span class="mi">8</span>
         <span class="n">max_spendable</span> <span class="o">=</span> <span class="n">balance</span> <span class="o">-</span> <span class="n">fee</span>
