@@ -44,26 +44,27 @@ class Info:
         check(card)
         print("Gathering information from the network...")
 
-        # Warm config cache before spawning threads (avoids card.user_data access in threads)
-        get_configuration(card)
-
         # Phase 1: fetch all public keys sequentially (card communication is not thread-safe)
         btc_pubkey = Info._fetch_btc_pubkey(card)
         eth_pubkey = Info._fetch_eth_pubkey(card)
         xrp_pubkey = Info._fetch_xrp_pubkey(card)
         # BNB uses the same derivation path and key as ETH
 
+        # Extract configs before spawning threads (card.user_data access is not thread-safe)
+        config = get_configuration(card)
+        btc_config = config["btc"]
+        eth_config = config["eth"]
+
         # Phase 2: query all network balances in parallel
         with ThreadPoolExecutor(max_workers=4) as executor:
-            f_btc = executor.submit(Info._get_btc_info, card, btc_pubkey)
-            f_eth = executor.submit(Info._get_eth_info, card, eth_pubkey)
+            f_btc = executor.submit(Info._get_btc_info, btc_config, btc_pubkey)
+            f_eth = executor.submit(Info._get_eth_info, eth_config, eth_pubkey)
             f_xrp = executor.submit(Info._get_xrp_info, xrp_pubkey)
             f_bnb = executor.submit(Info._get_bnb_info, eth_pubkey)
 
         eth_info = f_eth.result()
         Info._print_info_table([f_btc.result(), eth_info, f_xrp.result(), f_bnb.result()])
 
-        config = get_configuration(card)
         if not config["eth"]["api_key"] and config["eth"]["endpoint"] == "infura":
             print("\nTo use the Ethereum network with Infura. Go to https://infura.io. "
                   "Register (free) and get an API key. Set the API key with: eth config api_key")
@@ -110,10 +111,9 @@ class Info:
             return None
 
     @staticmethod
-    def _get_btc_info(card, pubkey) -> dict:
+    def _get_btc_info(config, pubkey) -> dict:
         if pubkey is None:
             return {"name": "BTC", "address": "Bad derivation type", "network": ""}
-        config = get_configuration(card)["btc"]
         network = config.get("network", "testnet").lower()
         endpoint = BlkHubApi(network)
         wallet = BTCwallet(pubkey, network, endpoint, card)
@@ -134,10 +134,9 @@ class Info:
         return tabulate_data
 
     @staticmethod
-    def _get_eth_info(card, public_key) -> dict:
+    def _get_eth_info(config, public_key) -> dict:
         if public_key is None:
             return {"name": "ETH", "address": "Bad derivation type", "network": ""}
-        config = get_configuration(card)["eth"]
         network = enums.EthNetwork[config.get("network", "infura").upper()]
         try:
             api = eth.Api(config["endpoint"], network, config["api_key"])
