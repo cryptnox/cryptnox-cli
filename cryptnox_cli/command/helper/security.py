@@ -7,6 +7,7 @@ from time import sleep
 from typing import List, Dict
 
 import cryptnox_sdk_py
+from stdiomask import getpass as _getpass
 
 from .. import user_keys
 
