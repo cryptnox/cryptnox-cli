@@ -37,7 +37,7 @@ class ChangePuk(Command):
                 break
             else:
                 puk_code = security.get_puk_code(card)
-                new_puk_code = security.get_puk_code(card, f"Set new PUK code ({card.puk_rule}): ")
+                new_puk_code = security.confirm_puk_code(card, f"Set new PUK code ({card.puk_rule}): ")
 
                 try:
                     card.change_puk(puk_code, new_puk_code)

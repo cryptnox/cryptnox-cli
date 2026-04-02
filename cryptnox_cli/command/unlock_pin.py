@@ -33,7 +33,7 @@ class UnlockPin(Command):
         if is_easy_mode:
             pin_code = security.EASY_MODE_PIN
         else:
-            pin_code = security.get_pin_code(card, f"Set card PIN code ({card.pin_rule}): ")
+            pin_code = security.confirm_pin_code(card, f"Set card PIN code ({card.pin_rule}): ")
 
         card.unblock_pin(puk, pin_code)
 
