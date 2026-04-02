@@ -3,9 +3,11 @@
 Module dealing with security of the application.
 """
 import typing
+from time import sleep
 from typing import List, Dict
 
 import cryptnox_sdk_py
+from stdiomask import getpass as _getpass
 
 from .. import user_keys
 
@@ -14,40 +16,41 @@ class ExitException(Exception):
     """Raised when user has indicated he want's to exit the command"""
 
 
-def _getpass(prompt='Password: ', mask='*'):
+def _wait_for_power_cycle(card) -> None:
     """
-    Cross-platform getpass that raises KeyboardInterrupt on Ctrl+C.
-    On Windows, getch() returns 0x03 for Ctrl+C in raw mode,
-    sow we catch it directly without polling.
+    Prompt the user to power-cycle the card, then restore the connection.
+
+    Automatic removal detection via card.alive is unreliable here: a soft-locked
+    card returns SW=0x6985 even for the manufacturer-certificate APDU, raising
+    PinAuthenticationException inside alive — making the card look absent while
+    it is still physically present.  Using input() lets the user confirm removal
+    explicitly.  Reinsertion is then auto-detected by polling Connection(), which
+    raises CardException until the card is back in the reader.
+
+    The existing card object is updated in-place via __dict__ so every caller
+    reference stays valid without requiring a new card parameter.
     """
-    import sys
-    if sys.platform == 'win32':
-        from msvcrt import getch
-        entered = []
-        sys.stdout.write(prompt)
-        sys.stdout.flush()
+    index = card.connection.index
+    debug = card.connection.debug
+
+    try:
+        input("\nCard requires a power cycle. "
+              "Remove the card from the reader and press Enter: ")
+        print("Waiting for card to be re-tapped...")
+
         while True:
-            key = ord(getch())
-            if key == 3:  # Ctrl+C
-                sys.stdout.write('\n')
-                sys.stdout.flush()
-                raise KeyboardInterrupt
-            elif key == 13:  # Enter
-                sys.stdout.write('\n')
-                sys.stdout.flush()
-                return ''.join(entered)
-            elif key in (8, 127):  # Backspace/Del
-                if entered:
-                    sys.stdout.write('\b \b')
-                    sys.stdout.flush()
-                    entered.pop()
-            elif 32 <= key <= 126:  # Printable ASCII
-                entered.append(chr(key))
-                sys.stdout.write(mask)
-                sys.stdout.flush()
-    else:
-        from stdiomask import getpass
-        return getpass(prompt, mask)
+            try:
+                new_connection = cryptnox_sdk_py.Connection(index, debug)
+                new_card = cryptnox_sdk_py.factory.get_card(new_connection, debug)
+                card.__class__ = new_card.__class__
+                card.__dict__.update(new_card.__dict__)
+                print("Card detected. Continuing.\n")
+                return
+            except Exception:  # Card not yet present; keep polling
+                pass
+            sleep(0.2)
+    except (KeyboardInterrupt, EOFError):
+        raise ExitException("Aborted.")
 
 
 def _secret_with_exit(text, required=True):
@@ -127,6 +130,8 @@ def check_pin_code(card, text: str = "Cryptnox PIN code: ") -> str:
     authorized = False
     pin_code = "1"
     easy_mode = is_easy_mode(card.info)
+    power_cycled = False
+    had_wrong_pin = False
 
     if not easy_mode:
         print("Press Ctrl+C to cancel.")
@@ -144,17 +149,28 @@ def check_pin_code(card, text: str = "Cryptnox PIN code: ") -> str:
                         raise cryptnox_sdk_py.exceptions.PinBlockedException(
                             "PIN is locked. Use the unlock_pin command to unlock it."
                         )
+                    # Only prompt for power cycle when the user has already made a wrong
+                    # attempt this session (retries == 3 after a wrong PIN), not on a
+                    # fresh start or after a successful power cycle.
+                    if retries == 3 and had_wrong_pin and not power_cycled:
+                        _wait_for_power_cycle(card)
+                        power_cycled = True
+                        continue
+                    power_cycled = False
                     try_str = "attempt" if retries == 1 else "attempts"
                     prompt_text = f"Cryptnox PIN code ({retries} {try_str} remaining): "
                 else:
                     prompt_text = text
+                    power_cycled = False
             except cryptnox_sdk_py.exceptions.PinBlockedException:
                 raise
             except ExitException:
                 raise
-            except cryptnox_sdk_py.exceptions.PinException:
-                print("Card requires a power cycle. Please remove and re-tap the card, then try again.")
-                raise
+            except (cryptnox_sdk_py.exceptions.PinException,
+                    cryptnox_sdk_py.exceptions.SoftLock):
+                _wait_for_power_cycle(card)
+                power_cycled = True
+                continue
             except Exception:
                 prompt_text = text
 
@@ -162,10 +178,13 @@ def check_pin_code(card, text: str = "Cryptnox PIN code: ") -> str:
 
             try:
                 authorized = _check_pin_code(card, pin_code)
+                power_cycled = False
+                if not authorized:
+                    had_wrong_pin = True
             except (cryptnox_sdk_py.exceptions.PinAuthenticationException,
                     cryptnox_sdk_py.exceptions.SoftLock):
-                print("Card requires a power cycle. Please remove and re-tap the card, then try again.")
-                raise
+                _wait_for_power_cycle(card)
+                power_cycled = True
 
     return pin_code
 
