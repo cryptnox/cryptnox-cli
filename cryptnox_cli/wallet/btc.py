@@ -30,6 +30,7 @@ class BtcNetworks(Enum):
     """
     MAINNET = "mainnet"
     TESTNET = "testnet"
+    TESTNET4 = "testnet4"
 
 
 class BlockCypherApi:
@@ -182,6 +183,8 @@ class BlkHubApi:
             return "https://blkhub.net/api/"
         if network.lower() == "testnet":
             return "https://blockstream.info/testnet/api/"
+        if network.lower() == "testnet4":
+            return "https://mempool.space/testnet4/api/"
         raise Exception("Unknown BC network name")
 
     def _validate_endpoint(self, endpoint: str) -> str:
@@ -216,12 +219,12 @@ class BlkHubApi:
         params_enc = urllib.parse.urlencode(parameters)
         try:
             # Construct full URL and validate it stays within expected domain
-            full_url = self.url + endpoint + "?" + params_enc
+            full_url = self.url + endpoint + ("?" + params_enc if params_enc else "")
             parsed = urlparse(full_url)
             if not parsed.hostname or not any(
                     domain in parsed.hostname
-                    for domain in ['blkhub.net', 'blockstream.info']):
-                raise ValueError("Invalid URL: must be blkhub.net or blockstream.info domain")
+                    for domain in ['blkhub.net', 'blockstream.info', 'mempool.space']):
+                raise ValueError("Invalid URL: must be blkhub.net, blockstream.info, or mempool.space domain")
 
             req = urllib.request.Request(
                 full_url,
@@ -342,7 +345,7 @@ class BTCwallet:
         addr_header = 0x00
         self.testnet = False
         coin_type = coin_type.lower()
-        if coin_type == "testnet":
+        if coin_type in ("testnet", "testnet4"):
             addr_header = 0x6F
             self.testnet = True
         self.pubkey = pubkey
@@ -374,20 +377,22 @@ class BTCwallet:
     def get_fee_estimate(self):
         return self.api.get_fee_estimate()
 
-    def prepare(self, to_addr: str, payment_value: float, fee: float) \
-            -> Union[float, int]:
+    def prepare(self, to_addr: str, payment_value: float, fee: float,
+                utx_os: List = None) -> Union[float, int]:
         """
 
         :param to_addr: str
         :param payment_value: float
         :param fee: float
+        :param utx_os: pre-fetched UTXOs (fetched in parallel with fee estimate)
         :return: Union[float, int]
         """
         self.fee = fee
 
         if not test_addr(to_addr):
             raise Exception("Bad address format.")
-        utx_os = self.get_utx_os()
+        if utx_os is None:
+            utx_os = self.get_utx_os()
         balance = self.balance_fm_utxos(utx_os)
         self.balance = balance / 10.0 ** 8
         max_spendable = balance - fee
