@@ -36,7 +36,7 @@ class ChangePin(Command):
             print("Card is in easy mode. Setting same PIN code")
             pin_code = security.EASY_MODE_PIN
         else:
-            pin_code = security.get_pin_code(card, f"Set new PIN code ({card.pin_rule}): ")
+            pin_code = security.confirm_pin_code(card, f"Set new PIN code ({card.pin_rule}): ")
 
         card.change_pin(pin_code)
 
