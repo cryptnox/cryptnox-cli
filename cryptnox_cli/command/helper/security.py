@@ -7,9 +7,44 @@ from time import sleep
 from typing import List, Dict
 
 import cryptnox_sdk_py
-from stdiomask import getpass as _getpass
 
 from .. import user_keys
+
+
+def _getpass(prompt='Password: ', mask='*'):
+    """
+    Cross-platform getpass that raises KeyboardInterrupt on Ctrl+C.
+    On Windows, getch() returns 0x03 for Ctrl+C in raw mode,
+    so we catch it directly without polling.
+    """
+    import sys
+    if sys.platform == 'win32':
+        from msvcrt import getch
+        entered = []
+        sys.stdout.write(prompt)
+        sys.stdout.flush()
+        while True:
+            key = ord(getch())
+            if key == 3:  # Ctrl+C
+                sys.stdout.write('\n')
+                sys.stdout.flush()
+                raise KeyboardInterrupt
+            elif key == 13:  # Enter
+                sys.stdout.write('\n')
+                sys.stdout.flush()
+                return ''.join(entered)
+            elif key in (8, 127):  # Backspace/Del
+                if entered:
+                    sys.stdout.write('\b \b')
+                    sys.stdout.flush()
+                    entered.pop()
+            elif 32 <= key <= 126:  # Printable ASCII
+                entered.append(chr(key))
+                sys.stdout.write(mask)
+                sys.stdout.flush()
+    else:
+        from stdiomask import getpass
+        return getpass(prompt, mask)
 
 
 class ExitException(Exception):
@@ -290,7 +325,7 @@ def confirm_pin_code(card: cryptnox_sdk_py.Card, text: str, confirm_text: str = 
         try:
             value = get_pin_code(card, text)
             confirm_value = get_pin_code(card, confirm_text)
-        except KeyboardInterrupt:
+        except ExitException:
             raise ExitException("Aborted.")
         if value == confirm_value:
             return value
@@ -304,7 +339,7 @@ def confirm_puk_code(card: cryptnox_sdk_py.Card, text: str, confirm_text: str = 
         try:
             value = get_puk_code(card, text)
             confirm_value = get_puk_code(card, confirm_text)
-        except KeyboardInterrupt:
+        except ExitException:
             raise ExitException("Aborted.")
         if value == confirm_value:
             return value
