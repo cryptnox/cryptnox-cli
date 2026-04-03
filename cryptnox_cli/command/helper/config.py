@@ -11,6 +11,7 @@ import cryptnox_sdk_py
 try:
     from config import (
         get_configuration,
+        get_default_configuration,
         save_to_config
     )
     from wallet.validators import ValidationError
@@ -19,6 +20,7 @@ try:
 except ImportError:
     from ...config import (
         get_configuration,
+        get_default_configuration,
         save_to_config
     )
     from ...wallet.validators import ValidationError
@@ -78,12 +80,17 @@ def print_config(card: cryptnox_sdk_py.Card, exclude=None) -> None:
     exclude = exclude or ["hidden"]
     config = get_configuration(card)
 
+    defaults = get_default_configuration()
     for section in config:
         if section in exclude:
             continue
         print(f"\n[{section.upper()}]")
-        for key, value in config[section].items():
-            print(f"{key}: {value}" + find_endpoint(section, key, value, " - Read only"))
+        section_cfg = config[section]
+        default_keys = set(defaults.get(section, {}).keys())
+        for key, value in section_cfg.items():
+            if key not in default_keys:
+                continue
+            print(f"{key}: {value}" + find_endpoint(section, key, value, " - Read only", section_cfg))
 
 
 def print_section_config(card: cryptnox_sdk_py.Card, section: str) -> int:
@@ -103,8 +110,12 @@ def print_section_config(card: cryptnox_sdk_py.Card, section: str) -> int:
 
     print(f"[{section.upper()}]")
 
-    for key, value in config[section].items():
-        print(f"{key}: {value}" + find_endpoint(section, key, value, " - YOU CAN'T EDIT THIS"))
+    section_cfg = config[section]
+    default_keys = set(get_default_configuration().get(section, {}).keys())
+    for key, value in section_cfg.items():
+        if key not in default_keys:
+            continue
+        print(f"{key}: {value}" + find_endpoint(section, key, value, " - YOU CAN'T EDIT THIS", section_cfg))
 
     return 0
 
@@ -122,10 +133,15 @@ def print_key_config(card: cryptnox_sdk_py.Card, section: str, key: str) -> int:
     """
     config = get_configuration(card)
     try:
+        # For btc, 'endpoint' is a real config key — show it directly
+        if key == "endpoint" and section == "btc":
+            print(f"endpoint: {config[section].get('endpoint', '')}")
+            return 0
         old_key = key
         key = "network" if key == "endpoint" and section != "eosio" else key
         value = config[section][key]
-        endpoint = find_endpoint(section, key, value, " - YOU CAN'T EDIT THIS")
+        endpoint = find_endpoint(section, key, value, " - YOU CAN'T EDIT THIS",
+                                 config[section])
         if old_key == "endpoint" and section != "eosio":
             print(endpoint)
         else:
@@ -138,9 +154,12 @@ def print_key_config(card: cryptnox_sdk_py.Card, section: str, key: str) -> int:
     return 0
 
 
-def find_endpoint(section: str, key: str, value: str, append: str = "") -> str:
+def find_endpoint(section: str, key: str, value: str, append: str = "",
+                  section_cfg: dict = None) -> str:
     if key == "network" and section == "btc":
-        return f"\nendpoint: {BlkHubApi.get_api(value)}{append}"
+        if section_cfg and section_cfg.get("endpoint"):
+            return ""
+        return f"\ndefault endpoint: {BlkHubApi.get_api(value)}{append}"
 
     return ""
 
