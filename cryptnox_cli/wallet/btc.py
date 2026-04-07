@@ -14,7 +14,7 @@ from urllib.parse import urlparse
 from cryptnox_sdk_py import Derivation
 from tabulate import tabulate
 
-from .validators import EnumValidator, IntValidator
+from .validators import AnyValidator, EnumValidator, IntValidator
 
 try:
     from lib import cryptos
@@ -164,9 +164,12 @@ class BlkHubApi:
     BlkHubApi
     """
 
-    def __init__(self, network):
+    def __init__(self, network, api_key: str = ""):
         network = network.lower()
         self.url = BlkHubApi.get_api(network)
+        if not self.url.endswith("/"):
+            self.url += "/"
+        self.api_key = api_key
         self.js_res = []
         self.web_rsc = None
 
@@ -184,7 +187,7 @@ class BlkHubApi:
         if network.lower() == "testnet":
             return "https://blockstream.info/testnet/api/"
         if network.lower() == "testnet4":
-            return "https://mempool.space/testnet4/api/"
+            return "https://newest-intensive-feather.btc-testnet4.quiknode.pro/"
         raise Exception("Unknown BC network name")
 
     def _validate_endpoint(self, endpoint: str) -> str:
@@ -221,14 +224,15 @@ class BlkHubApi:
             # Construct full URL and validate it stays within expected domain
             full_url = self.url + endpoint + ("?" + params_enc if params_enc else "")
             parsed = urlparse(full_url)
-            if not parsed.hostname or not any(
-                    domain in parsed.hostname
-                    for domain in ['blkhub.net', 'blockstream.info', 'mempool.space']):
-                raise ValueError("Invalid URL: must be blkhub.net, blockstream.info, or mempool.space domain")
+            if not parsed.hostname or not parsed.scheme.startswith('https'):
+                raise ValueError("Invalid URL: must use HTTPS")
 
+            headers = {'User-Agent': 'Mozilla/5.0'}
+            if self.api_key:
+                headers['x-token'] = self.api_key
             req = urllib.request.Request(
                 full_url,
-                headers={'User-Agent': 'Mozilla/5.0'},
+                headers=headers,
                 data=data
             )
             self.web_rsc = urllib.request.urlopen(req, timeout=30)
@@ -255,7 +259,29 @@ class BlkHubApi:
             print(" !! ERRORS :")
             raise Exception(self.js_res['errors'])
 
+    def _is_blockbook(self) -> bool:
+        return "quiknode.pro" in self.url or "quicknode.com" in self.url
+
+    def _json_rpc(self, method: str, params=None):
+        params = params if params is not None else []
+        body = json.dumps({"jsonrpc": "2.0", "method": method, "params": params, "id": 1}).encode("utf-8")
+        headers = {'User-Agent': 'Mozilla/5.0', 'Content-Type': 'application/json'}
+        if self.api_key:
+            headers['x-token'] = self.api_key
+        req = urllib.request.Request(self.url, headers=headers, data=body)
+        resp = urllib.request.urlopen(req, timeout=30)
+        result = json.loads(resp.read())
+        if "error" in result and result["error"]:
+            raise IOError(f"JSON-RPC error: {result['error']}")
+        return result.get("result")
+
     def get_fee_estimates(self, blocks=6) -> int:
+        if self._is_blockbook():
+            result = self._json_rpc("estimatesmartfee", [blocks])
+            feerate = result.get("feerate", 0)
+            if feerate <= 0:
+                return 0
+            return math.ceil(feerate * 100_000_000 / 1000)
         self.get_data("fee-estimates")
         block_entries = [int(x) for x in self.js_res.keys() if int(x) <= blocks]
         block_entries.sort()
@@ -271,10 +297,18 @@ class BlkHubApi:
         :param int _n_conf: 0 or 1
         :return: list
         """
+        if self._is_blockbook():
+            self.get_data("api/v2/utxo/" + addr)
+            sel_utx_os = []
+            for utxo in self.js_res:
+                sel_utx_os.append({
+                    'value': int(utxo['value']),
+                    'output': utxo['txid'] + ":" + str(utxo['vout'])
+                })
+            return sel_utx_os
         self.get_data("address/" + addr + "/utxo")
         addr_utx_os = self.js_res
         sel_utx_os = []
-        # translate inputs from blkhub to pybitcoinlib
         for utxo in addr_utx_os:
             sel_utx_os.append({
                 'value': utxo['value'],
@@ -288,6 +322,9 @@ class BlkHubApi:
         :param tx_hex: str
         :return: List
         """
+        if self._is_blockbook():
+            result = self._json_rpc("sendrawtransaction", [tx_hex])
+            return result
         self.get_data("tx", data=tx_hex.encode('ascii'))
         self.check_api_resp()
         return self.get_key('txid')
@@ -486,9 +523,11 @@ class BtcValidator:
     network = EnumValidator(BtcNetworks)
     fees = IntValidator()
     derivation = EnumValidator(Derivation)
+    api_key = AnyValidator()
 
     def __init__(self, network: str = "testnet", fees: int = 2000,
-                 derivation: str = "DERIVE"):
+                 derivation: str = "DERIVE", api_key: str = ""):
         self.network = network
         self.fees = fees
         self.derivation = derivation
+        self.api_key = api_key
