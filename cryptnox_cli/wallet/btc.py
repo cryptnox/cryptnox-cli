@@ -260,7 +260,8 @@ class BlkHubApi:
             raise Exception(self.js_res['errors'])
 
     def _is_blockbook(self) -> bool:
-        return "quiknode.pro" in self.url or "quicknode.com" in self.url
+        hostname = urlparse(self.url).hostname or ""
+        return hostname.endswith(".quiknode.pro") or hostname.endswith(".quicknode.com")
 
     def _json_rpc(self, method: str, params=None):
         params = params if params is not None else []
