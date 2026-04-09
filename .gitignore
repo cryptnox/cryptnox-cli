@@ -10,3 +10,5 @@ signature.sig
 cardpub.pub
 
 docs/_build/
+
+*.lock
