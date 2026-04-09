@@ -3,12 +3,8 @@ __pycache__
 build
 dist
 venv
-
 .idea
-
 signature.sig
 cardpub.pub
-
 docs/_build/
-
 *.lock
