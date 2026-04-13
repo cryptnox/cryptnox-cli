@@ -90,6 +90,8 @@ This installs the package and makes the `cryptnox` command available (if your Py
 2. Run the signing & send command:  
    `cryptnox btc send <recipient_address> <amount> [-f <fees>]`
 
+![BTC send transaction demo](BTC_send_transaction.webp)
+
 ### 3. Change PIN code
 
 1. Run command: `cryptnox change_pin`
