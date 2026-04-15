@@ -164,9 +164,9 @@ class BlkHubApi:
     BlkHubApi
     """
 
-    def __init__(self, network, api_key: str = ""):
+    def __init__(self, network, api_key: str = "", endpoint: str = ""):
         network = network.lower()
-        self.url = BlkHubApi.get_api(network)
+        self.url = endpoint if endpoint else BlkHubApi.get_api(network)
         if not self.url.endswith("/"):
             self.url += "/"
         self.api_key = api_key
@@ -224,8 +224,14 @@ class BlkHubApi:
             # Construct full URL and validate it stays within expected domain
             full_url = self.url + endpoint + ("?" + params_enc if params_enc else "")
             parsed = urlparse(full_url)
-            if not parsed.hostname or not parsed.scheme.startswith('https'):
-                raise ValueError("Invalid URL: must use HTTPS")
+            _ALLOWED_DOMAINS = ('blkhub.net', 'blockstream.info', 'mempool.space',
+                                 'quiknode.pro', 'quicknode.com')
+            if not parsed.hostname or not any(
+                    parsed.hostname == d or parsed.hostname.endswith('.' + d)
+                    for d in _ALLOWED_DOMAINS):
+                raise ValueError(
+                    f"Invalid URL: must be one of {', '.join(_ALLOWED_DOMAINS)}"
+                )
 
             headers = {'User-Agent': 'Mozilla/5.0'}
             if self.api_key:
@@ -264,6 +270,8 @@ class BlkHubApi:
         return hostname.endswith(".quiknode.pro") or hostname.endswith(".quicknode.com")
 
     def _json_rpc(self, method: str, params=None):
+        if not self.url.startswith("https://"):
+            raise ValueError("JSON-RPC endpoint must use HTTPS")
         params = params if params is not None else []
         body = json.dumps({"jsonrpc": "2.0", "method": method, "params": params, "id": 1}).encode("utf-8")
         headers = {'User-Agent': 'Mozilla/5.0', 'Content-Type': 'application/json'}
@@ -274,7 +282,9 @@ class BlkHubApi:
         result = json.loads(resp.read())
         if "error" in result and result["error"]:
             raise IOError(f"JSON-RPC error: {result['error']}")
-        return result.get("result")
+        if "result" not in result:
+            raise IOError("JSON-RPC malformed response: missing 'result' key")
+        return result["result"]
 
     def get_fee_estimates(self, blocks=6) -> int:
         if self._is_blockbook():
@@ -525,10 +535,12 @@ class BtcValidator:
     fees = IntValidator()
     derivation = EnumValidator(Derivation)
     api_key = AnyValidator()
+    endpoint = AnyValidator()
 
     def __init__(self, network: str = "testnet", fees: int = 2000,
-                 derivation: str = "DERIVE", api_key: str = ""):
+                 derivation: str = "DERIVE", api_key: str = "", endpoint: str = ""):
         self.network = network
         self.fees = fees
         self.derivation = derivation
         self.api_key = api_key
+        self.endpoint = endpoint

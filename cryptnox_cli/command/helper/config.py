@@ -140,7 +140,7 @@ def print_key_config(card: cryptnox_sdk_py.Card, section: str, key: str) -> int:
 
 def find_endpoint(section: str, key: str, value: str, append: str = "") -> str:
     if key == "network" and section == "btc":
-        return f"\nendpoint: {BlkHubApi.get_api(value)}{append}"
+        return f"\nendpoint (derived): {BlkHubApi.get_api(value)}{append}"
 
     return ""
 

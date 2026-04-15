@@ -115,7 +115,7 @@ class Info:
         if pubkey is None:
             return {"name": "BTC", "address": "Bad derivation type", "network": ""}
         network = config.get("network", "testnet").lower()
-        endpoint = BlkHubApi(network, config.get("api_key", ""))
+        endpoint = BlkHubApi(network, config.get("api_key", ""), config.get("endpoint", ""))
         wallet = BTCwallet(pubkey, network, endpoint, None)
 
         tabulate_data = {

@@ -32,6 +32,7 @@ def get_default_configuration() -> Dict:
             "derivation": "DERIVE",
             "network": "mainnet",
             "api_key": "",
+            "endpoint": "",
         },
         "eth": {
             "api_key": "",
