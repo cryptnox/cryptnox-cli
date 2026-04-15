@@ -225,7 +225,7 @@ class BlkHubApi:
             full_url = self.url + endpoint + ("?" + params_enc if params_enc else "")
             parsed = urlparse(full_url)
             _ALLOWED_DOMAINS = ('blkhub.net', 'blockstream.info', 'mempool.space',
-                                 'quiknode.pro', 'quicknode.com')
+                                'quiknode.pro', 'quicknode.com')
             if not parsed.hostname or not any(
                     parsed.hostname == d or parsed.hostname.endswith('.' + d)
                     for d in _ALLOWED_DOMAINS):
