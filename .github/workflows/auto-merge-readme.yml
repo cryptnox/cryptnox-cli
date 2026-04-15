@@ -15,6 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.pull_request.changed_files == 1
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Auto-approve
         uses: hmarr/auto-approve-action@v4
         with:
