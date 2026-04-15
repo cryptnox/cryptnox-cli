@@ -73,7 +73,15 @@ This installs the package and makes the `cryptnox` command available (if your Py
 > [!TIP]
 >  The examples below are only a subset of available commands. The complete list of commands and detailed usage instructions is described in the [official documentation](https://cryptnox.github.io/cryptnox-cli).
 
-### 1. Dual initialization
+### 1. Sign and send a Bitcoin transaction
+
+1. Create or obtain a raw unsigned transaction externally.
+2. Run the signing & send command:  
+   `cryptnox btc send <recipient_address> <amount> [-f <fees>]`
+
+![BTC send transaction demo](BTC_send_transaction.webp)
+
+### 2. Dual initialization
 
 1. Factory reset each card:  
    `cryptnox reset` → enter PUK → verify reset.
@@ -83,14 +91,6 @@ This installs the package and makes the `cryptnox` command available (if your Py
 
 3. Run dual seed procedure:  
    `cryptnox seed dual` — follow prompts: insert Card A (enter PIN), swap to Card B (enter PIN), swap back as requested.
-
-### 2. Sign and send a Bitcoin transaction
-
-1. Create or obtain a raw unsigned transaction externally.
-2. Run the signing & send command:  
-   `cryptnox btc send <recipient_address> <amount> [-f <fees>]`
-
-![BTC send transaction demo](BTC_send_transaction.webp)
 
 ### 3. Change PIN code
 
