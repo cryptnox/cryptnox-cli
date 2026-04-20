@@ -7,6 +7,7 @@ import json
 import re
 import urllib.parse
 import urllib.request
+import requests
 from enum import Enum
 from typing import Union, List, Dict
 from urllib.parse import urlparse
@@ -270,16 +271,17 @@ class BlkHubApi:
         return hostname.endswith(".quiknode.pro") or hostname.endswith(".quicknode.com")
 
     def _json_rpc(self, method: str, params=None):
-        if not self.url.startswith("https://"):
+        parsed = urlparse(self.url)
+        if parsed.scheme != "https":
             raise ValueError("JSON-RPC endpoint must use HTTPS")
         params = params if params is not None else []
-        body = json.dumps({"jsonrpc": "2.0", "method": method, "params": params, "id": 1}).encode("utf-8")
+        payload = {"jsonrpc": "2.0", "method": method, "params": params, "id": 1}
         headers = {'User-Agent': 'Mozilla/5.0', 'Content-Type': 'application/json'}
         if self.api_key:
             headers['x-token'] = self.api_key
-        req = urllib.request.Request(self.url, headers=headers, data=body)
-        resp = urllib.request.urlopen(req, timeout=30)
-        result = json.loads(resp.read())
+        resp = requests.post(self.url, headers=headers, json=payload, timeout=30)
+        resp.raise_for_status()
+        result = resp.json()
         if "error" in result and result["error"]:
             raise IOError(f"JSON-RPC error: {result['error']}")
         if "result" not in result:
