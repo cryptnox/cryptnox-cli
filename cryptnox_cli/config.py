@@ -31,6 +31,8 @@ def get_default_configuration() -> Dict:
         "btc": {
             "derivation": "DERIVE",
             "network": "mainnet",
+            "api_key": "",
+            "endpoint": "",
         },
         "eth": {
             "api_key": "",

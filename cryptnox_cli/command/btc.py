@@ -53,7 +53,7 @@ class Btc(Command):
             print("Derivation is invalid")
             return
 
-        endpoint = BlkHubApi(network)
+        endpoint = BlkHubApi(network, config.get("api_key", ""), config.get("endpoint", ""))
 
         path = b"" if derivation == cryptnox_sdk_py.Derivation.CURRENT_KEY else BTCwallet.PATH
         pubkey = card.get_public_key(derivation, path=path)
