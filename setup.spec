@@ -2,22 +2,26 @@
 
 import os
 import sys
+from PyInstaller.utils.hooks import collect_all
 
 # Find lazy_import VERSION file
 import lazy_import
 lazy_import_version = os.path.join(os.path.dirname(lazy_import.__file__), 'VERSION')
 
+# Collect all submodules, data files, and binaries from cryptnox_sdk_py
+sdk_datas, sdk_binaries, sdk_hiddenimports = collect_all('cryptnox_sdk_py')
+
 a = Analysis(
     ['cryptnox_cli\\main.py'],
-    pathex=[],
-    binaries=[],
+    pathex=['C:\\Cryptnox\\cryptnox-sdk-py'],
+    binaries=sdk_binaries,
     datas=[
         # Only include non-Python data files
         ('cryptnox_cli\\contract_abi\\*.json', 'cryptnox_cli\\contract_abi'),
         ('cryptnox_cli\\lib\\cryptos\\english.txt', 'cryptnox_cli\\lib\\cryptos'),
         (lazy_import_version, 'lazy_import')
-    ],
-    hiddenimports=[
+    ] + sdk_datas,
+    hiddenimports=sdk_hiddenimports + [
         'lazy_import',
         'six',
         'winsdk',
@@ -108,7 +112,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='CryptnoxCLI-1.0.3',
+    name='CryptnoxCLI-1.0.4',
     icon='cryptnox.ico',
     debug=False,
     bootloader_ignore_signals=False,

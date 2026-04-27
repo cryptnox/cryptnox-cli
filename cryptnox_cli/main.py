@@ -12,26 +12,25 @@ import argparse
 import lazy_import
 from appdirs import user_log_dir
 
-try:
-    from __init__ import __version__
-    import interactive_cli
-    from command import (
+if getattr(sys, 'frozen', False):
+    from cryptnox_cli import __version__
+    from cryptnox_cli import interactive_cli
+    from cryptnox_cli.command import (
         factory,
         options
     )
-except ImportError:
+else:
     try:
-        from . import __version__
-        from . import interactive_cli
-        from .command import (
+        from __init__ import __version__
+        import interactive_cli
+        from command import (
             factory,
             options
         )
     except ImportError:
-        # When frozen by PyInstaller, use absolute imports
-        from cryptnox_cli import __version__
-        from cryptnox_cli import interactive_cli
-        from cryptnox_cli.command import (
+        from . import __version__
+        from . import interactive_cli
+        from .command import (
             factory,
             options
         )
