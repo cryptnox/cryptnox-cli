@@ -58,6 +58,7 @@ a = Analysis(
         'cryptnox_cli.command.get_xpub',
         'cryptnox_cli.command.get_clearpubkey',
         'cryptnox_cli.command.decrypt',
+        'cryptnox_cli.command.manufacturer_certificate',
         # Command submodules (imported by initialize and info)
         'cryptnox_cli.command.card',
         'cryptnox_cli.command.card.info',
