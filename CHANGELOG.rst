@@ -2,6 +2,13 @@
 Changelog
 =========
 
+`1.0.5 <https://github.com/Cryptnox-Software/cryptnox-cli/compare/ver1.0.4...ver1.0.5>`_
+------------------------------------------------------------------------------------------------
+
+Fixed
+^^^^^
+- Fixed ``ModuleNotFoundError`` for ``manufacturer_certificate`` command in packaged installer (MSIX/MSI) — the module was missing from PyInstaller's ``hiddenimports``, causing all commands to fail at runtime in the frozen executable
+
 `1.0.4 <https://github.com/Cryptnox-Software/cryptnox-cli/compare/ver1.0.3...ver1.0.4>`_
 ------------------------------------------------------------------------------------------------
 
