@@ -185,6 +185,7 @@ def write_config(card: cryptnox_sdk_py.Card, section: str, key: str, value: str)
                 print(error)
         return 1
     except AttributeError:
+        # Key not present on the validator instance; fall through to config handling
         pass
 
     try:

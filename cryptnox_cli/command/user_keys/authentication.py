@@ -21,6 +21,7 @@ if getattr(sys, 'frozen', False):
         try:
             importlib.import_module("." + submodule, package=__package__)
         except Exception:
+            # Optional submodule unavailable in frozen build; skip it
             pass
 else:
     # When running normally, dynamically discover submodules
@@ -155,6 +156,7 @@ def delete(name: str, card: cryptnox_sdk_py.Card, puk: str) -> bool:
     try:
         user_key.delete()
     except user_key_base.UserKeyException:
+        # Best-effort local key removal; proceed to delete it from the card
         pass
 
     card.user_key_delete(user_key.slot_index, puk)

@@ -96,6 +96,7 @@ class Seed(Command):
             print(error)
             return -1
         except cryptnox_sdk_py.exceptions.DataValidationException:
+            # Expected when probing dual-seed support without a PIN; safe to proceed
             pass
 
         print("Dual seed generation process starting...")

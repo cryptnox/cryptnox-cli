@@ -55,6 +55,7 @@ class Command(metaclass=abc.ABCMeta):
         try:
             self.serial_number = self.data.serial
         except AttributeError:
+            # No serial provided in arguments; keep the passed-in serial_number
             pass
         try:
             card = self._cards[self.serial_number]
@@ -66,6 +67,8 @@ class Command(metaclass=abc.ABCMeta):
             return -1
 
         self.run_execute(card)
+
+        return None
 
     def run_execute(self, card) -> int:
         print(f"Using card with serial number {card.serial_number}")

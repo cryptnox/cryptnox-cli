@@ -78,7 +78,7 @@ def deserialize(tx):
     if isinstance(tx, str) and re.match('^[0-9a-fA-F]*$', tx):
         # tx = bytes(bytearray.fromhex(tx))
         return json_changebase(deserialize(binascii.unhexlify(tx)),
-                               lambda x: safe_hexlify(x))
+                               safe_hexlify)
     # http://stackoverflow.com/questions/4851463/python-closure-write-to-variable-in-parent-scope
     # Python's scoping rules are demented, requiring me to make pos an object
     # so that it is call-by-reference
@@ -148,7 +148,7 @@ def serialize(txobj, include_witness=True):
         txobj = bytes_to_hex_string(txobj)
     o = []
     if json_is_base(txobj, 16):
-        json_changedbase = json_changebase(txobj, lambda x: binascii.unhexlify(x))
+        json_changedbase = json_changebase(txobj, binascii.unhexlify)
         hexlified = safe_hexlify(serialize(json_changedbase, include_witness=include_witness))
         return hexlified
     o.append(encode_4_bytes(txobj["version"]))
@@ -178,7 +178,7 @@ def uahf_digest(txobj, i):
     o = []
 
     if json_is_base(txobj, 16):
-        txobj = json_changebase(txobj, lambda x: binascii.unhexlify(x))
+        txobj = json_changebase(txobj, binascii.unhexlify)
     o.append(encode(txobj["version"], 256, 4)[::-1])
 
     serialized_ins = []
@@ -373,7 +373,7 @@ def p2wpkh_nested_script(pubkey):
 def deserialize_script(script):
     if isinstance(script, str) and re.match('^[0-9a-fA-F]*$', script):
        return json_changebase(deserialize_script(binascii.unhexlify(script)),
-                              lambda x: safe_hexlify(x))
+                              safe_hexlify)
     out, pos = [], 0
     while pos < len(script):
         code = from_byte_to_int(script[pos])
@@ -420,13 +420,13 @@ if is_python2:
     def serialize_script(script):
         if json_is_base(script, 16):
             return binascii.hexlify(serialize_script(json_changebase(script,
-                                    lambda x: binascii.unhexlify(x))))
+                                    binascii.unhexlify)))
         return ''.join(map(serialize_script_unit, script))
 else:
     def serialize_script(script):
         if json_is_base(script, 16):
             return safe_hexlify(serialize_script(json_changebase(script,
-                                    lambda x: binascii.unhexlify(x))))
+                                    binascii.unhexlify)))
         result = bytes()
         for b in map(serialize_script_unit, script):
             result += b if isinstance(b, bytes) else bytes(b, 'utf-8')
@@ -507,6 +507,196 @@ def select(unspent, value):
         i += 1
     if tv < value:
         raise Exception("Not enough funds")
-    unspents = low[:i]
-    actual_value = sum(unspent['value'] for unspent in unspents)
     return low[:i]
+
+
+# Explicit public API (added to satisfy CodeQL py/polluting-import).
+# Lists the names this module already exported via 'import *', so wildcard
+# import behaviour is unchanged.
+__all__ = [
+    "A",
+    "B",
+    "F0",
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "G",
+    "Gx",
+    "Gy",
+    "K0",
+    "K1",
+    "K2",
+    "K3",
+    "K4",
+    "KK0",
+    "KK1",
+    "KK2",
+    "KK3",
+    "KK4",
+    "N",
+    "P",
+    "PADDING",
+    "R",
+    "RIPEMD160",
+    "RMD160Final",
+    "RMD160Transform",
+    "RMD160Update",
+    "RMDContext",
+    "ROL",
+    "SIGHASH_ALL",
+    "SIGHASH_ANYONECANPAY",
+    "SIGHASH_FORKID",
+    "SIGHASH_NONE",
+    "SIGHASH_SINGLE",
+    "access",
+    "add",
+    "add_privkeys",
+    "add_pubkeys",
+    "apply_multisignatures",
+    "b58check_to_bin",
+    "b58check_to_hex",
+    "base64",
+    "bin_dbl_sha256",
+    "bin_hash160",
+    "bin_ripemd160",
+    "bin_sha256",
+    "bin_slowsha",
+    "bin_to_b58check",
+    "bin_txhash",
+    "binascii",
+    "bytes_to_hex_string",
+    "change_curve",
+    "changebase",
+    "code_strings",
+    "compress",
+    "copy",
+    "count",
+    "dbl_sha256",
+    "dbl_sha256_list",
+    "decode",
+    "decode_privkey",
+    "decode_pubkey",
+    "decode_sig",
+    "decompress",
+    "der_decode_sig",
+    "der_encode_sig",
+    "deserialize",
+    "deserialize_script",
+    "deterministic_generate_k",
+    "digest_size",
+    "digestsize",
+    "divide",
+    "ecdsa_raw_recover",
+    "ecdsa_raw_sign",
+    "ecdsa_raw_verify",
+    "ecdsa_recover",
+    "ecdsa_sign",
+    "ecdsa_tx_recover",
+    "ecdsa_tx_sign",
+    "ecdsa_tx_verify",
+    "ecdsa_verify",
+    "ecdsa_verify_addr",
+    "electrum_sig_hash",
+    "encode",
+    "encode_1_byte",
+    "encode_4_bytes",
+    "encode_8_bytes",
+    "encode_privkey",
+    "encode_pubkey",
+    "encode_sig",
+    "fast_add",
+    "fast_multiply",
+    "from_byte_to_int",
+    "from_int_representation_to_bytes",
+    "from_int_to_byte",
+    "from_jacobian",
+    "from_string_to_bytes",
+    "getG",
+    "get_code_string",
+    "get_privkey_format",
+    "get_pubkey_format",
+    "get_version_byte",
+    "hash160",
+    "hash160High",
+    "hash160Low",
+    "hash_to_int",
+    "hashlib",
+    "hex_to_b58check",
+    "hex_to_hash160",
+    "hmac",
+    "int_types",
+    "inv",
+    "is_bip66",
+    "is_inp",
+    "is_privkey",
+    "is_pubkey",
+    "is_python2",
+    "is_segwit",
+    "isinf",
+    "jacobian_add",
+    "jacobian_double",
+    "jacobian_multiply",
+    "json_changebase",
+    "json_is_base",
+    "list_to_bytes",
+    "lpad",
+    "magicbyte_to_prefix",
+    "mk_multisig_script",
+    "mk_p2w_scripthash_script",
+    "mk_p2wpkh_redeemscript",
+    "mk_p2wpkh_script",
+    "mk_p2wpkh_scriptcode",
+    "mk_pubkey_script",
+    "mk_scripthash_script",
+    "mul_privkeys",
+    "multiaccess",
+    "multiply",
+    "multisign",
+    "neg_privkey",
+    "neg_pubkey",
+    "new",
+    "num_to_var_int",
+    "os",
+    "output_script_to_address",
+    "p2wpkh_nested_script",
+    "privkey_to_address",
+    "privkey_to_pubkey",
+    "privtoaddr",
+    "privtopub",
+    "pubkey_to_address",
+    "pubkey_to_hash",
+    "pubkey_to_hash_hex",
+    "public_txhash",
+    "pubtoaddr",
+    "random",
+    "random_electrum_seed",
+    "random_key",
+    "random_string",
+    "re",
+    "reduce",
+    "ripemd160",
+    "safe_from_hex",
+    "safe_hexlify",
+    "select",
+    "serialize",
+    "serialize_script",
+    "serialize_script_unit",
+    "sha256",
+    "signature_form",
+    "slice",
+    "slowsha",
+    "string_or_bytes_types",
+    "string_types",
+    "struct",
+    "subtract",
+    "subtract_privkeys",
+    "subtract_pubkeys",
+    "sum",
+    "sys",
+    "time",
+    "to_jacobian",
+    "txhash",
+    "uahf_digest",
+    "verify_tx_input",
+]

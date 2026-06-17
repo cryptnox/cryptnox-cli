@@ -16,8 +16,8 @@ from .pbkdf2 import PBKDF2
 from .specials import *
 from .wallet_utils import is_new_seed
 
-wordlist_english = [word.strip() for word in
-                    list(open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'english.txt'), 'r'))]
+with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'english.txt'), 'r') as _wordlist_file:
+    wordlist_english = [word.strip() for word in _wordlist_file]
 
 ELECTRUM_VERSION = '3.0.5'  # version of the client package
 PROTOCOL_VERSION = '1.1'  # protocol version requested
@@ -226,6 +226,7 @@ def seed_prefix(seed_type):
         return SEED_PREFIX_SW
     elif seed_type == '2fa':
         return SEED_PREFIX_2FA
+    return None
 
 
 def seed_type(x):
@@ -256,3 +257,66 @@ def words_mine(prefix, entbits, satisfunction, wordlist=wordlist_english, random
             print("Searched %f percent of the space" % (float(count) / float(1 << mine_bits)))
 
     return entropy_to_words(eint_to_bytes(pint + dint, entbits))
+
+
+# Explicit public API (added to satisfy CodeQL py/polluting-import).
+# Lists the names this module already exported via 'import *', so wildcard
+# import behaviour is unchanged.
+__all__ = [
+    "CJK_INTERVALS",
+    "ELECTRUM_VERSION",
+    "PBKDF2",
+    "PROTOCOL_VERSION",
+    "SEED_PREFIX",
+    "SEED_PREFIX_2FA",
+    "SEED_PREFIX_SW",
+    "bin_dbl_sha256",
+    "bin_to_b58check",
+    "binascii",
+    "bip39_is_checksum_valid",
+    "bip39_mnemonic_to_seed",
+    "bip39_normalize_passphrase",
+    "bisect_left",
+    "bytes_to_hex_string",
+    "changebase",
+    "code_strings",
+    "decode",
+    "eint_to_bytes",
+    "electrum_mnemonic_to_seed",
+    "encode",
+    "entropy_cs",
+    "entropy_to_words",
+    "from_byte_to_int",
+    "from_int_representation_to_bytes",
+    "from_int_to_byte",
+    "from_string_to_bytes",
+    "get_code_string",
+    "hashlib",
+    "hmac",
+    "int_types",
+    "is_CJK",
+    "is_new_seed",
+    "is_old_seed",
+    "is_seed",
+    "lpad",
+    "mnemonic_int_to_words",
+    "mnemonic_to_seed",
+    "normalize_text",
+    "os",
+    "random",
+    "random_string",
+    "safe_from_hex",
+    "safe_hexlify",
+    "seed_prefix",
+    "seed_type",
+    "string_or_bytes_types",
+    "string_types",
+    "unicodedata",
+    "whitespace",
+    "wordlist_english",
+    "words_bisect",
+    "words_mine",
+    "words_split",
+    "words_to_mnemonic_int",
+    "words_verify",
+]

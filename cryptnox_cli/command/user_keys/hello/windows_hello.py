@@ -95,6 +95,7 @@ async def _get_user_credentials(account_id: str) -> KeyCredential:
         return key_result.credential
 
     _error_handle(key_result.status)
+    return None
 
 
 async def _public_key(name: str) -> bytearray:

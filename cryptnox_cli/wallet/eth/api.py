@@ -80,6 +80,7 @@ class Api:
             del transaction["maxFeePerGas"]
             del transaction["maxPriorityFeePerGas"]
         except KeyError:
+            # EIP-1559 fee fields absent (legacy transaction); nothing to remove
             pass
         unsigned_transaction = serializable_unsigned_transaction_from_dict(transaction)
         encoded_transaction = encode_transaction(unsigned_transaction, (self._chain_id, 0, 0))

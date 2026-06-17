@@ -166,6 +166,7 @@ class Imported_KeyStore(Software_KeyStore):
             addr = self.coin.p2sh_scriptaddr(x_pubkey[2:])
             if addr in self.addresses:
                 return self.addresses[addr].get('pubkey')
+        return None
 
     def update_password(self, old_password, new_password):
         self.check_password(old_password)
@@ -238,7 +239,7 @@ class Xpub:
         return self.get_pubkey_from_xpub(xpub, (n,), self.bip39_prefixes)
 
     @classmethod
-    def get_pubkey_from_xpub(self, xpub, sequence, bip39_prefixes):
+    def get_pubkey_from_xpub(cls, xpub, sequence, bip39_prefixes):
         return bip32_derive_key(xpub, sequence, bip39_prefixes)
 
     """needed?
@@ -352,7 +353,7 @@ class Hardware_KeyStore(KeyStore, Xpub):
     max_change_outputs = 1
 
     def __init__(self, d, coin):
-        Xpub.__init__(self, coin)
+        Xpub.__init__(self)
         KeyStore.__init__(self, coin)
         # Errors and other user interaction is done through the wallet's
         # handler.  The handler is per-window and preserved across
@@ -483,7 +484,7 @@ def xpubkey_to_address(x_pubkey, coin):
         pubkey = x_pubkey
     elif x_pubkey[0:2] == 'ff':
         xpub, s = BIP32_KeyStore.parse_xpubkey(x_pubkey)
-        pubkey = BIP32_KeyStore.get_pubkey_from_xpub(xpub, s)
+        pubkey = BIP32_KeyStore.get_pubkey_from_xpub(xpub, s, coin.bip39_prefixes)
     else:
         raise BaseException("Cannot parse pubkey")
     address = coin.pubtoaddr(pubkey)
@@ -516,11 +517,12 @@ def get_private_keys(text):
     parts = list(filter(bool, parts))
     if bool(parts) and all(bitcoin.is_private_key(x) for x in parts):
         return parts
+    return None
 
 def is_private_key_list(text):
     return bool(get_private_keys(text))
 
-is_mpk = lambda x: is_xpub(x)
+is_mpk = is_xpub
 is_private = lambda x: is_seed(x) or is_xprv(x) or is_private_key_list(x)
 is_master_key = lambda x: is_xprv(x) or is_xpub(x)
 is_private_key = lambda x: is_xprv(x) or is_private_key_list(x)
@@ -568,7 +570,255 @@ def from_master_key(text, coin):
     if is_xprv(text, prefixes):
         k = from_xprv(text, coin)
     elif is_xpub(text, prefixes):
-        k = from_xpub(text, coin)
+        k = from_xpub(text, coin, 'p2pkh')
     else:
         raise BaseException('Invalid key')
     return k
+
+
+# Explicit public API (added to satisfy CodeQL py/polluting-import).
+# Lists the names this module already exported via 'import *', so wildcard
+# import behaviour is unchanged.
+__all__ = [
+    "A",
+    "B",
+    "BIP32_KeyStore",
+    "CJK_INTERVALS",
+    "DEFAULT",
+    "Deterministic_KeyStore",
+    "ELECTRUM_VERSION",
+    "F0",
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "G",
+    "Gx",
+    "Gy",
+    "Hardware_KeyStore",
+    "Imported_KeyStore",
+    "InvalidPassword",
+    "K0",
+    "K1",
+    "K2",
+    "K3",
+    "K4",
+    "KK0",
+    "KK1",
+    "KK2",
+    "KK3",
+    "KK4",
+    "KeyStore",
+    "MAINNET_PRIVATE",
+    "MAINNET_PUBLIC",
+    "N",
+    "P",
+    "PADDING",
+    "PBKDF2",
+    "PRIVATE",
+    "PROTOCOL_VERSION",
+    "PUBLIC",
+    "R",
+    "RIPEMD160",
+    "RMD160Final",
+    "RMD160Transform",
+    "RMD160Update",
+    "RMDContext",
+    "ROL",
+    "SEED_PREFIX",
+    "SEED_PREFIX_2FA",
+    "SEED_PREFIX_SW",
+    "Software_KeyStore",
+    "TESTNET_PRIVATE",
+    "TESTNET_PUBLIC",
+    "Xpub",
+    "access",
+    "add",
+    "add_privkeys",
+    "add_pubkeys",
+    "b58check_to_bin",
+    "b58check_to_hex",
+    "base64",
+    "bin_dbl_sha256",
+    "bin_hash160",
+    "bin_ripemd160",
+    "bin_sha256",
+    "bin_slowsha",
+    "bin_to_b58check",
+    "binascii",
+    "bip32_bin_extract_key",
+    "bip32_ckd",
+    "bip32_derive_key",
+    "bip32_descend",
+    "bip32_deserialize",
+    "bip32_extract_key",
+    "bip32_master_key",
+    "bip32_privtopub",
+    "bip32_serialize",
+    "bip39_is_checksum_valid",
+    "bip39_mnemonic_to_seed",
+    "bip39_normalize_passphrase",
+    "bip39_to_seed",
+    "bisect_left",
+    "bytes_to_hex_string",
+    "change_curve",
+    "changebase",
+    "code_strings",
+    "coinvault_priv_to_bip32",
+    "coinvault_pub_to_bip32",
+    "compress",
+    "count",
+    "crack_bip32_privkey",
+    "crack_electrum_wallet",
+    "dbl_sha256",
+    "decode",
+    "decode_privkey",
+    "decode_pubkey",
+    "decode_sig",
+    "decompress",
+    "deterministic_generate_k",
+    "digest_size",
+    "digestsize",
+    "divide",
+    "ecdsa_raw_recover",
+    "ecdsa_raw_sign",
+    "ecdsa_raw_verify",
+    "ecdsa_recover",
+    "ecdsa_sign",
+    "ecdsa_verify",
+    "ecdsa_verify_addr",
+    "eint_to_bytes",
+    "electrum_address",
+    "electrum_mnemonic_to_seed",
+    "electrum_mpk",
+    "electrum_privkey",
+    "electrum_pubkey",
+    "electrum_sig_hash",
+    "electrum_stretch",
+    "encode",
+    "encode_privkey",
+    "encode_pubkey",
+    "encode_sig",
+    "entropy_cs",
+    "entropy_to_words",
+    "fast_add",
+    "fast_multiply",
+    "from_bip39_seed",
+    "from_byte_to_int",
+    "from_electrum_seed",
+    "from_int_representation_to_bytes",
+    "from_int_to_byte",
+    "from_jacobian",
+    "from_master_key",
+    "from_private_key_list",
+    "from_string_to_bytes",
+    "from_xprv",
+    "from_xpub",
+    "getG",
+    "get_code_string",
+    "get_private_keys",
+    "get_privkey_format",
+    "get_pubkey_format",
+    "get_version_byte",
+    "hardware_keystore",
+    "hash160",
+    "hash160High",
+    "hash160Low",
+    "hash_to_int",
+    "hashlib",
+    "hex_to_b58check",
+    "hex_to_hash160",
+    "hfu",
+    "hmac",
+    "hw_keystores",
+    "int_types",
+    "inv",
+    "is_CJK",
+    "is_address_list",
+    "is_bip32_key",
+    "is_master_key",
+    "is_mpk",
+    "is_new_seed",
+    "is_old_seed",
+    "is_private",
+    "is_private_key",
+    "is_private_key_list",
+    "is_privkey",
+    "is_pubkey",
+    "is_python2",
+    "is_seed",
+    "is_xprv",
+    "is_xpub",
+    "is_xpubkey",
+    "isinf",
+    "jacobian_add",
+    "jacobian_double",
+    "jacobian_multiply",
+    "lpad",
+    "magicbyte_to_prefix",
+    "mnemonic_int_to_words",
+    "mnemonic_to_seed",
+    "mul_privkeys",
+    "multiaccess",
+    "multiply",
+    "neg_privkey",
+    "neg_pubkey",
+    "new",
+    "normalize",
+    "normalize_text",
+    "num_to_var_int",
+    "os",
+    "p2wpkh_from_bip39_seed",
+    "p2wpkh_p2sh_from_bip39_seed",
+    "parse_bip32_path",
+    "parse_xpubkey",
+    "privkey_to_address",
+    "privkey_to_pubkey",
+    "privtoaddr",
+    "privtopub",
+    "pubkey_to_address",
+    "pubkey_to_hash",
+    "pubkey_to_hash_hex",
+    "pubtoaddr",
+    "pw_decode",
+    "pw_encode",
+    "random",
+    "random_electrum_seed",
+    "random_key",
+    "random_string",
+    "raw_bip32_ckd",
+    "raw_bip32_privtopub",
+    "raw_crack_bip32_privkey",
+    "re",
+    "register_keystore",
+    "ripemd160",
+    "safe_from_hex",
+    "safe_hexlify",
+    "seed_prefix",
+    "seed_type",
+    "sha256",
+    "slice",
+    "slowsha",
+    "standard_from_bip39_seed",
+    "string_or_bytes_types",
+    "string_types",
+    "struct",
+    "subtract",
+    "subtract_privkeys",
+    "subtract_pubkeys",
+    "sum",
+    "sys",
+    "time",
+    "to_jacobian",
+    "unicodedata",
+    "whitespace",
+    "wordlist_english",
+    "words_bisect",
+    "words_mine",
+    "words_split",
+    "words_to_mnemonic_int",
+    "words_verify",
+    "xpubkey_to_address",
+    "xpubkey_to_pubkey",
+    "xtype_from_derivation",
+]

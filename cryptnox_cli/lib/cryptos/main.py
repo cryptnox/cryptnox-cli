@@ -147,7 +147,7 @@ def jacobian_multiply(a, n):
         return jacobian_multiply(a, n % N)
     if (n % 2) == 0:
         return jacobian_double(jacobian_multiply(a, n // 2))
-    if (n % 2) == 1:
+    else:
         return jacobian_add(jacobian_double(jacobian_multiply(a, n // 2)), a)
 
 
@@ -333,6 +333,7 @@ def compress(pubkey):
         return encode_pubkey(decode_pubkey(pubkey, f), 'bin_compressed')
     elif f == 'hex' or f == 'decimal':
         return encode_pubkey(decode_pubkey(pubkey, f), 'hex_compressed')
+    return None
 
 
 def decompress(pubkey):
@@ -343,6 +344,7 @@ def decompress(pubkey):
         return encode_pubkey(decode_pubkey(pubkey, f), 'bin')
     elif f == 'hex_compressed' or f == 'decimal':
         return encode_pubkey(decode_pubkey(pubkey, f), 'hex')
+    return None
 
 
 def privkey_to_pubkey(privkey):
@@ -398,7 +400,9 @@ def bin_hash160(string):
     digest = ''
     try:
         digest = hashlib.new('ripemd160', intermed).digest()
-    except:
+    except Exception:
+        # 'ripemd160' may be unavailable (e.g. OpenSSL 3 legacy provider off);
+        # fall back to the bundled pure-Python implementation.
         digest = RIPEMD160(intermed).digest()
     return digest
 
@@ -423,7 +427,9 @@ def sha256(string):
 def bin_ripemd160(string):
     try:
         digest = hashlib.new('ripemd160', string).digest()
-    except:
+    except Exception:
+        # 'ripemd160' may be unavailable (e.g. OpenSSL 3 legacy provider off);
+        # fall back to the bundled pure-Python implementation.
         digest = RIPEMD160(string).digest()
     return digest
 
@@ -541,7 +547,7 @@ def is_privkey(priv):
     try:
         get_privkey_format(priv)
         return True
-    except:
+    except Exception:
         return False
 
 
@@ -549,7 +555,7 @@ def is_pubkey(pubkey):
     try:
         get_pubkey_format(pubkey)
         return True
-    except:
+    except Exception:
         return False
 
 
@@ -677,8 +683,156 @@ hash160High = b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff
 
 
 def magicbyte_to_prefix(magicbyte):
+    # Always return a 2-tuple of the low/high address prefix characters.
+    # Callers only test membership over these, so a repeated character when
+    # first == last is harmless and keeps the return shape consistent.
     first = bin_to_b58check(hash160Low, magicbyte=magicbyte)[0]
     last = bin_to_b58check(hash160High, magicbyte=magicbyte)[0]
-    if first == last:
-        return (first,)
     return (first, last)
+
+
+# Explicit public API (added to satisfy CodeQL py/polluting-import).
+# Lists the names this module already exported via 'import *', so wildcard
+# import behaviour is unchanged.
+__all__ = [
+    "A",
+    "B",
+    "F0",
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "G",
+    "Gx",
+    "Gy",
+    "K0",
+    "K1",
+    "K2",
+    "K3",
+    "K4",
+    "KK0",
+    "KK1",
+    "KK2",
+    "KK3",
+    "KK4",
+    "N",
+    "P",
+    "PADDING",
+    "R",
+    "RIPEMD160",
+    "RMD160Final",
+    "RMD160Transform",
+    "RMD160Update",
+    "RMDContext",
+    "ROL",
+    "access",
+    "add",
+    "add_privkeys",
+    "add_pubkeys",
+    "b58check_to_bin",
+    "b58check_to_hex",
+    "base64",
+    "bin_dbl_sha256",
+    "bin_hash160",
+    "bin_ripemd160",
+    "bin_sha256",
+    "bin_slowsha",
+    "bin_to_b58check",
+    "binascii",
+    "bytes_to_hex_string",
+    "change_curve",
+    "changebase",
+    "code_strings",
+    "compress",
+    "count",
+    "dbl_sha256",
+    "decode",
+    "decode_privkey",
+    "decode_pubkey",
+    "decode_sig",
+    "decompress",
+    "deterministic_generate_k",
+    "digest_size",
+    "digestsize",
+    "divide",
+    "ecdsa_raw_recover",
+    "ecdsa_raw_sign",
+    "ecdsa_raw_verify",
+    "ecdsa_recover",
+    "ecdsa_sign",
+    "ecdsa_verify",
+    "ecdsa_verify_addr",
+    "electrum_sig_hash",
+    "encode",
+    "encode_privkey",
+    "encode_pubkey",
+    "encode_sig",
+    "fast_add",
+    "fast_multiply",
+    "from_byte_to_int",
+    "from_int_representation_to_bytes",
+    "from_int_to_byte",
+    "from_jacobian",
+    "from_string_to_bytes",
+    "getG",
+    "get_code_string",
+    "get_privkey_format",
+    "get_pubkey_format",
+    "get_version_byte",
+    "hash160",
+    "hash160High",
+    "hash160Low",
+    "hash_to_int",
+    "hashlib",
+    "hex_to_b58check",
+    "hex_to_hash160",
+    "hmac",
+    "int_types",
+    "inv",
+    "is_privkey",
+    "is_pubkey",
+    "is_python2",
+    "isinf",
+    "jacobian_add",
+    "jacobian_double",
+    "jacobian_multiply",
+    "lpad",
+    "magicbyte_to_prefix",
+    "mul_privkeys",
+    "multiaccess",
+    "multiply",
+    "neg_privkey",
+    "neg_pubkey",
+    "new",
+    "num_to_var_int",
+    "os",
+    "privkey_to_address",
+    "privkey_to_pubkey",
+    "privtoaddr",
+    "privtopub",
+    "pubkey_to_address",
+    "pubkey_to_hash",
+    "pubkey_to_hash_hex",
+    "pubtoaddr",
+    "random",
+    "random_electrum_seed",
+    "random_key",
+    "random_string",
+    "re",
+    "ripemd160",
+    "safe_from_hex",
+    "safe_hexlify",
+    "sha256",
+    "slice",
+    "slowsha",
+    "string_or_bytes_types",
+    "string_types",
+    "struct",
+    "subtract",
+    "subtract_privkeys",
+    "subtract_pubkeys",
+    "sum",
+    "sys",
+    "time",
+    "to_jacobian",
+]

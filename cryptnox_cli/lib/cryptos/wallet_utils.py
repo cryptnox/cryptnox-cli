@@ -78,7 +78,7 @@ class InvalidPassword(Exception):
 
 try:
     from Cryptodome.Cipher import AES
-except:
+except ImportError:
     AES = None
 
 

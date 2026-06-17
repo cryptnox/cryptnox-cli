@@ -220,6 +220,7 @@ class PIVcard(ContextDecorator):
         try:
             self.verify_pin(pin_bank, "")
         except PinException:
+            # Empty PIN rejected as expected; card is not locked
             pass
         except PIVCardException as error:
             if error.sw_code == 0x6983:
