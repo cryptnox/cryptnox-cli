@@ -179,6 +179,7 @@
             <span class="k">del</span> <span class="n">transaction</span><span class="p">[</span><span class="s2">&quot;maxFeePerGas&quot;</span><span class="p">]</span>
             <span class="k">del</span> <span class="n">transaction</span><span class="p">[</span><span class="s2">&quot;maxPriorityFeePerGas&quot;</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="c1"># EIP-1559 fee fields absent (legacy transaction); nothing to remove</span>
             <span class="k">pass</span>
         <span class="n">unsigned_transaction</span> <span class="o">=</span> <span class="n">serializable_unsigned_transaction_from_dict</span><span class="p">(</span><span class="n">transaction</span><span class="p">)</span>
         <span class="n">encoded_transaction</span> <span class="o">=</span> <span class="n">encode_transaction</span><span class="p">(</span><span class="n">unsigned_transaction</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_chain_id</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>

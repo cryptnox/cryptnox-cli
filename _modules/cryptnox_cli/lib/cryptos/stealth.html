@@ -186,6 +186,9 @@
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Invalid testnet stealth address: &#39;</span> <span class="o">+</span> <span class="n">stealth_addr</span><span class="p">)</span>
         <span class="n">magic_byte_addr</span> <span class="o">=</span> <span class="mi">111</span>
 
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Unknown network: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">network</span><span class="p">))</span>
+
     <span class="n">ephem_pubkey</span> <span class="o">=</span> <span class="n">main</span><span class="o">.</span><span class="n">privkey_to_pubkey</span><span class="p">(</span><span class="n">ephem_privkey</span><span class="p">)</span>
     <span class="n">output0</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;script&#39;</span><span class="p">:</span> <span class="n">mk_stealth_metadata_script</span><span class="p">(</span><span class="n">ephem_pubkey</span><span class="p">,</span> <span class="n">nonce</span><span class="p">),</span>
                <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
@@ -208,6 +211,24 @@
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Wrong format for stealth tx output&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">stealth_tx_script</span><span class="p">[</span><span class="mi">14</span><span class="p">:]</span></div>
 
+
+
+<span class="c1"># Explicit public API (added to satisfy CodeQL py/polluting-import).</span>
+<span class="c1"># Lists the names this module already exported via &#39;import *&#39;, so wildcard</span>
+<span class="c1"># import behaviour is unchanged.</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;basic_stealth_address_to_pubkeys&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ephem_pubkey_from_tx_script&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;main&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;mk_stealth_metadata_script&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;mk_stealth_tx_outputs&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pubkeys_to_basic_stealth_address&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;shared_secret_receiver&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;shared_secret_sender&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;uncover_pay_privkey&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;uncover_pay_pubkey_receiver&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;uncover_pay_pubkey_sender&quot;</span><span class="p">,</span>
+<span class="p">]</span>
 </pre></div>
 
            </div>

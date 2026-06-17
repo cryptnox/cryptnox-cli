@@ -107,7 +107,7 @@
 
 
 <div class="viewcode-block" id="change_curve">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.change_curve">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.change_curve">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">change_curve</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">gx</span><span class="p">,</span> <span class="n">gy</span><span class="p">):</span>
     <span class="k">global</span> <span class="n">P</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span><span class="p">,</span> <span class="n">G</span>
     <span class="n">P</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">Gx</span><span class="p">,</span> <span class="n">Gy</span> <span class="o">=</span> <span class="n">p</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">gx</span><span class="p">,</span> <span class="n">gy</span>
@@ -116,7 +116,7 @@
 
 
 <div class="viewcode-block" id="getG">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.getG">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.getG">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">getG</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">G</span></div>
 
@@ -126,7 +126,7 @@
 
 
 <div class="viewcode-block" id="inv">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.inv">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.inv">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">inv</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">0</span>
@@ -144,7 +144,7 @@
 
 
 <div class="viewcode-block" id="access">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.access">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.access">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">access</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">prop</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">:</span>
@@ -159,21 +159,21 @@
 
 
 <div class="viewcode-block" id="multiaccess">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.multiaccess">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.multiaccess">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">multiaccess</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">prop</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">access</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">prop</span><span class="p">)</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">]</span></div>
 
 
 
 <div class="viewcode-block" id="slice">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.slice">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.slice">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">slice</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">2</span> <span class="o">**</span> <span class="mi">200</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">obj</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">start</span><span class="p">):</span><span class="nb">int</span><span class="p">(</span><span class="n">end</span><span class="p">)]</span></div>
 
 
 
 <div class="viewcode-block" id="count">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.count">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.count">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">count</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
 
@@ -183,21 +183,21 @@
 
 
 <div class="viewcode-block" id="sum">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.sum">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.sum">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">_sum</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="isinf">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.isinf">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.isinf">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">isinf</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span></div>
 
 
 
 <div class="viewcode-block" id="to_jacobian">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.to_jacobian">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.to_jacobian">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">to_jacobian</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
     <span class="n">o</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">o</span></div>
@@ -205,7 +205,7 @@
 
 
 <div class="viewcode-block" id="jacobian_double">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.jacobian_double">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.jacobian_double">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">jacobian_double</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -220,7 +220,7 @@
 
 
 <div class="viewcode-block" id="jacobian_add">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.jacobian_add">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.jacobian_add">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">jacobian_add</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
         <span class="k">return</span> <span class="n">q</span>
@@ -247,7 +247,7 @@
 
 
 <div class="viewcode-block" id="from_jacobian">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.from_jacobian">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.from_jacobian">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">from_jacobian</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
     <span class="n">z</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">P</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">((</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">z</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">%</span> <span class="n">P</span><span class="p">,</span> <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">z</span> <span class="o">**</span> <span class="mi">3</span><span class="p">)</span> <span class="o">%</span> <span class="n">P</span><span class="p">)</span></div>
@@ -255,7 +255,7 @@
 
 
 <div class="viewcode-block" id="jacobian_multiply">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.jacobian_multiply">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.jacobian_multiply">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">jacobian_multiply</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -265,20 +265,20 @@
         <span class="k">return</span> <span class="n">jacobian_multiply</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">n</span> <span class="o">%</span> <span class="n">N</span><span class="p">)</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">jacobian_double</span><span class="p">(</span><span class="n">jacobian_multiply</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">n</span> <span class="o">//</span> <span class="mi">2</span><span class="p">))</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">jacobian_add</span><span class="p">(</span><span class="n">jacobian_double</span><span class="p">(</span><span class="n">jacobian_multiply</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">n</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)),</span> <span class="n">a</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="fast_multiply">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.fast_multiply">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.fast_multiply">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">fast_multiply</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">from_jacobian</span><span class="p">(</span><span class="n">jacobian_multiply</span><span class="p">(</span><span class="n">to_jacobian</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">n</span><span class="p">))</span></div>
 
 
 
 <div class="viewcode-block" id="fast_add">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.fast_add">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.fast_add">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">fast_add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">from_jacobian</span><span class="p">(</span><span class="n">jacobian_add</span><span class="p">(</span><span class="n">to_jacobian</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">to_jacobian</span><span class="p">(</span><span class="n">b</span><span class="p">)))</span></div>
 
@@ -288,7 +288,7 @@
 
 
 <div class="viewcode-block" id="get_pubkey_format">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.get_pubkey_format">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.get_pubkey_format">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_pubkey_format</span><span class="p">(</span><span class="n">pub</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">is_python2</span><span class="p">:</span>
         <span class="n">two</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\x02</span><span class="s1">&#39;</span>
@@ -319,7 +319,7 @@
 
 
 <div class="viewcode-block" id="encode_pubkey">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.encode_pubkey">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.encode_pubkey">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">encode_pubkey</span><span class="p">(</span><span class="n">pub</span><span class="p">,</span> <span class="n">formt</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pub</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
         <span class="n">pub</span> <span class="o">=</span> <span class="n">decode_pubkey</span><span class="p">(</span><span class="n">pub</span><span class="p">)</span>
@@ -343,7 +343,7 @@
 
 
 <div class="viewcode-block" id="decode_pubkey">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.decode_pubkey">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.decode_pubkey">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">decode_pubkey</span><span class="p">(</span><span class="n">pub</span><span class="p">,</span> <span class="n">formt</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">formt</span><span class="p">:</span> <span class="n">formt</span> <span class="o">=</span> <span class="n">get_pubkey_format</span><span class="p">(</span><span class="n">pub</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;decimal&#39;</span><span class="p">:</span>
@@ -369,7 +369,7 @@
 
 
 <div class="viewcode-block" id="get_privkey_format">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.get_privkey_format">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.get_privkey_format">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_privkey_format</span><span class="p">(</span><span class="n">priv</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">priv</span><span class="p">,</span> <span class="n">int_types</span><span class="p">):</span>
         <span class="k">return</span> <span class="s1">&#39;decimal&#39;</span>
@@ -393,7 +393,7 @@
 
 
 <div class="viewcode-block" id="encode_privkey">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.encode_privkey">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.encode_privkey">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">encode_privkey</span><span class="p">(</span><span class="n">priv</span><span class="p">,</span> <span class="n">formt</span><span class="p">,</span> <span class="n">vbyte</span><span class="o">=</span><span class="mi">128</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">priv</span><span class="p">,</span> <span class="n">int_types</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">encode_privkey</span><span class="p">(</span><span class="n">decode_privkey</span><span class="p">(</span><span class="n">priv</span><span class="p">),</span> <span class="n">formt</span><span class="p">,</span> <span class="n">vbyte</span><span class="p">)</span>
@@ -417,7 +417,7 @@
 
 
 <div class="viewcode-block" id="decode_privkey">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.decode_privkey">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.decode_privkey">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">decode_privkey</span><span class="p">(</span><span class="n">priv</span><span class="p">,</span> <span class="n">formt</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">formt</span><span class="p">:</span> <span class="n">formt</span> <span class="o">=</span> <span class="n">get_privkey_format</span><span class="p">(</span><span class="n">priv</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;decimal&#39;</span><span class="p">:</span>
@@ -440,7 +440,7 @@
 
 
 <div class="viewcode-block" id="add_pubkeys">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.add_pubkeys">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.add_pubkeys">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">add_pubkeys</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
     <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span> <span class="o">=</span> <span class="n">get_pubkey_format</span><span class="p">(</span><span class="n">p1</span><span class="p">),</span> <span class="n">get_pubkey_format</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">fast_add</span><span class="p">(</span><span class="n">decode_pubkey</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">f1</span><span class="p">),</span> <span class="n">decode_pubkey</span><span class="p">(</span><span class="n">p2</span><span class="p">,</span> <span class="n">f2</span><span class="p">)),</span> <span class="n">f1</span><span class="p">)</span></div>
@@ -448,7 +448,7 @@
 
 
 <div class="viewcode-block" id="add_privkeys">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.add_privkeys">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.add_privkeys">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">add_privkeys</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
     <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span> <span class="o">=</span> <span class="n">get_privkey_format</span><span class="p">(</span><span class="n">p1</span><span class="p">),</span> <span class="n">get_privkey_format</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">encode_privkey</span><span class="p">((</span><span class="n">decode_privkey</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">f1</span><span class="p">)</span> <span class="o">+</span> <span class="n">decode_privkey</span><span class="p">(</span><span class="n">p2</span><span class="p">,</span> <span class="n">f2</span><span class="p">))</span> <span class="o">%</span> <span class="n">N</span><span class="p">,</span> <span class="n">f1</span><span class="p">)</span></div>
@@ -456,7 +456,7 @@
 
 
 <div class="viewcode-block" id="mul_privkeys">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.mul_privkeys">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.mul_privkeys">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">mul_privkeys</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
     <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span> <span class="o">=</span> <span class="n">get_privkey_format</span><span class="p">(</span><span class="n">p1</span><span class="p">),</span> <span class="n">get_privkey_format</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">encode_privkey</span><span class="p">((</span><span class="n">decode_privkey</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">f1</span><span class="p">)</span> <span class="o">*</span> <span class="n">decode_privkey</span><span class="p">(</span><span class="n">p2</span><span class="p">,</span> <span class="n">f2</span><span class="p">))</span> <span class="o">%</span> <span class="n">N</span><span class="p">,</span> <span class="n">f1</span><span class="p">)</span></div>
@@ -464,7 +464,7 @@
 
 
 <div class="viewcode-block" id="multiply">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.multiply">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.multiply">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">multiply</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">privkey</span><span class="p">):</span>
     <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span> <span class="o">=</span> <span class="n">get_pubkey_format</span><span class="p">(</span><span class="n">pubkey</span><span class="p">),</span> <span class="n">get_privkey_format</span><span class="p">(</span><span class="n">privkey</span><span class="p">)</span>
     <span class="n">pubkey</span><span class="p">,</span> <span class="n">privkey</span> <span class="o">=</span> <span class="n">decode_pubkey</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">f1</span><span class="p">),</span> <span class="n">decode_privkey</span><span class="p">(</span><span class="n">privkey</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
@@ -476,7 +476,7 @@
 
 
 <div class="viewcode-block" id="divide">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.divide">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.divide">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">divide</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">privkey</span><span class="p">):</span>
     <span class="n">factor</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">decode_privkey</span><span class="p">(</span><span class="n">privkey</span><span class="p">),</span> <span class="n">N</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">multiply</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">factor</span><span class="p">)</span></div>
@@ -484,7 +484,7 @@
 
 
 <div class="viewcode-block" id="compress">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.compress">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.compress">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">compress</span><span class="p">(</span><span class="n">pubkey</span><span class="p">):</span>
     <span class="n">f</span> <span class="o">=</span> <span class="n">get_pubkey_format</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)</span>
     <span class="k">if</span> <span class="s1">&#39;compressed&#39;</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
@@ -492,12 +492,13 @@
     <span class="k">elif</span> <span class="n">f</span> <span class="o">==</span> <span class="s1">&#39;bin&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">decode_pubkey</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="s1">&#39;bin_compressed&#39;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">f</span> <span class="o">==</span> <span class="s1">&#39;hex&#39;</span> <span class="ow">or</span> <span class="n">f</span> <span class="o">==</span> <span class="s1">&#39;decimal&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">decode_pubkey</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="s1">&#39;hex_compressed&#39;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">decode_pubkey</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="s1">&#39;hex_compressed&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
 
 
 
 <div class="viewcode-block" id="decompress">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.decompress">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.decompress">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">decompress</span><span class="p">(</span><span class="n">pubkey</span><span class="p">):</span>
     <span class="n">f</span> <span class="o">=</span> <span class="n">get_pubkey_format</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)</span>
     <span class="k">if</span> <span class="s1">&#39;compressed&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
@@ -505,12 +506,13 @@
     <span class="k">elif</span> <span class="n">f</span> <span class="o">==</span> <span class="s1">&#39;bin_compressed&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">decode_pubkey</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="s1">&#39;bin&#39;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">f</span> <span class="o">==</span> <span class="s1">&#39;hex_compressed&#39;</span> <span class="ow">or</span> <span class="n">f</span> <span class="o">==</span> <span class="s1">&#39;decimal&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">decode_pubkey</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="s1">&#39;hex&#39;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">decode_pubkey</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="s1">&#39;hex&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
 
 
 
 <div class="viewcode-block" id="privkey_to_pubkey">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.privkey_to_pubkey">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.privkey_to_pubkey">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">privkey_to_pubkey</span><span class="p">(</span><span class="n">privkey</span><span class="p">):</span>
     <span class="n">f</span> <span class="o">=</span> <span class="n">get_privkey_format</span><span class="p">(</span><span class="n">privkey</span><span class="p">)</span>
     <span class="n">privkey</span> <span class="o">=</span> <span class="n">decode_privkey</span><span class="p">(</span><span class="n">privkey</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
@@ -527,7 +529,7 @@
 
 
 <div class="viewcode-block" id="privkey_to_address">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.privkey_to_address">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.privkey_to_address">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">privkey_to_address</span><span class="p">(</span><span class="n">priv</span><span class="p">,</span> <span class="n">magicbyte</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">pubkey_to_address</span><span class="p">(</span><span class="n">privkey_to_pubkey</span><span class="p">(</span><span class="n">priv</span><span class="p">),</span> <span class="n">magicbyte</span><span class="p">)</span></div>
 
@@ -537,7 +539,7 @@
 
 
 <div class="viewcode-block" id="neg_pubkey">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.neg_pubkey">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.neg_pubkey">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">neg_pubkey</span><span class="p">(</span><span class="n">pubkey</span><span class="p">):</span>
     <span class="n">f</span> <span class="o">=</span> <span class="n">get_pubkey_format</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)</span>
     <span class="n">pubkey</span> <span class="o">=</span> <span class="n">decode_pubkey</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
@@ -546,7 +548,7 @@
 
 
 <div class="viewcode-block" id="neg_privkey">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.neg_privkey">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.neg_privkey">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">neg_privkey</span><span class="p">(</span><span class="n">privkey</span><span class="p">):</span>
     <span class="n">f</span> <span class="o">=</span> <span class="n">get_privkey_format</span><span class="p">(</span><span class="n">privkey</span><span class="p">)</span>
     <span class="n">privkey</span> <span class="o">=</span> <span class="n">decode_privkey</span><span class="p">(</span><span class="n">privkey</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
@@ -555,7 +557,7 @@
 
 
 <div class="viewcode-block" id="subtract_pubkeys">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.subtract_pubkeys">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.subtract_pubkeys">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">subtract_pubkeys</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
     <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span> <span class="o">=</span> <span class="n">get_pubkey_format</span><span class="p">(</span><span class="n">p1</span><span class="p">),</span> <span class="n">get_pubkey_format</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
     <span class="n">k2</span> <span class="o">=</span> <span class="n">decode_pubkey</span><span class="p">(</span><span class="n">p2</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
@@ -564,7 +566,7 @@
 
 
 <div class="viewcode-block" id="subtract_privkeys">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.subtract_privkeys">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.subtract_privkeys">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">subtract_privkeys</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
     <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span> <span class="o">=</span> <span class="n">get_privkey_format</span><span class="p">(</span><span class="n">p1</span><span class="p">),</span> <span class="n">get_privkey_format</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
     <span class="n">k2</span> <span class="o">=</span> <span class="n">decode_privkey</span><span class="p">(</span><span class="n">p2</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
@@ -576,34 +578,36 @@
 
 
 <div class="viewcode-block" id="bin_hash160">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.bin_hash160">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.bin_hash160">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">bin_hash160</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
     <span class="n">intermed</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
     <span class="n">digest</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">digest</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;ripemd160&#39;</span><span class="p">,</span> <span class="n">intermed</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
-    <span class="k">except</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="c1"># &#39;ripemd160&#39; may be unavailable (e.g. OpenSSL 3 legacy provider off);</span>
+        <span class="c1"># fall back to the bundled pure-Python implementation.</span>
         <span class="n">digest</span> <span class="o">=</span> <span class="n">RIPEMD160</span><span class="p">(</span><span class="n">intermed</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">digest</span></div>
 
 
 
 <div class="viewcode-block" id="hash160">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.hash160">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.hash160">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">hash160</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">safe_hexlify</span><span class="p">(</span><span class="n">bin_hash160</span><span class="p">(</span><span class="n">string</span><span class="p">))</span></div>
 
 
 
 <div class="viewcode-block" id="hex_to_hash160">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.hex_to_hash160">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.hex_to_hash160">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">hex_to_hash160</span><span class="p">(</span><span class="n">s_hex</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">hash160</span><span class="p">(</span><span class="n">binascii</span><span class="o">.</span><span class="n">unhexlify</span><span class="p">(</span><span class="n">s_hex</span><span class="p">))</span></div>
 
 
 
 <div class="viewcode-block" id="bin_sha256">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.bin_sha256">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.bin_sha256">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">bin_sha256</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
     <span class="n">binary_data</span> <span class="o">=</span> <span class="n">string</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)</span> <span class="k">else</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">binary_data</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span></div>
@@ -611,32 +615,34 @@
 
 
 <div class="viewcode-block" id="sha256">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.sha256">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.sha256">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">sha256</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">bytes_to_hex_string</span><span class="p">(</span><span class="n">bin_sha256</span><span class="p">(</span><span class="n">string</span><span class="p">))</span></div>
 
 
 
 <div class="viewcode-block" id="bin_ripemd160">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.bin_ripemd160">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.bin_ripemd160">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">bin_ripemd160</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">digest</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;ripemd160&#39;</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
-    <span class="k">except</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="c1"># &#39;ripemd160&#39; may be unavailable (e.g. OpenSSL 3 legacy provider off);</span>
+        <span class="c1"># fall back to the bundled pure-Python implementation.</span>
         <span class="n">digest</span> <span class="o">=</span> <span class="n">RIPEMD160</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">digest</span></div>
 
 
 
 <div class="viewcode-block" id="ripemd160">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.ripemd160">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.ripemd160">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">ripemd160</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">safe_hexlify</span><span class="p">(</span><span class="n">bin_ripemd160</span><span class="p">(</span><span class="n">string</span><span class="p">))</span></div>
 
 
 
 <div class="viewcode-block" id="bin_dbl_sha256">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.bin_dbl_sha256">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.bin_dbl_sha256">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">bin_dbl_sha256</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
     <span class="n">bytes_to_hash</span> <span class="o">=</span> <span class="n">from_string_to_bytes</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">bytes_to_hash</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">())</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span></div>
@@ -644,14 +650,14 @@
 
 
 <div class="viewcode-block" id="dbl_sha256">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.dbl_sha256">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.dbl_sha256">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">dbl_sha256</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">safe_hexlify</span><span class="p">(</span><span class="n">bin_dbl_sha256</span><span class="p">(</span><span class="n">string</span><span class="p">))</span></div>
 
 
 
 <div class="viewcode-block" id="bin_slowsha">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.bin_slowsha">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.bin_slowsha">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">bin_slowsha</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
     <span class="n">string</span> <span class="o">=</span> <span class="n">from_string_to_bytes</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
     <span class="n">orig_input</span> <span class="o">=</span> <span class="n">string</span>
@@ -662,14 +668,14 @@
 
 
 <div class="viewcode-block" id="slowsha">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.slowsha">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.slowsha">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">slowsha</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">safe_hexlify</span><span class="p">(</span><span class="n">bin_slowsha</span><span class="p">(</span><span class="n">string</span><span class="p">))</span></div>
 
 
 
 <div class="viewcode-block" id="hash_to_int">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.hash_to_int">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.hash_to_int">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">hash_to_int</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">40</span><span class="p">,</span> <span class="mi">64</span><span class="p">]:</span>
         <span class="k">return</span> <span class="n">decode</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
@@ -678,7 +684,7 @@
 
 
 <div class="viewcode-block" id="num_to_var_int">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.num_to_var_int">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.num_to_var_int">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">num_to_var_int</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="n">x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">253</span><span class="p">:</span>
@@ -694,7 +700,7 @@
 
 <span class="c1"># WTF, Electrum?</span>
 <div class="viewcode-block" id="electrum_sig_hash">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.electrum_sig_hash">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.electrum_sig_hash">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">electrum_sig_hash</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
     <span class="n">padded</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x18</span><span class="s2">Bitcoin Signed Message:</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">num_to_var_int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">message</span><span class="p">))</span> <span class="o">+</span> <span class="n">from_string_to_bytes</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">bin_dbl_sha256</span><span class="p">(</span><span class="n">padded</span><span class="p">)</span></div>
@@ -702,7 +708,7 @@
 
 
 <div class="viewcode-block" id="random_key">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.random_key">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.random_key">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">random_key</span><span class="p">():</span>
     <span class="c1"># Gotta be secure after that java.SecureRandom fiasco...</span>
     <span class="n">entropy</span> <span class="o">=</span> <span class="n">random_string</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> \
@@ -713,7 +719,7 @@
 
 
 <div class="viewcode-block" id="random_electrum_seed">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.random_electrum_seed">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.random_electrum_seed">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">random_electrum_seed</span><span class="p">():</span>
     <span class="c1"># entropy = os.urandom(32) \ # fails in Python 3, hence copied from random_key()</span>
     <span class="n">entropy</span> <span class="o">=</span> <span class="n">random_string</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> \
@@ -726,7 +732,7 @@
 <span class="c1"># Encodings</span>
 
 <div class="viewcode-block" id="b58check_to_bin">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.b58check_to_bin">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.b58check_to_bin">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">b58check_to_bin</span><span class="p">(</span><span class="n">inp</span><span class="p">):</span>
     <span class="n">leadingzbytes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^1*&#39;</span><span class="p">,</span> <span class="n">inp</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
     <span class="n">data</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="n">leadingzbytes</span> <span class="o">+</span> <span class="n">changebase</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>
@@ -736,7 +742,7 @@
 
 
 <div class="viewcode-block" id="get_version_byte">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.get_version_byte">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.get_version_byte">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_version_byte</span><span class="p">(</span><span class="n">inp</span><span class="p">):</span>
     <span class="n">leadingzbytes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^1*&#39;</span><span class="p">,</span> <span class="n">inp</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
     <span class="n">data</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="n">leadingzbytes</span> <span class="o">+</span> <span class="n">changebase</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>
@@ -746,21 +752,21 @@
 
 
 <div class="viewcode-block" id="hex_to_b58check">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.hex_to_b58check">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.hex_to_b58check">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">hex_to_b58check</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="n">magicbyte</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">bin_to_b58check</span><span class="p">(</span><span class="n">binascii</span><span class="o">.</span><span class="n">unhexlify</span><span class="p">(</span><span class="n">inp</span><span class="p">),</span> <span class="n">magicbyte</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="b58check_to_hex">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.b58check_to_hex">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.b58check_to_hex">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">b58check_to_hex</span><span class="p">(</span><span class="n">inp</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">safe_hexlify</span><span class="p">(</span><span class="n">b58check_to_bin</span><span class="p">(</span><span class="n">inp</span><span class="p">))</span></div>
 
 
 
 <div class="viewcode-block" id="pubkey_to_hash">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.pubkey_to_hash">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.pubkey_to_hash">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">pubkey_to_hash</span><span class="p">(</span><span class="n">pubkey</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
         <span class="n">pubkey</span> <span class="o">=</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="s1">&#39;bin&#39;</span><span class="p">)</span>
@@ -771,14 +777,14 @@
 
 
 <div class="viewcode-block" id="pubkey_to_hash_hex">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.pubkey_to_hash_hex">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.pubkey_to_hash_hex">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">pubkey_to_hash_hex</span><span class="p">(</span><span class="n">pubkey</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">safe_hexlify</span><span class="p">(</span><span class="n">pubkey_to_hash</span><span class="p">(</span><span class="n">pubkey</span><span class="p">))</span></div>
 
 
 
 <div class="viewcode-block" id="pubkey_to_address">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.pubkey_to_address">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.pubkey_to_address">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">pubkey_to_address</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">magicbyte</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="n">pubkey_hash</span> <span class="o">=</span> <span class="n">pubkey_to_hash</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">bin_to_b58check</span><span class="p">(</span><span class="n">pubkey_hash</span><span class="p">,</span> <span class="n">magicbyte</span><span class="p">)</span></div>
@@ -789,23 +795,23 @@
 
 
 <div class="viewcode-block" id="is_privkey">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.is_privkey">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.is_privkey">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_privkey</span><span class="p">(</span><span class="n">priv</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">get_privkey_format</span><span class="p">(</span><span class="n">priv</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span>
-    <span class="k">except</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span></div>
 
 
 
 <div class="viewcode-block" id="is_pubkey">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.is_pubkey">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.is_pubkey">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_pubkey</span><span class="p">(</span><span class="n">pubkey</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">get_pubkey_format</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span>
-    <span class="k">except</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span></div>
 
 
@@ -814,7 +820,7 @@
 
 
 <div class="viewcode-block" id="encode_sig">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.encode_sig">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.encode_sig">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">encode_sig</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
     <span class="n">vb</span><span class="p">,</span> <span class="n">rb</span><span class="p">,</span> <span class="n">sb</span> <span class="o">=</span> <span class="n">from_int_to_byte</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">encode</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="mi">256</span><span class="p">),</span> <span class="n">encode</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>
 
@@ -824,7 +830,7 @@
 
 
 <div class="viewcode-block" id="decode_sig">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.decode_sig">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.decode_sig">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">decode_sig</span><span class="p">(</span><span class="n">sig</span><span class="p">):</span>
     <span class="n">bytez</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">sig</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">from_byte_to_int</span><span class="p">(</span><span class="n">bytez</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">decode</span><span class="p">(</span><span class="n">bytez</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">33</span><span class="p">],</span> <span class="mi">256</span><span class="p">),</span> <span class="n">decode</span><span class="p">(</span><span class="n">bytez</span><span class="p">[</span><span class="mi">33</span><span class="p">:],</span> <span class="mi">256</span><span class="p">)</span></div>
@@ -835,7 +841,7 @@
 
 
 <div class="viewcode-block" id="deterministic_generate_k">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.deterministic_generate_k">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.deterministic_generate_k">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">deterministic_generate_k</span><span class="p">(</span><span class="n">msghash</span><span class="p">,</span> <span class="n">priv</span><span class="p">):</span>
     <span class="n">v</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x01</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="mi">32</span>
     <span class="n">k</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="mi">32</span>
@@ -850,7 +856,7 @@
 
 
 <div class="viewcode-block" id="ecdsa_raw_sign">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.ecdsa_raw_sign">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.ecdsa_raw_sign">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">ecdsa_raw_sign</span><span class="p">(</span><span class="n">msghash</span><span class="p">,</span> <span class="n">priv</span><span class="p">):</span>
     <span class="n">z</span> <span class="o">=</span> <span class="n">hash_to_int</span><span class="p">(</span><span class="n">msghash</span><span class="p">)</span>
     <span class="n">k</span> <span class="o">=</span> <span class="n">deterministic_generate_k</span><span class="p">(</span><span class="n">msghash</span><span class="p">,</span> <span class="n">priv</span><span class="p">)</span>
@@ -866,7 +872,7 @@
 
 
 <div class="viewcode-block" id="ecdsa_sign">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.ecdsa_sign">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.ecdsa_sign">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">ecdsa_sign</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">priv</span><span class="p">,</span> <span class="n">coin</span><span class="p">):</span>
     <span class="n">v</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">ecdsa_raw_sign</span><span class="p">(</span><span class="n">electrum_sig_hash</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="n">priv</span><span class="p">)</span>
     <span class="n">sig</span> <span class="o">=</span> <span class="n">encode_sig</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
@@ -877,7 +883,7 @@
 
 
 <div class="viewcode-block" id="ecdsa_raw_verify">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.ecdsa_raw_verify">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.ecdsa_raw_verify">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">ecdsa_raw_verify</span><span class="p">(</span><span class="n">msghash</span><span class="p">,</span> <span class="n">vrs</span><span class="p">,</span> <span class="n">pub</span><span class="p">):</span>
     <span class="n">v</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">vrs</span>
 
@@ -892,7 +898,7 @@
 
 <span class="c1"># For BitcoinCore, (msg = addr or msg = &quot;&quot;) be default</span>
 <div class="viewcode-block" id="ecdsa_verify_addr">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.ecdsa_verify_addr">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.ecdsa_verify_addr">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">ecdsa_verify_addr</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">sig</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">coin</span><span class="p">):</span>
     <span class="k">assert</span> <span class="n">coin</span><span class="o">.</span><span class="n">is_address</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span>
     <span class="n">Q</span> <span class="o">=</span> <span class="n">ecdsa_recover</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">sig</span><span class="p">)</span>
@@ -902,7 +908,7 @@
 
 
 <div class="viewcode-block" id="ecdsa_verify">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.ecdsa_verify">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.ecdsa_verify">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">ecdsa_verify</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">sig</span><span class="p">,</span> <span class="n">pub</span><span class="p">,</span> <span class="n">coin</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">coin</span><span class="o">.</span><span class="n">is_address</span><span class="p">(</span><span class="n">pub</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">ecdsa_verify_addr</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">sig</span><span class="p">,</span> <span class="n">pub</span><span class="p">,</span> <span class="n">coin</span><span class="p">)</span>
@@ -911,7 +917,7 @@
 
 
 <div class="viewcode-block" id="ecdsa_raw_recover">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.ecdsa_raw_recover">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.ecdsa_raw_recover">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">ecdsa_raw_recover</span><span class="p">(</span><span class="n">msghash</span><span class="p">,</span> <span class="n">vrs</span><span class="p">):</span>
     <span class="n">v</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">vrs</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">r</span>
@@ -936,7 +942,7 @@
 
 
 <div class="viewcode-block" id="ecdsa_recover">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.ecdsa_recover">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.ecdsa_recover">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">ecdsa_recover</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">sig</span><span class="p">):</span>
     <span class="n">v</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">decode_sig</span><span class="p">(</span><span class="n">sig</span><span class="p">)</span>
     <span class="n">Q</span> <span class="o">=</span> <span class="n">ecdsa_raw_recover</span><span class="p">(</span><span class="n">electrum_sig_hash</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">s</span><span class="p">))</span>
@@ -946,7 +952,7 @@
 
 <span class="c1"># add/subtract</span>
 <div class="viewcode-block" id="add">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.add">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.add">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">is_privkey</span><span class="p">(</span><span class="n">p1</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">add_privkeys</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
@@ -956,7 +962,7 @@
 
 
 <div class="viewcode-block" id="subtract">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.subtract">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.subtract">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">subtract</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">is_privkey</span><span class="p">(</span><span class="n">p1</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">subtract_privkeys</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
@@ -970,14 +976,162 @@
 
 
 <div class="viewcode-block" id="magicbyte_to_prefix">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.magicbyte_to_prefix">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.magicbyte_to_prefix">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">magicbyte_to_prefix</span><span class="p">(</span><span class="n">magicbyte</span><span class="p">):</span>
+    <span class="c1"># Always return a 2-tuple of the low/high address prefix characters.</span>
+    <span class="c1"># Callers only test membership over these, so a repeated character when</span>
+    <span class="c1"># first == last is harmless and keeps the return shape consistent.</span>
     <span class="n">first</span> <span class="o">=</span> <span class="n">bin_to_b58check</span><span class="p">(</span><span class="n">hash160Low</span><span class="p">,</span> <span class="n">magicbyte</span><span class="o">=</span><span class="n">magicbyte</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">last</span> <span class="o">=</span> <span class="n">bin_to_b58check</span><span class="p">(</span><span class="n">hash160High</span><span class="p">,</span> <span class="n">magicbyte</span><span class="o">=</span><span class="n">magicbyte</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">first</span> <span class="o">==</span> <span class="n">last</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">first</span><span class="p">,)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">)</span></div>
 
+
+
+<span class="c1"># Explicit public API (added to satisfy CodeQL py/polluting-import).</span>
+<span class="c1"># Lists the names this module already exported via &#39;import *&#39;, so wildcard</span>
+<span class="c1"># import behaviour is unchanged.</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;A&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;B&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;F0&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;F1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;F2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;F3&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;F4&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;G&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Gx&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Gy&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;K0&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;K1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;K2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;K3&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;K4&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;KK0&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;KK1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;KK2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;KK3&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;KK4&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;N&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;P&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PADDING&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;R&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;RIPEMD160&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;RMD160Final&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;RMD160Transform&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;RMD160Update&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;RMDContext&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ROL&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;access&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;add&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;add_privkeys&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;add_pubkeys&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;b58check_to_bin&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;b58check_to_hex&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;base64&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bin_dbl_sha256&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bin_hash160&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bin_ripemd160&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bin_sha256&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bin_slowsha&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bin_to_b58check&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;binascii&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bytes_to_hex_string&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;change_curve&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;changebase&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;code_strings&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;compress&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;count&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dbl_sha256&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;decode&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;decode_privkey&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;decode_pubkey&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;decode_sig&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;decompress&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;deterministic_generate_k&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;digest_size&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;digestsize&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;divide&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ecdsa_raw_recover&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ecdsa_raw_sign&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ecdsa_raw_verify&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ecdsa_recover&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ecdsa_sign&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ecdsa_verify&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ecdsa_verify_addr&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;electrum_sig_hash&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;encode&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;encode_privkey&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;encode_pubkey&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;encode_sig&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fast_add&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fast_multiply&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;from_byte_to_int&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;from_int_representation_to_bytes&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;from_int_to_byte&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;from_jacobian&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;from_string_to_bytes&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;getG&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_code_string&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_privkey_format&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_pubkey_format&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_version_byte&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hash160&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hash160High&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hash160Low&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hash_to_int&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hashlib&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hex_to_b58check&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hex_to_hash160&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hmac&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;int_types&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;inv&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;is_privkey&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;is_pubkey&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;is_python2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;isinf&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;jacobian_add&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;jacobian_double&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;jacobian_multiply&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lpad&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;magicbyte_to_prefix&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;mul_privkeys&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;multiaccess&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;multiply&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;neg_privkey&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;neg_pubkey&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;new&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;num_to_var_int&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;os&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;privkey_to_address&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;privkey_to_pubkey&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;privtoaddr&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;privtopub&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pubkey_to_address&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pubkey_to_hash&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pubkey_to_hash_hex&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pubtoaddr&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;random&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;random_electrum_seed&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;random_key&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;random_string&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;re&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ripemd160&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;safe_from_hex&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;safe_hexlify&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sha256&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;slice&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;slowsha&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;string_or_bytes_types&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;string_types&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;struct&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;subtract&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;subtract_privkeys&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;subtract_pubkeys&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sum&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sys&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;time&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;to_jacobian&quot;</span><span class="p">,</span>
+<span class="p">]</span>
 </pre></div>
 
            </div>
