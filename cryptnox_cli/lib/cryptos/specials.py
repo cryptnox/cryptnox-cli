@@ -138,32 +138,3 @@ def decode(string, base):
 
 def random_string(x):
     return str(os.urandom(x))
-
-
-# Explicit public API (added to satisfy CodeQL py/polluting-import).
-# Lists the names this module already exported via 'import *', so wildcard
-# import behaviour is unchanged.
-__all__ = [
-    "bin_dbl_sha256",
-    "bin_to_b58check",
-    "binascii",
-    "bytes_to_hex_string",
-    "changebase",
-    "code_strings",
-    "decode",
-    "encode",
-    "from_byte_to_int",
-    "from_int_representation_to_bytes",
-    "from_int_to_byte",
-    "from_string_to_bytes",
-    "get_code_string",
-    "hashlib",
-    "int_types",
-    "lpad",
-    "os",
-    "random_string",
-    "safe_from_hex",
-    "safe_hexlify",
-    "string_or_bytes_types",
-    "string_types",
-]

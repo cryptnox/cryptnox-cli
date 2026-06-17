@@ -104,21 +104,3 @@ def ephem_pubkey_from_tx_script(stealth_tx_script):
     if len(stealth_tx_script) != 80:
         raise Exception('Wrong format for stealth tx output')
     return stealth_tx_script[14:]
-
-
-# Explicit public API (added to satisfy CodeQL py/polluting-import).
-# Lists the names this module already exported via 'import *', so wildcard
-# import behaviour is unchanged.
-__all__ = [
-    "basic_stealth_address_to_pubkeys",
-    "ephem_pubkey_from_tx_script",
-    "main",
-    "mk_stealth_metadata_script",
-    "mk_stealth_tx_outputs",
-    "pubkeys_to_basic_stealth_address",
-    "shared_secret_receiver",
-    "shared_secret_sender",
-    "uncover_pay_privkey",
-    "uncover_pay_pubkey_receiver",
-    "uncover_pay_pubkey_sender",
-]

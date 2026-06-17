@@ -410,39 +410,3 @@ assert '132072df690933835eb8b6ad0b77e7b6f14acad7' == \
        new('The quick brown fox jumps over the lazy cog').hexdigest()
 assert '9c1185a5c5e9fc54612808977ee8f548b2258d31' == \
        new('').hexdigest()
-
-
-# Explicit public API (added to satisfy CodeQL py/polluting-import).
-# Lists the names this module already exported via 'import *', so wildcard
-# import behaviour is unchanged.
-__all__ = [
-    "F0",
-    "F1",
-    "F2",
-    "F3",
-    "F4",
-    "K0",
-    "K1",
-    "K2",
-    "K3",
-    "K4",
-    "KK0",
-    "KK1",
-    "KK2",
-    "KK3",
-    "KK4",
-    "PADDING",
-    "R",
-    "RIPEMD160",
-    "RMD160Final",
-    "RMD160Transform",
-    "RMD160Update",
-    "RMDContext",
-    "ROL",
-    "digest_size",
-    "digestsize",
-    "is_python2",
-    "new",
-    "struct",
-    "sys",
-]

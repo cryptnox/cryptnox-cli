@@ -44,12 +44,3 @@ class Bitcoin(BaseCoin):
             'p2wsh': 0x2aa7ed3
         },
     }
-
-
-# Explicit public API (added to satisfy CodeQL py/polluting-import).
-# Lists the names this module already exported via 'import *', so wildcard
-# import behaviour is unchanged.
-__all__ = [
-    "BaseCoin",
-    "Bitcoin",
-]
