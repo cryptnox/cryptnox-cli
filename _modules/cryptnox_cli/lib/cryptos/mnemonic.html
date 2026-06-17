@@ -141,7 +141,7 @@
 
 
 <div class="viewcode-block" id="is_CJK">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.keystore.is_CJK">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.mnemonic.is_CJK">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_CJK</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">imin</span><span class="p">,</span> <span class="n">imax</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">CJK_INTERVALS</span><span class="p">:</span>
@@ -151,7 +151,7 @@
 
 
 <div class="viewcode-block" id="normalize_text">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.keystore.normalize_text">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.mnemonic.normalize_text">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">normalize_text</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
     <span class="c1"># normalize</span>
     <span class="n">seed</span> <span class="o">=</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s1">&#39;NFKD&#39;</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
@@ -169,7 +169,7 @@
 
 
 <div class="viewcode-block" id="eint_to_bytes">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.keystore.eint_to_bytes">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.mnemonic.eint_to_bytes">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">eint_to_bytes</span><span class="p">(</span><span class="n">entint</span><span class="p">,</span> <span class="n">entbits</span><span class="p">):</span>
     <span class="n">a</span> <span class="o">=</span> <span class="nb">hex</span><span class="p">(</span><span class="n">entint</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
@@ -178,7 +178,7 @@
 
 
 <div class="viewcode-block" id="mnemonic_int_to_words">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.keystore.mnemonic_int_to_words">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.mnemonic.mnemonic_int_to_words">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">mnemonic_int_to_words</span><span class="p">(</span><span class="n">mint</span><span class="p">,</span> <span class="n">mint_num_words</span><span class="p">,</span> <span class="n">wordlist</span><span class="o">=</span><span class="n">wordlist_english</span><span class="p">):</span>
     <span class="n">backwords</span> <span class="o">=</span> <span class="p">[</span><span class="n">wordlist</span><span class="p">[(</span><span class="n">mint</span> <span class="o">&gt;&gt;</span> <span class="p">(</span><span class="mi">11</span> <span class="o">*</span> <span class="n">x</span><span class="p">))</span> <span class="o">&amp;</span> <span class="mh">0x7FF</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mint_num_words</span><span class="p">)]</span>
     <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">backwords</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span></div>
@@ -186,7 +186,7 @@
 
 
 <div class="viewcode-block" id="entropy_cs">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.keystore.entropy_cs">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.mnemonic.entropy_cs">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">entropy_cs</span><span class="p">(</span><span class="n">entbytes</span><span class="p">):</span>
     <span class="n">entropy_size</span> <span class="o">=</span> <span class="mi">8</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">entbytes</span><span class="p">)</span>
     <span class="n">checksum_size</span> <span class="o">=</span> <span class="n">entropy_size</span> <span class="o">//</span> <span class="mi">32</span>
@@ -197,7 +197,7 @@
 
 
 <div class="viewcode-block" id="entropy_to_words">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.keystore.entropy_to_words">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.mnemonic.entropy_to_words">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">entropy_to_words</span><span class="p">(</span><span class="n">entbytes</span><span class="p">,</span> <span class="n">wordlist</span><span class="o">=</span><span class="n">wordlist_english</span><span class="p">):</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">entbytes</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">4</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">entbytes</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The size of the entropy must be a multiple of 4 bytes (multiple of 32 bits)&quot;</span><span class="p">)</span>
@@ -212,7 +212,7 @@
 
 
 <div class="viewcode-block" id="words_bisect">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.keystore.words_bisect">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.mnemonic.words_bisect">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">words_bisect</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">wordlist</span><span class="o">=</span><span class="n">wordlist_english</span><span class="p">):</span>
     <span class="n">lo</span> <span class="o">=</span> <span class="n">bisect_left</span><span class="p">(</span><span class="n">wordlist</span><span class="p">,</span> <span class="n">word</span><span class="p">)</span>
     <span class="n">hi</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">wordlist</span><span class="p">)</span> <span class="o">-</span> <span class="n">bisect_left</span><span class="p">(</span><span class="n">wordlist</span><span class="p">[:</span><span class="n">lo</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">word</span><span class="p">)</span>
@@ -222,7 +222,7 @@
 
 
 <div class="viewcode-block" id="words_split">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.keystore.words_split">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.mnemonic.words_split">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">words_split</span><span class="p">(</span><span class="n">wordstr</span><span class="p">,</span> <span class="n">wordlist</span><span class="o">=</span><span class="n">wordlist_english</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">popword</span><span class="p">(</span><span class="n">wordstr</span><span class="p">,</span> <span class="n">wordlist</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">fwl</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">):</span>
@@ -243,7 +243,7 @@
 
 
 <div class="viewcode-block" id="words_to_mnemonic_int">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.keystore.words_to_mnemonic_int">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.mnemonic.words_to_mnemonic_int">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">words_to_mnemonic_int</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="n">wordlist</span><span class="o">=</span><span class="n">wordlist_english</span><span class="p">):</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
         <span class="n">words</span> <span class="o">=</span> <span class="n">words</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
@@ -252,7 +252,7 @@
 
 
 <div class="viewcode-block" id="words_verify">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.keystore.words_verify">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.mnemonic.words_verify">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">words_verify</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="n">wordlist</span><span class="o">=</span><span class="n">wordlist_english</span><span class="p">):</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
         <span class="n">words</span> <span class="o">=</span> <span class="n">words_split</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="n">wordlist</span><span class="p">)</span>
@@ -269,7 +269,7 @@
 
 
 <div class="viewcode-block" id="bip39_normalize_passphrase">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.keystore.bip39_normalize_passphrase">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.mnemonic.bip39_normalize_passphrase">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">bip39_normalize_passphrase</span><span class="p">(</span><span class="n">passphrase</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s1">&#39;NFKD&#39;</span><span class="p">,</span> <span class="n">passphrase</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span><span class="p">)</span></div>
 
@@ -277,7 +277,7 @@
 
 <span class="c1"># returns tuple (is_checksum_valid, is_wordlist_valid)</span>
 <div class="viewcode-block" id="bip39_is_checksum_valid">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.keystore.bip39_is_checksum_valid">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.mnemonic.bip39_is_checksum_valid">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">bip39_is_checksum_valid</span><span class="p">(</span><span class="n">mnemonic</span><span class="p">):</span>
     <span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="n">unicodedata</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s1">&#39;NFKD&#39;</span><span class="p">,</span> <span class="n">word</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">mnemonic</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span>
     <span class="n">words_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
@@ -308,7 +308,7 @@
 
 
 <div class="viewcode-block" id="mnemonic_to_seed">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.keystore.mnemonic_to_seed">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.mnemonic.mnemonic_to_seed">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">mnemonic_to_seed</span><span class="p">(</span><span class="n">mnemonic_phrase</span><span class="p">,</span> <span class="n">passphrase</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">passphrase_prefix</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;mnemonic&quot;</span><span class="p">):</span>
     <span class="n">passphrase</span> <span class="o">=</span> <span class="n">bip39_normalize_passphrase</span><span class="p">(</span><span class="n">passphrase</span><span class="p">)</span>
     <span class="n">passphrase</span> <span class="o">=</span> <span class="n">from_string_to_bytes</span><span class="p">(</span><span class="n">passphrase</span><span class="p">)</span>
@@ -322,7 +322,7 @@
 
 
 <div class="viewcode-block" id="bip39_mnemonic_to_seed">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.keystore.bip39_mnemonic_to_seed">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.mnemonic.bip39_mnemonic_to_seed">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">bip39_mnemonic_to_seed</span><span class="p">(</span><span class="n">mnemonic_phrase</span><span class="p">,</span> <span class="n">passphrase</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">bip39_is_checksum_valid</span><span class="p">(</span><span class="n">mnemonic_phrase</span><span class="p">)[</span><span class="mi">1</span><span class="p">]:</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;BIP39 Checksum is invalid for this mnemonic&quot;</span><span class="p">)</span>
@@ -331,21 +331,21 @@
 
 
 <div class="viewcode-block" id="electrum_mnemonic_to_seed">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.keystore.electrum_mnemonic_to_seed">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.mnemonic.electrum_mnemonic_to_seed">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">electrum_mnemonic_to_seed</span><span class="p">(</span><span class="n">mnemonic_phrase</span><span class="p">,</span> <span class="n">passphrase</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="p">):</span>
     <span class="k">return</span> <span class="n">mnemonic_to_seed</span><span class="p">(</span><span class="n">mnemonic_phrase</span><span class="p">,</span> <span class="n">passphrase</span><span class="o">=</span><span class="n">passphrase</span><span class="p">,</span> <span class="n">passphrase_prefix</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;electrum&quot;</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="is_old_seed">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.keystore.is_old_seed">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.mnemonic.is_old_seed">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_old_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
     <span class="k">return</span> <span class="kc">False</span></div>
 
 
 
 <div class="viewcode-block" id="seed_prefix">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.keystore.seed_prefix">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.mnemonic.seed_prefix">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">seed_prefix</span><span class="p">(</span><span class="n">seed_type</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">seed_type</span> <span class="o">==</span> <span class="s1">&#39;standard&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">SEED_PREFIX</span>
@@ -358,7 +358,7 @@
 
 
 <div class="viewcode-block" id="seed_type">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.keystore.seed_type">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.mnemonic.seed_type">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">seed_type</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">is_old_seed</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
         <span class="k">return</span> <span class="s1">&#39;old&#39;</span>
@@ -376,7 +376,7 @@
 
 
 <div class="viewcode-block" id="words_mine">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.keystore.words_mine">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.mnemonic.words_mine">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">words_mine</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">entbits</span><span class="p">,</span> <span class="n">satisfunction</span><span class="p">,</span> <span class="n">wordlist</span><span class="o">=</span><span class="n">wordlist_english</span><span class="p">,</span> <span class="n">randombits</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">getrandbits</span><span class="p">):</span>
     <span class="n">prefix_bits</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="o">*</span> <span class="mi">11</span>
     <span class="n">mine_bits</span> <span class="o">=</span> <span class="n">entbits</span> <span class="o">-</span> <span class="n">prefix_bits</span>
@@ -391,69 +391,6 @@
 
     <span class="k">return</span> <span class="n">entropy_to_words</span><span class="p">(</span><span class="n">eint_to_bytes</span><span class="p">(</span><span class="n">pint</span> <span class="o">+</span> <span class="n">dint</span><span class="p">,</span> <span class="n">entbits</span><span class="p">))</span></div>
 
-
-
-<span class="c1"># Explicit public API (added to satisfy CodeQL py/polluting-import).</span>
-<span class="c1"># Lists the names this module already exported via &#39;import *&#39;, so wildcard</span>
-<span class="c1"># import behaviour is unchanged.</span>
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;CJK_INTERVALS&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;ELECTRUM_VERSION&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;PBKDF2&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;PROTOCOL_VERSION&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;SEED_PREFIX&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;SEED_PREFIX_2FA&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;SEED_PREFIX_SW&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bin_dbl_sha256&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bin_to_b58check&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;binascii&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bip39_is_checksum_valid&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bip39_mnemonic_to_seed&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bip39_normalize_passphrase&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bisect_left&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bytes_to_hex_string&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;changebase&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;code_strings&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;decode&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;eint_to_bytes&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;electrum_mnemonic_to_seed&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;encode&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;entropy_cs&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;entropy_to_words&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;from_byte_to_int&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;from_int_representation_to_bytes&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;from_int_to_byte&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;from_string_to_bytes&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;get_code_string&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;hashlib&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;hmac&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;int_types&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;is_CJK&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;is_new_seed&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;is_old_seed&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;is_seed&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;lpad&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;mnemonic_int_to_words&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;mnemonic_to_seed&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;normalize_text&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;os&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;random&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;random_string&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;safe_from_hex&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;safe_hexlify&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;seed_prefix&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;seed_type&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;string_or_bytes_types&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;string_types&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;unicodedata&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;whitespace&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;wordlist_english&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;words_bisect&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;words_mine&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;words_split&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;words_to_mnemonic_int&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;words_verify&quot;</span><span class="p">,</span>
-<span class="p">]</span>
 </pre></div>
 
            </div>

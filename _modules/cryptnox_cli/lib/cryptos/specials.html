@@ -98,7 +98,7 @@
 
 
 <div class="viewcode-block" id="bin_dbl_sha256">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.bin_dbl_sha256">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.specials.bin_dbl_sha256">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">bin_dbl_sha256</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
     <span class="n">bytes_to_hash</span> <span class="o">=</span> <span class="n">from_string_to_bytes</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">bytes_to_hash</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">())</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span></div>
@@ -106,7 +106,7 @@
 
 
 <div class="viewcode-block" id="lpad">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.lpad">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.specials.lpad">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">lpad</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">length</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">msg</span>
@@ -115,7 +115,7 @@
 
 
 <div class="viewcode-block" id="get_code_string">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.get_code_string">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.specials.get_code_string">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_code_string</span><span class="p">(</span><span class="n">base</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">base</span> <span class="ow">in</span> <span class="n">code_strings</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">code_strings</span><span class="p">[</span><span class="n">base</span><span class="p">]</span>
@@ -125,7 +125,7 @@
 
 
 <div class="viewcode-block" id="changebase">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.changebase">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.specials.changebase">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">changebase</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">frm</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">minlen</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">frm</span> <span class="o">==</span> <span class="n">to</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">lpad</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">get_code_string</span><span class="p">(</span><span class="n">frm</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">minlen</span><span class="p">)</span>
@@ -134,7 +134,7 @@
 
 
 <div class="viewcode-block" id="bin_to_b58check">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.bin_to_b58check">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.specials.bin_to_b58check">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">bin_to_b58check</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="n">magicbyte</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">magicbyte</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">inp</span> <span class="o">=</span> <span class="n">from_int_to_byte</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">inp</span>
@@ -154,7 +154,7 @@
 
 
 <div class="viewcode-block" id="bytes_to_hex_string">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.bytes_to_hex_string">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.specials.bytes_to_hex_string">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">bytes_to_hex_string</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">b</span>
@@ -164,49 +164,49 @@
 
 
 <div class="viewcode-block" id="safe_from_hex">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.safe_from_hex">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.specials.safe_from_hex">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">safe_from_hex</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="from_int_representation_to_bytes">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.from_int_representation_to_bytes">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.specials.from_int_representation_to_bytes">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">from_int_representation_to_bytes</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">bytes</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="from_int_to_byte">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.from_int_to_byte">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.specials.from_int_to_byte">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">from_int_to_byte</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">bytes</span><span class="p">([</span><span class="n">a</span><span class="p">])</span></div>
 
 
 
 <div class="viewcode-block" id="from_byte_to_int">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.from_byte_to_int">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.specials.from_byte_to_int">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">from_byte_to_int</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">a</span></div>
 
 
 
 <div class="viewcode-block" id="from_string_to_bytes">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.from_string_to_bytes">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.specials.from_string_to_bytes">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">from_string_to_bytes</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">a</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)</span> <span class="k">else</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="safe_hexlify">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.safe_hexlify">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.specials.safe_hexlify">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">safe_hexlify</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">binascii</span><span class="o">.</span><span class="n">hexlify</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="encode">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.encode">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.specials.encode">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">encode</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">minlen</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="n">base</span><span class="p">,</span> <span class="n">minlen</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">base</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">minlen</span><span class="p">)</span>
     <span class="n">code_string</span> <span class="o">=</span> <span class="n">get_code_string</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
@@ -231,7 +231,7 @@
 
 
 <div class="viewcode-block" id="decode">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.decode">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.specials.decode">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">decode</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">base</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">base</span> <span class="o">==</span> <span class="mi">256</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">string</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="nb">bytearray</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
@@ -256,39 +256,10 @@
 
 
 <div class="viewcode-block" id="random_string">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.random_string">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.specials.random_string">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">random_string</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="n">x</span><span class="p">))</span></div>
 
-
-
-<span class="c1"># Explicit public API (added to satisfy CodeQL py/polluting-import).</span>
-<span class="c1"># Lists the names this module already exported via &#39;import *&#39;, so wildcard</span>
-<span class="c1"># import behaviour is unchanged.</span>
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;bin_dbl_sha256&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bin_to_b58check&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;binascii&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bytes_to_hex_string&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;changebase&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;code_strings&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;decode&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;encode&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;from_byte_to_int&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;from_int_representation_to_bytes&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;from_int_to_byte&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;from_string_to_bytes&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;get_code_string&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;hashlib&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;int_types&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;lpad&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;os&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;random_string&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;safe_from_hex&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;safe_hexlify&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;string_or_bytes_types&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;string_types&quot;</span><span class="p">,</span>
-<span class="p">]</span>
 </pre></div>
 
            </div>

@@ -88,7 +88,7 @@
 
 
 <div class="viewcode-block" id="electrum_stretch">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.composite.electrum_stretch">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.deterministic.electrum_stretch">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">electrum_stretch</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">slowsha</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span></div>
 
@@ -97,7 +97,7 @@
 
 
 <div class="viewcode-block" id="electrum_mpk">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.composite.electrum_mpk">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.deterministic.electrum_mpk">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">electrum_mpk</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span> <span class="o">==</span> <span class="mi">32</span><span class="p">:</span>
         <span class="n">seed</span> <span class="o">=</span> <span class="n">electrum_stretch</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
@@ -109,7 +109,7 @@
 
 
 <div class="viewcode-block" id="electrum_privkey">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.composite.electrum_privkey">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.deterministic.electrum_privkey">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">electrum_privkey</span><span class="p">(</span><span class="n">seed</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">for_change</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span> <span class="o">==</span> <span class="mi">32</span><span class="p">:</span>
         <span class="n">seed</span> <span class="o">=</span> <span class="n">electrum_stretch</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
@@ -123,7 +123,7 @@
 
 
 <div class="viewcode-block" id="electrum_pubkey">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.composite.electrum_pubkey">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.deterministic.electrum_pubkey">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">electrum_pubkey</span><span class="p">(</span><span class="n">masterkey</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">for_change</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">masterkey</span><span class="p">)</span> <span class="o">==</span> <span class="mi">32</span><span class="p">:</span>
         <span class="n">mpk</span> <span class="o">=</span> <span class="n">electrum_mpk</span><span class="p">(</span><span class="n">electrum_stretch</span><span class="p">(</span><span class="n">masterkey</span><span class="p">))</span>
@@ -140,7 +140,7 @@
 
 
 <div class="viewcode-block" id="electrum_address">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.composite.electrum_address">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.deterministic.electrum_address">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">electrum_address</span><span class="p">(</span><span class="n">masterkey</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">for_change</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">magicbyte</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">pubkey_to_address</span><span class="p">(</span><span class="n">electrum_pubkey</span><span class="p">(</span><span class="n">masterkey</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">for_change</span><span class="p">),</span> <span class="n">magicbyte</span><span class="p">)</span></div>
 
@@ -151,7 +151,7 @@
 
 
 <div class="viewcode-block" id="crack_electrum_wallet">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.composite.crack_electrum_wallet">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.deterministic.crack_electrum_wallet">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">crack_electrum_wallet</span><span class="p">(</span><span class="n">mpk</span><span class="p">,</span> <span class="n">pk</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">for_change</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="n">bin_mpk</span> <span class="o">=</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">mpk</span><span class="p">,</span> <span class="s1">&#39;bin_electrum&#39;</span><span class="p">)</span>
     <span class="n">offset</span> <span class="o">=</span> <span class="n">dbl_sha256</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;:&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">for_change</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;:&#39;</span><span class="o">+</span><span class="n">bin_mpk</span><span class="p">)</span>
@@ -171,7 +171,7 @@
 
 
 <div class="viewcode-block" id="raw_bip32_ckd">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.composite.raw_bip32_ckd">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.deterministic.raw_bip32_ckd">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">raw_bip32_ckd</span><span class="p">(</span><span class="n">rawtuple</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">prefixes</span><span class="o">=</span><span class="n">DEFAULT</span><span class="p">):</span>
     <span class="n">vbytes</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">fingerprint</span><span class="p">,</span> <span class="n">oldi</span><span class="p">,</span> <span class="n">chaincode</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">rawtuple</span>
     <span class="n">i</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
@@ -203,7 +203,7 @@
 
 
 <div class="viewcode-block" id="bip32_serialize">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.composite.bip32_serialize">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.deterministic.bip32_serialize">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">bip32_serialize</span><span class="p">(</span><span class="n">rawtuple</span><span class="p">,</span> <span class="n">prefixes</span><span class="o">=</span><span class="n">DEFAULT</span><span class="p">):</span>
     <span class="n">vbytes</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">fingerprint</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">chaincode</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">rawtuple</span>
     <span class="n">i</span> <span class="o">=</span> <span class="n">encode</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
@@ -215,7 +215,7 @@
 
 
 <div class="viewcode-block" id="bip32_deserialize">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.composite.bip32_deserialize">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.deterministic.bip32_deserialize">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">bip32_deserialize</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">prefixes</span><span class="o">=</span><span class="n">DEFAULT</span><span class="p">):</span>
     <span class="n">dbin</span> <span class="o">=</span> <span class="n">changebase</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">bin_dbl_sha256</span><span class="p">(</span><span class="n">dbin</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">])[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">!=</span> <span class="n">dbin</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]:</span>
@@ -231,7 +231,7 @@
 
 
 <div class="viewcode-block" id="is_xprv">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.composite.is_xprv">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.deterministic.is_xprv">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_xprv</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">prefixes</span><span class="o">=</span><span class="n">DEFAULT</span><span class="p">):</span>
     <span class="n">vbytes</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">fingerprint</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">chaincode</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">bip32_deserialize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">prefixes</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">vbytes</span> <span class="o">==</span> <span class="n">prefixes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
@@ -239,7 +239,7 @@
 
 
 <div class="viewcode-block" id="is_xpub">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.composite.is_xpub">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.deterministic.is_xpub">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_xpub</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">prefixes</span><span class="o">=</span><span class="n">DEFAULT</span><span class="p">):</span>
     <span class="n">vbytes</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">fingerprint</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">chaincode</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">bip32_deserialize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">prefixes</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">vbytes</span> <span class="o">==</span> <span class="n">prefixes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div>
@@ -247,7 +247,7 @@
 
 
 <div class="viewcode-block" id="raw_bip32_privtopub">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.composite.raw_bip32_privtopub">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.deterministic.raw_bip32_privtopub">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">raw_bip32_privtopub</span><span class="p">(</span><span class="n">rawtuple</span><span class="p">,</span> <span class="n">prefixes</span><span class="o">=</span><span class="n">DEFAULT</span><span class="p">):</span>
     <span class="n">vbytes</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">fingerprint</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">chaincode</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">rawtuple</span>
     <span class="n">newvbytes</span> <span class="o">=</span> <span class="n">prefixes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -256,21 +256,21 @@
 
 
 <div class="viewcode-block" id="bip32_privtopub">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.composite.bip32_privtopub">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.deterministic.bip32_privtopub">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">bip32_privtopub</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">prefixes</span><span class="o">=</span><span class="n">DEFAULT</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">bip32_serialize</span><span class="p">(</span><span class="n">raw_bip32_privtopub</span><span class="p">(</span><span class="n">bip32_deserialize</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">prefixes</span><span class="p">),</span> <span class="n">prefixes</span><span class="p">),</span> <span class="n">prefixes</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="bip32_ckd">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.composite.bip32_ckd">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.deterministic.bip32_ckd">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">bip32_ckd</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">prefixes</span><span class="o">=</span><span class="n">DEFAULT</span><span class="p">,</span> <span class="n">public</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="n">key</span> <span class="o">=</span> <span class="n">bip32_serialize</span><span class="p">(</span><span class="n">raw_bip32_ckd</span><span class="p">(</span><span class="n">bip32_deserialize</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">prefixes</span><span class="p">),</span> <span class="n">path</span><span class="p">,</span> <span class="n">prefixes</span><span class="p">),</span> <span class="n">prefixes</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">key</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">public</span> <span class="k">else</span> <span class="n">bip32_privtopub</span><span class="p">(</span><span class="n">key</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="bip32_master_key">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.composite.bip32_master_key">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.deterministic.bip32_master_key">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">bip32_master_key</span><span class="p">(</span><span class="n">seed</span><span class="p">,</span> <span class="n">prefixes</span><span class="o">=</span><span class="n">DEFAULT</span><span class="p">):</span>
     <span class="n">I</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
             <span class="n">from_string_to_bytes</span><span class="p">(</span><span class="s2">&quot;Bitcoin seed&quot;</span><span class="p">),</span> 
@@ -282,21 +282,21 @@
 
 
 <div class="viewcode-block" id="bip32_bin_extract_key">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.composite.bip32_bin_extract_key">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.deterministic.bip32_bin_extract_key">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">bip32_bin_extract_key</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">prefixes</span><span class="o">=</span><span class="n">DEFAULT</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">bip32_deserialize</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">prefixes</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
 
 
 
 <div class="viewcode-block" id="bip32_extract_key">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.composite.bip32_extract_key">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.deterministic.bip32_extract_key">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">bip32_extract_key</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">prefixes</span><span class="o">=</span><span class="n">DEFAULT</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">safe_hexlify</span><span class="p">(</span><span class="n">bip32_deserialize</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">prefixes</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span></div>
 
 
 
 <div class="viewcode-block" id="bip32_derive_key">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.composite.bip32_derive_key">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.deterministic.bip32_derive_key">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">bip32_derive_key</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">prefixes</span><span class="o">=</span><span class="n">DEFAULT</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">bip32_extract_key</span><span class="p">(</span><span class="n">bip32_ckd</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">prefixes</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> <span class="n">prefixes</span><span class="p">)</span></div>
 
@@ -307,7 +307,7 @@
 
 
 <div class="viewcode-block" id="raw_crack_bip32_privkey">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.composite.raw_crack_bip32_privkey">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.deterministic.raw_crack_bip32_privkey">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">raw_crack_bip32_privkey</span><span class="p">(</span><span class="n">parent_pub</span><span class="p">,</span> <span class="n">priv</span><span class="p">,</span> <span class="n">prefixes</span><span class="o">=</span><span class="n">DEFAULT</span><span class="p">):</span>
     <span class="n">vbytes</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">fingerprint</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">chaincode</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">priv</span>
     <span class="n">pvbytes</span><span class="p">,</span> <span class="n">pdepth</span><span class="p">,</span> <span class="n">pfingerprint</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="n">pchaincode</span><span class="p">,</span> <span class="n">pkey</span> <span class="o">=</span> <span class="n">parent_pub</span>
@@ -326,7 +326,7 @@
 
 
 <div class="viewcode-block" id="crack_bip32_privkey">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.composite.crack_bip32_privkey">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.deterministic.crack_bip32_privkey">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">crack_bip32_privkey</span><span class="p">(</span><span class="n">parent_pub</span><span class="p">,</span> <span class="n">priv</span><span class="p">,</span> <span class="n">prefixes</span><span class="o">=</span><span class="n">DEFAULT</span><span class="p">):</span>
     <span class="n">dsppub</span> <span class="o">=</span> <span class="n">bip32_deserialize</span><span class="p">(</span><span class="n">parent_pub</span><span class="p">,</span> <span class="n">prefixes</span><span class="p">)</span>
     <span class="n">dspriv</span> <span class="o">=</span> <span class="n">bip32_deserialize</span><span class="p">(</span><span class="n">priv</span><span class="p">,</span> <span class="n">prefixes</span><span class="p">)</span>
@@ -335,7 +335,7 @@
 
 
 <div class="viewcode-block" id="coinvault_pub_to_bip32">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.composite.coinvault_pub_to_bip32">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.deterministic.coinvault_pub_to_bip32">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">coinvault_pub_to_bip32</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">prefixes</span><span class="o">=</span><span class="n">DEFAULT</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">args</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
@@ -347,7 +347,7 @@
 
 
 <div class="viewcode-block" id="coinvault_priv_to_bip32">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.composite.coinvault_priv_to_bip32">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.deterministic.coinvault_priv_to_bip32">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">coinvault_priv_to_bip32</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">prefixes</span><span class="o">=</span><span class="n">DEFAULT</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">args</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
@@ -359,7 +359,7 @@
 
 
 <div class="viewcode-block" id="bip32_descend">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.composite.bip32_descend">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.deterministic.bip32_descend">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">bip32_descend</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">prefixes</span><span class="o">=</span><span class="n">DEFAULT</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Descend masterkey and return privkey&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
@@ -377,7 +377,7 @@
 
 
 <div class="viewcode-block" id="parse_bip32_path">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.composite.parse_bip32_path">[docs]</a>
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.deterministic.parse_bip32_path">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">parse_bip32_path</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Takes bip32 path, &quot;m/0&#39;/2H&quot; or &quot;m/0H/1/2H/2/1000000000.pub&quot;, returns list of ints &quot;&quot;&quot;</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;m/&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;.pub&quot;</span><span class="p">)</span>
@@ -397,184 +397,6 @@
         <span class="n">patharr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">patharr</span></div>
 
-
-
-<span class="c1"># Explicit public API (added to satisfy CodeQL py/polluting-import).</span>
-<span class="c1"># Lists the names this module already exported via &#39;import *&#39;, so wildcard</span>
-<span class="c1"># import behaviour is unchanged.</span>
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;A&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;B&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;DEFAULT&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;F0&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;F1&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;F2&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;F3&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;F4&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;G&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Gx&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Gy&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;K0&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;K1&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;K2&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;K3&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;K4&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;KK0&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;KK1&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;KK2&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;KK3&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;KK4&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;MAINNET_PRIVATE&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;MAINNET_PUBLIC&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;N&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;P&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;PADDING&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;PRIVATE&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;PUBLIC&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;R&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;RIPEMD160&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;RMD160Final&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;RMD160Transform&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;RMD160Update&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;RMDContext&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;ROL&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;TESTNET_PRIVATE&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;TESTNET_PUBLIC&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;access&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;add&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;add_privkeys&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;add_pubkeys&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;b58check_to_bin&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;b58check_to_hex&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;base64&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bin_dbl_sha256&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bin_hash160&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bin_ripemd160&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bin_sha256&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bin_slowsha&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bin_to_b58check&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;binascii&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bip32_bin_extract_key&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bip32_ckd&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bip32_derive_key&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bip32_descend&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bip32_deserialize&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bip32_extract_key&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bip32_master_key&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bip32_privtopub&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bip32_serialize&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;bytes_to_hex_string&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;change_curve&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;changebase&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;code_strings&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;coinvault_priv_to_bip32&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;coinvault_pub_to_bip32&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;compress&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;count&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;crack_bip32_privkey&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;crack_electrum_wallet&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;dbl_sha256&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;decode&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;decode_privkey&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;decode_pubkey&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;decode_sig&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;decompress&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;deterministic_generate_k&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;digest_size&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;digestsize&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;divide&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;ecdsa_raw_recover&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;ecdsa_raw_sign&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;ecdsa_raw_verify&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;ecdsa_recover&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;ecdsa_sign&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;ecdsa_verify&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;ecdsa_verify_addr&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;electrum_address&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;electrum_mpk&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;electrum_privkey&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;electrum_pubkey&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;electrum_sig_hash&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;electrum_stretch&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;encode&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;encode_privkey&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;encode_pubkey&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;encode_sig&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;fast_add&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;fast_multiply&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;from_byte_to_int&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;from_int_representation_to_bytes&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;from_int_to_byte&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;from_jacobian&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;from_string_to_bytes&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;getG&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;get_code_string&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;get_privkey_format&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;get_pubkey_format&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;get_version_byte&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;hash160&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;hash160High&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;hash160Low&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;hash_to_int&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;hashlib&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;hex_to_b58check&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;hex_to_hash160&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;hmac&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;int_types&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;inv&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;is_privkey&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;is_pubkey&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;is_python2&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;is_xprv&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;is_xpub&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;isinf&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;jacobian_add&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;jacobian_double&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;jacobian_multiply&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;lpad&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;magicbyte_to_prefix&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;mul_privkeys&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;multiaccess&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;multiply&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;neg_privkey&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;neg_pubkey&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;new&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;num_to_var_int&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;os&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;parse_bip32_path&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;privkey_to_address&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;privkey_to_pubkey&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;privtoaddr&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;privtopub&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;pubkey_to_address&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;pubkey_to_hash&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;pubkey_to_hash_hex&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;pubtoaddr&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;random&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;random_electrum_seed&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;random_key&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;random_string&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;raw_bip32_ckd&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;raw_bip32_privtopub&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;raw_crack_bip32_privkey&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;re&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;ripemd160&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;safe_from_hex&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;safe_hexlify&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;sha256&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;slice&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;slowsha&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;string_or_bytes_types&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;string_types&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;struct&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;subtract&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;subtract_privkeys&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;subtract_pubkeys&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;sum&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;sys&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;time&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;to_jacobian&quot;</span><span class="p">,</span>
-<span class="p">]</span>
 </pre></div>
 
            </div>
