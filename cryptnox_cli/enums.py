@@ -35,3 +35,4 @@ class Command(Enum):
     USER_KEY = "user_key"
     TRANSFER = "transfer"
     CERTIFICATE = "cert"
+    MUSIG2 = "musig2"
