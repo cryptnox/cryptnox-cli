@@ -7,10 +7,10 @@ contract ABIs, and dual-card setup for enhanced security.
 
 import gzip
 import json
-import urllib
+import urllib.error
+import urllib.parse
 from argparse import Namespace
 from typing import List
-from urllib import parse
 
 import cryptnox_sdk_py
 import requests
@@ -202,7 +202,7 @@ class Initialize:
     def _abi() -> str:
         def uri_validator(x):
             try:
-                result = parse.urlparse(x)
+                result = urllib.parse.urlparse(x)
                 return all([result.scheme, result.netloc])
             except Exception:
                 return False

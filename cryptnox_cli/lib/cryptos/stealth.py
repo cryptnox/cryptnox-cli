@@ -83,6 +83,9 @@ def mk_stealth_tx_outputs(stealth_addr, value, ephem_privkey, nonce, network='bt
             raise Exception('Invalid testnet stealth address: ' + stealth_addr)
         magic_byte_addr = 111
 
+    else:
+        raise Exception('Unknown network: ' + str(network))
+
     ephem_pubkey = main.privkey_to_pubkey(ephem_privkey)
     output0 = {'script': mk_stealth_metadata_script(ephem_pubkey, nonce),
                'value': 0}

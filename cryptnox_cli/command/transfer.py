@@ -10,10 +10,8 @@ from .erc_token.contract import transfer
 
 try:
     import enums
-    from wallet import eth as wallet  # noqa: F401
 except ImportError:
     from .. import enums
-    from ..wallet import eth as wallet  # noqa: F401
 
 
 class Transfer(Command):

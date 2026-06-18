@@ -98,6 +98,7 @@ class GetClearpubkey(Command):
                         else:
                             card.derive(key_type, "m/44'/0'/0'")
                     except Exception:
+                        # Best-effort derivation; clear pubkey read below handles failures
                         pass
                     pubkey_bytes = card.get_public_key_clear(derivation, path, compressed)
                     self._print_pubkey_info(key_type, compressed, pubkey_bytes)

@@ -78,7 +78,7 @@ def deserialize(tx):
     if isinstance(tx, str) and re.match('^[0-9a-fA-F]*$', tx):
         # tx = bytes(bytearray.fromhex(tx))
         return json_changebase(deserialize(binascii.unhexlify(tx)),
-                               lambda x: safe_hexlify(x))
+                               safe_hexlify)
     # http://stackoverflow.com/questions/4851463/python-closure-write-to-variable-in-parent-scope
     # Python's scoping rules are demented, requiring me to make pos an object
     # so that it is call-by-reference
@@ -148,7 +148,7 @@ def serialize(txobj, include_witness=True):
         txobj = bytes_to_hex_string(txobj)
     o = []
     if json_is_base(txobj, 16):
-        json_changedbase = json_changebase(txobj, lambda x: binascii.unhexlify(x))
+        json_changedbase = json_changebase(txobj, binascii.unhexlify)
         hexlified = safe_hexlify(serialize(json_changedbase, include_witness=include_witness))
         return hexlified
     o.append(encode_4_bytes(txobj["version"]))
@@ -178,7 +178,7 @@ def uahf_digest(txobj, i):
     o = []
 
     if json_is_base(txobj, 16):
-        txobj = json_changebase(txobj, lambda x: binascii.unhexlify(x))
+        txobj = json_changebase(txobj, binascii.unhexlify)
     o.append(encode(txobj["version"], 256, 4)[::-1])
 
     serialized_ins = []
@@ -373,7 +373,7 @@ def p2wpkh_nested_script(pubkey):
 def deserialize_script(script):
     if isinstance(script, str) and re.match('^[0-9a-fA-F]*$', script):
        return json_changebase(deserialize_script(binascii.unhexlify(script)),
-                              lambda x: safe_hexlify(x))
+                              safe_hexlify)
     out, pos = [], 0
     while pos < len(script):
         code = from_byte_to_int(script[pos])
@@ -420,13 +420,13 @@ if is_python2:
     def serialize_script(script):
         if json_is_base(script, 16):
             return binascii.hexlify(serialize_script(json_changebase(script,
-                                    lambda x: binascii.unhexlify(x))))
+                                    binascii.unhexlify)))
         return ''.join(map(serialize_script_unit, script))
 else:
     def serialize_script(script):
         if json_is_base(script, 16):
             return safe_hexlify(serialize_script(json_changebase(script,
-                                    lambda x: binascii.unhexlify(x))))
+                                    binascii.unhexlify)))
         result = bytes()
         for b in map(serialize_script_unit, script):
             result += b if isinstance(b, bytes) else bytes(b, 'utf-8')
@@ -507,6 +507,4 @@ def select(unspent, value):
         i += 1
     if tv < value:
         raise Exception("Not enough funds")
-    unspents = low[:i]
-    actual_value = sum(unspent['value'] for unspent in unspents)
     return low[:i]

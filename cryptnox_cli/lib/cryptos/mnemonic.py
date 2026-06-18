@@ -16,8 +16,8 @@ from .pbkdf2 import PBKDF2
 from .specials import *
 from .wallet_utils import is_new_seed
 
-wordlist_english = [word.strip() for word in
-                    list(open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'english.txt'), 'r'))]
+with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'english.txt'), 'r') as _wordlist_file:
+    wordlist_english = [word.strip() for word in _wordlist_file]
 
 ELECTRUM_VERSION = '3.0.5'  # version of the client package
 PROTOCOL_VERSION = '1.1'  # protocol version requested
@@ -226,6 +226,7 @@ def seed_prefix(seed_type):
         return SEED_PREFIX_SW
     elif seed_type == '2fa':
         return SEED_PREFIX_2FA
+    return None
 
 
 def seed_type(x):

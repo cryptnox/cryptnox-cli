@@ -6,7 +6,6 @@ import math
 import json
 import re
 import urllib.parse
-import urllib.request
 import requests
 from enum import Enum
 from typing import Union, List, Dict
@@ -85,13 +84,15 @@ class BlockCypherApi:
             if not parsed.hostname or 'blockcypher.com' not in parsed.hostname:
                 raise ValueError("Invalid URL: must be blockcypher.com domain")
 
-            req = urllib.request.Request(
-                full_url,
-                headers={'User-Agent': 'Mozilla/5.0'},
-                data=data
-            )
-            self.web_rsc = urllib.request.urlopen(req, timeout=30)
-            self.js_res = json.load(self.web_rsc)
+            # Use 'requests' (validated allow-listed https URL) instead of urllib,
+            # which would also honour file:// and other local schemes.
+            headers = {'User-Agent': 'Mozilla/5.0'}
+            if data is None:
+                response = requests.get(full_url, headers=headers, timeout=30)
+            else:
+                response = requests.post(full_url, headers=headers, data=data, timeout=30)
+            response.raise_for_status()
+            self.js_res = response.json()
             self.web_rsc = None
         except Exception as ex:
             print(ex)
@@ -237,19 +238,20 @@ class BlkHubApi:
             headers = {'User-Agent': 'Mozilla/5.0'}
             if self.api_key:
                 headers['x-token'] = self.api_key
-            req = urllib.request.Request(
-                full_url,
-                headers=headers,
-                data=data
-            )
-            self.web_rsc = urllib.request.urlopen(req, timeout=30)
-            b_rep = self.web_rsc.read()
+            # Use 'requests' (validated allow-listed https URL) instead of urllib,
+            # which would also honour file:// and other local schemes.
+            if data is None:
+                response = requests.get(full_url, headers=headers, timeout=30)
+            else:
+                response = requests.post(full_url, headers=headers, data=data, timeout=30)
+            response.raise_for_status()
+            b_rep = response.content
             if len(b_rep) == 64 and b_rep[0] != ord('{'):
                 b_rep = b'{"txid":"' + b_rep + b'"}'
             self.js_res = json.loads(b_rep)
-        except urllib.error.HTTPError as error:
-            raise IOError(f"Error while processing request:\n{error.code} - "
-                          f"{error.read().decode('utf8')}") from error
+        except requests.exceptions.HTTPError as error:
+            raise IOError(f"Error while processing request:\n{error.response.status_code} - "
+                          f"{error.response.text}") from error
         except Exception as error:
             raise IOError(f"Error while processing request:\n{self.url}{endpoint}?params_enc\n"
                           f"{error}") from error

@@ -102,5 +102,6 @@ def try_eval(value: str) -> Any:
     try:
         value = ast.literal_eval(value)
     except ValueError:
+        # Not a literal; keep the original string value
         pass
     return value

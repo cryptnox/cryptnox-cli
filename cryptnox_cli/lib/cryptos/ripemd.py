@@ -52,7 +52,8 @@ digestsize = 20
 
 try:
     range = xrange
-except:
+except NameError:
+    # Python 3: xrange does not exist; the built-in range is already lazy.
     pass
 
 class RIPEMD160:
@@ -164,7 +165,6 @@ import sys
 import struct
 
 def RMD160Transform(state, block): #uint32 state[5], uchar block[64]
-    x = [0]*16
     if sys.byteorder == 'little':
         if is_python2:
             x = struct.unpack('<16L', ''.join([chr(x) for x in block[0:64]]))
@@ -368,8 +368,6 @@ def RMD160Transform(state, block): #uint32 state[5], uchar block[64]
     state[3] = (state[4] + aa + b) % 0x100000000;
     state[4] = (state[0] + bb + c) % 0x100000000;
     state[0] = t % 0x100000000;
-
-    pass
 
 
 def RMD160Update(ctx, inp, inplen):

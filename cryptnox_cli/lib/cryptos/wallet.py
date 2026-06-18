@@ -28,7 +28,7 @@ class HDWallet(object):
 
     def privkey(self, address, formt="wif_compressed", password=None):
         if self.is_watching_only:
-            return
+            return None
         try:
             addr_derivation = self.addresses[address]
         except KeyError:
@@ -39,7 +39,7 @@ class HDWallet(object):
 
     def export_privkeys(self, password=None):
         if self.is_watching_only:
-            return
+            return None
         return {
             'receiving': {addr: self.privkey(addr, password=password) for addr in self.receiving_addresses},
             'change': {addr: self.privkey(addr, password=password) for addr in self.change_addresses}
@@ -58,6 +58,7 @@ class HDWallet(object):
             return self.coin.pubtosegwit(pubkey)
         elif self.keystore.xtype == "p2wpkh-p2sh":
             return self.coin.pubtop2w(pubkey)
+        return None
 
     def receiving_address(self, index):
         pubkey = self.pubkey_receiving(index)

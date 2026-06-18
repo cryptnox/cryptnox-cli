@@ -113,6 +113,7 @@ class CardManager:
             except cryptnox_sdk_py.exceptions.ReaderException:
                 break
             except cryptnox_sdk_py.exceptions.CryptnoxException:
+                # Card at this index is unreadable; skip it and continue scanning
                 pass
 
             index += 1
@@ -194,7 +195,7 @@ class CardManager:
                 if test_response:
                     if index in self._cards_by_index:
                         return self._cards_by_index[index]
-            except (BaseException, cryptnox_sdk_py.exceptions.ConnectionException):
+            except (Exception, cryptnox_sdk_py.exceptions.ConnectionException):
                 # Connection is stale, remove it and create new one
                 del _GLOBAL_CONNECTIONS[index]
                 if index in self._cards_by_index:

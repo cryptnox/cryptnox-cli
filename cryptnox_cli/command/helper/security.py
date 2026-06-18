@@ -140,6 +140,7 @@ def check(card, check_seed: bool = True) -> bool:
     try:
         result = user_keys.authenticate(card)
     except NotImplementedError:
+        # User-key auth unsupported here; fall back to PIN authentication below
         pass
 
     if not result:

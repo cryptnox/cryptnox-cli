@@ -219,6 +219,7 @@ class InteractiveCli:
             self._cards.refresh(self.port and client is not None)
             self._card_info = list(self._cards.values())[0].info
         except IndexError:
+            # No cards found yet; leave _card_info unset and continue
             pass
 
         self._cards.print_card_list(show_warnings=True, print_with_one_card=True)
@@ -294,6 +295,7 @@ class InteractiveCli:
                 if execute[0] not in ["use", "exit", "back"]:
                     execute[0:0] = self.subcommand
             except LookupError:
+                # Empty command; nothing to prepend, ignore
                 pass
         else:
             self._prepare_parser()
@@ -312,6 +314,7 @@ class InteractiveCli:
                 try:
                     self.parser.parse_args(execute)
                 except SystemExit:
+                    # argparse exits on help/error; keep the interactive loop alive
                     pass
                 UsageParser.throw_error = True
         else:
@@ -399,6 +402,7 @@ class InteractiveCli:
         try:
             self._card_info = self._cards[command.serial_number].info
         except KeyError:
+            # Card no longer present; keep previous _card_info
             pass
         except (cryptnox_sdk_py.exceptions.CryptnoxException, ExitException, TimeoutException) as error:
             print(error)

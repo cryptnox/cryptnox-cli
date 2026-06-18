@@ -169,6 +169,8 @@ class Event:
             endpoint.block_number
         save_to_config(self.card, self.config)
 
+        return None
+
     @staticmethod
     def _get_logs(event) -> List[Dict[str, Any]]:
         min_offset = 0
@@ -256,6 +258,8 @@ class Contract(Command):
             print(error)
             return -1
 
+        return None
+
     def _get_endpoint(self, card):
         config = get_configuration(card)
 
@@ -311,6 +315,8 @@ class Contract(Command):
         print(f"Contract added to application. Use it with alias:"
               f" {self.data.alias}")
 
+        return None
+
     @staticmethod
     def _list(card) -> int:
         config = get_configuration(card)
@@ -355,6 +361,8 @@ class Contract(Command):
                 tabulate_table.append(row)
 
         print(tabulate(tabulate_table, headers=tabulate_header, tablefmt="grid"))
+
+        return None
 
     def _call(self, card):
         config = get_configuration(card)
@@ -645,3 +653,5 @@ class Eth(Command):
         contract.transfer(card, config["endpoint"], config["network"], config["api_key"],
                           self.data.contract, self.data.address, self.data.amount, self.data.price,
                           self.data.limit, derivation)
+
+        return None

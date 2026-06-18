@@ -224,6 +224,8 @@ def bip32_descend(*args, prefixes=DEFAULT):
         path = parse_bip32_path(args[1])
     elif len(args):
         key, path = args[0], list(map(int, args[1:]))
+    else:
+        raise TypeError("bip32_descend() requires at least one positional argument")
     for p in path:
         key = bip32_ckd(key, p, prefixes)
     return bip32_extract_key(key, prefixes)

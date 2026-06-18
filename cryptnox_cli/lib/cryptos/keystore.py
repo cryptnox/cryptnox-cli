@@ -166,6 +166,7 @@ class Imported_KeyStore(Software_KeyStore):
             addr = self.coin.p2sh_scriptaddr(x_pubkey[2:])
             if addr in self.addresses:
                 return self.addresses[addr].get('pubkey')
+        return None
 
     def update_password(self, old_password, new_password):
         self.check_password(old_password)
@@ -238,7 +239,7 @@ class Xpub:
         return self.get_pubkey_from_xpub(xpub, (n,), self.bip39_prefixes)
 
     @classmethod
-    def get_pubkey_from_xpub(self, xpub, sequence, bip39_prefixes):
+    def get_pubkey_from_xpub(cls, xpub, sequence, bip39_prefixes):
         return bip32_derive_key(xpub, sequence, bip39_prefixes)
 
     """needed?
@@ -352,7 +353,7 @@ class Hardware_KeyStore(KeyStore, Xpub):
     max_change_outputs = 1
 
     def __init__(self, d, coin):
-        Xpub.__init__(self, coin)
+        Xpub.__init__(self)
         KeyStore.__init__(self, coin)
         # Errors and other user interaction is done through the wallet's
         # handler.  The handler is per-window and preserved across
@@ -483,7 +484,7 @@ def xpubkey_to_address(x_pubkey, coin):
         pubkey = x_pubkey
     elif x_pubkey[0:2] == 'ff':
         xpub, s = BIP32_KeyStore.parse_xpubkey(x_pubkey)
-        pubkey = BIP32_KeyStore.get_pubkey_from_xpub(xpub, s)
+        pubkey = BIP32_KeyStore.get_pubkey_from_xpub(xpub, s, coin.bip39_prefixes)
     else:
         raise BaseException("Cannot parse pubkey")
     address = coin.pubtoaddr(pubkey)
@@ -516,11 +517,12 @@ def get_private_keys(text):
     parts = list(filter(bool, parts))
     if bool(parts) and all(bitcoin.is_private_key(x) for x in parts):
         return parts
+    return None
 
 def is_private_key_list(text):
     return bool(get_private_keys(text))
 
-is_mpk = lambda x: is_xpub(x)
+is_mpk = is_xpub
 is_private = lambda x: is_seed(x) or is_xprv(x) or is_private_key_list(x)
 is_master_key = lambda x: is_xprv(x) or is_xpub(x)
 is_private_key = lambda x: is_xprv(x) or is_private_key_list(x)
@@ -568,7 +570,7 @@ def from_master_key(text, coin):
     if is_xprv(text, prefixes):
         k = from_xprv(text, coin)
     elif is_xpub(text, prefixes):
-        k = from_xpub(text, coin)
+        k = from_xpub(text, coin, 'p2pkh')
     else:
         raise BaseException('Invalid key')
     return k

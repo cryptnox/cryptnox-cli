@@ -147,7 +147,7 @@ def jacobian_multiply(a, n):
         return jacobian_multiply(a, n % N)
     if (n % 2) == 0:
         return jacobian_double(jacobian_multiply(a, n // 2))
-    if (n % 2) == 1:
+    else:
         return jacobian_add(jacobian_double(jacobian_multiply(a, n // 2)), a)
 
 
@@ -333,6 +333,7 @@ def compress(pubkey):
         return encode_pubkey(decode_pubkey(pubkey, f), 'bin_compressed')
     elif f == 'hex' or f == 'decimal':
         return encode_pubkey(decode_pubkey(pubkey, f), 'hex_compressed')
+    return None
 
 
 def decompress(pubkey):
@@ -343,6 +344,7 @@ def decompress(pubkey):
         return encode_pubkey(decode_pubkey(pubkey, f), 'bin')
     elif f == 'hex_compressed' or f == 'decimal':
         return encode_pubkey(decode_pubkey(pubkey, f), 'hex')
+    return None
 
 
 def privkey_to_pubkey(privkey):
@@ -398,7 +400,9 @@ def bin_hash160(string):
     digest = ''
     try:
         digest = hashlib.new('ripemd160', intermed).digest()
-    except:
+    except Exception:
+        # 'ripemd160' may be unavailable (e.g. OpenSSL 3 legacy provider off);
+        # fall back to the bundled pure-Python implementation.
         digest = RIPEMD160(intermed).digest()
     return digest
 
@@ -423,7 +427,9 @@ def sha256(string):
 def bin_ripemd160(string):
     try:
         digest = hashlib.new('ripemd160', string).digest()
-    except:
+    except Exception:
+        # 'ripemd160' may be unavailable (e.g. OpenSSL 3 legacy provider off);
+        # fall back to the bundled pure-Python implementation.
         digest = RIPEMD160(string).digest()
     return digest
 
@@ -541,7 +547,7 @@ def is_privkey(priv):
     try:
         get_privkey_format(priv)
         return True
-    except:
+    except Exception:
         return False
 
 
@@ -549,7 +555,7 @@ def is_pubkey(pubkey):
     try:
         get_pubkey_format(pubkey)
         return True
-    except:
+    except Exception:
         return False
 
 
@@ -677,8 +683,9 @@ hash160High = b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff
 
 
 def magicbyte_to_prefix(magicbyte):
+    # Always return a 2-tuple of the low/high address prefix characters.
+    # Callers only test membership over these, so a repeated character when
+    # first == last is harmless and keeps the return shape consistent.
     first = bin_to_b58check(hash160Low, magicbyte=magicbyte)[0]
     last = bin_to_b58check(hash160High, magicbyte=magicbyte)[0]
-    if first == last:
-        return (first,)
     return (first, last)
