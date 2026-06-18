@@ -63,6 +63,7 @@ def add(parser, interactive: bool = False):
     _get_clearpubkey_options(subparsers, interactive)
     _decrypt_options(subparsers, interactive)
     _cert_options(subparsers, interactive)
+    _musig2_options(subparsers, interactive)
 
     if interactive:
         use_sub_parser = subparsers.add_parser("use", help="Change card to be used by default")
@@ -100,6 +101,51 @@ def _btc_options(subparsers, interactive_mode):
 
     add_send(action_sub_parser)
     add_config_sub_parser(action_sub_parser, "Bitcoin")
+
+
+def _musig2_options(subparsers, interactive_mode):
+    def _validate_bech32_address(address: str) -> str:
+        if re.match('^(bc1|tb1)[a-zA-HJ-NP-Z0-9]{25,90}$', address):
+            return address
+        raise argparse.ArgumentTypeError("Not a valid bech32/bech32m BTC address")
+
+    def _add_signers(sub_parser):
+        sub_parser.add_argument("signers", type=int, help="Number of signer cards")
+        sub_parser.add_argument("-r", "--reader", type=int, default=0,
+                                help="Reader index to use (default 0)")
+
+    def _add_network(sub_parser):
+        sub_parser.add_argument("-n", "--network", choices=["testnet", "mainnet"],
+                                default="testnet", help="Bitcoin network (default testnet)")
+
+    musig2_parser = subparsers.add_parser(
+        enums.Command.MUSIG2.value,
+        help="MuSig2 (BIP-327) multi-signature operations on Basic G2 cards")
+    if interactive_mode:
+        add_pin_option(musig2_parser)
+
+    action_sub_parser = musig2_parser.add_subparsers(dest="action", required=True)
+
+    address_parser = action_sub_parser.add_parser(
+        "address", help="Derive the shared MuSig2 Taproot address")
+    _add_signers(address_parser)
+    _add_network(address_parser)
+
+    sign_parser = action_sub_parser.add_parser(
+        "sign", help="Produce an aggregate MuSig2 Schnorr signature over a message")
+    _add_signers(sign_parser)
+    message_group = sign_parser.add_mutually_exclusive_group(required=True)
+    message_group.add_argument("-m", "--message", help="32-byte message hash (64 hex chars)")
+    message_group.add_argument("-t", "--text", help="Text to hash with SHA-256 and sign")
+
+    send_parser = action_sub_parser.add_parser(
+        "send", help="Build, sign and broadcast a Taproot transaction")
+    _add_signers(send_parser)
+    send_parser.add_argument("address", type=_validate_bech32_address,
+                             help="Destination address")
+    send_parser.add_argument("-a", "--amount", type=int,
+                             help="Amount in satoshis (default: sweep entire balance)")
+    _add_network(send_parser)
 
 
 def _card_configuration(subparsers, interactive_mode):
