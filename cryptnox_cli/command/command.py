@@ -66,9 +66,7 @@ class Command(metaclass=abc.ABCMeta):
             print(f"Error in retrieving information: {error}")
             return -1
 
-        self.run_execute(card)
-
-        return None
+        return self.run_execute(card)
 
     def run_execute(self, card) -> int:
         print(f"Using card with serial number {card.serial_number}")
