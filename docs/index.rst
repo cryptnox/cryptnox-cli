@@ -5,7 +5,7 @@ Welcome to the technical documentation of Cryptnox CLI.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Contents
 
    overview
    cli
