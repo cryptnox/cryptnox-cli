@@ -111,6 +111,9 @@ suppress_warnings = [
 html_theme = "sphinx_rtd_theme"
 html_static_path = ['_static']
 
+# Remove the "Built with Sphinx using a theme provided by Read the Docs." footer
+html_show_sphinx = False
+
 # Logo configuration
 html_logo = "_static/cryptnox-logo.png"
 
