@@ -141,3 +141,18 @@ html_theme_options = {
     'includehidden': True,
     'titles_only': False
 }
+
+# -- Options for PDF (LaTeX) output ------------------------------------------
+# Built by CI with pdflatex, same as Yubico's tech manual. Output: cryptnox-cli.pdf
+
+latex_engine = 'pdflatex'
+latex_logo = '_static/cryptnox-logo-dark.png'  # white logo is invisible on white PDF title page
+latex_documents = [
+    ('index', 'cryptnox-cli.tex', 'Cryptnox CLI Documentation', author, 'manual'),
+]
+latex_elements = {
+    'papersize': 'a4paper',
+    'pointsize': '11pt',
+    'figure_align': 'H',
+    'extraclassoptions': 'oneside,openany',  # no blank filler pages (web PDF)
+}
