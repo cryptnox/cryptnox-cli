@@ -162,12 +162,17 @@ latex_elements = {
     'papersize': 'a4paper',
     'pointsize': '11pt',
     'figure_align': 'H',
+    'sphinxsetup': 'pre_border-radius=0pt',  # sharp rectangle corners on code-block (CLI command) frames
     'extraclassoptions': 'oneside,openany',  # no blank filler pages (web PDF)
     'printindex': '',  # drop the general Index from the PDF (kept in HTML)
     'fncychap': '',  # no fancy chapter rules; titlesec styles chapters instead
     'preamble': r'''
+% CLI commands / literals (\ttfamily) in Inconsolata
+\usepackage{inconsolata}
 % Left-align body text (ragged right instead of justified)
 \usepackage[document]{ragged2e}
+% Drop the "(continues on next page)" / "(continued from previous page)" labels (parens included) on code blocks
+\AtBeginDocument{\renewcommand*\sphinxstylecodecontinued[1]{}\renewcommand*\sphinxstylecodecontinues[1]{}}
 % Whole document in the sans font (TeX Gyre Heros)
 \renewcommand{\familydefault}{\sfdefault}
 % Sans-serif TOC entries
