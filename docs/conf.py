@@ -167,6 +167,12 @@ latex_elements = {
     'printindex': '',  # drop the general Index from the PDF (kept in HTML)
     'fncychap': '',  # no fancy chapter rules; titlesec styles chapters instead
     'preamble': r'''
+% pdflatex can't render colour emoji; map the ones used in the docs to safe glyphs
+\usepackage{amssymb}
+\DeclareUnicodeCharacter{1F4B3}{}% credit card -> drop
+\DeclareUnicodeCharacter{FE0F}{}% variation selector -> drop
+\DeclareUnicodeCharacter{26A0}{\textbf{!}}% warning sign
+\DeclareUnicodeCharacter{2705}{\ensuremath{\checkmark}}% check mark
 % CLI commands / literals (\ttfamily) in Inconsolata
 \usepackage{inconsolata}
 % Left-align body text (ragged right instead of justified)
