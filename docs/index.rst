@@ -1,9 +1,9 @@
 Cryptnox CLI Documentation
 ==========================
 
-Welcome to the technical documentation of Cryptnox CLI.
-
 .. only:: html
+
+   Welcome to the technical documentation of Cryptnox CLI.
 
    📄 `Download this documentation as PDF <cryptnox-cli.pdf>`__
 
