@@ -27,7 +27,7 @@ jobs:
 
       # 3. Install Sphinx and dependencies
       - name: Install Sphinx and dependencies
-        run: pip install sphinx sphinx-rtd-theme
+        run: pip install sphinx sphinx-rtd-theme cairosvg pillow
 
       # 4. Build Sphinx documentation
       - name: Generate Sphinx docs
