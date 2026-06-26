@@ -22,6 +22,8 @@ pywin32-ctypes==0.2.3; sys_platform == 'win32'
 Sphinx>=7.3.7
 sphinx-rtd-theme>=2.0.0
 sphinx-autodoc-typehints>=2.1.0
+cairosvg>=2.7.0
+Pillow>=10.0.0
 setuptools==78.1.1; python_version >= '3.9'
 tomlkit==0.13.2; python_version >= '3.8'
 typing-extensions==4.13.2; python_version >= '3.8'
