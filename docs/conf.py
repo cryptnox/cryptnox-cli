@@ -11,6 +11,28 @@ import sys
 
 sys.path.insert(0, os.path.abspath(".."))
 
+# Derive the navy PDF cover logo from the white HTML SVG at build time, so only the
+# SVG is a committed source asset (needs cairosvg + Pillow, both in the docs requirements).
+try:
+    import io as _io
+    import cairosvg
+    from PIL import Image as _Image
+except ImportError as _e:
+    raise RuntimeError(
+        "Docs build requires cairosvg and Pillow to generate the PDF cover logo; "
+        "install them (pip install cairosvg pillow)."
+    ) from _e
+_static = os.path.join(os.path.dirname(__file__), "_static")
+with open(os.path.join(_static, "cryptnox-logo.svg"), encoding="utf-8") as _f:
+    _svg = _f.read()
+_png = cairosvg.svg2png(
+    bytestring=_svg.replace('fill="white"', 'fill="#101f2e"').encode(),
+    output_width=1200, output_height=226,
+)
+_Image.open(_io.BytesIO(_png)).save(
+    os.path.join(_static, "cryptnox-logo-dark.png"), dpi=(400, 400)
+)
+
 project = 'cryptnox-cli'
 copyright = '2025, Cryptnox'
 author = 'Cryptnox'
@@ -28,6 +50,11 @@ extensions = [
 
 # Disable autosummary generation to prevent hangs
 autosummary_generate = False
+
+# Show default args as written in source (e.g. wordlist=wordlist_english) instead
+# of expanding them — the mnemonic module defaults to the full 2048-word BIP39 list,
+# which otherwise floods signatures and forces near-blank pages in the PDF.
+autodoc_preserve_defaults = True
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
@@ -115,7 +142,7 @@ html_static_path = ['_static']
 html_show_sphinx = False
 
 # Logo configuration
-html_logo = "_static/cryptnox-logo.png"
+html_logo = "_static/cryptnox-logo.svg"
 
 # Custom CSS and JS
 html_css_files = [
@@ -140,4 +167,102 @@ html_theme_options = {
     'navigation_depth': 4,
     'includehidden': True,
     'titles_only': False
+}
+
+# -- Options for PDF (LaTeX) output ------------------------------------------
+# Built by CI with pdflatex, same as Yubico's tech manual. Output: cryptnox-cli.pdf
+
+today = 'June 20, 2026'  # fixed doc date on the cover
+
+latex_engine = 'pdflatex'
+latex_logo = '_static/cryptnox-logo-dark.png'  # white logo is invisible on white PDF title page
+latex_domain_indices = False  # no Python Module Index in the PDF (kept in HTML)
+latex_documents = [
+    ('index', 'cryptnox-cli.tex', 'Cryptnox CLI Manual', author, 'manual'),
+]
+latex_elements = {
+    'papersize': 'a4paper',
+    'pointsize': '11pt',
+    'figure_align': 'H',
+    'sphinxsetup': 'pre_border-radius=0pt',  # sharp rectangle corners on code-block (CLI command) frames
+    'extraclassoptions': 'oneside,openany',  # no blank filler pages (web PDF)
+    'printindex': '',  # drop the general Index from the PDF (kept in HTML)
+    'fncychap': '',  # no fancy chapter rules; titlesec styles chapters instead
+    'preamble': r'''
+% pdflatex can't render colour emoji; map the ones used in the docs to safe glyphs
+\usepackage{amssymb}
+\DeclareUnicodeCharacter{1F4B3}{}% credit card -> drop
+\DeclareUnicodeCharacter{FE0F}{}% variation selector -> drop
+\DeclareUnicodeCharacter{26A0}{\textbf{!}}% warning sign
+\DeclareUnicodeCharacter{2705}{\ensuremath{\checkmark}}% check mark
+% CLI commands / literals (\ttfamily) in Inconsolata
+\usepackage{inconsolata}
+% Left-align body text (ragged right instead of justified)
+\usepackage[document]{ragged2e}
+% Drop the "(continues on next page)" / "(continued from previous page)" labels (parens included) on code blocks
+\AtBeginDocument{\renewcommand*\sphinxstylecodecontinued[1]{}\renewcommand*\sphinxstylecodecontinues[1]{}}
+% Whole document in the sans font (TeX Gyre Heros)
+\renewcommand{\familydefault}{\sfdefault}
+% Sans-serif TOC entries
+\AtBeginDocument{\addtocontents{toc}{\protect\sffamily}}
+% Left-aligned chapter headings
+\usepackage{titlesec}
+\titleformat{\chapter}[hang]{\sffamily\bfseries\huge}{\thechapter}{1em}{}
+\titlespacing*{\chapter}{0pt}{0pt}{20pt}
+% Centered page header (manual title, no release) + copyright footer
+\usepackage{fancyhdr}
+\def\headruleskip{4pt}\def\footruleskip{4pt}% gap between header/footer text and rule
+\AtBeginDocument{%
+  \fancypagestyle{normal}{%
+    \fancyhf{}%
+    \fancyhead[C]{\sffamily\nouppercase{Cryptnox CLI Manual}}%
+    \fancyfoot[L]{\sffamily\copyright{} 2026 Cryptnox SA}%
+    \fancyfoot[R]{\sffamily\thepage}%
+    \renewcommand{\headrulewidth}{0.4pt}%
+    \renewcommand{\footrulewidth}{0.4pt}%
+  }%
+  \fancypagestyle{plain}{%
+    \fancyhf{}%
+    \fancyfoot[L]{\sffamily\copyright{} 2026 Cryptnox SA}%
+    \fancyfoot[R]{\sffamily\thepage}%
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0.4pt}%
+  }%
+  \pagestyle{normal}%
+}
+% Centered title page (default is right-aligned); author line removed (logo brands it)
+\makeatletter
+\renewcommand{\sphinxmaketitle}{%
+  \let\sphinxrestorepageanchorsetting\relax
+  \ifHy@pageanchor\def\sphinxrestorepageanchorsetting{\Hy@pageanchortrue}\fi
+  \hypersetup{pageanchor=false}%
+  \begin{titlepage}%
+    \let\footnotesize\small \let\footnoterule\relax
+    \begingroup
+      \def\endgraf{ }\def\and{\& }%
+      \pdfstringdefDisableCommands{\def\\{, }}%
+      \hypersetup{pdfauthor={\@author}, pdftitle={\@title}}%
+    \endgroup
+    \noindent\rule{\textwidth}{1pt}\par
+    \begin{flushright}%
+      \vskip 1em%
+      \includegraphics[width=7cm]{cryptnox-logo-dark}\par
+      \vskip 2em%
+      {\LARGE\py@HeaderFamily \@title \par}%
+      \vskip 0.5em%
+      {\large\itshape \py@release\releaseinfo \par}%
+      \vfill
+      {\large \@date \par}%
+    \end{flushright}%
+    \@thanks
+  \end{titlepage}%
+  \setcounter{footnote}{0}%
+  \let\thanks\relax\let\maketitle\relax
+  \clearpage
+  \ifdefined\sphinxbackoftitlepage\sphinxbackoftitlepage\fi
+  \if@openright\cleardoublepage\else\clearpage\fi
+  \sphinxrestorepageanchorsetting
+}
+\makeatother
+''',
 }
