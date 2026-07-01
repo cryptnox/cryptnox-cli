@@ -40,6 +40,11 @@ def get_default_configuration() -> Dict:
             "endpoint": "publicnode",
             "network": "mainnet",
         },
+        "solana": {
+            "derivation": "DERIVE",
+            "network": "mainnet",
+            "endpoint": "",
+        },
         "hidden": {
             "eth": {
                 "contract": {}

@@ -23,12 +23,14 @@ try:
     from ...wallet import eth
     from ...wallet.btc import BTCwallet, BlkHubApi
     from ...wallet import xrp as xrp_wallet
+    from ...wallet import solana as solana_wallet
 except ImportError:
     import enums
     from config import get_configuration
     from wallet import eth
     from wallet.btc import BTCwallet, BlkHubApi
     from wallet import xrp as xrp_wallet
+    from wallet import solana as solana_wallet
 
 __all__ = ['Cards']
 
@@ -48,22 +50,26 @@ class Info:
         btc_pubkey = Info._fetch_btc_pubkey(card)
         eth_pubkey = Info._fetch_eth_pubkey(card)
         xrp_pubkey = Info._fetch_xrp_pubkey(card)
+        solana_pubkey = Info._fetch_solana_pubkey(card)
         # BNB uses the same derivation path and key as ETH
 
         # Extract configs before spawning threads (card.user_data access is not thread-safe)
         config = get_configuration(card)
         btc_config = config["btc"]
         eth_config = config["eth"]
+        solana_config = config["solana"]
 
         # Phase 2: query all network balances in parallel
-        with ThreadPoolExecutor(max_workers=4) as executor:
+        with ThreadPoolExecutor(max_workers=5) as executor:
             f_btc = executor.submit(Info._get_btc_info, btc_config, btc_pubkey)
             f_eth = executor.submit(Info._get_eth_info, eth_config, eth_pubkey)
             f_xrp = executor.submit(Info._get_xrp_info, xrp_pubkey)
             f_bnb = executor.submit(Info._get_bnb_info, eth_pubkey)
+            f_sol = executor.submit(Info._get_solana_info, solana_config, solana_pubkey)
 
         eth_info = f_eth.result()
-        Info._print_info_table([f_btc.result(), eth_info, f_xrp.result(), f_bnb.result()])
+        Info._print_info_table([f_btc.result(), eth_info, f_xrp.result(), f_bnb.result(),
+                                f_sol.result()])
 
         if not config["eth"]["api_key"] and config["eth"]["endpoint"] == "infura":
             print("\nTo use the Ethereum network with Infura. Go to https://infura.io. "
@@ -106,6 +112,20 @@ class Info:
             return card.get_public_key(
                 cryptnox_sdk_py.Derivation.DERIVE,
                 path=xrp_wallet.PATH
+            )
+        except Exception:
+            return None
+
+    @staticmethod
+    def _fetch_solana_pubkey(card):
+        # Returns None on pre-2.0 cards (the SDK raises a version-guard exception
+        # for Ed25519 ops) or any other communication error.
+        try:
+            return card.get_public_key(
+                cryptnox_sdk_py.Derivation.DERIVE,
+                key_type=cryptnox_sdk_py.KeyType.ED25519,
+                path=solana_wallet.PATH,
+                compressed=False
             )
         except Exception:
             return None
@@ -178,6 +198,33 @@ class Info:
             tabulate_data["balance"] = f"{balance} XRP"
         except Exception as error:
             print(f"There's an issue in retrieving XRP balance: {error}")
+            tabulate_data["balance"] = "Network issue"
+
+        return tabulate_data
+
+    @staticmethod
+    def _get_solana_info(config, pubkey) -> dict:
+        network = config.get("network", "mainnet").lower()
+        tabulate_data = {"name": "SOL", "network": network, "balance": "--"}
+
+        # Pre-2.0 applets cannot derive an Ed25519 key, so the pubkey is None.
+        if pubkey is None:
+            tabulate_data["address"] = "Requires applet v2.0"
+            return tabulate_data
+
+        try:
+            tabulate_data["address"] = solana_wallet.address(pubkey)
+        except Exception as error:
+            print(f"There's an issue in retrieving Solana address: {error}")
+            tabulate_data["address"] = "Error"
+            return tabulate_data
+
+        try:
+            api = solana_wallet.SolanaApi(network, config.get("endpoint", ""))
+            balance = api.get_balance(tabulate_data["address"])
+            tabulate_data["balance"] = f"{balance} SOL"
+        except Exception as error:
+            print(f"There's an issue in retrieving Solana balance: {error}")
             tabulate_data["balance"] = "Network issue"
 
         return tabulate_data

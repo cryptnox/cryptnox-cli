@@ -25,7 +25,7 @@ def command(data: Namespace, cards: CardManager = None) -> Command:
     # Dynamically import all command modules to register them with Command.__subclasses__()
     command_modules = [
         'btc', 'card_configuration', 'change_pin', 'change_puk', 'config',
-        'eth', 'history', 'info', 'initialize', 'seed', 'cards', 'server',
+        'eth', 'history', 'info', 'initialize', 'seed', 'solana', 'cards', 'server',
         'reset', 'unlock_pin', 'user_key', 'transfer', 'get_xpub',
         'get_clearpubkey', 'decrypt', 'manufacturer_certificate'
     ]

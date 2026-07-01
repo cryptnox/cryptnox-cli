@@ -17,6 +17,15 @@ class EthNetwork(Enum):
     SEPOLIA = 11155111
 
 
+class SolanaNetwork(Enum):
+    """
+    Class defining possible Solana networks
+    """
+    MAINNET = 1
+    DEVNET = 2
+    TESTNET = 3
+
+
 class Command(Enum):
     BTC = "btc"
     CARD_CONFIGURATION = "card_conf"
@@ -31,6 +40,7 @@ class Command(Enum):
     SERVER = "server"
     RESET = "reset"
     SEED = "seed"
+    SOLANA = "solana"
     UNLOCK_PIN = "unlock_pin"
     USER_KEY = "user_key"
     TRANSFER = "transfer"
