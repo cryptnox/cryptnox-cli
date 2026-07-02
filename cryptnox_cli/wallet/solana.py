@@ -15,6 +15,7 @@ produce the broadcastable transaction.
 import base64
 
 import base58
+import cryptnox_sdk_py
 import requests
 from cryptnox_sdk_py import Derivation
 from solders.hash import Hash
@@ -41,6 +42,11 @@ LAMPORTS_PER_SOL = 1_000_000_000
 # this is the worst-case network fee for the balance check.
 BASE_FEE_LAMPORTS = 5_000
 
+# Minimum balance the runtime requires an account to hold to stay rent-exempt
+# (~0.00089 SOL for a 0-data system account). Transfers that would create an
+# account below this, or drain the sender below it, are rejected by preflight.
+RENT_EXEMPT_LAMPORTS = 890_880
+
 MAINNET = "https://api.mainnet-beta.solana.com"
 DEVNET = "https://api.devnet.solana.com"
 TESTNET = "https://api.testnet.solana.com"
@@ -52,21 +58,40 @@ _NETWORK_RPC = {
 }
 
 
+def sdk_supports_ed25519() -> bool:
+    """
+    Whether the installed cryptnox-sdk-py exposes Ed25519 signing.
+
+    Ed25519 (Solana) support landed in cryptnox-sdk-py 1.0.5; older releases
+    expose only K1/R1 and lack ``KeyType.ED25519``. This lets the CLI tell
+    "SDK too old" apart from "applet too old".
+
+    :rtype: bool
+    """
+    return hasattr(cryptnox_sdk_py.KeyType, "ED25519")
+
+
 def rpc_url(network: str, endpoint: str = "") -> str:
     """
     Resolve the JSON-RPC URL to use.
 
     A non-empty ``endpoint`` override always wins; otherwise the URL is derived
-    from the network name, defaulting to mainnet for unknown values.
+    from the network name. For a money-moving tool an unrecognised network name
+    is an error rather than a silent fall-back to mainnet.
 
     :param str network: Network name (mainnet/devnet/testnet)
     :param str endpoint: Optional explicit RPC URL override
     :return: RPC URL to use
     :rtype: str
+    :raises ValueError: If ``network`` is unknown and no endpoint override is given
     """
     if endpoint:
         return endpoint
-    return _NETWORK_RPC.get((network or "mainnet").lower(), MAINNET)
+    key = (network or "").lower()
+    try:
+        return _NETWORK_RPC[key]
+    except KeyError:
+        raise ValueError(f"Unknown Solana network: {network!r}")
 
 
 def address(public_key_hex: str) -> str:
@@ -115,6 +140,28 @@ def assemble_transaction(message: Message, signature: bytes) -> Transaction:
     return Transaction.populate(message, [Signature.from_bytes(signature)])
 
 
+def verify_signature(public_key_hex: str, message_bytes: bytes, signature: bytes) -> bool:
+    """
+    Verify a card-produced Ed25519 signature against the signed message and the
+    derived public key.
+
+    Belt-and-braces check before broadcasting: it catches a card/applet that
+    derives or signs incorrectly (e.g. a SLIP-0010 deviation) before any
+    funds-moving RPC call is made.
+
+    :param str public_key_hex: Signer's raw 32-byte Ed25519 public key as hex
+    :param bytes message_bytes: The exact bytes that were signed
+    :param bytes signature: Raw 64-byte Ed25519 signature from the card
+    :return: True if the signature is valid for the key and message
+    :rtype: bool
+    """
+    try:
+        pubkey = Pubkey.from_bytes(bytes.fromhex(public_key_hex))
+        return Signature.from_bytes(signature).verify(pubkey, message_bytes)
+    except Exception:
+        return False
+
+
 class SolanaApi:
     """
     Thin JSON-RPC client for the Solana network (balance, blockhash, broadcast).
@@ -132,12 +179,24 @@ class SolanaApi:
             raise ValueError(data["error"].get("message", "Solana RPC error"))
         return data["result"]
 
+    def get_balance_lamports(self, sol_address: str) -> int:
+        """
+        Return the exact balance of *sol_address* in lamports (integer).
+
+        Use this for all arithmetic and funds checks; ``getBalance`` returns an
+        exact integer that must not be round-tripped through a float.
+        """
+        result = self._rpc("getBalance", [sol_address])
+        return int(result["value"])
+
     def get_balance(self, sol_address: str) -> float:
         """
         Return the balance of *sol_address* in SOL (not lamports).
+
+        This is a lossy float intended for display only; use
+        :meth:`get_balance_lamports` for any comparison or arithmetic.
         """
-        result = self._rpc("getBalance", [sol_address])
-        return result["value"] / LAMPORTS_PER_SOL
+        return self.get_balance_lamports(sol_address) / LAMPORTS_PER_SOL
 
     def get_latest_blockhash(self) -> str:
         """
@@ -158,9 +217,11 @@ class SolanaValidator:
     """
     Class defining Solana configuration validators
     """
-    derivation = validators.EnumValidator(Derivation)
+    # Ed25519 get_public_key/sign reject PINLESS_PATH and DERIVE_AND_MAKE_CURRENT,
+    # so only these two derivations are usable for Solana.
+    derivation = validators.ChoiceValidator(["CURRENT_KEY", "DERIVE"])
     network = validators.EnumValidator(enums.SolanaNetwork)
-    endpoint = validators.AnyValidator()
+    endpoint = validators.OptionalUrlValidator()
 
     def __init__(self, derivation: str = "DERIVE", network: str = "mainnet",
                  endpoint: str = ""):

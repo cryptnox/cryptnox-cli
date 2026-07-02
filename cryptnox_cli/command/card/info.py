@@ -3,6 +3,7 @@
 Module containing command for getting information about the card
 """
 from concurrent.futures import ThreadPoolExecutor
+from decimal import Decimal
 from typing import List, Dict
 
 import cryptnox_sdk_py
@@ -118,13 +119,21 @@ class Info:
 
     @staticmethod
     def _fetch_solana_pubkey(card):
-        # Returns None on pre-2.0 cards (the SDK raises a version-guard exception
-        # for Ed25519 ops) or any other communication error.
+        # Returns None if the SDK lacks Ed25519, on pre-2.0 cards (the SDK raises
+        # a version-guard exception for Ed25519 ops), or any communication error.
+        if not solana_wallet.sdk_supports_ed25519():
+            return None
+        config = get_configuration(card)["solana"]
+        try:
+            derivation = cryptnox_sdk_py.Derivation[config["derivation"]]
+        except KeyError:
+            return None
+        path = "" if derivation == cryptnox_sdk_py.Derivation.CURRENT_KEY else solana_wallet.PATH
         try:
             return card.get_public_key(
-                cryptnox_sdk_py.Derivation.DERIVE,
+                derivation,
                 key_type=cryptnox_sdk_py.KeyType.ED25519,
-                path=solana_wallet.PATH,
+                path=path,
                 compressed=False
             )
         except Exception:
@@ -207,9 +216,13 @@ class Info:
         network = config.get("network", "mainnet").lower()
         tabulate_data = {"name": "SOL", "network": network, "balance": "--"}
 
-        # Pre-2.0 applets cannot derive an Ed25519 key, so the pubkey is None.
+        # pubkey is None when the SDK lacks Ed25519, or a pre-2.0 applet cannot
+        # derive an Ed25519 key. Distinguish the two so the user knows what to fix.
         if pubkey is None:
-            tabulate_data["address"] = "Requires applet v2.0"
+            if not solana_wallet.sdk_supports_ed25519():
+                tabulate_data["address"] = "Requires SDK update"
+            else:
+                tabulate_data["address"] = "Requires applet v2.0"
             return tabulate_data
 
         try:
@@ -222,7 +235,8 @@ class Info:
         try:
             api = solana_wallet.SolanaApi(network, config.get("endpoint", ""))
             balance = api.get_balance(tabulate_data["address"])
-            tabulate_data["balance"] = f"{balance} SOL"
+            # Fixed-point; avoids float exponent notation (e.g. 5e-06 SOL) for dust.
+            tabulate_data["balance"] = f"{Decimal(str(balance)):f} SOL"
         except Exception as error:
             print(f"There's an issue in retrieving Solana balance: {error}")
             tabulate_data["balance"] = "Network issue"

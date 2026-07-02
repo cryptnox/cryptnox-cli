@@ -22,11 +22,21 @@ except ImportError:
 
 def _validate_decimal(value: str) -> Decimal:
     try:
-        return Decimal(value)
+        amount = Decimal(value)
     except InvalidOperation:
         raise argparse.ArgumentTypeError(
             f"Invalid amount: '{value}'. Please provide a valid number"
         )
+
+    # Decimal accepts NaN/Infinity and negatives; none are valid transfer amounts.
+    if not amount.is_finite():
+        raise argparse.ArgumentTypeError(
+            f"Invalid amount: '{value}'. Please provide a finite number"
+        )
+    if amount <= 0:
+        raise argparse.ArgumentTypeError("Amount must be greater than 0")
+
+    return amount
 
 
 def _network_choices():

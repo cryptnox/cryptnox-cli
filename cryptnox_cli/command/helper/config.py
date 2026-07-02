@@ -124,11 +124,14 @@ def print_key_config(card: cryptnox_sdk_py.Card, section: str, key: str) -> int:
     """
     config = get_configuration(card)
     try:
-        old_key = key
-        key = "network" if key == "endpoint" and section != "eosio" else key
+        # Only btc derives its endpoint from the network (it is read-only); for
+        # every other section (eth, solana, eosio) the endpoint is a real,
+        # user-editable key and must be printed as-is, not remapped to network.
+        remap = key == "endpoint" and section == "btc"
+        key = "network" if remap else key
         value = config[section][key]
         endpoint = find_endpoint(section, key, value, " - YOU CAN'T EDIT THIS")
-        if old_key == "endpoint" and section != "eosio":
+        if remap:
             print(endpoint)
         else:
             print(f"{key}: {value}")
