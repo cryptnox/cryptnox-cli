@@ -16,7 +16,6 @@ import base64
 
 import base58
 import requests
-from cryptnox_sdk_py import Derivation
 from solders.hash import Hash
 from solders.message import Message
 from solders.pubkey import Pubkey
