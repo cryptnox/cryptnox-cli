@@ -9,4 +9,3 @@ signature.sig
 cardpub.pub
 docs/_build/
 *.lock
-docs/_static/cryptnox-logo-dark.png
