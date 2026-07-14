@@ -11,6 +11,7 @@ from decimal import Decimal, InvalidOperation
 import argparse
 
 from . import eth
+from . import solana
 from .common import (
     add_config_sub_parser,
     add_pin_option
@@ -39,6 +40,7 @@ def add(parser, interactive: bool = False):
 
     _btc_options(subparsers, interactive)
     eth.options(subparsers, interactive)
+    solana.options(subparsers, interactive)
     _transfer(subparsers, interactive)
     _info_options(subparsers, interactive)
     _history_options(subparsers, interactive)

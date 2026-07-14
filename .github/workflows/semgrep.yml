@@ -11,6 +11,7 @@ on:
 
 permissions:
   contents: read
+  actions: read           # Required by codeql-action/upload-sarif to read workflow run info
   security-events: write  # Required for SARIF upload
   pull-requests: write    # For PR comments
 

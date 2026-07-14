@@ -61,7 +61,7 @@ class IntRange:
 def sign(card: cryptnox_sdk_py.Card, message: bytes,
          derivation: cryptnox_sdk_py.Derivation = cryptnox_sdk_py.Derivation.CURRENT_KEY,
          key_type: cryptnox_sdk_py.KeyType = cryptnox_sdk_py.KeyType.K1, path: str = "",
-         filter_eos: bool = False, pin_code: str = "") -> bytes:
+         pin_code: str = "") -> bytes:
     """
     Open the card with a user key or PIN code and sign the given message in the given card
 
@@ -70,7 +70,6 @@ def sign(card: cryptnox_sdk_py.Card, message: bytes,
     :param cryptnox_sdk_py.Derivation derivation: Derivation to use when signing
     :param cryptnox_sdk_py.KeyType key_type: Key type to use when signing
     :param str path: Path to use for signature generation
-    :param bool filter_eos: Filter signature to be compatible with eos requirements
     :param str pin_code: If PIN code is given use it instead of asking for it
 
     :return: Signature of the message generated in the card
@@ -79,12 +78,12 @@ def sign(card: cryptnox_sdk_py.Card, message: bytes,
     signature = None
 
     if user_keys.authenticate(card, message):
-        signature = card.sign(message, derivation, key_type, path, filter_eos=filter_eos)
+        signature = card.sign(message, derivation, key_type, path)
 
     if not signature:
         if not pin_code:
             pin_code = security.check_pin_code(card)
-        signature = card.sign(message, derivation, key_type, path, pin_code, filter_eos)
+        signature = card.sign(message, derivation, key_type, path, pin_code)
 
     if not signature:
         raise ValueError("Error in getting the signature")

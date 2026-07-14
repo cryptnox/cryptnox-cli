@@ -16,6 +16,7 @@ try:
     from wallet.validators import ValidationError
     from wallet.btc import BlkHubApi, BtcValidator
     from wallet.eth import EthValidator
+    from wallet.solana import SolanaValidator
 except ImportError:
     from ...config import (
         get_configuration,
@@ -24,8 +25,9 @@ except ImportError:
     from ...wallet.validators import ValidationError
     from ...wallet.btc import BlkHubApi, BtcValidator
     from ...wallet.eth import EthValidator
+    from ...wallet.solana import SolanaValidator
 
-    __all__ = ["BtcValidator", "EthValidator"]
+    __all__ = ["BtcValidator", "EthValidator", "SolanaValidator"]
 
 
 def add_config_sub_parser(sub_parser, crypto_currency: str) -> None:
@@ -122,11 +124,14 @@ def print_key_config(card: cryptnox_sdk_py.Card, section: str, key: str) -> int:
     """
     config = get_configuration(card)
     try:
-        old_key = key
-        key = "network" if key == "endpoint" and section != "eosio" else key
+        # btc/eth expose "endpoint" as a read-only value derived from "network".
+        # eosio and solana store a real, editable "endpoint" field, so don't
+        # remap their "endpoint" key to "network" (that printed a blank line).
+        _derived_endpoint = key == "endpoint" and section not in ("eosio", "solana")
+        key = "network" if _derived_endpoint else key
         value = config[section][key]
         endpoint = find_endpoint(section, key, value, " - YOU CAN'T EDIT THIS")
-        if old_key == "endpoint" and section != "eosio":
+        if _derived_endpoint:
             print(endpoint)
         else:
             print(f"{key}: {value}")
@@ -148,6 +153,7 @@ def find_endpoint(section: str, key: str, value: str, append: str = "") -> str:
 _VALIDATORS = {
     "btc": BtcValidator,
     "eth": EthValidator,
+    "solana": SolanaValidator,
 }
 
 
