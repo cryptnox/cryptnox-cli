@@ -293,7 +293,9 @@
 <span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">network</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;mainnet&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s2">&quot;https://blkhub.net/api/&quot;</span>
+            <span class="c1"># ponytail: blkhub.net went dark; Blockstream&#39;s Esplora is the same</span>
+            <span class="c1"># API shape (already used for testnet + allow-listed). Swap host if it dies too.</span>
+            <span class="k">return</span> <span class="s2">&quot;https://blockstream.info/api/&quot;</span>
         <span class="k">if</span> <span class="n">network</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;testnet&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="s2">&quot;https://blockstream.info/testnet/api/&quot;</span>
         <span class="k">if</span> <span class="n">network</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;testnet4&quot;</span><span class="p">:</span>
