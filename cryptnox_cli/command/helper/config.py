@@ -128,7 +128,6 @@ def print_key_config(card: cryptnox_sdk_py.Card, section: str, key: str) -> int:
         # eosio and solana store a real, editable "endpoint" field, so don't
         # remap their "endpoint" key to "network" (that printed a blank line).
         _derived_endpoint = key == "endpoint" and section not in ("eosio", "solana")
-        old_key = key
         key = "network" if _derived_endpoint else key
         value = config[section][key]
         endpoint = find_endpoint(section, key, value, " - YOU CAN'T EDIT THIS")
