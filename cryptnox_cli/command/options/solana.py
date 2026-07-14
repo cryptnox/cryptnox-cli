@@ -20,6 +20,11 @@ except ImportError:
     from ... import enums
 
 
+# Sane upper bound: ~600M SOL exist in total; 1e9 SOL is well above any real
+# transfer and keeps lamports (amount * 1e9) inside solders' u64 field.
+_MAX_SOL = Decimal(10) ** 9
+
+
 def _validate_decimal(value: str) -> Decimal:
     try:
         amount = Decimal(value)
@@ -27,15 +32,12 @@ def _validate_decimal(value: str) -> Decimal:
         raise argparse.ArgumentTypeError(
             f"Invalid amount: '{value}'. Please provide a valid number"
         )
-
-    # Decimal accepts NaN/Infinity and negatives; none are valid transfer amounts.
     if not amount.is_finite():
-        raise argparse.ArgumentTypeError(
-            f"Invalid amount: '{value}'. Please provide a finite number"
-        )
+        raise argparse.ArgumentTypeError("Amount must be a finite number")
     if amount <= 0:
         raise argparse.ArgumentTypeError("Amount must be greater than 0")
-
+    if amount > _MAX_SOL:
+        raise argparse.ArgumentTypeError(f"Amount must not exceed {_MAX_SOL:f} SOL")
     return amount
 
 

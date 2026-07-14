@@ -86,24 +86,6 @@ class EnumValidator(Validator):
         return value
 
 
-class ChoiceValidator(Validator):
-    """
-    Class for validating that a value is one of an explicit allow-list of names
-    (case-insensitive). Used where an enum has more members than are valid for a
-    specific operation.
-    """
-
-    def __init__(self, allowed):
-        self.allowed = [value.upper() for value in allowed]
-        super().__init__("\n".join(self.allowed))
-
-    def validate(self, value) -> str:
-        value = value.upper()
-        if value not in self.allowed:
-            raise ValidationError("Invalid value")
-        return value
-
-
 class UrlValidator(Validator):
     """
     Class for validating URLs
@@ -121,18 +103,6 @@ class UrlValidator(Validator):
         if re.match(regex, value) is None:
             raise ValidationError("Invalid value for the URL")
         return value
-
-
-class OptionalUrlValidator(UrlValidator):
-    """
-    URL validator that also accepts the empty string, used for optional RPC
-    endpoint overrides where "" means "no override, derive from the network".
-    """
-
-    def validate(self, value: str) -> str:
-        if value == "":
-            return value
-        return super().validate(value)
 
 
 def is_int(value: Any) -> bool:

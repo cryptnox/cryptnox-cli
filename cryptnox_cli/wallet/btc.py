@@ -185,7 +185,9 @@ class BlkHubApi:
         :rtype: str
         """
         if network.lower() == "mainnet":
-            return "https://blkhub.net/api/"
+            # ponytail: blkhub.net went dark; Blockstream's Esplora is the same
+            # API shape (already used for testnet + allow-listed). Swap host if it dies too.
+            return "https://blockstream.info/api/"
         if network.lower() == "testnet":
             return "https://blockstream.info/testnet/api/"
         if network.lower() == "testnet4":

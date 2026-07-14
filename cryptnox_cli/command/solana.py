@@ -41,8 +41,10 @@ class Solana(Command):
                 return self._send(card)
             if self.data.solana_action == "config":
                 return create_config_method(card, self.data.key, self.data.value, "solana")
+        except requests.HTTPError as error:
+            print(f"There was an issue in communication: {error}")
+            return -1
         except requests.RequestException as error:
-            # requests.HTTPError is a subclass, so this covers both.
             print(f"There was an issue in communication: {error}")
             return -1
         except ValueError as error:
@@ -52,11 +54,6 @@ class Solana(Command):
         return 0
 
     def _send(self, card) -> int:
-        if not wallet.sdk_supports_ed25519():
-            print("This version of cryptnox-sdk-py does not support Solana (Ed25519).\n"
-                  "Update it with: pip install --upgrade cryptnox-sdk-py")
-            return -1
-
         config = get_configuration(card)["solana"]
 
         try:
@@ -65,8 +62,9 @@ class Solana(Command):
             print("Derivation is invalid")
             return 1
 
-        # An explicit --network must never be silently overridden by a configured
-        # endpoint (which may point at a different network); ignore the override then.
+        # An explicit --network must win over a configured endpoint. Otherwise a
+        # stored endpoint (typically mainnet) silently overrides --network devnet
+        # and real funds go to the wrong cluster.
         explicit_network = getattr(self.data, "network", None)
         network = explicit_network or config["network"]
         endpoint = "" if explicit_network else config["endpoint"]
@@ -78,45 +76,29 @@ class Solana(Command):
         from_address = wallet.address(public_key)
 
         lamports = int(self.data.amount * wallet.LAMPORTS_PER_SOL)
-        if lamports <= 0:
-            print("Amount is too small: it rounds to 0 lamports")
-            return 1
 
-        balance_lamports = api.get_balance_lamports(from_address)
+        balance_lamports = api.get_balance(from_address)
         if balance_lamports < lamports + wallet.BASE_FEE_LAMPORTS:
             print("Not enough funds for the transaction")
             return -2
 
-        if lamports < wallet.RENT_EXEMPT_LAMPORTS:
-            print(f"\nWarning: {self.data.amount} SOL is below the rent-exempt minimum "
-                  f"(~{wallet.RENT_EXEMPT_LAMPORTS / wallet.LAMPORTS_PER_SOL} SOL). "
-                  "A transfer to a new account may be rejected by the network.")
+        balance_sol = Decimal(balance_lamports) / wallet.LAMPORTS_PER_SOL
 
-        balance = balance_lamports / wallet.LAMPORTS_PER_SOL
-        if not Solana._confirm(from_address, self.data.address, balance, self.data.amount,
-                               api.url):
+        # Confirm BEFORE signing: declining must not leave a valid signed
+        # transaction, and signing last keeps the blockhash as fresh as possible.
+        if not Solana._confirm(from_address, self.data.address, balance_sol, self.data.amount):
             print("Canceled by the user.")
             return -1
 
-        # Confirm first, then fetch the blockhash and sign: the blockhash is only
-        # valid for ~60-90 s, so fetching it before a blocking prompt risks expiry,
-        # and signing before confirmation would consume the card counter on decline.
         blockhash = api.get_latest_blockhash()
         message = wallet.build_transfer_message(public_key, self.data.address, lamports, blockhash)
         message_bytes = bytes(message)
 
         print("\nSigning with the Cryptnox")
-        try:
-            signature = sign(card, message_bytes, derivation,
-                             key_type=cryptnox_sdk_py.KeyType.ED25519, path=path)
-        except ValueError as error:
-            print(f"Error signing with the card: {error}")
-            return -1
-
-        # Belt-and-braces: reject a signature the card cannot verify against its
-        # own derived key before we broadcast anything.
-        if not wallet.verify_signature(public_key, message_bytes, signature):
-            print("Card signature failed verification; aborting before broadcast.")
+        signature = sign(card, message_bytes, derivation,
+                         key_type=cryptnox_sdk_py.KeyType.ED25519, path=path)
+        if not signature:
+            print("Error in getting signature")
             return -1
 
         transaction = wallet.assemble_transaction(message, signature)
@@ -128,8 +110,7 @@ class Solana(Command):
         return 0
 
     @staticmethod
-    def _confirm(from_address: str, to_address: str, balance: float, amount: Decimal,
-                 rpc_url: str = "") -> bool:
+    def _confirm(from_address: str, to_address: str, balance: Decimal, amount: Decimal) -> bool:
         fee = Decimal(wallet.BASE_FEE_LAMPORTS) / wallet.LAMPORTS_PER_SOL
 
         def sol(value) -> str:
@@ -141,7 +122,6 @@ class Solana(Command):
             ["TRANSACTION:", sol(amount), "SOL", "TO", "ACCOUNT:", f"{to_address}"],
             ["MAX FEE:", sol(fee)],
             ["MAX TOTAL:", sol(amount + fee)],
-            ["NETWORK:", rpc_url],
         ]
 
         print("\n\n--- Transaction Ready --- \n")
