@@ -1,0 +1,23 @@
+{% extends "!layout.html" %}
+{% block extrahead %}
+{{ super() }}
+<!-- Open Graph / social preview -->
+<meta property="og:type" content="website" />
+{%- if pageurl %}
+<meta property="og:url" content="{{ pageurl }}" />
+{%- endif %}
+<meta property="og:title" content="{{ title|striptags }} | Cryptnox Docs" />
+<meta property="og:description" content="Cryptnox CLI — installation, supported hardware, command reference, interactive mode, BIP39 passphrase support and examples for managing Cryptnox smart card wallets from the terminal." />
+<meta property="og:site_name" content="Cryptnox Docs" />
+<meta property="og:image" content="https://cryptnox.com/wp-content/uploads/2026/09/cryptnox-documentation-social.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:alt" content="Cryptnox Technical Documentation" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@CryptnoxTech" />
+<meta name="twitter:title" content="{{ title|striptags }} | Cryptnox Docs" />
+<meta name="twitter:description" content="Cryptnox CLI — installation, supported hardware, command reference, interactive mode, BIP39 passphrase support and examples for managing Cryptnox smart card wallets from the terminal." />
+<meta name="twitter:image" content="https://cryptnox.com/wp-content/uploads/2026/09/cryptnox-documentation-social.jpg" />
+<meta name="twitter:image:alt" content="Cryptnox Technical Documentation" />
+{% endblock %}
