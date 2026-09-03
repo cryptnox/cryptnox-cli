@@ -11,6 +11,7 @@
       <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=0912efa5" />
 
   
+    <link rel="canonical" href="https://docs.cryptnox.com/cryptnox-cli/_modules/cryptnox_cli/lib/cryptos/wallet.html" />
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../../../_static/documentation_options.js?v=d55fa986"></script>
@@ -19,7 +20,26 @@
       <script src="../../../../_static/custom.js?v=f0d783cb"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../../search.html" /> 
+    <link rel="search" title="Search" href="../../../../search.html" />
+ 
+<!-- Open Graph / social preview -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.cryptnox.com/cryptnox-cli/_modules/cryptnox_cli/lib/cryptos/wallet.html" />
+<meta property="og:title" content="cryptnox_cli.lib.cryptos.wallet | Cryptnox Docs" />
+<meta property="og:description" content="Cryptnox CLI — installation, supported hardware, command reference, interactive mode, BIP39 passphrase support and examples for managing Cryptnox smart card wallets from the terminal." />
+<meta property="og:site_name" content="Cryptnox Docs" />
+<meta property="og:image" content="https://cryptnox.com/wp-content/uploads/2026/09/cryptnox-documentation-social.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:alt" content="Cryptnox Technical Documentation" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@CryptnoxTech" />
+<meta name="twitter:title" content="cryptnox_cli.lib.cryptos.wallet | Cryptnox Docs" />
+<meta name="twitter:description" content="Cryptnox CLI — installation, supported hardware, command reference, interactive mode, BIP39 passphrase support and examples for managing Cryptnox smart card wallets from the terminal." />
+<meta name="twitter:image" content="https://cryptnox.com/wp-content/uploads/2026/09/cryptnox-documentation-social.jpg" />
+<meta name="twitter:image:alt" content="Cryptnox Technical Documentation" />
+
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -77,12 +97,12 @@
   <h1>Source code for cryptnox_cli.lib.cryptos.wallet</h1><div class="highlight"><pre>
 <span></span><span class="c1"># flake8: noqa</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">Simple wallet abstractions for addresses, balances, and signing flows.</span>
 
 <span class="sd">This module is based on code from pybtctools:</span>
 <span class="sd">https://github.com/primal100/pybitcointools/blob/master/cryptos/wallet.py</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.main</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.keystore</span><span class="w"> </span><span class="kn">import</span> <span class="n">xpubkey_to_address</span>
 
@@ -105,19 +125,19 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">electrum</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">script_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">xtype</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">script_type</span> <span class="o">=</span> <span class="s2">&quot;p2pkh&quot;</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">script_type</span> <span class="o">=</span> <span class="s2">"p2pkh"</span></div>
 
 
 <div class="viewcode-block" id="HDWallet.privkey">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.privkey">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">privkey</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">formt</span><span class="o">=</span><span class="s2">&quot;wif_compressed&quot;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">privkey</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">formt</span><span class="o">=</span><span class="s2">"wif_compressed"</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_watching_only</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">addr_derivation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">addresses</span><span class="p">[</span><span class="n">address</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
-                <span class="s2">&quot;Address </span><span class="si">%s</span><span class="s2"> has not been generated yet. Generate new addresses with new_receiving_addresses or new_change_addresses methods&quot;</span> <span class="o">%</span> <span class="n">address</span><span class="p">)</span>
+                <span class="s2">"Address </span><span class="si">%s</span><span class="s2"> has not been generated yet. Generate new addresses with new_receiving_addresses or new_change_addresses methods"</span> <span class="o">%</span> <span class="n">address</span><span class="p">)</span>
         <span class="n">pk</span><span class="p">,</span> <span class="n">compressed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">get_private_key</span><span class="p">(</span><span class="n">addr_derivation</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">coin</span><span class="o">.</span><span class="n">encode_privkey</span><span class="p">(</span><span class="n">pk</span><span class="p">,</span> <span class="n">formt</span><span class="p">,</span> <span class="n">script_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">script_type</span><span class="p">)</span></div>
 
@@ -128,8 +148,8 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_watching_only</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="p">{</span>
-            <span class="s1">&#39;receiving&#39;</span><span class="p">:</span> <span class="p">{</span><span class="n">addr</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">privkey</span><span class="p">(</span><span class="n">addr</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span> <span class="k">for</span> <span class="n">addr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">receiving_addresses</span><span class="p">},</span>
-            <span class="s1">&#39;change&#39;</span><span class="p">:</span> <span class="p">{</span><span class="n">addr</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">privkey</span><span class="p">(</span><span class="n">addr</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span> <span class="k">for</span> <span class="n">addr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_addresses</span><span class="p">}</span>
+            <span class="s1">'receiving'</span><span class="p">:</span> <span class="p">{</span><span class="n">addr</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">privkey</span><span class="p">(</span><span class="n">addr</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span> <span class="k">for</span> <span class="n">addr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">receiving_addresses</span><span class="p">},</span>
+            <span class="s1">'change'</span><span class="p">:</span> <span class="p">{</span><span class="n">addr</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">privkey</span><span class="p">(</span><span class="n">addr</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span> <span class="k">for</span> <span class="n">addr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_addresses</span><span class="p">}</span>
         <span class="p">}</span></div>
 
 
@@ -148,11 +168,11 @@
 <div class="viewcode-block" id="HDWallet.pubtoaddr">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.pubtoaddr">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">pubtoaddr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pubkey</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">xtype</span> <span class="o">==</span> <span class="s2">&quot;p2pkh&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">xtype</span> <span class="o">==</span> <span class="s2">"p2pkh"</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">coin</span><span class="o">.</span><span class="n">pubtoaddr</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">xtype</span> <span class="o">==</span> <span class="s2">&quot;p2wpkh&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">xtype</span> <span class="o">==</span> <span class="s2">"p2wpkh"</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">coin</span><span class="o">.</span><span class="n">pubtosegwit</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">xtype</span> <span class="o">==</span> <span class="s2">&quot;p2wpkh-p2sh&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">xtype</span> <span class="o">==</span> <span class="s2">"p2wpkh-p2sh"</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">coin</span><span class="o">.</span><span class="n">pubtop2w</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 
@@ -287,9 +307,9 @@
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.account">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">derivation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">addresses</span><span class="p">[</span><span class="n">address</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">privkey</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">privkey</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">formt</span><span class="o">=</span><span class="s2">&quot;wif_compressed&quot;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
+        <span class="n">privkey</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">privkey</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">formt</span><span class="o">=</span><span class="s2">"wif_compressed"</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
         <span class="n">pub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coin</span><span class="o">.</span><span class="n">privtopub</span><span class="p">(</span><span class="n">privkey</span><span class="p">)</span>
-        <span class="n">derivation</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">&#39;/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">root_derivation</span><span class="p">,</span> <span class="n">derivation</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">derivation</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">derivation</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">'/</span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">root_derivation</span><span class="p">,</span> <span class="n">derivation</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">derivation</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">derivation</span><span class="p">,</span> <span class="n">privkey</span><span class="p">,</span> <span class="n">pub</span><span class="p">,</span> <span class="n">address</span><span class="p">)</span></div>
 
 
@@ -297,12 +317,12 @@
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet.HDWallet.details">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">details</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">{</span>
-            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s2">&quot;Electrum&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">electrum</span> <span class="k">else</span> <span class="s2">&quot;BIP39&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">xtype</span><span class="p">),</span>
-            <span class="s1">&#39;xkeys&#39;</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">root_derivation</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">xpriv</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">xpub</span><span class="p">),</span>
-            <span class="s1">&#39;xreceiving&#39;</span><span class="p">:</span> <span class="p">(),</span>
-            <span class="s1">&#39;xchange&#39;</span><span class="p">:</span> <span class="p">(),</span>
-            <span class="s1">&#39;receiving&#39;</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">account</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">receiving_addresses</span><span class="p">],</span>
-            <span class="s1">&#39;change&#39;</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">account</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_addresses</span><span class="p">]</span>
+            <span class="s1">'type'</span><span class="p">:</span> <span class="s2">"</span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="s2">"Electrum"</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">electrum</span> <span class="k">else</span> <span class="s2">"BIP39"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">xtype</span><span class="p">),</span>
+            <span class="s1">'xkeys'</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">root_derivation</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">xpriv</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">keystore</span><span class="o">.</span><span class="n">xpub</span><span class="p">),</span>
+            <span class="s1">'xreceiving'</span><span class="p">:</span> <span class="p">(),</span>
+            <span class="s1">'xchange'</span><span class="p">:</span> <span class="p">(),</span>
+            <span class="s1">'receiving'</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">account</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">receiving_addresses</span><span class="p">],</span>
+            <span class="s1">'change'</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">account</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_addresses</span><span class="p">]</span>
         <span class="p">}</span></div>
 </div>
 

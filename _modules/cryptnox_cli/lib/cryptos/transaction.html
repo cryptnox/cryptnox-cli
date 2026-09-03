@@ -11,6 +11,7 @@
       <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=0912efa5" />
 
   
+    <link rel="canonical" href="https://docs.cryptnox.com/cryptnox-cli/_modules/cryptnox_cli/lib/cryptos/transaction.html" />
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../../../_static/documentation_options.js?v=d55fa986"></script>
@@ -19,7 +20,26 @@
       <script src="../../../../_static/custom.js?v=f0d783cb"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../../search.html" /> 
+    <link rel="search" title="Search" href="../../../../search.html" />
+ 
+<!-- Open Graph / social preview -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.cryptnox.com/cryptnox-cli/_modules/cryptnox_cli/lib/cryptos/transaction.html" />
+<meta property="og:title" content="cryptnox_cli.lib.cryptos.transaction | Cryptnox Docs" />
+<meta property="og:description" content="Cryptnox CLI — installation, supported hardware, command reference, interactive mode, BIP39 passphrase support and examples for managing Cryptnox smart card wallets from the terminal." />
+<meta property="og:site_name" content="Cryptnox Docs" />
+<meta property="og:image" content="https://cryptnox.com/wp-content/uploads/2026/09/cryptnox-documentation-social.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:alt" content="Cryptnox Technical Documentation" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@CryptnoxTech" />
+<meta name="twitter:title" content="cryptnox_cli.lib.cryptos.transaction | Cryptnox Docs" />
+<meta name="twitter:description" content="Cryptnox CLI — installation, supported hardware, command reference, interactive mode, BIP39 passphrase support and examples for managing Cryptnox smart card wallets from the terminal." />
+<meta name="twitter:image" content="https://cryptnox.com/wp-content/uploads/2026/09/cryptnox-documentation-social.jpg" />
+<meta name="twitter:image:alt" content="Cryptnox Technical Documentation" />
+
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -77,9 +97,9 @@
   <h1>Source code for cryptnox_cli.lib.cryptos.transaction</h1><div class="highlight"><pre>
 <span></span><span class="c1"># flake8: noqa</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">Transaction building, serialization, signing, and parsing utilities.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="c1">#!/usr/bin/python</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">binascii</span><span class="o">,</span><span class="w"> </span><span class="nn">re</span><span class="o">,</span><span class="w"> </span><span class="nn">copy</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.main</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
@@ -157,7 +177,7 @@
 <div class="viewcode-block" id="list_to_bytes">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.transaction.list_to_bytes">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">list_to_bytes</span><span class="p">(</span><span class="n">vals</span><span class="p">):</span>
-    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_python2</span> <span class="k">else</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">())</span></div>
+    <span class="k">return</span> <span class="s1">''</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_python2</span> <span class="k">else</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">())</span></div>
 
 
 <div class="viewcode-block" id="dbl_sha256_list">
@@ -178,12 +198,12 @@
 <div class="viewcode-block" id="deserialize">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.transaction.deserialize">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">deserialize</span><span class="p">(</span><span class="n">tx</span><span class="p">):</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^[0-9a-fA-F]*$&#39;</span><span class="p">,</span> <span class="n">tx</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">'^[0-9a-fA-F]*$'</span><span class="p">,</span> <span class="n">tx</span><span class="p">):</span>
         <span class="c1"># tx = bytes(bytearray.fromhex(tx))</span>
         <span class="k">return</span> <span class="n">json_changebase</span><span class="p">(</span><span class="n">deserialize</span><span class="p">(</span><span class="n">binascii</span><span class="o">.</span><span class="n">unhexlify</span><span class="p">(</span><span class="n">tx</span><span class="p">)),</span>
                                <span class="n">safe_hexlify</span><span class="p">)</span>
     <span class="c1"># http://stackoverflow.com/questions/4851463/python-closure-write-to-variable-in-parent-scope</span>
-    <span class="c1"># Python&#39;s scoping rules are demented, requiring me to make pos an object</span>
+    <span class="c1"># Python's scoping rules are demented, requiring me to make pos an object</span>
     <span class="c1"># so that it is call-by-reference</span>
     <span class="n">pos</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
@@ -210,40 +230,40 @@
         <span class="n">size</span> <span class="o">=</span> <span class="n">read_var_int</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">num_to_var_int</span><span class="p">(</span><span class="n">size</span><span class="p">)</span><span class="o">+</span><span class="n">read_bytes</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
 
-    <span class="n">obj</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;ins&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;outs&quot;</span><span class="p">:</span> <span class="p">[]}</span>
-    <span class="n">obj</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">read_as_int</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">obj</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"ins"</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">"outs"</span><span class="p">:</span> <span class="p">[]}</span>
+    <span class="n">obj</span><span class="p">[</span><span class="s2">"version"</span><span class="p">]</span> <span class="o">=</span> <span class="n">read_as_int</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
     <span class="n">has_witness</span> <span class="o">=</span> <span class="n">is_segwit</span><span class="p">(</span><span class="n">tx</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">has_witness</span><span class="p">:</span>
-        <span class="n">obj</span><span class="p">[</span><span class="s1">&#39;marker&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">read_as_int</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">obj</span><span class="p">[</span><span class="s1">&#39;flag&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">read_as_int</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">obj</span><span class="p">[</span><span class="s1">'marker'</span><span class="p">]</span> <span class="o">=</span> <span class="n">read_as_int</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">obj</span><span class="p">[</span><span class="s1">'flag'</span><span class="p">]</span> <span class="o">=</span> <span class="n">read_as_int</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">ins</span> <span class="o">=</span> <span class="n">read_var_int</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ins</span><span class="p">):</span>
-        <span class="n">obj</span><span class="p">[</span><span class="s2">&quot;ins&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-            <span class="s2">&quot;outpoint&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;hash&quot;</span><span class="p">:</span> <span class="n">read_bytes</span><span class="p">(</span><span class="mi">32</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-                <span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="n">read_as_int</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="n">obj</span><span class="p">[</span><span class="s2">"ins"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s2">"outpoint"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"hash"</span><span class="p">:</span> <span class="n">read_bytes</span><span class="p">(</span><span class="mi">32</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                <span class="s2">"index"</span><span class="p">:</span> <span class="n">read_as_int</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
             <span class="p">},</span>
-            <span class="s2">&quot;script&quot;</span><span class="p">:</span> <span class="n">read_var_string</span><span class="p">(),</span>
-            <span class="s2">&quot;sequence&quot;</span><span class="p">:</span> <span class="n">read_as_int</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+            <span class="s2">"script"</span><span class="p">:</span> <span class="n">read_var_string</span><span class="p">(),</span>
+            <span class="s2">"sequence"</span><span class="p">:</span> <span class="n">read_as_int</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
         <span class="p">})</span>
     <span class="n">outs</span> <span class="o">=</span> <span class="n">read_var_int</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">outs</span><span class="p">):</span>
-        <span class="n">obj</span><span class="p">[</span><span class="s2">&quot;outs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-            <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">read_as_int</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span>
-            <span class="s2">&quot;script&quot;</span><span class="p">:</span> <span class="n">read_var_string</span><span class="p">()</span>
+        <span class="n">obj</span><span class="p">[</span><span class="s2">"outs"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s2">"value"</span><span class="p">:</span> <span class="n">read_as_int</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span>
+            <span class="s2">"script"</span><span class="p">:</span> <span class="n">read_var_string</span><span class="p">()</span>
         <span class="p">})</span>
     <span class="k">if</span> <span class="n">has_witness</span><span class="p">:</span>
-        <span class="n">obj</span><span class="p">[</span><span class="s1">&#39;witness&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">obj</span><span class="p">[</span><span class="s1">'witness'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ins</span><span class="p">):</span>
             <span class="n">number</span> <span class="o">=</span> <span class="n">read_var_int</span><span class="p">()</span>
             <span class="n">scriptCode</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
                 <span class="n">scriptCode</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">read_segwit_string</span><span class="p">())</span>
-            <span class="n">obj</span><span class="p">[</span><span class="s1">&#39;witness&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-                <span class="s1">&#39;number&#39;</span><span class="p">:</span> <span class="n">number</span><span class="p">,</span>
-                <span class="s1">&#39;scriptCode&#39;</span><span class="p">:</span> <span class="n">list_to_bytes</span><span class="p">(</span><span class="n">scriptCode</span><span class="p">)</span>
+            <span class="n">obj</span><span class="p">[</span><span class="s1">'witness'</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">'number'</span><span class="p">:</span> <span class="n">number</span><span class="p">,</span>
+                <span class="s1">'scriptCode'</span><span class="p">:</span> <span class="n">list_to_bytes</span><span class="p">(</span><span class="n">scriptCode</span><span class="p">)</span>
             <span class="p">})</span>
-    <span class="n">obj</span><span class="p">[</span><span class="s2">&quot;locktime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">read_as_int</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">obj</span><span class="p">[</span><span class="s2">"locktime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">read_as_int</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">obj</span></div>
 
 
@@ -257,24 +277,24 @@
         <span class="n">json_changedbase</span> <span class="o">=</span> <span class="n">json_changebase</span><span class="p">(</span><span class="n">txobj</span><span class="p">,</span> <span class="n">binascii</span><span class="o">.</span><span class="n">unhexlify</span><span class="p">)</span>
         <span class="n">hexlified</span> <span class="o">=</span> <span class="n">safe_hexlify</span><span class="p">(</span><span class="n">serialize</span><span class="p">(</span><span class="n">json_changedbase</span><span class="p">,</span> <span class="n">include_witness</span><span class="o">=</span><span class="n">include_witness</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">hexlified</span>
-    <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode_4_bytes</span><span class="p">(</span><span class="n">txobj</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">]))</span>
-    <span class="k">if</span> <span class="n">include_witness</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">k</span> <span class="ow">in</span> <span class="n">txobj</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;marker&#39;</span><span class="p">,</span> <span class="s1">&#39;flag&#39;</span><span class="p">]):</span>
-        <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode_1_byte</span><span class="p">(</span><span class="n">txobj</span><span class="p">[</span><span class="s2">&quot;marker&quot;</span><span class="p">]))</span>
-        <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode_1_byte</span><span class="p">(</span><span class="n">txobj</span><span class="p">[</span><span class="s2">&quot;flag&quot;</span><span class="p">]))</span>
-    <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num_to_var_int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">txobj</span><span class="p">[</span><span class="s2">&quot;ins&quot;</span><span class="p">])))</span>
-    <span class="k">for</span> <span class="n">inp</span> <span class="ow">in</span> <span class="n">txobj</span><span class="p">[</span><span class="s2">&quot;ins&quot;</span><span class="p">]:</span>
-        <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s2">&quot;outpoint&quot;</span><span class="p">][</span><span class="s2">&quot;hash&quot;</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-        <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode_4_bytes</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s2">&quot;outpoint&quot;</span><span class="p">][</span><span class="s2">&quot;index&quot;</span><span class="p">]))</span>
-        <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num_to_var_int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s2">&quot;script&quot;</span><span class="p">]))</span> <span class="o">+</span> <span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s2">&quot;script&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">inp</span><span class="p">[</span><span class="s2">&quot;script&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">is_python2</span> <span class="k">else</span> <span class="nb">bytes</span><span class="p">()))</span>
-        <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode_4_bytes</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s2">&quot;sequence&quot;</span><span class="p">]))</span>
-    <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num_to_var_int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">txobj</span><span class="p">[</span><span class="s2">&quot;outs&quot;</span><span class="p">])))</span>
-    <span class="k">for</span> <span class="n">out</span> <span class="ow">in</span> <span class="n">txobj</span><span class="p">[</span><span class="s2">&quot;outs&quot;</span><span class="p">]:</span>
-        <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode_8_bytes</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]))</span>
-        <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num_to_var_int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s2">&quot;script&quot;</span><span class="p">]))</span> <span class="o">+</span> <span class="n">out</span><span class="p">[</span><span class="s2">&quot;script&quot;</span><span class="p">])</span>
-    <span class="k">if</span> <span class="n">include_witness</span> <span class="ow">and</span> <span class="s2">&quot;witness&quot;</span> <span class="ow">in</span> <span class="n">txobj</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-        <span class="k">for</span> <span class="n">witness</span> <span class="ow">in</span> <span class="n">txobj</span><span class="p">[</span><span class="s2">&quot;witness&quot;</span><span class="p">]:</span>
-            <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num_to_var_int</span><span class="p">(</span><span class="n">witness</span><span class="p">[</span><span class="s2">&quot;number&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="p">(</span><span class="n">witness</span><span class="p">[</span><span class="s2">&quot;scriptCode&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">witness</span><span class="p">[</span><span class="s2">&quot;scriptCode&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">is_python2</span> <span class="k">else</span> <span class="nb">bytes</span><span class="p">()))</span>
-    <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode_4_bytes</span><span class="p">(</span><span class="n">txobj</span><span class="p">[</span><span class="s2">&quot;locktime&quot;</span><span class="p">]))</span>
+    <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode_4_bytes</span><span class="p">(</span><span class="n">txobj</span><span class="p">[</span><span class="s2">"version"</span><span class="p">]))</span>
+    <span class="k">if</span> <span class="n">include_witness</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">k</span> <span class="ow">in</span> <span class="n">txobj</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'marker'</span><span class="p">,</span> <span class="s1">'flag'</span><span class="p">]):</span>
+        <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode_1_byte</span><span class="p">(</span><span class="n">txobj</span><span class="p">[</span><span class="s2">"marker"</span><span class="p">]))</span>
+        <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode_1_byte</span><span class="p">(</span><span class="n">txobj</span><span class="p">[</span><span class="s2">"flag"</span><span class="p">]))</span>
+    <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num_to_var_int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">txobj</span><span class="p">[</span><span class="s2">"ins"</span><span class="p">])))</span>
+    <span class="k">for</span> <span class="n">inp</span> <span class="ow">in</span> <span class="n">txobj</span><span class="p">[</span><span class="s2">"ins"</span><span class="p">]:</span>
+        <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s2">"outpoint"</span><span class="p">][</span><span class="s2">"hash"</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode_4_bytes</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s2">"outpoint"</span><span class="p">][</span><span class="s2">"index"</span><span class="p">]))</span>
+        <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num_to_var_int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s2">"script"</span><span class="p">]))</span> <span class="o">+</span> <span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s2">"script"</span><span class="p">]</span> <span class="k">if</span> <span class="n">inp</span><span class="p">[</span><span class="s2">"script"</span><span class="p">]</span> <span class="ow">or</span> <span class="n">is_python2</span> <span class="k">else</span> <span class="nb">bytes</span><span class="p">()))</span>
+        <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode_4_bytes</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s2">"sequence"</span><span class="p">]))</span>
+    <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num_to_var_int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">txobj</span><span class="p">[</span><span class="s2">"outs"</span><span class="p">])))</span>
+    <span class="k">for</span> <span class="n">out</span> <span class="ow">in</span> <span class="n">txobj</span><span class="p">[</span><span class="s2">"outs"</span><span class="p">]:</span>
+        <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode_8_bytes</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s2">"value"</span><span class="p">]))</span>
+        <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num_to_var_int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s2">"script"</span><span class="p">]))</span> <span class="o">+</span> <span class="n">out</span><span class="p">[</span><span class="s2">"script"</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">include_witness</span> <span class="ow">and</span> <span class="s2">"witness"</span> <span class="ow">in</span> <span class="n">txobj</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">witness</span> <span class="ow">in</span> <span class="n">txobj</span><span class="p">[</span><span class="s2">"witness"</span><span class="p">]:</span>
+            <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num_to_var_int</span><span class="p">(</span><span class="n">witness</span><span class="p">[</span><span class="s2">"number"</span><span class="p">])</span> <span class="o">+</span> <span class="p">(</span><span class="n">witness</span><span class="p">[</span><span class="s2">"scriptCode"</span><span class="p">]</span> <span class="k">if</span> <span class="n">witness</span><span class="p">[</span><span class="s2">"scriptCode"</span><span class="p">]</span> <span class="ow">or</span> <span class="n">is_python2</span> <span class="k">else</span> <span class="nb">bytes</span><span class="p">()))</span>
+    <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode_4_bytes</span><span class="p">(</span><span class="n">txobj</span><span class="p">[</span><span class="s2">"locktime"</span><span class="p">]))</span>
     <span class="k">return</span> <span class="n">list_to_bytes</span><span class="p">(</span><span class="n">o</span><span class="p">)</span></div>
 
 
@@ -288,33 +308,33 @@
 
     <span class="k">if</span> <span class="n">json_is_base</span><span class="p">(</span><span class="n">txobj</span><span class="p">,</span> <span class="mi">16</span><span class="p">):</span>
         <span class="n">txobj</span> <span class="o">=</span> <span class="n">json_changebase</span><span class="p">(</span><span class="n">txobj</span><span class="p">,</span> <span class="n">binascii</span><span class="o">.</span><span class="n">unhexlify</span><span class="p">)</span>
-    <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode</span><span class="p">(</span><span class="n">txobj</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">],</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">4</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode</span><span class="p">(</span><span class="n">txobj</span><span class="p">[</span><span class="s2">"version"</span><span class="p">],</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">4</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
     <span class="n">serialized_ins</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">inp</span> <span class="ow">in</span> <span class="n">txobj</span><span class="p">[</span><span class="s2">&quot;ins&quot;</span><span class="p">]:</span>
-        <span class="n">serialized_ins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s2">&quot;outpoint&quot;</span><span class="p">][</span><span class="s2">&quot;hash&quot;</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-        <span class="n">serialized_ins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode_4_bytes</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s2">&quot;outpoint&quot;</span><span class="p">][</span><span class="s2">&quot;index&quot;</span><span class="p">]))</span>
+    <span class="k">for</span> <span class="n">inp</span> <span class="ow">in</span> <span class="n">txobj</span><span class="p">[</span><span class="s2">"ins"</span><span class="p">]:</span>
+        <span class="n">serialized_ins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s2">"outpoint"</span><span class="p">][</span><span class="s2">"hash"</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">serialized_ins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode_4_bytes</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s2">"outpoint"</span><span class="p">][</span><span class="s2">"index"</span><span class="p">]))</span>
     <span class="n">inputs_hashed</span> <span class="o">=</span> <span class="n">dbl_sha256_list</span><span class="p">(</span><span class="n">serialized_ins</span><span class="p">)</span>
     <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">inputs_hashed</span><span class="p">)</span>
 
-    <span class="n">sequences</span> <span class="o">=</span> <span class="n">dbl_sha256_list</span><span class="p">([</span><span class="n">encode_4_bytes</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s2">&quot;sequence&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">inp</span> <span class="ow">in</span> <span class="n">txobj</span><span class="p">[</span><span class="s1">&#39;ins&#39;</span><span class="p">]])</span>
+    <span class="n">sequences</span> <span class="o">=</span> <span class="n">dbl_sha256_list</span><span class="p">([</span><span class="n">encode_4_bytes</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s2">"sequence"</span><span class="p">])</span> <span class="k">for</span> <span class="n">inp</span> <span class="ow">in</span> <span class="n">txobj</span><span class="p">[</span><span class="s1">'ins'</span><span class="p">]])</span>
     <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sequences</span><span class="p">)</span>
 
-    <span class="n">inp</span> <span class="o">=</span> <span class="n">txobj</span><span class="p">[</span><span class="s1">&#39;ins&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
-    <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s2">&quot;outpoint&quot;</span><span class="p">][</span><span class="s2">&quot;hash&quot;</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode_4_bytes</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s2">&quot;outpoint&quot;</span><span class="p">][</span><span class="s2">&quot;index&quot;</span><span class="p">]))</span>
-    <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num_to_var_int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s2">&quot;script&quot;</span><span class="p">]))</span> <span class="o">+</span> <span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s2">&quot;script&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">inp</span><span class="p">[</span><span class="s2">&quot;script&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">is_python2</span> <span class="k">else</span> <span class="nb">bytes</span><span class="p">()))</span>
-    <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode_8_bytes</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s1">&#39;amount&#39;</span><span class="p">]))</span>
-    <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode_4_bytes</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s1">&#39;sequence&#39;</span><span class="p">]))</span>
+    <span class="n">inp</span> <span class="o">=</span> <span class="n">txobj</span><span class="p">[</span><span class="s1">'ins'</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s2">"outpoint"</span><span class="p">][</span><span class="s2">"hash"</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode_4_bytes</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s2">"outpoint"</span><span class="p">][</span><span class="s2">"index"</span><span class="p">]))</span>
+    <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num_to_var_int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s2">"script"</span><span class="p">]))</span> <span class="o">+</span> <span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s2">"script"</span><span class="p">]</span> <span class="k">if</span> <span class="n">inp</span><span class="p">[</span><span class="s2">"script"</span><span class="p">]</span> <span class="ow">or</span> <span class="n">is_python2</span> <span class="k">else</span> <span class="nb">bytes</span><span class="p">()))</span>
+    <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode_8_bytes</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s1">'amount'</span><span class="p">]))</span>
+    <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode_4_bytes</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s1">'sequence'</span><span class="p">]))</span>
 
     <span class="n">serialized_outs</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">out</span> <span class="ow">in</span> <span class="n">txobj</span><span class="p">[</span><span class="s2">&quot;outs&quot;</span><span class="p">]:</span>
-        <span class="n">serialized_outs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode_8_bytes</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]))</span>
-        <span class="n">serialized_outs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num_to_var_int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s2">&quot;script&quot;</span><span class="p">]))</span> <span class="o">+</span> <span class="n">out</span><span class="p">[</span><span class="s2">&quot;script&quot;</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">out</span> <span class="ow">in</span> <span class="n">txobj</span><span class="p">[</span><span class="s2">"outs"</span><span class="p">]:</span>
+        <span class="n">serialized_outs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode_8_bytes</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s2">"value"</span><span class="p">]))</span>
+        <span class="n">serialized_outs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num_to_var_int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s2">"script"</span><span class="p">]))</span> <span class="o">+</span> <span class="n">out</span><span class="p">[</span><span class="s2">"script"</span><span class="p">])</span>
     <span class="n">outputs_hashed</span> <span class="o">=</span> <span class="n">dbl_sha256_list</span><span class="p">(</span><span class="n">serialized_outs</span><span class="p">)</span>
     <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">outputs_hashed</span><span class="p">)</span>
 
-    <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode_4_bytes</span><span class="p">(</span><span class="n">txobj</span><span class="p">[</span><span class="s2">&quot;locktime&quot;</span><span class="p">]))</span>
+    <span class="n">o</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encode_4_bytes</span><span class="p">(</span><span class="n">txobj</span><span class="p">[</span><span class="s2">"locktime"</span><span class="p">]))</span>
 
     <span class="k">return</span> <span class="n">list_to_bytes</span><span class="p">(</span><span class="n">o</span><span class="p">)</span></div>
 
@@ -325,22 +345,22 @@
     <span class="n">i</span><span class="p">,</span> <span class="n">hashcode</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">hashcode</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">string_or_bytes_types</span><span class="p">):</span>
         <span class="n">tx</span> <span class="o">=</span> <span class="n">deserialize</span><span class="p">(</span><span class="n">tx</span><span class="p">)</span>
-    <span class="n">is_segwit</span> <span class="o">=</span> <span class="n">tx</span><span class="p">[</span><span class="s1">&#39;ins&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;segwit&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">or</span> <span class="n">tx</span><span class="p">[</span><span class="s1">&#39;ins&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;new_segwit&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">is_segwit</span> <span class="o">=</span> <span class="n">tx</span><span class="p">[</span><span class="s1">'ins'</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'segwit'</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">or</span> <span class="n">tx</span><span class="p">[</span><span class="s1">'ins'</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'new_segwit'</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
     <span class="n">newtx</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">tx</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">inp</span> <span class="ow">in</span> <span class="n">newtx</span><span class="p">[</span><span class="s2">&quot;ins&quot;</span><span class="p">]:</span>
-        <span class="n">inp</span><span class="p">[</span><span class="s2">&quot;script&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-    <span class="n">newtx</span><span class="p">[</span><span class="s2">&quot;ins&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;script&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">script</span>
+    <span class="k">for</span> <span class="n">inp</span> <span class="ow">in</span> <span class="n">newtx</span><span class="p">[</span><span class="s2">"ins"</span><span class="p">]:</span>
+        <span class="n">inp</span><span class="p">[</span><span class="s2">"script"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="n">newtx</span><span class="p">[</span><span class="s2">"ins"</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s2">"script"</span><span class="p">]</span> <span class="o">=</span> <span class="n">script</span>
     <span class="k">if</span> <span class="n">is_segwit</span> <span class="ow">or</span> <span class="n">hashcode</span> <span class="o">&amp;</span> <span class="mi">255</span> <span class="o">==</span> <span class="n">SIGHASH_ALL</span> <span class="o">+</span> <span class="n">SIGHASH_FORKID</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">uahf_digest</span><span class="p">(</span><span class="n">newtx</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">hashcode</span> <span class="o">==</span> <span class="n">SIGHASH_NONE</span><span class="p">:</span>
-        <span class="n">newtx</span><span class="p">[</span><span class="s2">&quot;outs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">newtx</span><span class="p">[</span><span class="s2">"outs"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">elif</span> <span class="n">hashcode</span> <span class="o">==</span> <span class="n">SIGHASH_SINGLE</span><span class="p">:</span>
-        <span class="n">newtx</span><span class="p">[</span><span class="s2">&quot;outs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">newtx</span><span class="p">[</span><span class="s2">&quot;outs&quot;</span><span class="p">][:</span><span class="nb">len</span><span class="p">(</span><span class="n">newtx</span><span class="p">[</span><span class="s2">&quot;ins&quot;</span><span class="p">])]</span>
-        <span class="k">for</span> <span class="n">out</span> <span class="ow">in</span> <span class="n">newtx</span><span class="p">[</span><span class="s2">&quot;outs&quot;</span><span class="p">][:</span><span class="nb">len</span><span class="p">(</span><span class="n">newtx</span><span class="p">[</span><span class="s2">&quot;ins&quot;</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]:</span>
-            <span class="n">out</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">64</span> <span class="o">-</span> <span class="mi">1</span>
-            <span class="n">out</span><span class="p">[</span><span class="s1">&#39;script&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">newtx</span><span class="p">[</span><span class="s2">"outs"</span><span class="p">]</span> <span class="o">=</span> <span class="n">newtx</span><span class="p">[</span><span class="s2">"outs"</span><span class="p">][:</span><span class="nb">len</span><span class="p">(</span><span class="n">newtx</span><span class="p">[</span><span class="s2">"ins"</span><span class="p">])]</span>
+        <span class="k">for</span> <span class="n">out</span> <span class="ow">in</span> <span class="n">newtx</span><span class="p">[</span><span class="s2">"outs"</span><span class="p">][:</span><span class="nb">len</span><span class="p">(</span><span class="n">newtx</span><span class="p">[</span><span class="s2">"ins"</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]:</span>
+            <span class="n">out</span><span class="p">[</span><span class="s1">'value'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">64</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="n">out</span><span class="p">[</span><span class="s1">'script'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">""</span>
     <span class="k">elif</span> <span class="n">hashcode</span> <span class="o">==</span> <span class="n">SIGHASH_ANYONECANPAY</span><span class="p">:</span>
-        <span class="n">newtx</span><span class="p">[</span><span class="s2">&quot;ins&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">newtx</span><span class="p">[</span><span class="s2">&quot;ins&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]]</span>
+        <span class="n">newtx</span><span class="p">[</span><span class="s2">"ins"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">newtx</span><span class="p">[</span><span class="s2">"ins"</span><span class="p">][</span><span class="n">i</span><span class="p">]]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">pass</span>
     <span class="k">return</span> <span class="n">serialize</span><span class="p">(</span><span class="n">newtx</span><span class="p">,</span> <span class="n">include_witness</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
@@ -353,13 +373,13 @@
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.transaction.der_encode_sig">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">der_encode_sig</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
     <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span> <span class="o">=</span> <span class="n">safe_hexlify</span><span class="p">(</span><span class="n">encode</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="mi">256</span><span class="p">)),</span> <span class="n">safe_hexlify</span><span class="p">(</span><span class="n">encode</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">256</span><span class="p">))</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">b1</span><span class="p">)</span> <span class="ow">and</span> <span class="n">b1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="s1">&#39;89abcdef&#39;</span><span class="p">:</span>
-        <span class="n">b1</span> <span class="o">=</span> <span class="s1">&#39;00&#39;</span> <span class="o">+</span> <span class="n">b1</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">b2</span><span class="p">)</span> <span class="ow">and</span> <span class="n">b2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="s1">&#39;89abcdef&#39;</span><span class="p">:</span>
-        <span class="n">b2</span> <span class="o">=</span> <span class="s1">&#39;00&#39;</span> <span class="o">+</span> <span class="n">b2</span>
-    <span class="n">left</span> <span class="o">=</span> <span class="s1">&#39;02&#39;</span><span class="o">+</span><span class="n">encode</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">b1</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="n">b1</span>
-    <span class="n">right</span> <span class="o">=</span> <span class="s1">&#39;02&#39;</span><span class="o">+</span><span class="n">encode</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">b2</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="n">b2</span>
-    <span class="k">return</span> <span class="s1">&#39;30&#39;</span><span class="o">+</span><span class="n">encode</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="o">+</span><span class="n">right</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="n">left</span><span class="o">+</span><span class="n">right</span></div>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">b1</span><span class="p">)</span> <span class="ow">and</span> <span class="n">b1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="s1">'89abcdef'</span><span class="p">:</span>
+        <span class="n">b1</span> <span class="o">=</span> <span class="s1">'00'</span> <span class="o">+</span> <span class="n">b1</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">b2</span><span class="p">)</span> <span class="ow">and</span> <span class="n">b2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="s1">'89abcdef'</span><span class="p">:</span>
+        <span class="n">b2</span> <span class="o">=</span> <span class="s1">'00'</span> <span class="o">+</span> <span class="n">b2</span>
+    <span class="n">left</span> <span class="o">=</span> <span class="s1">'02'</span><span class="o">+</span><span class="n">encode</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">b1</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="n">b1</span>
+    <span class="n">right</span> <span class="o">=</span> <span class="s1">'02'</span><span class="o">+</span><span class="n">encode</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">b2</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="n">b2</span>
+    <span class="k">return</span> <span class="s1">'30'</span><span class="o">+</span><span class="n">encode</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="o">+</span><span class="n">right</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="n">left</span><span class="o">+</span><span class="n">right</span></div>
 
 
 <div class="viewcode-block" id="der_decode_sig">
@@ -375,13 +395,13 @@
 <div class="viewcode-block" id="is_bip66">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.transaction.is_bip66">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_bip66</span><span class="p">(</span><span class="n">sig</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Checks hex DER sig for BIP66 consistency&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Checks hex DER sig for BIP66 consistency"""</span>
     <span class="c1">#https://raw.githubusercontent.com/bitcoin/bips/master/bip-0066.mediawiki</span>
     <span class="c1">#0x30  [total-len]  0x02  [R-len]  [R]  0x02  [S-len]  [S]  [sighash]</span>
-    <span class="n">sig</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">sig</span><span class="p">)</span> <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^[0-9a-fA-F]*$&#39;</span><span class="p">,</span> <span class="n">sig</span><span class="p">)</span> <span class="k">else</span> <span class="nb">bytearray</span><span class="p">(</span><span class="n">sig</span><span class="p">)</span>
+    <span class="n">sig</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">sig</span><span class="p">)</span> <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">'^[0-9a-fA-F]*$'</span><span class="p">,</span> <span class="n">sig</span><span class="p">)</span> <span class="k">else</span> <span class="nb">bytearray</span><span class="p">(</span><span class="n">sig</span><span class="p">)</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">sig</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mh">0x30</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">sig</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">sig</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span><span class="p">):</span>     <span class="c1"># check if sighash is missing</span>
-            <span class="n">sig</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\1</span><span class="s2">&quot;</span><span class="p">)</span>		                   	<span class="c1"># add SIGHASH_ALL for testing</span>
-    <span class="c1">#assert (sig[-1] &amp; 124 == 0) and (not not sig[-1]), &quot;Bad SIGHASH value&quot;</span>
+            <span class="n">sig</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="sa">b</span><span class="s2">"</span><span class="se">\1</span><span class="s2">"</span><span class="p">)</span>		                   	<span class="c1"># add SIGHASH_ALL for testing</span>
+    <span class="c1">#assert (sig[-1] &amp; 124 == 0) and (not not sig[-1]), "Bad SIGHASH value"</span>
     
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sig</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">9</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">sig</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">73</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">sig</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mh">0x30</span><span class="p">):</span> <span class="k">return</span> <span class="kc">False</span>
@@ -405,7 +425,7 @@
 <div class="viewcode-block" id="txhash">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.transaction.txhash">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">txhash</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">hashcode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wtxid</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^[0-9a-fA-F]*$&#39;</span><span class="p">,</span> <span class="n">tx</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">'^[0-9a-fA-F]*$'</span><span class="p">,</span> <span class="n">tx</span><span class="p">):</span>
         <span class="n">tx</span> <span class="o">=</span> <span class="n">changebase</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">wtxid</span> <span class="ow">and</span> <span class="n">is_segwit</span><span class="p">(</span><span class="n">tx</span><span class="p">):</span>
         <span class="n">tx</span> <span class="o">=</span> <span class="n">serialize</span><span class="p">(</span><span class="n">deserialize</span><span class="p">(</span><span class="n">tx</span><span class="p">),</span> <span class="n">include_witness</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -450,7 +470,7 @@
     <span class="n">_</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">der_decode_sig</span><span class="p">(</span><span class="n">sig</span><span class="p">)</span>
     <span class="n">left</span> <span class="o">=</span> <span class="n">ecdsa_raw_recover</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">s</span><span class="p">))</span>
     <span class="n">right</span> <span class="o">=</span> <span class="n">ecdsa_raw_recover</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">s</span><span class="p">))</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">encode_pubkey</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="s1">&#39;hex&#39;</span><span class="p">),</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="s1">&#39;hex&#39;</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="p">(</span><span class="n">encode_pubkey</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="s1">'hex'</span><span class="p">),</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="s1">'hex'</span><span class="p">))</span></div>
 
 
 <span class="c1"># Scripts</span>
@@ -458,29 +478,29 @@
 <div class="viewcode-block" id="mk_pubkey_script">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.transaction.mk_pubkey_script">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">mk_pubkey_script</span><span class="p">(</span><span class="n">addr</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Used in converting p2pkh address to input or output script</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="s1">&#39;76a914&#39;</span> <span class="o">+</span> <span class="n">b58check_to_hex</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;88ac&#39;</span></div>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="s1">'76a914'</span> <span class="o">+</span> <span class="n">b58check_to_hex</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span> <span class="o">+</span> <span class="s1">'88ac'</span></div>
 
 
 <div class="viewcode-block" id="mk_scripthash_script">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.transaction.mk_scripthash_script">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">mk_scripthash_script</span><span class="p">(</span><span class="n">addr</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Used in converting p2sh address to output script</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="s1">&#39;a914&#39;</span> <span class="o">+</span> <span class="n">b58check_to_hex</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;87&#39;</span></div>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="s1">'a914'</span> <span class="o">+</span> <span class="n">b58check_to_hex</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span> <span class="o">+</span> <span class="s1">'87'</span></div>
 
 
 <div class="viewcode-block" id="output_script_to_address">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.transaction.output_script_to_address">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">output_script_to_address</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">magicbyte</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">script</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;76&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">script</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'76'</span><span class="p">):</span>
         <span class="n">script</span> <span class="o">=</span> <span class="n">script</span><span class="p">[</span><span class="mi">6</span><span class="p">:]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">script</span> <span class="o">=</span> <span class="n">script</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>
-    <span class="k">if</span> <span class="n">script</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;88ac&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">script</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">'88ac'</span><span class="p">):</span>
         <span class="n">script</span> <span class="o">=</span> <span class="n">script</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">script</span> <span class="o">=</span> <span class="n">script</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
@@ -490,46 +510,46 @@
 <div class="viewcode-block" id="mk_p2w_scripthash_script">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.transaction.mk_p2w_scripthash_script">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">mk_p2w_scripthash_script</span><span class="p">(</span><span class="n">witver</span><span class="p">,</span> <span class="n">witprog</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Used in converting a decoded pay to witness script hash address to output script</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">assert</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">witver</span> <span class="o">&lt;=</span> <span class="mi">16</span><span class="p">)</span>
     <span class="n">OP_n</span> <span class="o">=</span> <span class="n">witver</span> <span class="o">+</span> <span class="mh">0x50</span> <span class="k">if</span> <span class="n">witver</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
-    <span class="k">return</span> <span class="n">bytes_to_hex_string</span><span class="p">([</span><span class="n">OP_n</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;14&#39;</span> <span class="o">+</span> <span class="p">(</span><span class="n">bytes_to_hex_string</span><span class="p">(</span><span class="n">witprog</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">bytes_to_hex_string</span><span class="p">([</span><span class="n">OP_n</span><span class="p">])</span> <span class="o">+</span> <span class="s1">'14'</span> <span class="o">+</span> <span class="p">(</span><span class="n">bytes_to_hex_string</span><span class="p">(</span><span class="n">witprog</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="mk_p2wpkh_redeemscript">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.transaction.mk_p2wpkh_redeemscript">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">mk_p2wpkh_redeemscript</span><span class="p">(</span><span class="n">pubkey</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Used in converting public key to p2wpkh script</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="s1">&#39;160014&#39;</span> <span class="o">+</span> <span class="n">pubkey_to_hash_hex</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)</span></div>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="s1">'160014'</span> <span class="o">+</span> <span class="n">pubkey_to_hash_hex</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="mk_p2wpkh_script">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.transaction.mk_p2wpkh_script">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">mk_p2wpkh_script</span><span class="p">(</span><span class="n">pubkey</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Used in converting public key to p2wpkh script</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">script</span> <span class="o">=</span> <span class="n">mk_p2wpkh_redeemscript</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span>
-    <span class="k">return</span> <span class="s1">&#39;a914&#39;</span><span class="o">+</span> <span class="n">hex_to_hash160</span><span class="p">(</span><span class="n">script</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;87&#39;</span></div>
+    <span class="k">return</span> <span class="s1">'a914'</span><span class="o">+</span> <span class="n">hex_to_hash160</span><span class="p">(</span><span class="n">script</span><span class="p">)</span> <span class="o">+</span> <span class="s1">'87'</span></div>
 
 
 <div class="viewcode-block" id="mk_p2wpkh_scriptcode">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.transaction.mk_p2wpkh_scriptcode">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">mk_p2wpkh_scriptcode</span><span class="p">(</span><span class="n">pubkey</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Used in signing for tx inputs</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="s1">&#39;76a914&#39;</span> <span class="o">+</span> <span class="n">pubkey_to_hash_hex</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;88ac&#39;</span></div>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="s1">'76a914'</span> <span class="o">+</span> <span class="n">pubkey_to_hash_hex</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)</span> <span class="o">+</span> <span class="s1">'88ac'</span></div>
 
 
 <div class="viewcode-block" id="p2wpkh_nested_script">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.transaction.p2wpkh_nested_script">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">p2wpkh_nested_script</span><span class="p">(</span><span class="n">pubkey</span><span class="p">):</span>
-    <span class="k">return</span> <span class="s1">&#39;0014&#39;</span> <span class="o">+</span> <span class="n">hash160</span><span class="p">(</span><span class="n">safe_from_hex</span><span class="p">(</span><span class="n">pubkey</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="s1">'0014'</span> <span class="o">+</span> <span class="n">hash160</span><span class="p">(</span><span class="n">safe_from_hex</span><span class="p">(</span><span class="n">pubkey</span><span class="p">))</span></div>
 
 
 <span class="c1"># Output script to address representation</span>
@@ -537,7 +557,7 @@
 <div class="viewcode-block" id="deserialize_script">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.transaction.deserialize_script">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">deserialize_script</span><span class="p">(</span><span class="n">script</span><span class="p">):</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^[0-9a-fA-F]*$&#39;</span><span class="p">,</span> <span class="n">script</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">'^[0-9a-fA-F]*$'</span><span class="p">,</span> <span class="n">script</span><span class="p">):</span>
        <span class="k">return</span> <span class="n">json_changebase</span><span class="p">(</span><span class="n">deserialize_script</span><span class="p">(</span><span class="n">binascii</span><span class="o">.</span><span class="n">unhexlify</span><span class="p">(</span><span class="n">script</span><span class="p">)),</span>
                               <span class="n">safe_hexlify</span><span class="p">)</span>
     <span class="n">out</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="p">[],</span> <span class="mi">0</span>
@@ -573,7 +593,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">from_int_to_byte</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">unit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="sa">b</span><span class="s1">'</span><span class="se">\x00</span><span class="s1">'</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">75</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">from_int_to_byte</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">unit</span><span class="p">))</span><span class="o">+</span><span class="n">unit</span>
@@ -591,7 +611,7 @@
         <span class="k">if</span> <span class="n">json_is_base</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="mi">16</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">binascii</span><span class="o">.</span><span class="n">hexlify</span><span class="p">(</span><span class="n">serialize_script</span><span class="p">(</span><span class="n">json_changebase</span><span class="p">(</span><span class="n">script</span><span class="p">,</span>
                                     <span class="n">binascii</span><span class="o">.</span><span class="n">unhexlify</span><span class="p">)))</span>
-        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">serialize_script_unit</span><span class="p">,</span> <span class="n">script</span><span class="p">))</span>
+        <span class="k">return</span> <span class="s1">''</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">serialize_script_unit</span><span class="p">,</span> <span class="n">script</span><span class="p">))</span>
 <span class="k">else</span><span class="p">:</span>
 <div class="viewcode-block" id="serialize_script">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.transaction.serialize_script">[docs]</a>
@@ -601,17 +621,17 @@
                                     <span class="n">binascii</span><span class="o">.</span><span class="n">unhexlify</span><span class="p">)))</span>
         <span class="n">result</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">map</span><span class="p">(</span><span class="n">serialize_script_unit</span><span class="p">,</span> <span class="n">script</span><span class="p">):</span>
-            <span class="n">result</span> <span class="o">+=</span> <span class="n">b</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)</span> <span class="k">else</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">+=</span> <span class="n">b</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)</span> <span class="k">else</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s1">'utf-8'</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">result</span></div>
 
 
 <div class="viewcode-block" id="mk_multisig_script">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.transaction.mk_multisig_script">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">mk_multisig_script</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>  <span class="c1"># [pubs],k or pub1,pub2...pub[n],M</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    :param args: List of public keys to used to create multisig and M, the number of signatures required to spend</span>
 <span class="sd">    :return: multisig script</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
         <span class="n">pubs</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">int</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="k">else</span><span class="p">:</span>
@@ -627,11 +647,11 @@
 <div class="viewcode-block" id="verify_tx_input">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.transaction.verify_tx_input">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">verify_tx_input</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">script</span><span class="p">,</span> <span class="n">sig</span><span class="p">,</span> <span class="n">pub</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^[0-9a-fA-F]*$&#39;</span><span class="p">,</span> <span class="n">tx</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">'^[0-9a-fA-F]*$'</span><span class="p">,</span> <span class="n">tx</span><span class="p">):</span>
         <span class="n">tx</span> <span class="o">=</span> <span class="n">binascii</span><span class="o">.</span><span class="n">unhexlify</span><span class="p">(</span><span class="n">tx</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^[0-9a-fA-F]*$&#39;</span><span class="p">,</span> <span class="n">script</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">'^[0-9a-fA-F]*$'</span><span class="p">,</span> <span class="n">script</span><span class="p">):</span>
         <span class="n">script</span> <span class="o">=</span> <span class="n">binascii</span><span class="o">.</span><span class="n">unhexlify</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^[0-9a-fA-F]*$&#39;</span><span class="p">,</span> <span class="n">sig</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">'^[0-9a-fA-F]*$'</span><span class="p">,</span> <span class="n">sig</span><span class="p">):</span>
         <span class="n">sig</span> <span class="o">=</span> <span class="n">safe_hexlify</span><span class="p">(</span><span class="n">sig</span><span class="p">)</span>
     <span class="n">hashcode</span> <span class="o">=</span> <span class="n">decode</span><span class="p">(</span><span class="n">sig</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:],</span> <span class="mi">16</span><span class="p">)</span>
     <span class="n">modtx</span> <span class="o">=</span> <span class="n">signature_form</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">script</span><span class="p">,</span> <span class="n">hashcode</span><span class="p">)</span>
@@ -643,9 +663,9 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">multisign</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">script</span><span class="p">,</span> <span class="n">pk</span><span class="p">,</span> <span class="n">hashcode</span><span class="o">=</span><span class="n">SIGHASH_ALL</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="n">tx</span> <span class="o">=</span> <span class="n">serialize</span><span class="p">(</span><span class="n">tx</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^[0-9a-fA-F]*$&#39;</span><span class="p">,</span> <span class="n">tx</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">'^[0-9a-fA-F]*$'</span><span class="p">,</span> <span class="n">tx</span><span class="p">):</span>
         <span class="n">tx</span> <span class="o">=</span> <span class="n">binascii</span><span class="o">.</span><span class="n">unhexlify</span><span class="p">(</span><span class="n">tx</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^[0-9a-fA-F]*$&#39;</span><span class="p">,</span> <span class="n">script</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">'^[0-9a-fA-F]*$'</span><span class="p">,</span> <span class="n">script</span><span class="p">):</span>
         <span class="n">script</span> <span class="o">=</span> <span class="n">binascii</span><span class="o">.</span><span class="n">unhexlify</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
     <span class="n">modtx</span> <span class="o">=</span> <span class="n">signature_form</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">script</span><span class="p">,</span> <span class="n">hashcode</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ecdsa_tx_sign</span><span class="p">(</span><span class="n">modtx</span><span class="p">,</span> <span class="n">pk</span><span class="p">,</span> <span class="n">hashcode</span><span class="p">)</span></div>
@@ -658,19 +678,19 @@
     <span class="c1"># tx,i,script,sigs OR tx,i,script,sig1,sig2...,sig[n]</span>
     <span class="n">sigs</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^[0-9a-fA-F]*$&#39;</span><span class="p">,</span> <span class="n">script</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">'^[0-9a-fA-F]*$'</span><span class="p">,</span> <span class="n">script</span><span class="p">):</span>
         <span class="n">script</span> <span class="o">=</span> <span class="n">binascii</span><span class="o">.</span><span class="n">unhexlify</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
-    <span class="n">sigs</span> <span class="o">=</span> <span class="p">[</span><span class="n">binascii</span><span class="o">.</span><span class="n">unhexlify</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;30&#39;</span> <span class="k">else</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">sigs</span><span class="p">]</span>
+    <span class="n">sigs</span> <span class="o">=</span> <span class="p">[</span><span class="n">binascii</span><span class="o">.</span><span class="n">unhexlify</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'30'</span> <span class="k">else</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">sigs</span><span class="p">]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">txobj</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="n">txobj</span> <span class="o">=</span> <span class="n">deserialize</span><span class="p">(</span><span class="n">txobj</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">txobj</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^[0-9a-fA-F]*$&#39;</span><span class="p">,</span> <span class="n">txobj</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">txobj</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">'^[0-9a-fA-F]*$'</span><span class="p">,</span> <span class="n">txobj</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">safe_hexlify</span><span class="p">(</span><span class="n">apply_multisignatures</span><span class="p">(</span><span class="n">binascii</span><span class="o">.</span><span class="n">unhexlify</span><span class="p">(</span><span class="n">txobj</span><span class="p">),</span> <span class="n">i</span><span class="p">,</span> <span class="n">script</span><span class="p">,</span> <span class="n">sigs</span><span class="p">))</span>
 
     <span class="c1"># Not pushing empty elements on the top of the stack if passing no</span>
     <span class="c1"># script (in case of bare multisig inputs there is no script)</span>
     <span class="n">script_blob</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">script</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">[</span><span class="n">script</span><span class="p">]</span>
 
-    <span class="n">txobj</span><span class="p">[</span><span class="s2">&quot;ins&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;script&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">safe_hexlify</span><span class="p">(</span><span class="n">serialize_script</span><span class="p">([</span><span class="kc">None</span><span class="p">]</span><span class="o">+</span><span class="n">sigs</span><span class="o">+</span><span class="n">script_blob</span><span class="p">))</span>
+    <span class="n">txobj</span><span class="p">[</span><span class="s2">"ins"</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s2">"script"</span><span class="p">]</span> <span class="o">=</span> <span class="n">safe_hexlify</span><span class="p">(</span><span class="n">serialize_script</span><span class="p">([</span><span class="kc">None</span><span class="p">]</span><span class="o">+</span><span class="n">sigs</span><span class="o">+</span><span class="n">script_blob</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">serialize</span><span class="p">(</span><span class="n">txobj</span><span class="p">)</span></div>
 
 
@@ -678,25 +698,25 @@
 <div class="viewcode-block" id="is_inp">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.transaction.is_inp">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_inp</span><span class="p">(</span><span class="n">arg</span><span class="p">):</span>
-    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">64</span> <span class="ow">or</span> <span class="s2">&quot;output&quot;</span> <span class="ow">in</span> <span class="n">arg</span> <span class="ow">or</span> <span class="s2">&quot;outpoint&quot;</span> <span class="ow">in</span> <span class="n">arg</span></div>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">64</span> <span class="ow">or</span> <span class="s2">"output"</span> <span class="ow">in</span> <span class="n">arg</span> <span class="ow">or</span> <span class="s2">"outpoint"</span> <span class="ow">in</span> <span class="n">arg</span></div>
 
 
 <div class="viewcode-block" id="select">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.transaction.select">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">select</span><span class="p">(</span><span class="n">unspent</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
     <span class="n">value</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-    <span class="n">high</span> <span class="o">=</span> <span class="p">[</span><span class="n">u</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">unspent</span> <span class="k">if</span> <span class="n">u</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">value</span><span class="p">]</span>
-    <span class="n">high</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">u</span><span class="p">:</span> <span class="n">u</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">])</span>
-    <span class="n">low</span> <span class="o">=</span> <span class="p">[</span><span class="n">u</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">unspent</span> <span class="k">if</span> <span class="n">u</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">value</span><span class="p">]</span>
-    <span class="n">low</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">u</span><span class="p">:</span> <span class="o">-</span><span class="n">u</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">])</span>
+    <span class="n">high</span> <span class="o">=</span> <span class="p">[</span><span class="n">u</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">unspent</span> <span class="k">if</span> <span class="n">u</span><span class="p">[</span><span class="s2">"value"</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">value</span><span class="p">]</span>
+    <span class="n">high</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">u</span><span class="p">:</span> <span class="n">u</span><span class="p">[</span><span class="s2">"value"</span><span class="p">])</span>
+    <span class="n">low</span> <span class="o">=</span> <span class="p">[</span><span class="n">u</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">unspent</span> <span class="k">if</span> <span class="n">u</span><span class="p">[</span><span class="s2">"value"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">value</span><span class="p">]</span>
+    <span class="n">low</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">u</span><span class="p">:</span> <span class="o">-</span><span class="n">u</span><span class="p">[</span><span class="s2">"value"</span><span class="p">])</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">high</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">high</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
     <span class="n">i</span><span class="p">,</span> <span class="n">tv</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
     <span class="k">while</span> <span class="n">tv</span> <span class="o">&lt;</span> <span class="n">value</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">low</span><span class="p">):</span>
-        <span class="n">tv</span> <span class="o">+=</span> <span class="n">low</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+        <span class="n">tv</span> <span class="o">+=</span> <span class="n">low</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">"value"</span><span class="p">]</span>
         <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="k">if</span> <span class="n">tv</span> <span class="o">&lt;</span> <span class="n">value</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Not enough funds&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"Not enough funds"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">low</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span></div>
 
 </pre></div>

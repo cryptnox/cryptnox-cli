@@ -11,6 +11,7 @@
       <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=0912efa5" />
 
   
+    <link rel="canonical" href="https://docs.cryptnox.com/cryptnox-cli/_modules/cryptnox_cli/lib/cryptos/specials.html" />
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../../../_static/documentation_options.js?v=d55fa986"></script>
@@ -19,7 +20,26 @@
       <script src="../../../../_static/custom.js?v=f0d783cb"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../../search.html" /> 
+    <link rel="search" title="Search" href="../../../../search.html" />
+ 
+<!-- Open Graph / social preview -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.cryptnox.com/cryptnox-cli/_modules/cryptnox_cli/lib/cryptos/specials.html" />
+<meta property="og:title" content="cryptnox_cli.lib.cryptos.specials | Cryptnox Docs" />
+<meta property="og:description" content="Cryptnox CLI — installation, supported hardware, command reference, interactive mode, BIP39 passphrase support and examples for managing Cryptnox smart card wallets from the terminal." />
+<meta property="og:site_name" content="Cryptnox Docs" />
+<meta property="og:image" content="https://cryptnox.com/wp-content/uploads/2026/09/cryptnox-documentation-social.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:alt" content="Cryptnox Technical Documentation" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@CryptnoxTech" />
+<meta name="twitter:title" content="cryptnox_cli.lib.cryptos.specials | Cryptnox Docs" />
+<meta name="twitter:description" content="Cryptnox CLI — installation, supported hardware, command reference, interactive mode, BIP39 passphrase support and examples for managing Cryptnox smart card wallets from the terminal." />
+<meta name="twitter:image" content="https://cryptnox.com/wp-content/uploads/2026/09/cryptnox-documentation-social.jpg" />
+<meta name="twitter:image:alt" content="Cryptnox Technical Documentation" />
+
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -76,9 +96,9 @@
              
   <h1>Source code for cryptnox_cli.lib.cryptos.specials</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">Low-level helpers, type adapters, and encoding utilities shared across modules.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">binascii</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
@@ -88,12 +108,12 @@
 <span class="n">int_types</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
 <span class="c1"># Base switching</span>
 <span class="n">code_strings</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;01&#39;</span><span class="p">,</span>
-    <span class="mi">10</span><span class="p">:</span> <span class="s1">&#39;0123456789&#39;</span><span class="p">,</span>
-    <span class="mi">16</span><span class="p">:</span> <span class="s1">&#39;0123456789abcdef&#39;</span><span class="p">,</span>
-    <span class="mi">32</span><span class="p">:</span> <span class="s1">&#39;abcdefghijklmnopqrstuvwxyz234567&#39;</span><span class="p">,</span>
-    <span class="mi">58</span><span class="p">:</span> <span class="s1">&#39;123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz&#39;</span><span class="p">,</span>
-    <span class="mi">256</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">chr</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">)])</span>
+    <span class="mi">2</span><span class="p">:</span> <span class="s1">'01'</span><span class="p">,</span>
+    <span class="mi">10</span><span class="p">:</span> <span class="s1">'0123456789'</span><span class="p">,</span>
+    <span class="mi">16</span><span class="p">:</span> <span class="s1">'0123456789abcdef'</span><span class="p">,</span>
+    <span class="mi">32</span><span class="p">:</span> <span class="s1">'abcdefghijklmnopqrstuvwxyz234567'</span><span class="p">,</span>
+    <span class="mi">58</span><span class="p">:</span> <span class="s1">'123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'</span><span class="p">,</span>
+    <span class="mi">256</span><span class="p">:</span> <span class="s1">''</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">chr</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">)])</span>
 <span class="p">}</span>
 
 
@@ -120,7 +140,7 @@
     <span class="k">if</span> <span class="n">base</span> <span class="ow">in</span> <span class="n">code_strings</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">code_strings</span><span class="p">[</span><span class="n">base</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid base!&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Invalid base!"</span><span class="p">)</span></div>
 
 
 
@@ -149,7 +169,7 @@
         <span class="n">leadingzbytes</span> <span class="o">+=</span> <span class="mi">1</span>
 
     <span class="n">checksum</span> <span class="o">=</span> <span class="n">bin_dbl_sha256</span><span class="p">(</span><span class="n">inp</span><span class="p">)[:</span><span class="mi">4</span><span class="p">]</span>
-    <span class="k">return</span> <span class="s1">&#39;1&#39;</span> <span class="o">*</span> <span class="n">leadingzbytes</span> <span class="o">+</span> <span class="n">changebase</span><span class="p">(</span><span class="n">inp</span> <span class="o">+</span> <span class="n">checksum</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">58</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="s1">'1'</span> <span class="o">*</span> <span class="n">leadingzbytes</span> <span class="o">+</span> <span class="n">changebase</span><span class="p">(</span><span class="n">inp</span> <span class="o">+</span> <span class="n">checksum</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">58</span><span class="p">)</span></div>
 
 
 
@@ -159,7 +179,7 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">b</span>
 
-    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:02x}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">b</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="s1">''</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">'</span><span class="si">{:02x}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">b</span><span class="p">)</span></div>
 
 
 
@@ -173,7 +193,7 @@
 <div class="viewcode-block" id="from_int_representation_to_bytes">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.specials.from_int_representation_to_bytes">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">from_int_representation_to_bytes</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
-    <span class="k">return</span> <span class="nb">bytes</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="nb">bytes</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="s1">'utf-8'</span><span class="p">)</span></div>
 
 
 
@@ -194,14 +214,14 @@
 <div class="viewcode-block" id="from_string_to_bytes">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.specials.from_string_to_bytes">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">from_string_to_bytes</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">a</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)</span> <span class="k">else</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">a</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)</span> <span class="k">else</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="s1">'utf-8'</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="safe_hexlify">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.specials.safe_hexlify">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">safe_hexlify</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
-    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">binascii</span><span class="o">.</span><span class="n">hexlify</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">binascii</span><span class="o">.</span><span class="n">hexlify</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="s1">'utf-8'</span><span class="p">)</span></div>
 
 
 
@@ -218,12 +238,12 @@
 
     <span class="n">pad_size</span> <span class="o">=</span> <span class="n">minlen</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">result_bytes</span><span class="p">)</span>
 
-    <span class="n">padding_element</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="k">if</span> <span class="n">base</span> <span class="o">==</span> <span class="mi">256</span> <span class="k">else</span> <span class="sa">b</span><span class="s1">&#39;1&#39;</span> \
-        <span class="k">if</span> <span class="n">base</span> <span class="o">==</span> <span class="mi">58</span> <span class="k">else</span> <span class="sa">b</span><span class="s1">&#39;0&#39;</span>
+    <span class="n">padding_element</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">'</span><span class="se">\x00</span><span class="s1">'</span> <span class="k">if</span> <span class="n">base</span> <span class="o">==</span> <span class="mi">256</span> <span class="k">else</span> <span class="sa">b</span><span class="s1">'1'</span> \
+        <span class="k">if</span> <span class="n">base</span> <span class="o">==</span> <span class="mi">58</span> <span class="k">else</span> <span class="sa">b</span><span class="s1">'0'</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">pad_size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
         <span class="n">result_bytes</span> <span class="o">=</span> <span class="n">padding_element</span> <span class="o">*</span> <span class="n">pad_size</span> <span class="o">+</span> <span class="n">result_bytes</span>
 
-    <span class="n">result_string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">chr</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">result_bytes</span><span class="p">])</span>
+    <span class="n">result_string</span> <span class="o">=</span> <span class="s1">''</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">chr</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">result_bytes</span><span class="p">])</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">result_bytes</span> <span class="k">if</span> <span class="n">base</span> <span class="o">==</span> <span class="mi">256</span> <span class="k">else</span> <span class="n">result_string</span>
 
     <span class="k">return</span> <span class="n">result</span></div>

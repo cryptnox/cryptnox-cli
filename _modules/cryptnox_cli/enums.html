@@ -11,6 +11,7 @@
       <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=0912efa5" />
 
   
+    <link rel="canonical" href="https://docs.cryptnox.com/cryptnox-cli/_modules/cryptnox_cli/enums.html" />
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=d55fa986"></script>
@@ -19,7 +20,26 @@
       <script src="../../_static/custom.js?v=f0d783cb"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
+    <link rel="search" title="Search" href="../../search.html" />
+ 
+<!-- Open Graph / social preview -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.cryptnox.com/cryptnox-cli/_modules/cryptnox_cli/enums.html" />
+<meta property="og:title" content="cryptnox_cli.enums | Cryptnox Docs" />
+<meta property="og:description" content="Cryptnox CLI — installation, supported hardware, command reference, interactive mode, BIP39 passphrase support and examples for managing Cryptnox smart card wallets from the terminal." />
+<meta property="og:site_name" content="Cryptnox Docs" />
+<meta property="og:image" content="https://cryptnox.com/wp-content/uploads/2026/09/cryptnox-documentation-social.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:alt" content="Cryptnox Technical Documentation" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@CryptnoxTech" />
+<meta name="twitter:title" content="cryptnox_cli.enums | Cryptnox Docs" />
+<meta name="twitter:description" content="Cryptnox CLI — installation, supported hardware, command reference, interactive mode, BIP39 passphrase support and examples for managing Cryptnox smart card wallets from the terminal." />
+<meta name="twitter:image" content="https://cryptnox.com/wp-content/uploads/2026/09/cryptnox-documentation-social.jpg" />
+<meta name="twitter:image:alt" content="Cryptnox Technical Documentation" />
+
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -76,9 +96,9 @@
              
   <h1>Source code for cryptnox_cli.enums</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">Module for defining enumerations used throughout the CryptnoxPro application.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
 
@@ -86,9 +106,9 @@
 <div class="viewcode-block" id="EthNetwork">
 <a class="viewcode-back" href="../../cryptnox_cli.html#cryptnox_cli.enums.EthNetwork">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EthNetwork</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Class defining possible Ethereum networks</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">MAINNET</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">KOVAN</span> <span class="o">=</span> <span class="mi">42</span>
     <span class="n">GOERLI</span> <span class="o">=</span> <span class="mi">5</span>
@@ -100,9 +120,9 @@
 <div class="viewcode-block" id="SolanaNetwork">
 <a class="viewcode-back" href="../../cryptnox_cli.html#cryptnox_cli.enums.SolanaNetwork">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SolanaNetwork</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Class defining possible Solana networks</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">MAINNET</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">DEVNET</span> <span class="o">=</span> <span class="mi">2</span>
     <span class="n">TESTNET</span> <span class="o">=</span> <span class="mi">3</span></div>
@@ -112,24 +132,24 @@
 <div class="viewcode-block" id="Command">
 <a class="viewcode-back" href="../../cryptnox_cli.html#cryptnox_cli.enums.Command">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Command</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-    <span class="n">BTC</span> <span class="o">=</span> <span class="s2">&quot;btc&quot;</span>
-    <span class="n">CARD_CONFIGURATION</span> <span class="o">=</span> <span class="s2">&quot;card_conf&quot;</span>
-    <span class="n">CHANGE_PIN</span> <span class="o">=</span> <span class="s2">&quot;change_pin&quot;</span>
-    <span class="n">CHANGE_PUK</span> <span class="o">=</span> <span class="s2">&quot;change_puk&quot;</span>
-    <span class="n">CONFIG</span> <span class="o">=</span> <span class="s2">&quot;config&quot;</span>
-    <span class="n">ETH</span> <span class="o">=</span> <span class="s2">&quot;eth&quot;</span>
-    <span class="n">HISTORY</span> <span class="o">=</span> <span class="s2">&quot;history&quot;</span>
-    <span class="n">INFO</span> <span class="o">=</span> <span class="s2">&quot;info&quot;</span>
-    <span class="n">INITIALIZE</span> <span class="o">=</span> <span class="s2">&quot;init&quot;</span>
-    <span class="n">CARD</span> <span class="o">=</span> <span class="s2">&quot;list&quot;</span>
-    <span class="n">SERVER</span> <span class="o">=</span> <span class="s2">&quot;server&quot;</span>
-    <span class="n">RESET</span> <span class="o">=</span> <span class="s2">&quot;reset&quot;</span>
-    <span class="n">SEED</span> <span class="o">=</span> <span class="s2">&quot;seed&quot;</span>
-    <span class="n">SOLANA</span> <span class="o">=</span> <span class="s2">&quot;solana&quot;</span>
-    <span class="n">UNLOCK_PIN</span> <span class="o">=</span> <span class="s2">&quot;unlock_pin&quot;</span>
-    <span class="n">USER_KEY</span> <span class="o">=</span> <span class="s2">&quot;user_key&quot;</span>
-    <span class="n">TRANSFER</span> <span class="o">=</span> <span class="s2">&quot;transfer&quot;</span>
-    <span class="n">CERTIFICATE</span> <span class="o">=</span> <span class="s2">&quot;cert&quot;</span></div>
+    <span class="n">BTC</span> <span class="o">=</span> <span class="s2">"btc"</span>
+    <span class="n">CARD_CONFIGURATION</span> <span class="o">=</span> <span class="s2">"card_conf"</span>
+    <span class="n">CHANGE_PIN</span> <span class="o">=</span> <span class="s2">"change_pin"</span>
+    <span class="n">CHANGE_PUK</span> <span class="o">=</span> <span class="s2">"change_puk"</span>
+    <span class="n">CONFIG</span> <span class="o">=</span> <span class="s2">"config"</span>
+    <span class="n">ETH</span> <span class="o">=</span> <span class="s2">"eth"</span>
+    <span class="n">HISTORY</span> <span class="o">=</span> <span class="s2">"history"</span>
+    <span class="n">INFO</span> <span class="o">=</span> <span class="s2">"info"</span>
+    <span class="n">INITIALIZE</span> <span class="o">=</span> <span class="s2">"init"</span>
+    <span class="n">CARD</span> <span class="o">=</span> <span class="s2">"list"</span>
+    <span class="n">SERVER</span> <span class="o">=</span> <span class="s2">"server"</span>
+    <span class="n">RESET</span> <span class="o">=</span> <span class="s2">"reset"</span>
+    <span class="n">SEED</span> <span class="o">=</span> <span class="s2">"seed"</span>
+    <span class="n">SOLANA</span> <span class="o">=</span> <span class="s2">"solana"</span>
+    <span class="n">UNLOCK_PIN</span> <span class="o">=</span> <span class="s2">"unlock_pin"</span>
+    <span class="n">USER_KEY</span> <span class="o">=</span> <span class="s2">"user_key"</span>
+    <span class="n">TRANSFER</span> <span class="o">=</span> <span class="s2">"transfer"</span>
+    <span class="n">CERTIFICATE</span> <span class="o">=</span> <span class="s2">"cert"</span></div>
 
 </pre></div>
 

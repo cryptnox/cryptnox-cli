@@ -11,6 +11,7 @@
       <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=0912efa5" />
 
   
+    <link rel="canonical" href="https://docs.cryptnox.com/cryptnox-cli/_modules/cryptnox_cli/lib/cryptos/main.html" />
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../../../_static/documentation_options.js?v=d55fa986"></script>
@@ -19,7 +20,26 @@
       <script src="../../../../_static/custom.js?v=f0d783cb"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../../search.html" /> 
+    <link rel="search" title="Search" href="../../../../search.html" />
+ 
+<!-- Open Graph / social preview -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.cryptnox.com/cryptnox-cli/_modules/cryptnox_cli/lib/cryptos/main.html" />
+<meta property="og:title" content="cryptnox_cli.lib.cryptos.main | Cryptnox Docs" />
+<meta property="og:description" content="Cryptnox CLI — installation, supported hardware, command reference, interactive mode, BIP39 passphrase support and examples for managing Cryptnox smart card wallets from the terminal." />
+<meta property="og:site_name" content="Cryptnox Docs" />
+<meta property="og:image" content="https://cryptnox.com/wp-content/uploads/2026/09/cryptnox-documentation-social.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:alt" content="Cryptnox Technical Documentation" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@CryptnoxTech" />
+<meta name="twitter:title" content="cryptnox_cli.lib.cryptos.main | Cryptnox Docs" />
+<meta name="twitter:description" content="Cryptnox CLI — installation, supported hardware, command reference, interactive mode, BIP39 passphrase support and examples for managing Cryptnox smart card wallets from the terminal." />
+<meta name="twitter:image" content="https://cryptnox.com/wp-content/uploads/2026/09/cryptnox-documentation-social.jpg" />
+<meta name="twitter:image:alt" content="Cryptnox Technical Documentation" />
+
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -77,12 +97,12 @@
   <h1>Source code for cryptnox_cli.lib.cryptos.main</h1><div class="highlight"><pre>
 <span></span><span class="c1"># flake8: noqa</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">Core cryptographic and encoding primitives used by higher-level modules.</span>
 
 <span class="sd">This module is based on code from pybitcointools:</span>
 <span class="sd">https://github.com/primal100/pybitcointools/blob/master/cryptos/main.py</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="c1">#!/usr/bin/python</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">binascii</span>
@@ -149,7 +169,7 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">obj</span><span class="p">[</span><span class="n">prop</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="s1">&#39;.&#39;</span> <span class="ow">in</span> <span class="n">prop</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="s1">'.'</span> <span class="ow">in</span> <span class="n">prop</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">obj</span><span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">prop</span><span class="p">)]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">obj</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">prop</span><span class="p">)]</span>
@@ -291,30 +311,30 @@
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.get_pubkey_format">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_pubkey_format</span><span class="p">(</span><span class="n">pub</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">is_python2</span><span class="p">:</span>
-        <span class="n">two</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\x02</span><span class="s1">&#39;</span>
-        <span class="n">three</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\x03</span><span class="s1">&#39;</span>
-        <span class="n">four</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\x04</span><span class="s1">&#39;</span>
+        <span class="n">two</span> <span class="o">=</span> <span class="s1">'</span><span class="se">\x02</span><span class="s1">'</span>
+        <span class="n">three</span> <span class="o">=</span> <span class="s1">'</span><span class="se">\x03</span><span class="s1">'</span>
+        <span class="n">four</span> <span class="o">=</span> <span class="s1">'</span><span class="se">\x04</span><span class="s1">'</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">two</span> <span class="o">=</span> <span class="mi">2</span>
         <span class="n">three</span> <span class="o">=</span> <span class="mi">3</span>
         <span class="n">four</span> <span class="o">=</span> <span class="mi">4</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pub</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
-        <span class="k">return</span> <span class="s1">&#39;decimal&#39;</span>
+        <span class="k">return</span> <span class="s1">'decimal'</span>
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">pub</span><span class="p">)</span> <span class="o">==</span> <span class="mi">65</span> <span class="ow">and</span> <span class="n">pub</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">four</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;bin&#39;</span>
-    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">pub</span><span class="p">)</span> <span class="o">==</span> <span class="mi">130</span> <span class="ow">and</span> <span class="n">pub</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;04&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;hex&#39;</span>
+        <span class="k">return</span> <span class="s1">'bin'</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">pub</span><span class="p">)</span> <span class="o">==</span> <span class="mi">130</span> <span class="ow">and</span> <span class="n">pub</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'04'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">'hex'</span>
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">pub</span><span class="p">)</span> <span class="o">==</span> <span class="mi">33</span> <span class="ow">and</span> <span class="n">pub</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="n">two</span><span class="p">,</span> <span class="n">three</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="s1">&#39;bin_compressed&#39;</span>
-    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">pub</span><span class="p">)</span> <span class="o">==</span> <span class="mi">66</span> <span class="ow">and</span> <span class="n">pub</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;02&#39;</span><span class="p">,</span> <span class="s1">&#39;03&#39;</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="s1">&#39;hex_compressed&#39;</span>
+        <span class="k">return</span> <span class="s1">'bin_compressed'</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">pub</span><span class="p">)</span> <span class="o">==</span> <span class="mi">66</span> <span class="ow">and</span> <span class="n">pub</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'02'</span><span class="p">,</span> <span class="s1">'03'</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="s1">'hex_compressed'</span>
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">pub</span><span class="p">)</span> <span class="o">==</span> <span class="mi">64</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;bin_electrum&#39;</span>
+        <span class="k">return</span> <span class="s1">'bin_electrum'</span>
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">pub</span><span class="p">)</span> <span class="o">==</span> <span class="mi">128</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;hex_electrum&#39;</span>
+        <span class="k">return</span> <span class="s1">'hex_electrum'</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Pubkey not in recognized format&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"Pubkey not in recognized format"</span><span class="p">)</span></div>
 
 
 
@@ -323,22 +343,22 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">encode_pubkey</span><span class="p">(</span><span class="n">pub</span><span class="p">,</span> <span class="n">formt</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pub</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
         <span class="n">pub</span> <span class="o">=</span> <span class="n">decode_pubkey</span><span class="p">(</span><span class="n">pub</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;decimal&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'decimal'</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">pub</span>
-    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;bin&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x04</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">encode</span><span class="p">(</span><span class="n">pub</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span> <span class="o">+</span> <span class="n">encode</span><span class="p">(</span><span class="n">pub</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;bin_compressed&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'bin'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">b</span><span class="s1">'</span><span class="se">\x04</span><span class="s1">'</span> <span class="o">+</span> <span class="n">encode</span><span class="p">(</span><span class="n">pub</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span> <span class="o">+</span> <span class="n">encode</span><span class="p">(</span><span class="n">pub</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'bin_compressed'</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">from_int_to_byte</span><span class="p">(</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">pub</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">%</span> <span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="n">encode</span><span class="p">(</span><span class="n">pub</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;hex&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;04&#39;</span> <span class="o">+</span> <span class="n">encode</span><span class="p">(</span><span class="n">pub</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span> <span class="o">+</span> <span class="n">encode</span><span class="p">(</span><span class="n">pub</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;hex_compressed&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;0&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">pub</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">%</span> <span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="n">encode</span><span class="p">(</span><span class="n">pub</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;bin_electrum&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'hex'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">'04'</span> <span class="o">+</span> <span class="n">encode</span><span class="p">(</span><span class="n">pub</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span> <span class="o">+</span> <span class="n">encode</span><span class="p">(</span><span class="n">pub</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'hex_compressed'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">'0'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">pub</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">%</span> <span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="n">encode</span><span class="p">(</span><span class="n">pub</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'bin_electrum'</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">encode</span><span class="p">(</span><span class="n">pub</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span> <span class="o">+</span> <span class="n">encode</span><span class="p">(</span><span class="n">pub</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;hex_electrum&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'hex_electrum'</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">encode</span><span class="p">(</span><span class="n">pub</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span> <span class="o">+</span> <span class="n">encode</span><span class="p">(</span><span class="n">pub</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Invalid format!&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"Invalid format!"</span><span class="p">)</span></div>
 
 
 
@@ -346,25 +366,25 @@
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.decode_pubkey">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">decode_pubkey</span><span class="p">(</span><span class="n">pub</span><span class="p">,</span> <span class="n">formt</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">formt</span><span class="p">:</span> <span class="n">formt</span> <span class="o">=</span> <span class="n">get_pubkey_format</span><span class="p">(</span><span class="n">pub</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;decimal&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'decimal'</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">pub</span>
-    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;bin&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'bin'</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">decode</span><span class="p">(</span><span class="n">pub</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">33</span><span class="p">],</span> <span class="mi">256</span><span class="p">),</span> <span class="n">decode</span><span class="p">(</span><span class="n">pub</span><span class="p">[</span><span class="mi">33</span><span class="p">:</span><span class="mi">65</span><span class="p">],</span> <span class="mi">256</span><span class="p">))</span>
-    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;bin_compressed&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'bin_compressed'</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">decode</span><span class="p">(</span><span class="n">pub</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">33</span><span class="p">],</span> <span class="mi">256</span><span class="p">)</span>
         <span class="n">beta</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">A</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">B</span><span class="p">),</span> <span class="nb">int</span><span class="p">((</span><span class="n">P</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">4</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">P</span><span class="p">))</span>
         <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">P</span> <span class="o">-</span> <span class="n">beta</span><span class="p">)</span> <span class="k">if</span> <span class="p">((</span><span class="n">beta</span> <span class="o">+</span> <span class="n">from_byte_to_int</span><span class="p">(</span><span class="n">pub</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span> <span class="k">else</span> <span class="n">beta</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;hex&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'hex'</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">decode</span><span class="p">(</span><span class="n">pub</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">66</span><span class="p">],</span> <span class="mi">16</span><span class="p">),</span> <span class="n">decode</span><span class="p">(</span><span class="n">pub</span><span class="p">[</span><span class="mi">66</span><span class="p">:</span><span class="mi">130</span><span class="p">],</span> <span class="mi">16</span><span class="p">))</span>
-    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;hex_compressed&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">decode_pubkey</span><span class="p">(</span><span class="n">safe_from_hex</span><span class="p">(</span><span class="n">pub</span><span class="p">),</span> <span class="s1">&#39;bin_compressed&#39;</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;bin_electrum&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'hex_compressed'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">decode_pubkey</span><span class="p">(</span><span class="n">safe_from_hex</span><span class="p">(</span><span class="n">pub</span><span class="p">),</span> <span class="s1">'bin_compressed'</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'bin_electrum'</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">decode</span><span class="p">(</span><span class="n">pub</span><span class="p">[:</span><span class="mi">32</span><span class="p">],</span> <span class="mi">256</span><span class="p">),</span> <span class="n">decode</span><span class="p">(</span><span class="n">pub</span><span class="p">[</span><span class="mi">32</span><span class="p">:</span><span class="mi">64</span><span class="p">],</span> <span class="mi">256</span><span class="p">))</span>
-    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;hex_electrum&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'hex_electrum'</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">decode</span><span class="p">(</span><span class="n">pub</span><span class="p">[:</span><span class="mi">64</span><span class="p">],</span> <span class="mi">16</span><span class="p">),</span> <span class="n">decode</span><span class="p">(</span><span class="n">pub</span><span class="p">[</span><span class="mi">64</span><span class="p">:</span><span class="mi">128</span><span class="p">],</span> <span class="mi">16</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Invalid format!&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"Invalid format!"</span><span class="p">)</span></div>
 
 
 
@@ -372,23 +392,23 @@
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.get_privkey_format">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_privkey_format</span><span class="p">(</span><span class="n">priv</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">priv</span><span class="p">,</span> <span class="n">int_types</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;decimal&#39;</span>
+        <span class="k">return</span> <span class="s1">'decimal'</span>
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">priv</span><span class="p">)</span> <span class="o">==</span> <span class="mi">32</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;bin&#39;</span>
+        <span class="k">return</span> <span class="s1">'bin'</span>
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">priv</span><span class="p">)</span> <span class="o">==</span> <span class="mi">33</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;bin_compressed&#39;</span>
+        <span class="k">return</span> <span class="s1">'bin_compressed'</span>
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">priv</span><span class="p">)</span> <span class="o">==</span> <span class="mi">64</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;hex&#39;</span>
+        <span class="k">return</span> <span class="s1">'hex'</span>
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">priv</span><span class="p">)</span> <span class="o">==</span> <span class="mi">66</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;hex_compressed&#39;</span>
+        <span class="k">return</span> <span class="s1">'hex_compressed'</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">bin_p</span> <span class="o">=</span> <span class="n">b58check_to_bin</span><span class="p">(</span><span class="n">priv</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bin_p</span><span class="p">)</span> <span class="o">==</span> <span class="mi">32</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s1">&#39;wif&#39;</span>
+            <span class="k">return</span> <span class="s1">'wif'</span>
         <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">bin_p</span><span class="p">)</span> <span class="o">==</span> <span class="mi">33</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s1">&#39;wif_compressed&#39;</span>
+            <span class="k">return</span> <span class="s1">'wif_compressed'</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;WIF does not represent privkey&quot;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"WIF does not represent privkey"</span><span class="p">)</span></div>
 
 
 
@@ -397,22 +417,22 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">encode_privkey</span><span class="p">(</span><span class="n">priv</span><span class="p">,</span> <span class="n">formt</span><span class="p">,</span> <span class="n">vbyte</span><span class="o">=</span><span class="mi">128</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">priv</span><span class="p">,</span> <span class="n">int_types</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">encode_privkey</span><span class="p">(</span><span class="n">decode_privkey</span><span class="p">(</span><span class="n">priv</span><span class="p">),</span> <span class="n">formt</span><span class="p">,</span> <span class="n">vbyte</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;decimal&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'decimal'</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">priv</span>
-    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;bin&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'bin'</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">encode</span><span class="p">(</span><span class="n">priv</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;bin_compressed&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">encode</span><span class="p">(</span><span class="n">priv</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x01</span><span class="s1">&#39;</span>
-    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;hex&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'bin_compressed'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">encode</span><span class="p">(</span><span class="n">priv</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">'</span><span class="se">\x01</span><span class="s1">'</span>
+    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'hex'</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">encode</span><span class="p">(</span><span class="n">priv</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;hex_compressed&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">encode</span><span class="p">(</span><span class="n">priv</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;01&#39;</span>
-    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;wif&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'hex_compressed'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">encode</span><span class="p">(</span><span class="n">priv</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span> <span class="o">+</span> <span class="s1">'01'</span>
+    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'wif'</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">bin_to_b58check</span><span class="p">(</span><span class="n">encode</span><span class="p">(</span><span class="n">priv</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">vbyte</span><span class="p">))</span>
-    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;wif_compressed&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">bin_to_b58check</span><span class="p">(</span><span class="n">encode</span><span class="p">(</span><span class="n">priv</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x01</span><span class="s1">&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">vbyte</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'wif_compressed'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">bin_to_b58check</span><span class="p">(</span><span class="n">encode</span><span class="p">(</span><span class="n">priv</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">'</span><span class="se">\x01</span><span class="s1">'</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">vbyte</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Invalid format!&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"Invalid format!"</span><span class="p">)</span></div>
 
 
 
@@ -420,22 +440,22 @@
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.decode_privkey">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">decode_privkey</span><span class="p">(</span><span class="n">priv</span><span class="p">,</span> <span class="n">formt</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">formt</span><span class="p">:</span> <span class="n">formt</span> <span class="o">=</span> <span class="n">get_privkey_format</span><span class="p">(</span><span class="n">priv</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;decimal&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'decimal'</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">priv</span>
-    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;bin&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'bin'</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">decode</span><span class="p">(</span><span class="n">priv</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;bin_compressed&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'bin_compressed'</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">decode</span><span class="p">(</span><span class="n">priv</span><span class="p">[:</span><span class="mi">32</span><span class="p">],</span> <span class="mi">256</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;hex&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'hex'</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">decode</span><span class="p">(</span><span class="n">priv</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;hex_compressed&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'hex_compressed'</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">decode</span><span class="p">(</span><span class="n">priv</span><span class="p">[:</span><span class="mi">64</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;wif&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'wif'</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">decode</span><span class="p">(</span><span class="n">b58check_to_bin</span><span class="p">(</span><span class="n">priv</span><span class="p">),</span> <span class="mi">256</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">&#39;wif_compressed&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">formt</span> <span class="o">==</span> <span class="s1">'wif_compressed'</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">decode</span><span class="p">(</span><span class="n">b58check_to_bin</span><span class="p">(</span><span class="n">priv</span><span class="p">)[:</span><span class="mi">32</span><span class="p">],</span> <span class="mi">256</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;WIF does not represent privkey&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"WIF does not represent privkey"</span><span class="p">)</span></div>
 
 
 
@@ -470,7 +490,7 @@
     <span class="n">pubkey</span><span class="p">,</span> <span class="n">privkey</span> <span class="o">=</span> <span class="n">decode_pubkey</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">f1</span><span class="p">),</span> <span class="n">decode_privkey</span><span class="p">(</span><span class="n">privkey</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
     <span class="c1"># http://safecurves.cr.yp.to/twist.html</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">isinf</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">pubkey</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">B</span> <span class="o">-</span> <span class="n">pubkey</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">pubkey</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">%</span> <span class="n">P</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Point not on curve&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"Point not on curve"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">fast_multiply</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">privkey</span><span class="p">),</span> <span class="n">f1</span><span class="p">)</span></div>
 
 
@@ -487,12 +507,12 @@
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.compress">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">compress</span><span class="p">(</span><span class="n">pubkey</span><span class="p">):</span>
     <span class="n">f</span> <span class="o">=</span> <span class="n">get_pubkey_format</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s1">&#39;compressed&#39;</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">'compressed'</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">pubkey</span>
-    <span class="k">elif</span> <span class="n">f</span> <span class="o">==</span> <span class="s1">&#39;bin&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">decode_pubkey</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="s1">&#39;bin_compressed&#39;</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">f</span> <span class="o">==</span> <span class="s1">&#39;hex&#39;</span> <span class="ow">or</span> <span class="n">f</span> <span class="o">==</span> <span class="s1">&#39;decimal&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">decode_pubkey</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="s1">&#39;hex_compressed&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">f</span> <span class="o">==</span> <span class="s1">'bin'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">decode_pubkey</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="s1">'bin_compressed'</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">f</span> <span class="o">==</span> <span class="s1">'hex'</span> <span class="ow">or</span> <span class="n">f</span> <span class="o">==</span> <span class="s1">'decimal'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">decode_pubkey</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="s1">'hex_compressed'</span><span class="p">)</span>
     <span class="k">return</span> <span class="kc">None</span></div>
 
 
@@ -501,12 +521,12 @@
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.decompress">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">decompress</span><span class="p">(</span><span class="n">pubkey</span><span class="p">):</span>
     <span class="n">f</span> <span class="o">=</span> <span class="n">get_pubkey_format</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s1">&#39;compressed&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">'compressed'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">pubkey</span>
-    <span class="k">elif</span> <span class="n">f</span> <span class="o">==</span> <span class="s1">&#39;bin_compressed&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">decode_pubkey</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="s1">&#39;bin&#39;</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">f</span> <span class="o">==</span> <span class="s1">&#39;hex_compressed&#39;</span> <span class="ow">or</span> <span class="n">f</span> <span class="o">==</span> <span class="s1">&#39;decimal&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">decode_pubkey</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="s1">&#39;hex&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">f</span> <span class="o">==</span> <span class="s1">'bin_compressed'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">decode_pubkey</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="s1">'bin'</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">f</span> <span class="o">==</span> <span class="s1">'hex_compressed'</span> <span class="ow">or</span> <span class="n">f</span> <span class="o">==</span> <span class="s1">'decimal'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">decode_pubkey</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="s1">'hex'</span><span class="p">)</span>
     <span class="k">return</span> <span class="kc">None</span></div>
 
 
@@ -517,11 +537,11 @@
     <span class="n">f</span> <span class="o">=</span> <span class="n">get_privkey_format</span><span class="p">(</span><span class="n">privkey</span><span class="p">)</span>
     <span class="n">privkey</span> <span class="o">=</span> <span class="n">decode_privkey</span><span class="p">(</span><span class="n">privkey</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">privkey</span> <span class="o">&gt;=</span> <span class="n">N</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Invalid privkey&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;bin&#39;</span><span class="p">,</span> <span class="s1">&#39;bin_compressed&#39;</span><span class="p">,</span> <span class="s1">&#39;hex&#39;</span><span class="p">,</span> <span class="s1">&#39;hex_compressed&#39;</span><span class="p">,</span> <span class="s1">&#39;decimal&#39;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"Invalid privkey"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'bin'</span><span class="p">,</span> <span class="s1">'bin_compressed'</span><span class="p">,</span> <span class="s1">'hex'</span><span class="p">,</span> <span class="s1">'hex_compressed'</span><span class="p">,</span> <span class="s1">'decimal'</span><span class="p">]:</span>
         <span class="k">return</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">fast_multiply</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">privkey</span><span class="p">),</span> <span class="n">f</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">fast_multiply</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">privkey</span><span class="p">),</span> <span class="n">f</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;wif&#39;</span><span class="p">,</span> <span class="s1">&#39;hex&#39;</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">fast_multiply</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">privkey</span><span class="p">),</span> <span class="n">f</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'wif'</span><span class="p">,</span> <span class="s1">'hex'</span><span class="p">))</span></div>
 
 
 
@@ -581,11 +601,11 @@
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.bin_hash160">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">bin_hash160</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
     <span class="n">intermed</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
-    <span class="n">digest</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">digest</span> <span class="o">=</span> <span class="s1">''</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">digest</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;ripemd160&#39;</span><span class="p">,</span> <span class="n">intermed</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+        <span class="n">digest</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">'ripemd160'</span><span class="p">,</span> <span class="n">intermed</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="c1"># &#39;ripemd160&#39; may be unavailable (e.g. OpenSSL 3 legacy provider off);</span>
+        <span class="c1"># 'ripemd160' may be unavailable (e.g. OpenSSL 3 legacy provider off);</span>
         <span class="c1"># fall back to the bundled pure-Python implementation.</span>
         <span class="n">digest</span> <span class="o">=</span> <span class="n">RIPEMD160</span><span class="p">(</span><span class="n">intermed</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">digest</span></div>
@@ -609,7 +629,7 @@
 <div class="viewcode-block" id="bin_sha256">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.bin_sha256">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">bin_sha256</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
-    <span class="n">binary_data</span> <span class="o">=</span> <span class="n">string</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)</span> <span class="k">else</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+    <span class="n">binary_data</span> <span class="o">=</span> <span class="n">string</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)</span> <span class="k">else</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s1">'utf-8'</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">binary_data</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span></div>
 
 
@@ -625,9 +645,9 @@
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.bin_ripemd160">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">bin_ripemd160</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">digest</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;ripemd160&#39;</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+        <span class="n">digest</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">'ripemd160'</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-        <span class="c1"># &#39;ripemd160&#39; may be unavailable (e.g. OpenSSL 3 legacy provider off);</span>
+        <span class="c1"># 'ripemd160' may be unavailable (e.g. OpenSSL 3 legacy provider off);</span>
         <span class="c1"># fall back to the bundled pure-Python implementation.</span>
         <span class="n">digest</span> <span class="o">=</span> <span class="n">RIPEMD160</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">digest</span></div>
@@ -702,7 +722,7 @@
 <div class="viewcode-block" id="electrum_sig_hash">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.electrum_sig_hash">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">electrum_sig_hash</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
-    <span class="n">padded</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x18</span><span class="s2">Bitcoin Signed Message:</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">num_to_var_int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">message</span><span class="p">))</span> <span class="o">+</span> <span class="n">from_string_to_bytes</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+    <span class="n">padded</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">"</span><span class="se">\x18</span><span class="s2">Bitcoin Signed Message:</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="n">num_to_var_int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">message</span><span class="p">))</span> <span class="o">+</span> <span class="n">from_string_to_bytes</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">bin_dbl_sha256</span><span class="p">(</span><span class="n">padded</span><span class="p">)</span></div>
 
 
@@ -734,8 +754,8 @@
 <div class="viewcode-block" id="b58check_to_bin">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.b58check_to_bin">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">b58check_to_bin</span><span class="p">(</span><span class="n">inp</span><span class="p">):</span>
-    <span class="n">leadingzbytes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^1*&#39;</span><span class="p">,</span> <span class="n">inp</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="n">leadingzbytes</span> <span class="o">+</span> <span class="n">changebase</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>
+    <span class="n">leadingzbytes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">'^1*'</span><span class="p">,</span> <span class="n">inp</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">'</span><span class="se">\x00</span><span class="s1">'</span> <span class="o">*</span> <span class="n">leadingzbytes</span> <span class="o">+</span> <span class="n">changebase</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">bin_dbl_sha256</span><span class="p">(</span><span class="n">data</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">])[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span>
     <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span></div>
 
@@ -744,8 +764,8 @@
 <div class="viewcode-block" id="get_version_byte">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.get_version_byte">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_version_byte</span><span class="p">(</span><span class="n">inp</span><span class="p">):</span>
-    <span class="n">leadingzbytes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^1*&#39;</span><span class="p">,</span> <span class="n">inp</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="n">leadingzbytes</span> <span class="o">+</span> <span class="n">changebase</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>
+    <span class="n">leadingzbytes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">'^1*'</span><span class="p">,</span> <span class="n">inp</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">'</span><span class="se">\x00</span><span class="s1">'</span> <span class="o">*</span> <span class="n">leadingzbytes</span> <span class="o">+</span> <span class="n">changebase</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">bin_dbl_sha256</span><span class="p">(</span><span class="n">data</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">])[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span>
     <span class="k">return</span> <span class="nb">ord</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></div>
 
@@ -769,7 +789,7 @@
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.pubkey_to_hash">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">pubkey_to_hash</span><span class="p">(</span><span class="n">pubkey</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
-        <span class="n">pubkey</span> <span class="o">=</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="s1">&#39;bin&#39;</span><span class="p">)</span>
+        <span class="n">pubkey</span> <span class="o">=</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="s1">'bin'</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">66</span><span class="p">,</span> <span class="mi">130</span><span class="p">]:</span>
         <span class="k">return</span> <span class="n">bin_hash160</span><span class="p">(</span><span class="n">binascii</span><span class="o">.</span><span class="n">unhexlify</span><span class="p">(</span><span class="n">pubkey</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">bin_hash160</span><span class="p">(</span><span class="n">pubkey</span><span class="p">)</span></div>
@@ -824,8 +844,8 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">encode_sig</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
     <span class="n">vb</span><span class="p">,</span> <span class="n">rb</span><span class="p">,</span> <span class="n">sb</span> <span class="o">=</span> <span class="n">from_int_to_byte</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">encode</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="mi">256</span><span class="p">),</span> <span class="n">encode</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>
 
-    <span class="n">result</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">vb</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="mi">32</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">rb</span><span class="p">))</span> <span class="o">+</span> <span class="n">rb</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="mi">32</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">sb</span><span class="p">))</span> <span class="o">+</span> <span class="n">sb</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">result</span> <span class="k">if</span> <span class="n">is_python2</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span></div>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">vb</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">'</span><span class="se">\x00</span><span class="s1">'</span> <span class="o">*</span> <span class="p">(</span><span class="mi">32</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">rb</span><span class="p">))</span> <span class="o">+</span> <span class="n">rb</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">'</span><span class="se">\x00</span><span class="s1">'</span> <span class="o">*</span> <span class="p">(</span><span class="mi">32</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">sb</span><span class="p">))</span> <span class="o">+</span> <span class="n">sb</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span> <span class="k">if</span> <span class="n">is_python2</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s1">'utf-8'</span><span class="p">)</span></div>
 
 
 
@@ -843,13 +863,13 @@
 <div class="viewcode-block" id="deterministic_generate_k">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.deterministic_generate_k">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">deterministic_generate_k</span><span class="p">(</span><span class="n">msghash</span><span class="p">,</span> <span class="n">priv</span><span class="p">):</span>
-    <span class="n">v</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x01</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="mi">32</span>
-    <span class="n">k</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="mi">32</span>
-    <span class="n">priv</span> <span class="o">=</span> <span class="n">encode_privkey</span><span class="p">(</span><span class="n">priv</span><span class="p">,</span> <span class="s1">&#39;bin&#39;</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">'</span><span class="se">\x01</span><span class="s1">'</span> <span class="o">*</span> <span class="mi">32</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">'</span><span class="se">\x00</span><span class="s1">'</span> <span class="o">*</span> <span class="mi">32</span>
+    <span class="n">priv</span> <span class="o">=</span> <span class="n">encode_privkey</span><span class="p">(</span><span class="n">priv</span><span class="p">,</span> <span class="s1">'bin'</span><span class="p">)</span>
     <span class="n">msghash</span> <span class="o">=</span> <span class="n">encode</span><span class="p">(</span><span class="n">hash_to_int</span><span class="p">(</span><span class="n">msghash</span><span class="p">),</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
-    <span class="n">k</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">priv</span> <span class="o">+</span> <span class="n">msghash</span><span class="p">,</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">'</span><span class="se">\x00</span><span class="s1">'</span> <span class="o">+</span> <span class="n">priv</span> <span class="o">+</span> <span class="n">msghash</span><span class="p">,</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
     <span class="n">v</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
-    <span class="n">k</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x01</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">priv</span> <span class="o">+</span> <span class="n">msghash</span><span class="p">,</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">'</span><span class="se">\x01</span><span class="s1">'</span> <span class="o">+</span> <span class="n">priv</span> <span class="o">+</span> <span class="n">msghash</span><span class="p">,</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
     <span class="n">v</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">decode</span><span class="p">(</span><span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">(),</span> <span class="mi">256</span><span class="p">)</span></div>
 
@@ -865,7 +885,7 @@
     <span class="n">s</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">z</span> <span class="o">+</span> <span class="n">r</span> <span class="o">*</span> <span class="n">decode_privkey</span><span class="p">(</span><span class="n">priv</span><span class="p">))</span> <span class="o">%</span> <span class="n">N</span>
 
     <span class="n">v</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">27</span> <span class="o">+</span> <span class="p">((</span><span class="n">y</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span> <span class="o">^</span> <span class="p">(</span><span class="mi">0</span> <span class="k">if</span> <span class="n">s</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="k">else</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">r</span><span class="p">,</span> <span class="n">s</span> <span class="k">if</span> <span class="n">s</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="k">else</span> <span class="n">N</span> <span class="o">-</span> <span class="n">s</span>
-    <span class="k">if</span> <span class="s1">&#39;compressed&#39;</span> <span class="ow">in</span> <span class="n">get_privkey_format</span><span class="p">(</span><span class="n">priv</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s1">'compressed'</span> <span class="ow">in</span> <span class="n">get_privkey_format</span><span class="p">(</span><span class="n">priv</span><span class="p">):</span>
         <span class="n">v</span> <span class="o">+=</span> <span class="mi">4</span>
     <span class="k">return</span> <span class="n">v</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">s</span></div>
 
@@ -877,7 +897,7 @@
     <span class="n">v</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">ecdsa_raw_sign</span><span class="p">(</span><span class="n">electrum_sig_hash</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="n">priv</span><span class="p">)</span>
     <span class="n">sig</span> <span class="o">=</span> <span class="n">encode_sig</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">ecdsa_verify</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">sig</span><span class="p">,</span>
-                        <span class="n">privtopub</span><span class="p">(</span><span class="n">priv</span><span class="p">),</span> <span class="n">coin</span><span class="p">),</span> <span class="s2">&quot;Bad Sig!</span><span class="se">\t</span><span class="s2"> </span><span class="si">%s</span><span class="se">\n</span><span class="s2">v = </span><span class="si">%d</span><span class="se">\n</span><span class="s2">,r = </span><span class="si">%d</span><span class="se">\n</span><span class="s2">s = </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+                        <span class="n">privtopub</span><span class="p">(</span><span class="n">priv</span><span class="p">),</span> <span class="n">coin</span><span class="p">),</span> <span class="s2">"Bad Sig!</span><span class="se">\t</span><span class="s2"> </span><span class="si">%s</span><span class="se">\n</span><span class="s2">v = </span><span class="si">%d</span><span class="se">\n</span><span class="s2">,r = </span><span class="si">%d</span><span class="se">\n</span><span class="s2">s = </span><span class="si">%d</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">sig</span></div>
 
 
@@ -896,7 +916,7 @@
 
 
 
-<span class="c1"># For BitcoinCore, (msg = addr or msg = &quot;&quot;) be default</span>
+<span class="c1"># For BitcoinCore, (msg = addr or msg = "") be default</span>
 <div class="viewcode-block" id="ecdsa_verify_addr">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.main.ecdsa_verify_addr">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">ecdsa_verify_addr</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">sig</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">coin</span><span class="p">):</span>
@@ -946,7 +966,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">ecdsa_recover</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">sig</span><span class="p">):</span>
     <span class="n">v</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">decode_sig</span><span class="p">(</span><span class="n">sig</span><span class="p">)</span>
     <span class="n">Q</span> <span class="o">=</span> <span class="n">ecdsa_raw_recover</span><span class="p">(</span><span class="n">electrum_sig_hash</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">s</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="s1">&#39;hex_compressed&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;=</span> <span class="mi">31</span> <span class="k">else</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="s1">&#39;hex&#39;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="s1">'hex_compressed'</span><span class="p">)</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;=</span> <span class="mi">31</span> <span class="k">else</span> <span class="n">encode_pubkey</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="s1">'hex'</span><span class="p">)</span></div>
 
 
 
@@ -971,8 +991,8 @@
 
 
 
-<span class="n">hash160Low</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00</span><span class="s1">&#39;</span>
-<span class="n">hash160High</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff</span><span class="s1">&#39;</span>
+<span class="n">hash160Low</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">'</span><span class="se">\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00</span><span class="s1">'</span>
+<span class="n">hash160High</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">'</span><span class="se">\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff</span><span class="s1">'</span>
 
 
 <div class="viewcode-block" id="magicbyte_to_prefix">

@@ -11,6 +11,7 @@
       <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=0912efa5" />
 
   
+    <link rel="canonical" href="https://docs.cryptnox.com/cryptnox-cli/_modules/cryptnox_cli/lib/cryptos/wallet_utils.html" />
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../../../_static/documentation_options.js?v=d55fa986"></script>
@@ -19,7 +20,26 @@
       <script src="../../../../_static/custom.js?v=f0d783cb"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../../search.html" /> 
+    <link rel="search" title="Search" href="../../../../search.html" />
+ 
+<!-- Open Graph / social preview -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.cryptnox.com/cryptnox-cli/_modules/cryptnox_cli/lib/cryptos/wallet_utils.html" />
+<meta property="og:title" content="cryptnox_cli.lib.cryptos.wallet_utils | Cryptnox Docs" />
+<meta property="og:description" content="Cryptnox CLI — installation, supported hardware, command reference, interactive mode, BIP39 passphrase support and examples for managing Cryptnox smart card wallets from the terminal." />
+<meta property="og:site_name" content="Cryptnox Docs" />
+<meta property="og:image" content="https://cryptnox.com/wp-content/uploads/2026/09/cryptnox-documentation-social.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:alt" content="Cryptnox Technical Documentation" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@CryptnoxTech" />
+<meta name="twitter:title" content="cryptnox_cli.lib.cryptos.wallet_utils | Cryptnox Docs" />
+<meta name="twitter:description" content="Cryptnox CLI — installation, supported hardware, command reference, interactive mode, BIP39 passphrase support and examples for managing Cryptnox smart card wallets from the terminal." />
+<meta name="twitter:image" content="https://cryptnox.com/wp-content/uploads/2026/09/cryptnox-documentation-social.jpg" />
+<meta name="twitter:image:alt" content="Cryptnox Technical Documentation" />
+
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -77,9 +97,9 @@
   <h1>Source code for cryptnox_cli.lib.cryptos.wallet_utils</h1><div class="highlight"><pre>
 <span></span><span class="c1"># flake8: noqa</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">General wallet helper functions (formatting, hashing, conversions).</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="c1">#</span>
 <span class="c1"># Electrum - lightweight Bitcoin client</span>
@@ -87,7 +107,7 @@
 <span class="c1">#</span>
 <span class="c1"># Permission is hereby granted, free of charge, to any person</span>
 <span class="c1"># obtaining a copy of this software and associated documentation files</span>
-<span class="c1"># (the &quot;Software&quot;), to deal in the Software without restriction,</span>
+<span class="c1"># (the "Software"), to deal in the Software without restriction,</span>
 <span class="c1"># including without limitation the rights to use, copy, modify, merge,</span>
 <span class="c1"># publish, distribute, sublicense, and/or sell copies of the Software,</span>
 <span class="c1"># and to permit persons to whom the Software is furnished to do so,</span>
@@ -96,7 +116,7 @@
 <span class="c1"># The above copyright notice and this permission notice shall be</span>
 <span class="c1"># included in all copies or substantial portions of the Software.</span>
 <span class="c1">#</span>
-<span class="c1"># THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,</span>
+<span class="c1"># THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,</span>
 <span class="c1"># EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF</span>
 <span class="c1"># MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND</span>
 <span class="c1"># NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS</span>
@@ -117,18 +137,18 @@
 <span class="c1"># segwit in p2sh: yprv, ypub</span>
 <span class="c1"># native segwit: zprv, zpub</span>
 <span class="n">XPRV_HEADERS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;standard&#39;</span><span class="p">:</span> <span class="mh">0x0488ade4</span><span class="p">,</span>
-    <span class="s1">&#39;p2wpkh-p2sh&#39;</span><span class="p">:</span> <span class="mh">0x049d7878</span><span class="p">,</span>
-    <span class="s1">&#39;p2wsh-p2sh&#39;</span><span class="p">:</span> <span class="mh">0x295b005</span><span class="p">,</span>
-    <span class="s1">&#39;p2wpkh&#39;</span><span class="p">:</span> <span class="mh">0x4b2430c</span><span class="p">,</span>
-    <span class="s1">&#39;p2wsh&#39;</span><span class="p">:</span> <span class="mh">0x2aa7a99</span>
+    <span class="s1">'standard'</span><span class="p">:</span> <span class="mh">0x0488ade4</span><span class="p">,</span>
+    <span class="s1">'p2wpkh-p2sh'</span><span class="p">:</span> <span class="mh">0x049d7878</span><span class="p">,</span>
+    <span class="s1">'p2wsh-p2sh'</span><span class="p">:</span> <span class="mh">0x295b005</span><span class="p">,</span>
+    <span class="s1">'p2wpkh'</span><span class="p">:</span> <span class="mh">0x4b2430c</span><span class="p">,</span>
+    <span class="s1">'p2wsh'</span><span class="p">:</span> <span class="mh">0x2aa7a99</span>
 <span class="p">}</span>
 <span class="n">XPUB_HEADERS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;standard&#39;</span><span class="p">:</span> <span class="mh">0x0488b21e</span><span class="p">,</span>
-    <span class="s1">&#39;p2wpkh-p2sh&#39;</span><span class="p">:</span> <span class="mh">0x049d7cb2</span><span class="p">,</span>
-    <span class="s1">&#39;p2wsh-p2sh&#39;</span><span class="p">:</span> <span class="mh">0x295b43f</span><span class="p">,</span>
-    <span class="s1">&#39;p2wpkh&#39;</span><span class="p">:</span> <span class="mh">0x4b24746</span><span class="p">,</span>
-    <span class="s1">&#39;p2wsh&#39;</span><span class="p">:</span> <span class="mh">0x2aa7ed3</span>
+    <span class="s1">'standard'</span><span class="p">:</span> <span class="mh">0x0488b21e</span><span class="p">,</span>
+    <span class="s1">'p2wpkh-p2sh'</span><span class="p">:</span> <span class="mh">0x049d7cb2</span><span class="p">,</span>
+    <span class="s1">'p2wsh-p2sh'</span><span class="p">:</span> <span class="mh">0x295b43f</span><span class="p">,</span>
+    <span class="s1">'p2wpkh'</span><span class="p">:</span> <span class="mh">0x4b24746</span><span class="p">,</span>
+    <span class="s1">'p2wsh'</span><span class="p">:</span> <span class="mh">0x2aa7ed3</span>
 <span class="p">}</span>
 
 <span class="n">bh2u</span> <span class="o">=</span> <span class="n">safe_hexlify</span>
@@ -148,8 +168,8 @@
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.int_to_hex">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">int_to_hex</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="nb">hex</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">)</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">length</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">))</span> <span class="o">+</span> <span class="n">s</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="nb">hex</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">'L'</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="s2">"0"</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">length</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">))</span> <span class="o">+</span> <span class="n">s</span>
     <span class="k">return</span> <span class="n">rev_hex</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
 
 
@@ -158,7 +178,7 @@
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.InvalidPassword">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">InvalidPassword</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;Incorrect password&quot;</span></div>
+        <span class="k">return</span> <span class="s2">"Incorrect password"</span></div>
 
 
 
@@ -185,14 +205,14 @@
 <div class="viewcode-block" id="assert_bytes">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.assert_bytes">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">assert_bytes</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    porting helper, assert args type</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
             <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="nb">bytes</span><span class="p">,</span> <span class="nb">bytearray</span><span class="p">))</span>
     <span class="k">except</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;assert bytes failed&#39;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="n">args</span><span class="p">)))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'assert bytes failed'</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="n">args</span><span class="p">)))</span>
         <span class="k">raise</span></div>
 
 
@@ -211,13 +231,13 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">strip_PKCS7_padding</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
     <span class="n">assert_bytes</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">%</span> <span class="mi">16</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">InvalidPadding</span><span class="p">(</span><span class="s2">&quot;invalid length&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">InvalidPadding</span><span class="p">(</span><span class="s2">"invalid length"</span><span class="p">)</span>
     <span class="n">padlen</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">padlen</span> <span class="o">&gt;</span> <span class="mi">16</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">InvalidPadding</span><span class="p">(</span><span class="s2">&quot;invalid padding byte (large)&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">InvalidPadding</span><span class="p">(</span><span class="s2">"invalid padding byte (large)"</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="n">padlen</span><span class="p">:]:</span>
         <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">padlen</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">InvalidPadding</span><span class="p">(</span><span class="s2">&quot;invalid padding byte (inconsistent)&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">InvalidPadding</span><span class="p">(</span><span class="s2">"invalid padding byte (inconsistent)"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="n">padlen</span><span class="p">]</span></div>
 
 
@@ -281,7 +301,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">pw_encode</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">password</span><span class="p">:</span>
         <span class="n">secret</span> <span class="o">=</span> <span class="n">Hash</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">EncodeAES</span><span class="p">(</span><span class="n">secret</span><span class="p">,</span> <span class="n">to_bytes</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s2">&quot;utf8&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">EncodeAES</span><span class="p">(</span><span class="n">secret</span><span class="p">,</span> <span class="n">to_bytes</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s2">"utf8"</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">'utf8'</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">s</span></div>
 
@@ -293,7 +313,7 @@
     <span class="k">if</span> <span class="n">password</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">secret</span> <span class="o">=</span> <span class="n">Hash</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">d</span> <span class="o">=</span> <span class="n">to_string</span><span class="p">(</span><span class="n">DecodeAES</span><span class="p">(</span><span class="n">secret</span><span class="p">,</span> <span class="n">s</span><span class="p">),</span> <span class="s2">&quot;utf8&quot;</span><span class="p">)</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">to_string</span><span class="p">(</span><span class="n">DecodeAES</span><span class="p">(</span><span class="n">secret</span><span class="p">,</span> <span class="n">s</span><span class="p">),</span> <span class="s2">"utf8"</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">InvalidPassword</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">d</span>
@@ -307,7 +327,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">is_new_seed</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">version</span><span class="o">.</span><span class="n">SEED_PREFIX</span><span class="p">):</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">mnemonic</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">mnemonic</span><span class="o">.</span><span class="n">normalize_text</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="n">bh2u</span><span class="p">(</span><span class="n">hmac_sha_512</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;Seed version&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">)))</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">bh2u</span><span class="p">(</span><span class="n">hmac_sha_512</span><span class="p">(</span><span class="sa">b</span><span class="s2">"Seed version"</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">'utf8'</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span></div>
 
 
@@ -316,30 +336,30 @@
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.seed_type">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">seed_type</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">is_new_seed</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;standard&#39;</span>
+        <span class="k">return</span> <span class="s1">'standard'</span>
     <span class="k">elif</span> <span class="n">is_new_seed</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">version</span><span class="o">.</span><span class="n">SEED_PREFIX_SW</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;segwit&#39;</span>
+        <span class="k">return</span> <span class="s1">'segwit'</span>
     <span class="k">elif</span> <span class="n">is_new_seed</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">version</span><span class="o">.</span><span class="n">SEED_PREFIX_2FA</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;2fa&#39;</span>
-    <span class="k">return</span> <span class="s1">&#39;&#39;</span></div>
+        <span class="k">return</span> <span class="s1">'2fa'</span>
+    <span class="k">return</span> <span class="s1">''</span></div>
 
 
 
 <span class="n">is_seed</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span><span class="n">seed_type</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 
 <span class="n">SCRIPT_TYPES</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;p2pkh&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="s1">&#39;p2wpkh&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="s1">&#39;p2wpkh-p2sh&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-    <span class="s1">&#39;p2sh&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-    <span class="s1">&#39;p2wsh&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
-    <span class="s1">&#39;p2wsh-p2sh&#39;</span><span class="p">:</span> <span class="mi">7</span>
+    <span class="s1">'p2pkh'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s1">'p2wpkh'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s1">'p2wpkh-p2sh'</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s1">'p2sh'</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s1">'p2wsh'</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="s1">'p2wsh-p2sh'</span><span class="p">:</span> <span class="mi">7</span>
 <span class="p">}</span>
 
-<span class="n">__b58chars</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz&#39;</span>
+<span class="n">__b58chars</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">'123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'</span>
 <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">__b58chars</span><span class="p">)</span> <span class="o">==</span> <span class="mi">58</span>
 
-<span class="n">__b43chars</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ$*+-./:&#39;</span>
+<span class="n">__b43chars</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ$*+-./:'</span>
 <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">__b43chars</span><span class="p">)</span> <span class="o">==</span> <span class="mi">43</span>
 
 
@@ -355,12 +375,12 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">is_minikey</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
     <span class="c1"># Minikeys are typically 22 or 30 characters, but this routine</span>
     <span class="c1"># permits any length of 20 or more provided the minikey is valid.</span>
-    <span class="c1"># A valid minikey must begin with an &#39;S&#39;, be in base58, and when</span>
-    <span class="c1"># suffixed with &#39;?&#39; have its SHA256 hash begin with a zero byte.</span>
+    <span class="c1"># A valid minikey must begin with an 'S', be in base58, and when</span>
+    <span class="c1"># suffixed with '?' have its SHA256 hash begin with a zero byte.</span>
     <span class="c1"># They are widely used in Casascius physical bitcoins.</span>
-    <span class="k">return</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">20</span> <span class="ow">and</span> <span class="n">text</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;S&#39;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">20</span> <span class="ow">and</span> <span class="n">text</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'S'</span>
             <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="ow">in</span> <span class="n">__b58chars</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">text</span><span class="p">)</span>
-            <span class="ow">and</span> <span class="n">sha256</span><span class="p">(</span><span class="n">text</span> <span class="o">+</span> <span class="s1">&#39;?&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mh">0x00</span><span class="p">)</span></div>
+            <span class="ow">and</span> <span class="n">sha256</span><span class="p">(</span><span class="n">text</span> <span class="o">+</span> <span class="s1">'?'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mh">0x00</span><span class="p">)</span></div>
 
 
 
@@ -388,14 +408,14 @@
 <div class="viewcode-block" id="xprv_header">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.xprv_header">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">xprv_header</span><span class="p">(</span><span class="n">xtype</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">bfh</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%08x</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">XPRV_HEADERS</span><span class="p">[</span><span class="n">xtype</span><span class="p">])</span></div>
+    <span class="k">return</span> <span class="n">bfh</span><span class="p">(</span><span class="s2">"</span><span class="si">%08x</span><span class="s2">"</span> <span class="o">%</span> <span class="n">XPRV_HEADERS</span><span class="p">[</span><span class="n">xtype</span><span class="p">])</span></div>
 
 
 
 <div class="viewcode-block" id="xpub_header">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.xpub_header">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">xpub_header</span><span class="p">(</span><span class="n">xtype</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">bfh</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%08x</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">XPUB_HEADERS</span><span class="p">[</span><span class="n">xtype</span><span class="p">])</span></div>
+    <span class="k">return</span> <span class="n">bfh</span><span class="p">(</span><span class="s2">"</span><span class="si">%08x</span><span class="s2">"</span> <span class="o">%</span> <span class="n">XPUB_HEADERS</span><span class="p">[</span><span class="n">xtype</span><span class="p">])</span></div>
 
 
 

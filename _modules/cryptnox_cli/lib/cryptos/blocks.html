@@ -11,6 +11,7 @@
       <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=0912efa5" />
 
   
+    <link rel="canonical" href="https://docs.cryptnox.com/cryptnox-cli/_modules/cryptnox_cli/lib/cryptos/blocks.html" />
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../../../_static/documentation_options.js?v=d55fa986"></script>
@@ -19,7 +20,26 @@
       <script src="../../../../_static/custom.js?v=f0d783cb"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../../search.html" /> 
+    <link rel="search" title="Search" href="../../../../search.html" />
+ 
+<!-- Open Graph / social preview -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.cryptnox.com/cryptnox-cli/_modules/cryptnox_cli/lib/cryptos/blocks.html" />
+<meta property="og:title" content="cryptnox_cli.lib.cryptos.blocks | Cryptnox Docs" />
+<meta property="og:description" content="Cryptnox CLI — installation, supported hardware, command reference, interactive mode, BIP39 passphrase support and examples for managing Cryptnox smart card wallets from the terminal." />
+<meta property="og:site_name" content="Cryptnox Docs" />
+<meta property="og:image" content="https://cryptnox.com/wp-content/uploads/2026/09/cryptnox-documentation-social.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:alt" content="Cryptnox Technical Documentation" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@CryptnoxTech" />
+<meta name="twitter:title" content="cryptnox_cli.lib.cryptos.blocks | Cryptnox Docs" />
+<meta name="twitter:description" content="Cryptnox CLI — installation, supported hardware, command reference, interactive mode, BIP39 passphrase support and examples for managing Cryptnox smart card wallets from the terminal." />
+<meta name="twitter:image" content="https://cryptnox.com/wp-content/uploads/2026/09/cryptnox-documentation-social.jpg" />
+<meta name="twitter:image:alt" content="Cryptnox Technical Documentation" />
+
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -77,39 +97,39 @@
   <h1>Source code for cryptnox_cli.lib.cryptos.blocks</h1><div class="highlight"><pre>
 <span></span><span class="c1"># flake8: noqa</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">Block header encoding/decoding utilities and related primitives.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.main</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 
 <div class="viewcode-block" id="serialize_header">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.serialize_header">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">serialize_header</span><span class="p">(</span><span class="n">inp</span><span class="p">):</span>
-    <span class="n">o</span> <span class="o">=</span> <span class="n">encode</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">],</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">4</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> \
-        <span class="n">inp</span><span class="p">[</span><span class="s1">&#39;prevhash&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> \
-        <span class="n">inp</span><span class="p">[</span><span class="s1">&#39;merkle_root&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> \
-        <span class="n">encode</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">],</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">4</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> \
-        <span class="n">encode</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s1">&#39;bits&#39;</span><span class="p">],</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">4</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> \
-        <span class="n">encode</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s1">&#39;nonce&#39;</span><span class="p">],</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">4</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">h</span> <span class="o">=</span> <span class="n">bin_sha256</span><span class="p">(</span><span class="n">bin_sha256</span><span class="p">(</span><span class="n">o</span><span class="p">))[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">h</span> <span class="o">==</span> <span class="n">inp</span><span class="p">[</span><span class="s1">&#39;hash&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">sha256</span><span class="p">(</span><span class="n">o</span><span class="p">),</span> <span class="n">inp</span><span class="p">[</span><span class="s1">&#39;hash&#39;</span><span class="p">])</span>
-    <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">)</span></div>
+    <span class="n">o</span> <span class="o">=</span> <span class="n">encode</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s1">'version'</span><span class="p">],</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">4</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> \
+        <span class="n">inp</span><span class="p">[</span><span class="s1">'prevhash'</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> \
+        <span class="n">inp</span><span class="p">[</span><span class="s1">'merkle_root'</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> \
+        <span class="n">encode</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s1">'timestamp'</span><span class="p">],</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">4</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> \
+        <span class="n">encode</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s1">'bits'</span><span class="p">],</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">4</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> \
+        <span class="n">encode</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="s1">'nonce'</span><span class="p">],</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">4</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">bin_sha256</span><span class="p">(</span><span class="n">bin_sha256</span><span class="p">(</span><span class="n">o</span><span class="p">))[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">h</span> <span class="o">==</span> <span class="n">inp</span><span class="p">[</span><span class="s1">'hash'</span><span class="p">],</span> <span class="p">(</span><span class="n">sha256</span><span class="p">(</span><span class="n">o</span><span class="p">),</span> <span class="n">inp</span><span class="p">[</span><span class="s1">'hash'</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="deserialize_header">
 <a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.blocks.deserialize_header">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">deserialize_header</span><span class="p">(</span><span class="n">inp</span><span class="p">):</span>
-    <span class="n">inp</span> <span class="o">=</span> <span class="n">inp</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">)</span>
+    <span class="n">inp</span> <span class="o">=</span> <span class="n">inp</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">{</span>
-        <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">decode</span><span class="p">(</span><span class="n">inp</span><span class="p">[:</span><span class="mi">4</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">256</span><span class="p">),</span>
-        <span class="s2">&quot;prevhash&quot;</span><span class="p">:</span> <span class="n">inp</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">36</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">),</span>
-        <span class="s2">&quot;merkle_root&quot;</span><span class="p">:</span> <span class="n">inp</span><span class="p">[</span><span class="mi">36</span><span class="p">:</span><span class="mi">68</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">),</span>
-        <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="n">decode</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="mi">68</span><span class="p">:</span><span class="mi">72</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">256</span><span class="p">),</span>
-        <span class="s2">&quot;bits&quot;</span><span class="p">:</span> <span class="n">decode</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="mi">72</span><span class="p">:</span><span class="mi">76</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">256</span><span class="p">),</span>
-        <span class="s2">&quot;nonce&quot;</span><span class="p">:</span> <span class="n">decode</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="mi">76</span><span class="p">:</span><span class="mi">80</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">256</span><span class="p">),</span>
-        <span class="s2">&quot;hash&quot;</span><span class="p">:</span> <span class="n">bin_sha256</span><span class="p">(</span><span class="n">bin_sha256</span><span class="p">(</span><span class="n">inp</span><span class="p">))[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">)</span>
+        <span class="s2">"version"</span><span class="p">:</span> <span class="n">decode</span><span class="p">(</span><span class="n">inp</span><span class="p">[:</span><span class="mi">4</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">256</span><span class="p">),</span>
+        <span class="s2">"prevhash"</span><span class="p">:</span> <span class="n">inp</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">36</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">),</span>
+        <span class="s2">"merkle_root"</span><span class="p">:</span> <span class="n">inp</span><span class="p">[</span><span class="mi">36</span><span class="p">:</span><span class="mi">68</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">),</span>
+        <span class="s2">"timestamp"</span><span class="p">:</span> <span class="n">decode</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="mi">68</span><span class="p">:</span><span class="mi">72</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">256</span><span class="p">),</span>
+        <span class="s2">"bits"</span><span class="p">:</span> <span class="n">decode</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="mi">72</span><span class="p">:</span><span class="mi">76</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">256</span><span class="p">),</span>
+        <span class="s2">"nonce"</span><span class="p">:</span> <span class="n">decode</span><span class="p">(</span><span class="n">inp</span><span class="p">[</span><span class="mi">76</span><span class="p">:</span><span class="mi">80</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">256</span><span class="p">),</span>
+        <span class="s2">"hash"</span><span class="p">:</span> <span class="n">bin_sha256</span><span class="p">(</span><span class="n">bin_sha256</span><span class="p">(</span><span class="n">inp</span><span class="p">))[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">)</span>
     <span class="p">}</span></div>
 
 
@@ -130,13 +150,13 @@
         <span class="n">nodes</span> <span class="o">=</span> <span class="n">newnodes</span>
         <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
     <span class="c1"># Sanity check, make sure merkle root is valid</span>
-    <span class="k">assert</span> <span class="n">bytes_to_hex_string</span><span class="p">(</span><span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="n">header</span><span class="p">[</span><span class="s1">&#39;merkle_root&#39;</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">bytes_to_hex_string</span><span class="p">(</span><span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="n">header</span><span class="p">[</span><span class="s1">'merkle_root'</span><span class="p">]</span>
     <span class="n">merkle_siblings</span> <span class="o">=</span> \
         <span class="p">[</span><span class="n">layers</span><span class="p">[</span><span class="n">i</span><span class="p">][(</span><span class="n">index</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">^</span> <span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">layers</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
     <span class="k">return</span> <span class="p">{</span>
-        <span class="s2">&quot;hash&quot;</span><span class="p">:</span> <span class="n">hashes</span><span class="p">[</span><span class="n">index</span><span class="p">],</span>
-        <span class="s2">&quot;siblings&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">bytes_to_hex_string</span><span class="p">(</span><span class="n">x</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">merkle_siblings</span><span class="p">],</span>
-        <span class="s2">&quot;header&quot;</span><span class="p">:</span> <span class="n">header</span>
+        <span class="s2">"hash"</span><span class="p">:</span> <span class="n">hashes</span><span class="p">[</span><span class="n">index</span><span class="p">],</span>
+        <span class="s2">"siblings"</span><span class="p">:</span> <span class="p">[</span><span class="n">bytes_to_hex_string</span><span class="p">(</span><span class="n">x</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">merkle_siblings</span><span class="p">],</span>
+        <span class="s2">"header"</span><span class="p">:</span> <span class="n">header</span>
     <span class="p">}</span></div>
 
 </pre></div>
