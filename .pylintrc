@@ -143,7 +143,6 @@ overgeneral-exceptions=builtins.BaseException,builtins.Exception
 # Ignore missing members accessed in mocking
 ignored-modules=
     cryptnox_sdk_py,
-    lazy_import,
     appdirs,
     tabulate,
     ecdsa,

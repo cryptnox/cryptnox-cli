@@ -10,7 +10,6 @@ from typing import Dict, Any, List
 
 import cryptnox_sdk_py
 import requests
-import web3
 from argparse import Namespace
 from tabulate import tabulate
 
@@ -118,6 +117,8 @@ class Event:
         return 0
 
     def logs(self):
+        import web3
+
         try:
             config_contract = get_configuration(self.card)["hidden"]["eth"]["contract"][self.data.alias]
         except KeyError:
@@ -275,6 +276,8 @@ class Contract(Command):
         return wallet.Api(config["eth"]["endpoint"], network, config["eth"]["api_key"])
 
     def _add(self, card):
+        import web3
+
         abi = _get_processed_json_argument(self.data.abi)
 
         try:
@@ -365,6 +368,8 @@ class Contract(Command):
         return None
 
     def _call(self, card):
+        import web3
+
         config = get_configuration(card)
         try:
             config = config["hidden"]["eth"]["contract"][self.data.alias]
@@ -409,6 +414,8 @@ class Contract(Command):
         return 0
 
     def _transact(self, card):
+        import web3
+
         self._check(card)
 
         config = get_configuration(card)
@@ -505,6 +512,8 @@ class Contract(Command):
 
     @staticmethod
     def _confirm(public_key, address, balance, value, price, limit):
+        import web3
+
         gas_price = web3.Web3.from_wei(price, "ether")
         gas = Decimal(gas_price * limit)
         balance = web3.Web3.from_wei(balance, "ether")
@@ -595,6 +604,8 @@ class Eth(Command):
 
     @staticmethod
     def _send_funds(card, derivation, endpoint, address, amount, price, limit):
+        import web3
+
         path = b"" if derivation == cryptnox_sdk_py.Derivation.CURRENT_KEY else wallet.Api.PATH
         public_key = card.get_public_key(derivation, path=path, compressed=False)
 

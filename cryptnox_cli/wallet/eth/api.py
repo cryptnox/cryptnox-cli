@@ -4,21 +4,17 @@ A basic Ethereum wallet library
 """
 from typing import (
     Any,
-    Dict, Union
+    Dict, TYPE_CHECKING, Union
 )
 
 import ecdsa
 from cryptnox_sdk_py import Derivation
-from eth_account._utils.legacy_transactions import (
-    encode_transaction,
-    serializable_unsigned_transaction_from_dict
-)
-from eth_utils.curried import keccak
-from hexbytes import HexBytes
-from web3 import Web3
 
 from . import endpoint as ep
 from .. import validators
+
+if TYPE_CHECKING:
+    from web3 import Web3
 
 try:
     from lib import cryptos
@@ -29,10 +25,14 @@ except ImportError:
 
 
 def address(public_key: str) -> str:
+    from eth_utils.curried import keccak
+
     return keccak(hexstr=("0x" + public_key[2:]))[-20:].hex()
 
 
 def checksum_address(public_key: str) -> str:
+    from web3 import Web3
+
     return Web3.to_checksum_address(address(public_key))
 
 
@@ -62,9 +62,13 @@ class Api:
         return self._web3.eth.contract(address=address, abi=abi)
 
     def get_transaction_count(self, address: str, blocks: str = None) -> int:
+        from web3 import Web3
+
         return self._web3.eth.get_transaction_count(Web3.to_checksum_address(address), blocks)
 
     def get_balance(self, address: str) -> int:
+        from web3 import Web3
+
         return self._web3.eth.get_balance(Web3.to_checksum_address(address))
 
     @property
@@ -76,6 +80,12 @@ class Api:
         return self.endpoint.network
 
     def transaction_hash(self, transaction: Dict[str, Any], vrs: bool = False):
+        from eth_account._utils.legacy_transactions import (
+            encode_transaction,
+            serializable_unsigned_transaction_from_dict
+        )
+        from eth_utils.curried import keccak
+
         try:
             del transaction["maxFeePerGas"]
             del transaction["maxPriorityFeePerGas"]
@@ -87,6 +97,12 @@ class Api:
         return keccak(encoded_transaction)
 
     def push(self, transaction, signature, public_key):
+        from eth_account._utils.legacy_transactions import (
+            encode_transaction,
+            serializable_unsigned_transaction_from_dict
+        )
+        from hexbytes import HexBytes
+
         unsigned_transaction = serializable_unsigned_transaction_from_dict(transaction)
         var_v, var_r, var_s = Api._decode_vrs(signature, self._chain_id,
                                               self.transaction_hash(transaction),
@@ -133,7 +149,9 @@ class Api:
         return self.endpoint.provider
 
     @property
-    def _web3(self) -> Web3:
+    def _web3(self) -> "Web3":
+        from web3 import Web3
+
         return Web3(Web3.HTTPProvider(self._provider))
 
 

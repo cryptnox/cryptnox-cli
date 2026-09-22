@@ -10,7 +10,6 @@ from pathlib import Path
 from typing import Dict, Any
 
 import requests as requests
-import web3
 
 try:
     from config import (
@@ -57,6 +56,8 @@ class Notification:
 
     @staticmethod
     def _check(data):
+        import web3
+
         try:
             w3 = wallet.Web3Api(None,
                                 wallet.endpoint_factory(data["endpoint"], data["network"],
