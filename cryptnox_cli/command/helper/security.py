@@ -2,6 +2,9 @@
 """
 Module dealing with security of the application.
 """
+import codecs
+import os
+import sys
 import typing
 from time import sleep
 from typing import List, Dict
@@ -11,13 +14,62 @@ import cryptnox_sdk_py
 from .. import user_keys
 
 
+def _getpass_posix(prompt, mask):
+    """
+    Masked input for POSIX terminals.
+    The terminal is switched to cbreak mode: keys arrive one at a time without
+    echo, while Ctrl+C still raises KeyboardInterrupt. Bytes are decoded
+    incrementally, so a multi-byte UTF-8 character counts as one entry.
+    When stdin is not a terminal there is nothing to mask and the line is read as is.
+    """
+    import termios
+    import tty
+
+    try:
+        fd = sys.stdin.fileno()
+        old_settings = termios.tcgetattr(fd)
+    except (AttributeError, ValueError, termios.error):
+        return input(prompt)
+
+    decoder = codecs.getincrementaldecoder(sys.stdin.encoding or 'utf-8')(errors='ignore')
+    entered = []
+    sys.stdout.write(prompt)
+    sys.stdout.flush()
+    try:
+        tty.setcbreak(fd)
+        while True:
+            data = os.read(fd, 1)
+            if not data:
+                raise EOFError
+            char = decoder.decode(data)
+            if not char:  # Incomplete multi-byte character
+                continue
+            if char in ('\n', '\r'):  # Enter
+                return ''.join(entered)
+            if char in ('\b', '\x7f'):  # Backspace/Del
+                if entered:
+                    sys.stdout.write('\b \b')
+                    sys.stdout.flush()
+                    entered.pop()
+            elif ord(char) > 31:
+                # Only ASCII control characters are left out. Separators and format
+                # characters (ideographic space, no-break space, zero width joiner)
+                # are part of a passphrase and change the wallet it derives.
+                entered.append(char)
+                sys.stdout.write(mask)
+                sys.stdout.flush()
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+        sys.stdout.write('\n')
+        sys.stdout.flush()
+
+
 def _getpass(prompt='Password: ', mask='*'):
     """
     Cross-platform getpass that raises KeyboardInterrupt on Ctrl+C.
     On Windows, getch() returns 0x03 for Ctrl+C in raw mode,
     so we catch it directly without polling.
     """
-    import sys
     if sys.platform == 'win32':
         from msvcrt import getch
         entered = []
@@ -43,8 +95,7 @@ def _getpass(prompt='Password: ', mask='*'):
                 sys.stdout.write(mask)
                 sys.stdout.flush()
     else:
-        from stdiomask import getpass
-        return getpass(prompt, mask)
+        return _getpass_posix(prompt, mask)
 
 
 class ExitException(Exception):

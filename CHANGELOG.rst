@@ -2,6 +2,13 @@
 Changelog
 =========
 
+Unreleased
+----------
+
+Changed
+^^^^^^^
+- Masked PIN, PUK and passphrase input on Linux and macOS is handled by the CLI itself; the ``stdiomask`` dependency is removed
+
 `1.0.5 <https://github.com/Cryptnox-Software/cryptnox-cli/compare/ver1.0.4...ver1.0.5>`_
 ------------------------------------------------------------------------------------------------
 

@@ -7,7 +7,6 @@ from hashlib import sha256
 import cryptnox_sdk_py
 from cryptography import x509
 from cryptography.hazmat.primitives.serialization import PublicFormat, Encoding
-from stdiomask import getpass
 
 from . import piv_card
 from .. import user_key_base
@@ -58,8 +57,11 @@ class Piv(user_key_base.UserKey):
             print("\nThis PIV is locked. Use an external tool to unlock it.\n")
             raise user_key_base.ProcessingException
 
+        # Imported here: helper.security imports user_keys, which loads this module
+        from ...helper.security import _getpass
+
         while True:
-            pin_code = getpass(prompt="PIV PIN code: ")
+            pin_code = _getpass(prompt="PIV PIN code: ")
             if pin_code.lower() == "exit":
                 raise user_key_base.ExitException("The request was canceled by the user")
 

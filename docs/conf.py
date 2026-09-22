@@ -66,7 +66,6 @@ autodoc_mock_imports = [
     # Cryptnox SDK (PyPI package: cryptnox-sdk-py)
     'cryptnox_sdk_py',
     # Input/Output
-    'stdiomask',
     'tabulate',
     # Web3 and Ethereum
     'web3',

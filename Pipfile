@@ -23,7 +23,6 @@ pytz = "*"
 requests = ">=2.33.0"
 solders = ">=0.27.0"
 tabulate = "*"
-stdiomask = "*"
 web3 = ">=7.15.0"
 winsdk = {version = "*", sys_platform = "== 'win32'"}
 
