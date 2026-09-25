@@ -10,6 +10,7 @@ from cryptography.hazmat.primitives.serialization import PublicFormat, Encoding
 
 from . import piv_card
 from .. import user_key_base
+from ...helper.masked_input import getpass
 
 
 class Piv(user_key_base.UserKey):
@@ -57,11 +58,8 @@ class Piv(user_key_base.UserKey):
             print("\nThis PIV is locked. Use an external tool to unlock it.\n")
             raise user_key_base.ProcessingException
 
-        # Imported here: helper.security imports user_keys, which loads this module
-        from ...helper.security import _getpass
-
         while True:
-            pin_code = _getpass(prompt="PIV PIN code: ")
+            pin_code = getpass(prompt="PIV PIN code: ")
             if pin_code.lower() == "exit":
                 raise user_key_base.ExitException("The request was canceled by the user")
 

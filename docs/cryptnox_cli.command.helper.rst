@@ -28,6 +28,14 @@ cryptnox_cli.command.helper.helper\_methods module
    :undoc-members:
    :show-inheritance:
 
+cryptnox_cli.command.helper.masked_input module
+-----------------------------------------------
+
+.. automodule:: cryptnox_cli.command.helper.masked_input
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 cryptnox_cli.command.helper.notification module
 ----------------------------------------------
 

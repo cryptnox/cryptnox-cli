@@ -10,6 +10,10 @@ Changed
 - Masked PIN, PUK and passphrase input on Linux and macOS is handled by the CLI itself; the ``stdiomask`` dependency is removed
 - Ethereum support is loaded only by the commands that use it, so commands such as ``history`` and ``info`` start noticeably faster; the ``lazy-import`` dependency is removed
 
+Fixed
+^^^^^
+- Windows: PIN, PUK and BIP39 passphrase entry now accepts the full Unicode range. Characters outside ASCII were previously discarded as they were typed, so a passphrase containing them was not the one the user entered. Arrow and function keys are ignored instead of adding characters to the entry, and Ctrl+C cancels the prompt again
+
 `1.0.5 <https://github.com/Cryptnox-Software/cryptnox-cli/compare/ver1.0.4...ver1.0.5>`_
 ------------------------------------------------------------------------------------------------
 
