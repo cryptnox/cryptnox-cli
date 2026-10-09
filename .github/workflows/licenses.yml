@@ -1,0 +1,61 @@
+name: Dependency licenses
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  licenses:
+    name: Dependency licenses (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            python-version: "3.13"
+          # winsdk, a Windows-only dependency, publishes wheels up to Python 3.12
+          - os: windows-latest
+            python-version: "3.12"
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install system dependencies for pyscard
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends swig libpcsclite-dev
+
+      # A separate environment, so the check sees what the package pulls in and
+      # nothing that happens to be installed on the runner
+      - name: Create a clean environment
+        run: |
+          python -m venv ../license-check
+          if [ -d ../license-check/Scripts ]; then
+            echo "CHECK_PYTHON=../license-check/Scripts/python" >> "$GITHUB_ENV"
+          else
+            echo "CHECK_PYTHON=../license-check/bin/python" >> "$GITHUB_ENV"
+          fi
+
+      - name: Install the package
+        run: |
+          "$CHECK_PYTHON" -m pip install --upgrade pip
+          "$CHECK_PYTHON" -m pip install .
+
+      - name: Check dependency licenses
+        run: '"$CHECK_PYTHON" .github/scripts/check_licenses.py'
