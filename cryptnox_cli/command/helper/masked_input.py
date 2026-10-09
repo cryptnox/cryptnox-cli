@@ -80,7 +80,7 @@ def _console_reader(handle, kernel32):
     or add the arrow's scan code to the secret.
     """
     import ctypes
-    from ctypes import wintypes
+    import ctypes.wintypes
 
     class CharUnion(ctypes.Union):
         """Character of a key event, as text or as a byte."""
@@ -88,9 +88,9 @@ def _console_reader(handle, kernel32):
 
     class KeyEvent(ctypes.Structure):
         """KEY_EVENT_RECORD of the Windows console API."""
-        _fields_ = [("bKeyDown", wintypes.BOOL), ("wRepeatCount", wintypes.WORD),
-                    ("wVirtualKeyCode", wintypes.WORD), ("wVirtualScanCode", wintypes.WORD),
-                    ("uChar", CharUnion), ("dwControlKeyState", wintypes.DWORD)]
+        _fields_ = [("bKeyDown", ctypes.wintypes.BOOL), ("wRepeatCount", ctypes.wintypes.WORD),
+                    ("wVirtualKeyCode", ctypes.wintypes.WORD), ("wVirtualScanCode", ctypes.wintypes.WORD),
+                    ("uChar", CharUnion), ("dwControlKeyState", ctypes.wintypes.DWORD)]
 
     class EventUnion(ctypes.Union):
         """Event of an input record. Only key events are read."""
@@ -98,12 +98,12 @@ def _console_reader(handle, kernel32):
 
     class InputRecord(ctypes.Structure):
         """INPUT_RECORD of the Windows console API."""
-        _fields_ = [("EventType", wintypes.WORD), ("Event", EventUnion)]
+        _fields_ = [("EventType", ctypes.wintypes.WORD), ("Event", EventUnion)]
 
     key_event = 0x0001
     vk_menu = 0x12  # Alt
     record = InputRecord()
-    read = wintypes.DWORD()
+    read = ctypes.wintypes.DWORD()
     buffered = []
 
     def read_char():
