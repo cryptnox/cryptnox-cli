@@ -1,12 +1,7 @@
 # -*- mode: python ; coding: utf-8 -*-
 
-import os
 import sys
 from PyInstaller.utils.hooks import collect_all
-
-# Find lazy_import VERSION file
-import lazy_import
-lazy_import_version = os.path.join(os.path.dirname(lazy_import.__file__), 'VERSION')
 
 # Collect all submodules, data files, and binaries from cryptnox_sdk_py
 sdk_datas, sdk_binaries, sdk_hiddenimports = collect_all('cryptnox_sdk_py')
@@ -18,11 +13,9 @@ a = Analysis(
     datas=[
         # Only include non-Python data files
         ('cryptnox_cli\\contract_abi\\*.json', 'cryptnox_cli\\contract_abi'),
-        ('cryptnox_cli\\lib\\cryptos\\english.txt', 'cryptnox_cli\\lib\\cryptos'),
-        (lazy_import_version, 'lazy_import')
+        ('cryptnox_cli\\lib\\cryptos\\english.txt', 'cryptnox_cli\\lib\\cryptos')
     ] + sdk_datas,
     hiddenimports=sdk_hiddenimports + [
-        'lazy_import',
         'six',
         'winsdk',
         'winsdk.windows',
@@ -32,7 +25,6 @@ a = Analysis(
         'smartcard',
         'multiprocessing',
         'tabulate',
-        'coincurve',
         'eth_keys',
         'requests',
         'urllib3',
@@ -49,6 +41,7 @@ a = Analysis(
         'cryptnox_cli.command.info',
         'cryptnox_cli.command.initialize',
         'cryptnox_cli.command.seed',
+        'cryptnox_cli.command.solana',
         'cryptnox_cli.command.cards',
         'cryptnox_cli.command.server',
         'cryptnox_cli.command.reset',

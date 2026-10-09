@@ -7,10 +7,10 @@ from hashlib import sha256
 import cryptnox_sdk_py
 from cryptography import x509
 from cryptography.hazmat.primitives.serialization import PublicFormat, Encoding
-from stdiomask import getpass
 
 from . import piv_card
 from .. import user_key_base
+from ...helper.masked_input import getpass
 
 
 class Piv(user_key_base.UserKey):

@@ -3,13 +3,13 @@
 """
 Command line interface for Cryptnox Cards
 """
+import re
 import sys
 import traceback
 from os import makedirs
 from pathlib import Path
 
 import argparse
-import lazy_import
 from appdirs import user_log_dir
 
 if getattr(sys, 'frozen', False):
@@ -34,13 +34,6 @@ else:
             factory,
             options
         )
-
-cryptnox_sdk_py = lazy_import.lazy_module("cryptnox_sdk_py")
-json = lazy_import.lazy_module("json")
-re = lazy_import.lazy_module("re")
-tabulate = lazy_import.lazy_callable("tabulate.tabulate")
-requests = lazy_import.lazy_module("requests")
-web3 = lazy_import.lazy_module("web3")
 
 APPLICATION_NAME = "Cryptnox CLI"
 

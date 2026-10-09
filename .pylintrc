@@ -143,7 +143,6 @@ overgeneral-exceptions=builtins.BaseException,builtins.Exception
 # Ignore missing members accessed in mocking
 ignored-modules=
     cryptnox_sdk_py,
-    lazy_import,
     appdirs,
     tabulate,
     ecdsa,
@@ -153,11 +152,8 @@ ignored-modules=
     hexbytes,
     web3,
     requests,
-    boto3,
-    botocore,
     cryptography,
     winsdk,
-    stdiomask,
     smartcard,
     Cryptodome
 # List of classes names for which member attributes should not be checked

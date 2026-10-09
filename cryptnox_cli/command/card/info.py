@@ -7,7 +7,6 @@ from decimal import Decimal
 from typing import List, Dict
 
 import cryptnox_sdk_py
-import web3
 from argparse import Namespace
 from tabulate import tabulate
 
@@ -160,6 +159,8 @@ class Info:
 
     @staticmethod
     def _get_eth_info(config, public_key) -> dict:
+        import web3
+
         if public_key is None:
             return {"name": "ETH", "address": "Bad derivation type", "network": ""}
         network = enums.EthNetwork[config.get("network", "infura").upper()]
@@ -240,6 +241,8 @@ class Info:
 
     @staticmethod
     def _get_bnb_info(public_key) -> dict:
+        import web3
+
         # BNB on Binance Smart Chain (BSC) is EVM-compatible: same secp256k1
         # curve, same derivation path, and same address format as Ethereum.
         if public_key is None:
