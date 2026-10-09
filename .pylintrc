@@ -152,8 +152,6 @@ ignored-modules=
     hexbytes,
     web3,
     requests,
-    boto3,
-    botocore,
     cryptography,
     winsdk,
     smartcard,
