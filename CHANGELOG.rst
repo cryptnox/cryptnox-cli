@@ -13,6 +13,7 @@ Changed
 Fixed
 ^^^^^
 - Windows: PIN, PUK and BIP39 passphrase entry now accepts the full Unicode range. Characters outside ASCII were previously discarded as they were typed, so a passphrase containing them was not the one the user entered. Arrow and function keys are ignored instead of adding characters to the entry, and Ctrl+C cancels the prompt again
+- Windows: a BIP39 passphrase entered with an earlier version lost every character outside ASCII (accents, umlauts, non-Latin letters, emoji) at entry, so the passphrase that opens such a wallet is the one with those characters removed. Type it that way; this version keeps them
 
 `1.0.5 <https://github.com/Cryptnox-Software/cryptnox-cli/compare/ver1.0.4...ver1.0.5>`_
 ------------------------------------------------------------------------------------------------
