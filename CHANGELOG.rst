@@ -12,8 +12,8 @@ Changed
 
 Fixed
 ^^^^^
-- Windows: PIN, PUK and BIP39 passphrase entry now accepts the full Unicode range. Characters outside ASCII were previously discarded as they were typed, so a passphrase containing them was not the one the user entered. Arrow and function keys are ignored instead of adding characters to the entry, and Ctrl+C cancels the prompt again
-- Windows: a BIP39 passphrase entered with an earlier version lost every character outside ASCII (accents, umlauts, non-Latin letters, emoji) at entry, so the passphrase that opens such a wallet is the one with those characters removed. Type it that way; this version keeps them
+- Windows: PIN, PUK and BIP39 passphrase entry now accepts the full Unicode range. Earlier versions converted each typed character to the console's code page, so a passphrase containing characters outside ASCII was not the one the user entered. Arrow and function keys are ignored instead of adding characters to the entry, and Ctrl+C cancels the prompt again
+- Windows: a BIP39 passphrase entered with version 1.0.4 or 1.0.5 lost at entry every character outside ASCII that the console's code page contains, such as accented letters and umlauts on a European console, so the passphrase that opens such a wallet is the one with those characters removed. Type it that way; this version keeps them. A character the code page does not contain was stored as a question mark or another ASCII character instead, an emoji as two question marks, and on a Chinese, Japanese or Korean console some characters left an ASCII character behind, such as a backslash. With version 1.0.3 and earlier, each character outside ASCII was instead turned into other characters that depend on the code page of the Windows console it was typed in, so a wallet created that way opens neither with the passphrase as written nor with those characters removed
 
 `1.0.5 <https://github.com/Cryptnox-Software/cryptnox-cli/compare/ver1.0.4...ver1.0.5>`_
 ------------------------------------------------------------------------------------------------
