@@ -222,17 +222,25 @@ def get_bip39_passphrase(confirm_required: bool = True) -> str:
 
     use_passphrase = confirm("Do you want to use a BIP39 passphrase?")
 
+    passphrase = ""
+    while use_passphrase:
+        print()
+        print("Enter your BIP39 passphrase:")
+        print("(Any UTF-8 characters are valid, but avoid unusual characters you might forget)")
+
+        if confirm_required:
+            passphrase = _verify_passphrase_input()
+        else:
+            passphrase = getpass("Passphrase: ")
+
+        if passphrase:
+            break
+        # An empty entry is also what a paste that never arrived looks like
+        print("ERROR: The passphrase is empty.")
+        use_passphrase = confirm("Do you want to use a BIP39 passphrase?")
+
     if not use_passphrase:
         return ""
-
-    print()
-    print("Enter your BIP39 passphrase:")
-    print("(Any UTF-8 characters are valid, but avoid unusual characters you might forget)")
-
-    if confirm_required:
-        passphrase = _verify_passphrase_input()
-    else:
-        passphrase = getpass("Passphrase: ")
 
     if len(passphrase) > MAX_PASSPHRASE_LENGTH:
         print("ERROR: Passphrase must be at most 100 characters. Please try again.")
@@ -252,6 +260,8 @@ def get_bip39_passphrase(confirm_required: bool = True) -> str:
 def _verify_passphrase_input() -> str:
     while True:
         passphrase = getpass("Passphrase: ")
+        if not passphrase:
+            return passphrase
         if len(passphrase) > MAX_PASSPHRASE_LENGTH:
             print("ERROR: Passphrase must be at most 100 characters. Please try again.")
             print()
