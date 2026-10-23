@@ -69,7 +69,7 @@ def _masked_input(read_char, prompt, mask):
             sys.stdout.flush()
 
 
-def _console_reader(handle, kernel32):
+def _console_reader(handle, kernel32, clipboard=None):
     """
     Build a read_char callable over a Windows console input handle.
 
@@ -124,10 +124,46 @@ def _console_reader(handle, kernel32):
             char = record.Event.KeyEvent.uChar.UnicodeChar
             if char == '\x00':
                 continue  # A key that produces no character, such as an arrow
+            if char == '\x16' and clipboard:
+                # The classic console hands Ctrl+V to a program reading keys instead
+                # of pasting. Paste the first line here, as text only, so pasting
+                # neither submits the entry unseen nor acts as Backspace or Ctrl+C.
+                line = clipboard().replace('\r', '\n').split('\n', 1)[0]
+                buffered.extend(c for c in line if c > '\x1f' and c != '\x7f')
+                continue
             buffered.extend([char] * max(1, record.Event.KeyEvent.wRepeatCount))
         return buffered.pop(0)
 
     return read_char
+
+
+def _clipboard_text():
+    """
+    Text on the Windows clipboard, or an empty string when it holds none.
+    """
+    import ctypes
+
+    user32 = ctypes.WinDLL("user32", use_last_error=True)
+    kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+    # Handles and pointers are pointer sized; left untyped, ctypes would cut them to 32 bits
+    user32.GetClipboardData.restype = ctypes.c_void_p
+    kernel32.GlobalLock.argtypes = [ctypes.c_void_p]
+    kernel32.GlobalLock.restype = ctypes.c_void_p
+    kernel32.GlobalUnlock.argtypes = [ctypes.c_void_p]
+    cf_unicodetext = 13
+    if not user32.OpenClipboard(None):
+        return ''
+    try:
+        handle = user32.GetClipboardData(cf_unicodetext)
+        pointer = kernel32.GlobalLock(handle) if handle else None
+        if not pointer:
+            return ''
+        try:
+            return ctypes.wstring_at(pointer)
+        finally:
+            kernel32.GlobalUnlock(handle)
+    finally:
+        user32.CloseClipboard()
 
 
 def _getpass_windows(prompt, mask):
@@ -155,7 +191,7 @@ def _getpass_windows(prompt, mask):
     line_editing_and_echo = 0x0001 | 0x0002 | 0x0004 | 0x0008 | 0x0200
     try:
         kernel32.SetConsoleMode(handle, mode.value & ~line_editing_and_echo)
-        return _masked_input(_console_reader(handle, kernel32), prompt, mask)
+        return _masked_input(_console_reader(handle, kernel32, _clipboard_text), prompt, mask)
     finally:
         kernel32.SetConsoleMode(handle, mode.value)
         sys.stdout.write('\n')
