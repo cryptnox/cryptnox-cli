@@ -10,7 +10,7 @@ from collections import namedtuple
 from typing import List, Union, Dict
 
 import cryptnox_sdk_py
-from .security import _getpass as getpass
+from .masked_input import getpass
 from tabulate import tabulate
 
 from . import security
