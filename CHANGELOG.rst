@@ -22,6 +22,9 @@ Fixed
 
   With version 1.0.3 and earlier the console behaved the same way, but a character the code page contains was stored as a different character instead of being dropped, so a wallet created that way opens neither with the passphrase as written nor with those characters removed
 
+- Windows: Ctrl+V pastes into the PIN, PUK and passphrase prompts in the classic console, where it used to enter nothing. The first line of the clipboard is pasted, without its line break
+- The BIP39 passphrase prompt refuses an empty passphrase once you have chosen to use one, and asks again whether to use one
+
 `1.0.5 <https://github.com/Cryptnox-Software/cryptnox-cli/compare/ver1.0.4...ver1.0.5>`_
 ------------------------------------------------------------------------------------------------
 
