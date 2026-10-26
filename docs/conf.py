@@ -86,7 +86,6 @@ autodoc_mock_imports = [
     'eth_abi',
     'eth_hash',
     'hexbytes',
-    'ecdsa',
     'rlp',
     # Validation
     'pydantic',
