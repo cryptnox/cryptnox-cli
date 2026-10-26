@@ -13,7 +13,6 @@ pytest = "*"
 [packages]
 appdirs = "*"
 base58 = "*"
-ecdsa = ">=0.19.2"
 cryptnox-sdk-py = ">=1.0.5"
 eth-account = "*"
 eth-utils = "*"

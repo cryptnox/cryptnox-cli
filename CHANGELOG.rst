@@ -9,6 +9,8 @@ Changed
 ^^^^^^^
 - Masked PIN, PUK and passphrase input on Linux and macOS is handled by the CLI itself; the ``stdiomask`` dependency is removed
 - Ethereum support is loaded only by the commands that use it, so commands such as ``history`` and ``info`` start noticeably faster; the ``lazy-import`` dependency is removed
+- Ethereum signatures from the card are completed with the CLI's own secp256k1 code; the ``ecdsa`` dependency is removed
+- The pinned versions of aiohttp, certifi, cryptography and urllib3 are updated to releases with security fixes
 
 Fixed
 ^^^^^

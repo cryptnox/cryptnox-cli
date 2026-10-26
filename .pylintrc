@@ -145,7 +145,6 @@ ignored-modules=
     cryptnox_sdk_py,
     appdirs,
     tabulate,
-    ecdsa,
     eth_account,
     eth_typing,
     eth_utils,

@@ -7,7 +7,6 @@ from typing import (
     Dict, TYPE_CHECKING, Union
 )
 
-import ecdsa
 from cryptnox_sdk_py import Derivation
 
 from . import endpoint as ep
@@ -127,17 +126,11 @@ class Api:
         :param q_pub: Wallets q_pub
         :return: Tuple containing v, r, s values
         """
-        curve = ecdsa.curves.SECP256k1
-        signature_decode = ecdsa.util.sigdecode_der
-        generator = curve.generator
-        var_r, var_s = signature_decode(signature_der, generator.order())
+        _, var_r, var_s = cryptos.der_decode_sig(signature_der.hex())
 
-        # Parity recovery
-        var_q = ecdsa.keys.VerifyingKey.from_public_key_recovery_with_digest(
-            signature_der, transaction, curve, sigdecode=signature_decode)[1]
-
+        # Parity recovery; 28 is recovery id 1 in the 27-based encoding cryptos uses
         i = 35
-        if var_q.to_string("uncompressed") == cryptos.encode_pubkey(q_pub, "bin"):
+        if cryptos.ecdsa_raw_recover(transaction, (28, var_r, var_s)) == q_pub:
             i += 1
 
         var_v = 2 * chain_id + i
