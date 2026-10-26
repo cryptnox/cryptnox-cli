@@ -7,7 +7,10 @@ This module is based on code from pybitcointools:
 https://github.com/primal100/pybitcointools/blob/master/cryptos/wallet.py
 """
 from .main import *
-from .keystore import xpubkey_to_address
+
+__all__ = [
+    'HDWallet',
+]
 
 
 class HDWallet(object):

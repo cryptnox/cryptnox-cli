@@ -45,6 +45,12 @@ RIPEMD-160 hash function implementation in pure Python.
 
 import sys
 
+__all__ = [
+    'is_python2', 'digest_size', 'digestsize', 'RIPEMD160', 'new', 'RMDContext', 'K0', 'K1', 'K2',
+    'K3', 'K4', 'KK0', 'KK1', 'KK2', 'KK3', 'KK4', 'ROL', 'F0', 'F1', 'F2', 'F3', 'F4', 'R',
+    'PADDING', 'RMD160Transform', 'RMD160Update', 'RMD160Final',
+]
+
 is_python2 = sys.version_info.major == 2
 #block_size = 1
 digest_size = 20

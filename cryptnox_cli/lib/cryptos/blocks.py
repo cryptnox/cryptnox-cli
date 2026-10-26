@@ -3,7 +3,12 @@
 """
 Block header encoding/decoding utilities and related primitives.
 """
+from .specials import *
 from .main import *
+
+__all__ = [
+    'serialize_header', 'deserialize_header', 'mk_merkle_proof',
+]
 
 
 def serialize_header(inp):

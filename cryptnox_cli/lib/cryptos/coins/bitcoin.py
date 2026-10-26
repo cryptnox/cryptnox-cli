@@ -5,6 +5,10 @@ Bitcoin-specific constants, scripts, and address helpers.
 # from ..explorers import blockchain
 from .base import BaseCoin
 
+__all__ = [
+    'Bitcoin',
+]
+
 
 class Bitcoin(BaseCoin):
     coin_symbol = "BTC"

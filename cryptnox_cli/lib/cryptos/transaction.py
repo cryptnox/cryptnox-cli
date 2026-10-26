@@ -5,8 +5,22 @@ Transaction building, serialization, signing, and parsing utilities.
 """
 #!/usr/bin/python
 import binascii, re, copy
+from .specials import *
 from .main import *
+from .ripemd import is_python2
 from _functools import reduce
+
+__all__ = [
+    'json_is_base', 'json_changebase', 'SIGHASH_ALL', 'SIGHASH_NONE', 'SIGHASH_SINGLE',
+    'SIGHASH_ANYONECANPAY', 'SIGHASH_FORKID', 'encode_1_byte', 'encode_4_bytes', 'encode_8_bytes',
+    'list_to_bytes', 'dbl_sha256_list', 'is_segwit', 'deserialize', 'serialize', 'uahf_digest',
+    'signature_form', 'der_encode_sig', 'der_decode_sig', 'is_bip66', 'txhash', 'public_txhash',
+    'bin_txhash', 'ecdsa_tx_sign', 'ecdsa_tx_verify', 'ecdsa_tx_recover', 'mk_pubkey_script',
+    'mk_scripthash_script', 'output_script_to_address', 'mk_p2w_scripthash_script',
+    'mk_p2wpkh_redeemscript', 'mk_p2wpkh_script', 'mk_p2wpkh_scriptcode', 'p2wpkh_nested_script',
+    'deserialize_script', 'serialize_script_unit', 'serialize_script', 'mk_multisig_script',
+    'verify_tx_input', 'multisign', 'apply_multisignatures', 'is_inp', 'select',
+]
 
 ### Hex to bin converter and vice versa for objects
 

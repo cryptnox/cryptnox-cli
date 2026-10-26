@@ -29,11 +29,17 @@ General wallet helper functions (formatting, hashing, conversions).
 # SOFTWARE.
 
 
+import base64
+import binascii
+import hashlib
+import hmac
+import os
 from decimal import Decimal
 
 from . import constants as version
 from .main import *
 from .specials import *
+from .mnemonic import is_new_seed
 
 # Version numbers for BIP32 extended keys
 # standard: xprv, xpub
@@ -181,13 +187,6 @@ def pw_decode(s, password):
         return d
     else:
         return s
-
-
-def is_new_seed(x, prefix=version.SEED_PREFIX):
-    from . import mnemonic
-    x = mnemonic.normalize_text(x)
-    s = bh2u(hmac_sha_512(b"Seed version", x.encode('utf8')))
-    return s.startswith(prefix)
 
 
 def seed_type(x):

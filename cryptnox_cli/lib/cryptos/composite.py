@@ -7,6 +7,10 @@ from .deterministic import *
 from .transaction import *
 from .main import *
 
+__all__ = [
+    'bip32_hdm_script', 'bip32_hdm_addr', 'setup_coinvault_tx', 'sign_coinvault_tx',
+]
+
 
 # BIP32 hierarchical deterministic multisig script
 def bip32_hdm_script(*args):
