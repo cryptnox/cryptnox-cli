@@ -62,6 +62,7 @@ ALLOWED_TEXT = {
     "BSD, Public Domain",
     "BSD-derived (http://www.repoze.org/LICENSE.txt)",
     "BSD-like (http://repoze.org/license.html)",
+    "PSF",
     "Python Software Foundation License",
 }
 
