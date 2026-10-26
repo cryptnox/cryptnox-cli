@@ -100,9 +100,21 @@
 <span class="sd">"""</span>
 <span class="sd">Deterministic key and path derivation utilities (BIP32-like logic).</span>
 <span class="sd">"""</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.specials</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.main</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">binascii</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">hmac</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'electrum_stretch'</span><span class="p">,</span> <span class="s1">'electrum_mpk'</span><span class="p">,</span> <span class="s1">'electrum_privkey'</span><span class="p">,</span> <span class="s1">'electrum_pubkey'</span><span class="p">,</span> <span class="s1">'electrum_address'</span><span class="p">,</span>
+    <span class="s1">'crack_electrum_wallet'</span><span class="p">,</span> <span class="s1">'MAINNET_PRIVATE'</span><span class="p">,</span> <span class="s1">'MAINNET_PUBLIC'</span><span class="p">,</span> <span class="s1">'TESTNET_PRIVATE'</span><span class="p">,</span>
+    <span class="s1">'TESTNET_PUBLIC'</span><span class="p">,</span> <span class="s1">'PRIVATE'</span><span class="p">,</span> <span class="s1">'PUBLIC'</span><span class="p">,</span> <span class="s1">'DEFAULT'</span><span class="p">,</span> <span class="s1">'raw_bip32_ckd'</span><span class="p">,</span> <span class="s1">'bip32_serialize'</span><span class="p">,</span>
+    <span class="s1">'bip32_deserialize'</span><span class="p">,</span> <span class="s1">'is_xprv'</span><span class="p">,</span> <span class="s1">'is_xpub'</span><span class="p">,</span> <span class="s1">'raw_bip32_privtopub'</span><span class="p">,</span> <span class="s1">'bip32_privtopub'</span><span class="p">,</span>
+    <span class="s1">'bip32_ckd'</span><span class="p">,</span> <span class="s1">'bip32_master_key'</span><span class="p">,</span> <span class="s1">'bip32_bin_extract_key'</span><span class="p">,</span> <span class="s1">'bip32_extract_key'</span><span class="p">,</span>
+    <span class="s1">'bip32_derive_key'</span><span class="p">,</span> <span class="s1">'raw_crack_bip32_privkey'</span><span class="p">,</span> <span class="s1">'crack_bip32_privkey'</span><span class="p">,</span> <span class="s1">'coinvault_pub_to_bip32'</span><span class="p">,</span>
+    <span class="s1">'coinvault_priv_to_bip32'</span><span class="p">,</span> <span class="s1">'bip32_descend'</span><span class="p">,</span> <span class="s1">'parse_bip32_path'</span><span class="p">,</span>
+<span class="p">]</span>
 
 <span class="c1"># Electrum wallets</span>
 

@@ -581,11 +581,11 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.keystore.Xpub">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.lib.cryptos.keystore.</span></span><span class="sig-name descname"><span class="pre">Xpub</span></span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/keystore.html#Xpub"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.keystore.Xpub" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">cryptnox_cli.lib.cryptos.keystore.</span></span><span class="sig-name descname"><span class="pre">Xpub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xpub</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/keystore.html#Xpub"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.keystore.Xpub" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.keystore.Xpub.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/keystore.html#Xpub.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.keystore.Xpub.__init__" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xpub</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/keystore.html#Xpub.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.keystore.Xpub.__init__" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -812,6 +812,11 @@ pin and passphrase as appropriate when needed.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.keystore.is_private_key_list">
 <span class="sig-prename descclassname"><span class="pre">cryptnox_cli.lib.cryptos.keystore.</span></span><span class="sig-name descname"><span class="pre">is_private_key_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/keystore.html#is_private_key_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.keystore.is_private_key_list" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.keystore.is_mpk">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.lib.cryptos.keystore.</span></span><span class="sig-name descname"><span class="pre">is_mpk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefixes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DEFAULT</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cryptnox_cli.lib.cryptos.keystore.is_mpk" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -1334,6 +1339,11 @@ which include code from Electrum. See NOTICES.md.</p>
 <dd></dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.mnemonic.is_new_seed">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.lib.cryptos.mnemonic.</span></span><span class="sig-name descname"><span class="pre">is_new_seed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">SEED_PREFIX</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/mnemonic.html#is_new_seed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.mnemonic.is_new_seed" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.mnemonic.seed_prefix">
 <span class="sig-prename descclassname"><span class="pre">cryptnox_cli.lib.cryptos.mnemonic.</span></span><span class="sig-name descname"><span class="pre">seed_prefix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/mnemonic.html#seed_prefix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.mnemonic.seed_prefix" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -1619,6 +1629,12 @@ hashed.</p>
 <section id="cryptnox-cli-lib-cryptos-specials-module">
 <h2>cryptnox_cli.lib.cryptos.specials module<a class="headerlink" href="#cryptnox-cli-lib-cryptos-specials-module" title="Link to this heading"></a></h2>
 <p id="module-cryptnox_cli.lib.cryptos.specials">Low-level helpers, type adapters, and encoding utilities shared across modules.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.specials.string_types">
+<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.lib.cryptos.specials.</span></span><span class="sig-name descname"><span class="pre">string_types</span></span><a class="headerlink" href="#cryptnox_cli.lib.cryptos.specials.string_types" title="Link to this definition"></a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.specials.bin_dbl_sha256">
 <span class="sig-prename descclassname"><span class="pre">cryptnox_cli.lib.cryptos.specials.</span></span><span class="sig-name descname"><span class="pre">bin_dbl_sha256</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/specials.html#bin_dbl_sha256"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.specials.bin_dbl_sha256" title="Link to this definition"></a></dt>
@@ -2185,11 +2201,6 @@ hashed.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.wallet_utils.pw_decode">
 <span class="sig-prename descclassname"><span class="pre">cryptnox_cli.lib.cryptos.wallet_utils.</span></span><span class="sig-name descname"><span class="pre">pw_decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/wallet_utils.html#pw_decode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.wallet_utils.pw_decode" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.wallet_utils.is_new_seed">
-<span class="sig-prename descclassname"><span class="pre">cryptnox_cli.lib.cryptos.wallet_utils.</span></span><span class="sig-name descname"><span class="pre">is_new_seed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">version.SEED_PREFIX</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/wallet_utils.html#is_new_seed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.wallet_utils.is_new_seed" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">

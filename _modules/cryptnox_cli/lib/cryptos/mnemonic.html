@@ -105,7 +105,10 @@
 <span class="sd">pybtctools (https://pypi.org/project/pybtctools/, bitcoin/mnemonic.py), both of</span>
 <span class="sd">which include code from Electrum. See NOTICES.md.</span>
 <span class="sd">"""</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">binascii</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">hmac</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">bisect</span><span class="w"> </span><span class="kn">import</span> <span class="n">bisect_left</span>
 
@@ -113,7 +116,16 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.pbkdf2</span><span class="w"> </span><span class="kn">import</span> <span class="n">PBKDF2</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.specials</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.wallet_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_new_seed</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'wordlist_english'</span><span class="p">,</span> <span class="s1">'ELECTRUM_VERSION'</span><span class="p">,</span> <span class="s1">'PROTOCOL_VERSION'</span><span class="p">,</span> <span class="s1">'SEED_PREFIX'</span><span class="p">,</span> <span class="s1">'SEED_PREFIX_2FA'</span><span class="p">,</span>
+    <span class="s1">'SEED_PREFIX_SW'</span><span class="p">,</span> <span class="s1">'whitespace'</span><span class="p">,</span> <span class="s1">'CJK_INTERVALS'</span><span class="p">,</span> <span class="s1">'is_CJK'</span><span class="p">,</span> <span class="s1">'normalize_text'</span><span class="p">,</span> <span class="s1">'eint_to_bytes'</span><span class="p">,</span>
+    <span class="s1">'mnemonic_int_to_words'</span><span class="p">,</span> <span class="s1">'entropy_cs'</span><span class="p">,</span> <span class="s1">'entropy_to_words'</span><span class="p">,</span> <span class="s1">'words_bisect'</span><span class="p">,</span> <span class="s1">'words_split'</span><span class="p">,</span>
+    <span class="s1">'words_to_mnemonic_int'</span><span class="p">,</span> <span class="s1">'words_verify'</span><span class="p">,</span> <span class="s1">'bip39_normalize_passphrase'</span><span class="p">,</span>
+    <span class="s1">'bip39_is_checksum_valid'</span><span class="p">,</span> <span class="s1">'mnemonic_to_seed'</span><span class="p">,</span> <span class="s1">'bip39_mnemonic_to_seed'</span><span class="p">,</span>
+    <span class="s1">'electrum_mnemonic_to_seed'</span><span class="p">,</span> <span class="s1">'is_old_seed'</span><span class="p">,</span> <span class="s1">'is_new_seed'</span><span class="p">,</span> <span class="s1">'seed_prefix'</span><span class="p">,</span> <span class="s1">'seed_type'</span><span class="p">,</span> <span class="s1">'is_seed'</span><span class="p">,</span>
+    <span class="s1">'words_mine'</span><span class="p">,</span>
+<span class="p">]</span>
 
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)),</span> <span class="s1">'english.txt'</span><span class="p">),</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">_wordlist_file</span><span class="p">:</span>
     <span class="n">wordlist_english</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">_wordlist_file</span><span class="p">]</span>
@@ -376,6 +388,15 @@
     <span class="k">elif</span> <span class="n">seed_type</span> <span class="o">==</span> <span class="s1">'2fa'</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">SEED_PREFIX_2FA</span>
     <span class="k">return</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="is_new_seed">
+<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.mnemonic.is_new_seed">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_new_seed</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">SEED_PREFIX</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">normalize_text</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">safe_hexlify</span><span class="p">(</span><span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="sa">b</span><span class="s2">"Seed version"</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">'utf8'</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha512</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span></div>
 
 
 

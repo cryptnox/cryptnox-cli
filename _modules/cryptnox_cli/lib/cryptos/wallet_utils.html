@@ -126,11 +126,17 @@
 <span class="c1"># SOFTWARE.</span>
 
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">binascii</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">hmac</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">decimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decimal</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">constants</span> <span class="k">as</span> <span class="n">version</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.main</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.specials</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.mnemonic</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_new_seed</span>
 
 <span class="c1"># Version numbers for BIP32 extended keys</span>
 <span class="c1"># standard: xprv, xpub</span>
@@ -319,16 +325,6 @@
         <span class="k">return</span> <span class="n">d</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">s</span></div>
-
-
-
-<div class="viewcode-block" id="is_new_seed">
-<a class="viewcode-back" href="../../../../cryptnox_cli.lib.cryptos.html#cryptnox_cli.lib.cryptos.wallet_utils.is_new_seed">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">is_new_seed</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">version</span><span class="o">.</span><span class="n">SEED_PREFIX</span><span class="p">):</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">mnemonic</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">mnemonic</span><span class="o">.</span><span class="n">normalize_text</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="n">bh2u</span><span class="p">(</span><span class="n">hmac_sha_512</span><span class="p">(</span><span class="sa">b</span><span class="s2">"Seed version"</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">'utf8'</span><span class="p">)))</span>
-    <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span></div>
 
 
 

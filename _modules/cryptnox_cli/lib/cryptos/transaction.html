@@ -102,8 +102,22 @@
 <span class="sd">"""</span>
 <span class="c1">#!/usr/bin/python</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">binascii</span><span class="o">,</span><span class="w"> </span><span class="nn">re</span><span class="o">,</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.specials</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.main</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.ripemd</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_python2</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">_functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">reduce</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'json_is_base'</span><span class="p">,</span> <span class="s1">'json_changebase'</span><span class="p">,</span> <span class="s1">'SIGHASH_ALL'</span><span class="p">,</span> <span class="s1">'SIGHASH_NONE'</span><span class="p">,</span> <span class="s1">'SIGHASH_SINGLE'</span><span class="p">,</span>
+    <span class="s1">'SIGHASH_ANYONECANPAY'</span><span class="p">,</span> <span class="s1">'SIGHASH_FORKID'</span><span class="p">,</span> <span class="s1">'encode_1_byte'</span><span class="p">,</span> <span class="s1">'encode_4_bytes'</span><span class="p">,</span> <span class="s1">'encode_8_bytes'</span><span class="p">,</span>
+    <span class="s1">'list_to_bytes'</span><span class="p">,</span> <span class="s1">'dbl_sha256_list'</span><span class="p">,</span> <span class="s1">'is_segwit'</span><span class="p">,</span> <span class="s1">'deserialize'</span><span class="p">,</span> <span class="s1">'serialize'</span><span class="p">,</span> <span class="s1">'uahf_digest'</span><span class="p">,</span>
+    <span class="s1">'signature_form'</span><span class="p">,</span> <span class="s1">'der_encode_sig'</span><span class="p">,</span> <span class="s1">'der_decode_sig'</span><span class="p">,</span> <span class="s1">'is_bip66'</span><span class="p">,</span> <span class="s1">'txhash'</span><span class="p">,</span> <span class="s1">'public_txhash'</span><span class="p">,</span>
+    <span class="s1">'bin_txhash'</span><span class="p">,</span> <span class="s1">'ecdsa_tx_sign'</span><span class="p">,</span> <span class="s1">'ecdsa_tx_verify'</span><span class="p">,</span> <span class="s1">'ecdsa_tx_recover'</span><span class="p">,</span> <span class="s1">'mk_pubkey_script'</span><span class="p">,</span>
+    <span class="s1">'mk_scripthash_script'</span><span class="p">,</span> <span class="s1">'output_script_to_address'</span><span class="p">,</span> <span class="s1">'mk_p2w_scripthash_script'</span><span class="p">,</span>
+    <span class="s1">'mk_p2wpkh_redeemscript'</span><span class="p">,</span> <span class="s1">'mk_p2wpkh_script'</span><span class="p">,</span> <span class="s1">'mk_p2wpkh_scriptcode'</span><span class="p">,</span> <span class="s1">'p2wpkh_nested_script'</span><span class="p">,</span>
+    <span class="s1">'deserialize_script'</span><span class="p">,</span> <span class="s1">'serialize_script_unit'</span><span class="p">,</span> <span class="s1">'serialize_script'</span><span class="p">,</span> <span class="s1">'mk_multisig_script'</span><span class="p">,</span>
+    <span class="s1">'verify_tx_input'</span><span class="p">,</span> <span class="s1">'multisign'</span><span class="p">,</span> <span class="s1">'apply_multisignatures'</span><span class="p">,</span> <span class="s1">'is_inp'</span><span class="p">,</span> <span class="s1">'select'</span><span class="p">,</span>
+<span class="p">]</span>
 
 <span class="c1">### Hex to bin converter and vice versa for objects</span>
 

@@ -100,7 +100,12 @@
 <span class="sd">"""</span>
 <span class="sd">Block header encoding/decoding utilities and related primitives.</span>
 <span class="sd">"""</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.specials</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.main</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'serialize_header'</span><span class="p">,</span> <span class="s1">'deserialize_header'</span><span class="p">,</span> <span class="s1">'mk_merkle_proof'</span><span class="p">,</span>
+<span class="p">]</span>
 
 
 <div class="viewcode-block" id="serialize_header">
