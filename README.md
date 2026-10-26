@@ -120,3 +120,5 @@ The full **User & Developer documentation** is available at the [Cryptnox CLI Do
 - **Commercial license** for projects that require a proprietary license without LGPL obligations (see COMMERCIAL.md for details)
 
 For commercial inquiries, contact: contact@cryptnox.com
+
+Code from other projects and the licenses of the components bundled with the Windows installer are listed in [NOTICES.md](NOTICES.md).

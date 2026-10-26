@@ -3,7 +3,7 @@
 """
 Simple wallet abstractions for addresses, balances, and signing flows.
 
-This module is based on code from pybtctools:
+This module is based on code from pybitcointools:
 https://github.com/primal100/pybitcointools/blob/master/cryptos/wallet.py
 """
 from .main import *

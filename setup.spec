@@ -1,5 +1,6 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+import os
 import sys
 from PyInstaller.utils.hooks import collect_all
 
@@ -122,3 +123,9 @@ exe = EXE(
     entitlements_file=None,
     onefile=False,
 )
+
+# The installer ships the licenses of everything frozen into the executable
+sys.path.insert(0, os.path.join(SPECPATH, 'tools'))
+from third_party_licenses import write_licenses  # noqa: E402
+
+write_licenses(os.path.join(DISTPATH, 'THIRD_PARTY_LICENSES.txt'))

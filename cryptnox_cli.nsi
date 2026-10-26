@@ -55,6 +55,9 @@ Section "MainSection" SEC01
   File "README.md"
   File "LICENSE"
   File "COMMERCIAL.md"
+  File "NOTICES.md"
+  File "LICENSES\GPL-3.0.txt"
+  File "dist\THIRD_PARTY_LICENSES.txt"
 SectionEnd
 
 Section -AdditionalIcons
@@ -89,6 +92,9 @@ Section Uninstall
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
   Delete "$INSTDIR\COMMERCIAL.md"
+  Delete "$INSTDIR\NOTICES.md"
+  Delete "$INSTDIR\GPL-3.0.txt"
+  Delete "$INSTDIR\THIRD_PARTY_LICENSES.txt"
   Delete "$INSTDIR\LICENSE"
   Delete "$INSTDIR\README.md"
   Delete "$INSTDIR\CryptnoxCLI-1.0.3.exe"
