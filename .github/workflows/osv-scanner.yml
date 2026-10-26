@@ -24,7 +24,7 @@ jobs:
     
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4.4.0
       
       - name: Prepare requirements for scanning
         run: |
@@ -129,7 +129,7 @@ jobs:
       
       - name: Upload SARIF results to GitHub Security
         if: always() && hashFiles('results.sarif') != ''
-        uses: github/codeql-action/upload-sarif@v4
+        uses: github/codeql-action/upload-sarif@9b3254085494b55a0f7c4c2b3d2d52cc712ce370  # v4.39.1
         with:
           sarif_file: results.sarif
           category: osv-scanner
