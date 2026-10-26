@@ -3,9 +3,21 @@
 """
 Deterministic key and path derivation utilities (BIP32-like logic).
 """
+from .specials import *
 from .main import *
+import binascii
 import hmac
 import hashlib
+
+__all__ = [
+    'electrum_stretch', 'electrum_mpk', 'electrum_privkey', 'electrum_pubkey', 'electrum_address',
+    'crack_electrum_wallet', 'MAINNET_PRIVATE', 'MAINNET_PUBLIC', 'TESTNET_PRIVATE',
+    'TESTNET_PUBLIC', 'PRIVATE', 'PUBLIC', 'DEFAULT', 'raw_bip32_ckd', 'bip32_serialize',
+    'bip32_deserialize', 'is_xprv', 'is_xpub', 'raw_bip32_privtopub', 'bip32_privtopub',
+    'bip32_ckd', 'bip32_master_key', 'bip32_bin_extract_key', 'bip32_extract_key',
+    'bip32_derive_key', 'raw_crack_bip32_privkey', 'crack_bip32_privkey', 'coinvault_pub_to_bip32',
+    'coinvault_priv_to_bip32', 'bip32_descend', 'parse_bip32_path',
+]
 
 # Electrum wallets
 

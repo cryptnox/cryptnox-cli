@@ -3,12 +3,17 @@
 """
 Base classes and shared logic for UTXO-based coin implementations.
 """
+import binascii
+import re
+
 from .. import segwit_addr
 from ..blocks import mk_merkle_proof
 # from ..explorers import blockchain
 # from ..electrumx_client.rpc import ElectrumXClient
+from ..deterministic import electrum_pubkey
 from ..keystore import *
 from ..specials import *
+from ..main import *
 from ..transaction import *
 from ..wallet import *
 

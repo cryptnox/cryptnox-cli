@@ -4,6 +4,13 @@ Stealth address generation and parsing utilities.
 """
 from . import main
 
+__all__ = [
+    'shared_secret_sender', 'shared_secret_receiver', 'uncover_pay_pubkey_sender',
+    'uncover_pay_pubkey_receiver', 'uncover_pay_privkey', 'pubkeys_to_basic_stealth_address',
+    'basic_stealth_address_to_pubkeys', 'mk_stealth_metadata_script', 'mk_stealth_tx_outputs',
+    'ephem_pubkey_from_tx_script',
+]
+
 # Shared secrets and uncovering pay keys
 
 

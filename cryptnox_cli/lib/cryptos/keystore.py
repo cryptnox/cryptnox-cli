@@ -29,12 +29,25 @@ HD wallet structures, serialization, derivation, and key store helpers.
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import hashlib
 from unicodedata import normalize
 
 from .wallet_utils import pw_encode, pw_decode, hfu, InvalidPassword
 from .mnemonic import *
 from .deterministic import *
+from .specials import *
 from .main import *
+
+__all__ = [
+    'KeyStore', 'Software_KeyStore', 'Imported_KeyStore', 'Deterministic_KeyStore', 'Xpub',
+    'BIP32_KeyStore', 'Hardware_KeyStore', 'bip39_to_seed', 'bip39_is_checksum_valid',
+    'from_bip39_seed', 'standard_from_bip39_seed', 'p2wpkh_from_bip39_seed',
+    'p2wpkh_p2sh_from_bip39_seed', 'xtype_from_derivation', 'is_xpubkey', 'parse_xpubkey',
+    'xpubkey_to_address', 'xpubkey_to_pubkey', 'hw_keystores', 'register_keystore',
+    'hardware_keystore', 'is_address_list', 'get_private_keys', 'is_private_key_list', 'is_mpk',
+    'is_private', 'is_master_key', 'is_private_key', 'is_bip32_key', 'from_electrum_seed',
+    'from_private_key_list', 'from_xpub', 'from_xprv', 'from_master_key',
+]
 
 
 
@@ -220,8 +233,8 @@ class Deterministic_KeyStore(Software_KeyStore):
 
 class Xpub:
 
-    def __init__(self):
-        self.xpub = None
+    def __init__(self, xpub=None):
+        self.xpub = xpub
         self.xpub_receive = None
         self.xpub_change = None
 
@@ -274,9 +287,8 @@ class Xpub:
 class BIP32_KeyStore(Deterministic_KeyStore, Xpub):
 
     def __init__(self, d, coin):
-        Xpub.__init__(self)
+        Xpub.__init__(self, d.get('xpub'))
         Deterministic_KeyStore.__init__(self, d, coin)
-        self.xpub = d.get('xpub')
         self.xprv = d.get('xprv')
 
     def format_seed(self, seed):
@@ -353,12 +365,11 @@ class Hardware_KeyStore(KeyStore, Xpub):
     max_change_outputs = 1
 
     def __init__(self, d, coin):
-        Xpub.__init__(self)
+        Xpub.__init__(self, d.get('xpub'))
         KeyStore.__init__(self, coin)
         # Errors and other user interaction is done through the wallet's
         # handler.  The handler is per-window and preserved across
         # device reconnects
-        self.xpub = d.get('xpub')
         self.label = d.get('label')
         self.derivation = d.get('derivation')
         self.handler = None

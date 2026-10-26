@@ -8,7 +8,10 @@ This module is based on code from pybitcointools
 pybtctools (https://pypi.org/project/pybtctools/, bitcoin/mnemonic.py), both of
 which include code from Electrum. See NOTICES.md.
 """
+import binascii
+import hashlib
 import hmac
+import os
 import random
 from bisect import bisect_left
 
@@ -16,7 +19,16 @@ import unicodedata
 
 from .pbkdf2 import PBKDF2
 from .specials import *
-from .wallet_utils import is_new_seed
+
+__all__ = [
+    'wordlist_english', 'ELECTRUM_VERSION', 'PROTOCOL_VERSION', 'SEED_PREFIX', 'SEED_PREFIX_2FA',
+    'SEED_PREFIX_SW', 'whitespace', 'CJK_INTERVALS', 'is_CJK', 'normalize_text', 'eint_to_bytes',
+    'mnemonic_int_to_words', 'entropy_cs', 'entropy_to_words', 'words_bisect', 'words_split',
+    'words_to_mnemonic_int', 'words_verify', 'bip39_normalize_passphrase',
+    'bip39_is_checksum_valid', 'mnemonic_to_seed', 'bip39_mnemonic_to_seed',
+    'electrum_mnemonic_to_seed', 'is_old_seed', 'is_new_seed', 'seed_prefix', 'seed_type', 'is_seed',
+    'words_mine',
+]
 
 with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'english.txt'), 'r') as _wordlist_file:
     wordlist_english = [word.strip() for word in _wordlist_file]
@@ -229,6 +241,12 @@ def seed_prefix(seed_type):
     elif seed_type == '2fa':
         return SEED_PREFIX_2FA
     return None
+
+
+def is_new_seed(x, prefix=SEED_PREFIX):
+    x = normalize_text(x)
+    s = safe_hexlify(hmac.new(b"Seed version", x.encode('utf8'), hashlib.sha512).digest())
+    return s.startswith(prefix)
 
 
 def seed_type(x):
