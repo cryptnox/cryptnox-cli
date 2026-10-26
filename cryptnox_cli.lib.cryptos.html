@@ -1249,8 +1249,10 @@ pin and passphrase as appropriate when needed.</p>
 <section id="cryptnox-cli-lib-cryptos-mnemonic-module">
 <h2>cryptnox_cli.lib.cryptos.mnemonic module<a class="headerlink" href="#cryptnox-cli-lib-cryptos-mnemonic-module" title="Link to this heading"></a></h2>
 <p id="module-cryptnox_cli.lib.cryptos.mnemonic">Mnemonic phrase generation and seed handling (BIP39-style operations).</p>
-<p>This module is based on code from pybtctools:
-<a class="reference external" href="https://github.com/danvergara/pybtctools/blob/master/bitcoin/mnemonic.py">https://github.com/danvergara/pybtctools/blob/master/bitcoin/mnemonic.py</a></p>
+<p>This module is based on code from pybitcointools
+(<a class="reference external" href="https://github.com/primal100/pybitcointools">https://github.com/primal100/pybitcointools</a>, cryptos/mnemonic.py) and from
+pybtctools (<a class="reference external" href="https://pypi.org/project/pybtctools/">https://pypi.org/project/pybtctools/</a>, bitcoin/mnemonic.py), both of
+which include code from Electrum. See NOTICES.md.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.mnemonic.is_CJK">
 <span class="sig-prename descclassname"><span class="pre">cryptnox_cli.lib.cryptos.mnemonic.</span></span><span class="sig-name descname"><span class="pre">is_CJK</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cryptnox_cli/lib/cryptos/mnemonic.html#is_CJK"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cryptnox_cli.lib.cryptos.mnemonic.is_CJK" title="Link to this definition"></a></dt>
@@ -1959,7 +1961,7 @@ hashed.</p>
 <section id="cryptnox-cli-lib-cryptos-wallet-module">
 <h2>cryptnox_cli.lib.cryptos.wallet module<a class="headerlink" href="#cryptnox-cli-lib-cryptos-wallet-module" title="Link to this heading"></a></h2>
 <p id="module-cryptnox_cli.lib.cryptos.wallet">Simple wallet abstractions for addresses, balances, and signing flows.</p>
-<p>This module is based on code from pybtctools:
+<p>This module is based on code from pybitcointools:
 <a class="reference external" href="https://github.com/primal100/pybitcointools/blob/master/cryptos/wallet.py">https://github.com/primal100/pybitcointools/blob/master/cryptos/wallet.py</a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="cryptnox_cli.lib.cryptos.wallet.HDWallet">
