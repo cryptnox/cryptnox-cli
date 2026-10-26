@@ -17,13 +17,12 @@ pyinstaller-hooks-contrib==2024.10; python_version >= '3.8'
 pylint==3.3.1; python_full_version >= '3.9.0'
 pytest==9.0.3; python_version >= '3.8'
 pytest-pylint==0.21.0; python_version >= '3.7'
-semgrep==1.97.0; python_version >= '3.8'
 pywin32-ctypes==0.2.3; sys_platform == 'win32'
 Sphinx>=7.3.7
 sphinx-rtd-theme>=2.0.0
 sphinx-autodoc-typehints>=2.1.0
-cairosvg>=2.7.0
-Pillow>=10.0.0
+cairosvg>=2.9.1
+Pillow>=13.0.0
 setuptools==84.2.1; python_version >= '3.10'
 tomlkit==0.13.2; python_version >= '3.8'
 typing-extensions==4.13.2; python_version >= '3.8'
