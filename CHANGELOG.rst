@@ -11,6 +11,7 @@ Added
 - PDF version of the documentation, built together with the HTML pages
 - The documentation pages carry Open Graph and Twitter card metadata, and the site publishes a sitemap
 - CI checks the licenses of the dependencies the package installs
+- CI runs flake8, pylint and the dependency license check on Python 3.14
 - ``NOTICES.md`` and the license texts of code from other projects are included in the package; the Windows installer installs them together with the licenses of the bundled Python packages
 
 Changed
@@ -37,6 +38,7 @@ Fixed
 - Windows: Ctrl+V pastes into the PIN, PUK and passphrase prompts in the classic console, where it used to enter nothing. The first line of the clipboard is pasted, without its line break
 - The BIP39 passphrase prompt refuses an empty passphrase once you have chosen to use one, and asks again whether to use one
 - Installs on every Python 3.14 release; the version limit admitted 3.14.0 only
+- ``requirements.txt`` and ``dev-requirements.txt`` install on Python 3.11 to 3.14: pyscard, pydantic, regex, bitarray, ckzg and cytoolz are updated to releases that build or have wheels for each, and the development requirements include ``sphinx-sitemap`` and the current ``cryptnox-sdk-py``
 - The exit status reflects the command's result; it used to be 0 even when a command failed after the card was found
 - Findings from CodeQL and Semgrep code scanning are resolved
 
