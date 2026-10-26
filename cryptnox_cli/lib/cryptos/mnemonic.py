@@ -3,8 +3,10 @@
 """
 Mnemonic phrase generation and seed handling (BIP39-style operations).
 
-This module is based on code from pybtctools:
-https://github.com/danvergara/pybtctools/blob/master/bitcoin/mnemonic.py
+This module is based on code from pybitcointools
+(https://github.com/primal100/pybitcointools, cryptos/mnemonic.py) and from
+pybtctools (https://pypi.org/project/pybtctools/, bitcoin/mnemonic.py), both of
+which include code from Electrum. See NOTICES.md.
 """
 import hmac
 import random
