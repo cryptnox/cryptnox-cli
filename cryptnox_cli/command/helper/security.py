@@ -141,7 +141,14 @@ def check_pin_code(card, text: str = "Cryptnox PIN code: ") -> str:
         if easy_mode:
             print(f"Card is in {EASY_MODE_TEXT}. Using easy mode PIN automatically.")
             pin_code = EASY_MODE_PIN
-            authorized = True
+            # Commands after this one rely on the card having verified the PIN
+            try:
+                authorized = _check_pin_code(card, pin_code, handle_exception=False)
+            except cryptnox_sdk_py.exceptions.PinException:
+                print(f"{EASY_MODE_TEXT} PIN doesn't work. Try other PIN code.\n")
+                easy_mode = False
+                had_wrong_pin = True
+                print("Press Ctrl+C to cancel.")
         else:
             try:
                 retries = card.verify_pin(None)

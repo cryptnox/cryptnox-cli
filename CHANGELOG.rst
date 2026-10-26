@@ -41,6 +41,8 @@ Fixed
 - ``requirements.txt`` and ``dev-requirements.txt`` install on Python 3.11 to 3.14: pyscard, pydantic, regex, bitarray, ckzg and cytoolz are updated to releases that build or have wheels for each, and the development requirements include ``sphinx-sitemap`` and the current ``cryptnox-sdk-py``
 - The exit status reflects the command's result; it used to be 0 even when a command failed after the card was found
 - Findings from CodeQL and Semgrep code scanning are resolved
+- Easy mode: the easy-mode PIN is sent to the card again, so ``info`` and other commands that need a verified PIN no longer end without output
+- A command that stops because the card has not verified the PIN now says so
 
 `1.0.5 <https://github.com/Cryptnox-Software/cryptnox-cli/compare/ver1.0.4...ver1.0.5>`_
 ------------------------------------------------------------------------------------------------
