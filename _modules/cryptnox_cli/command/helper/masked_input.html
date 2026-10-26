@@ -1,0 +1,349 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cryptnox_cli.command.helper.masked_input &mdash; cryptnox-cli 1.0.5 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=0912efa5" />
+
+  
+    <link rel="canonical" href="https://docs.cryptnox.com/cryptnox-cli/_modules/cryptnox_cli/command/helper/masked_input.html" />
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=d55fa986"></script>
+      <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../../../_static/custom.js?v=f0d783cb"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+ 
+<!-- Open Graph / social preview -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.cryptnox.com/cryptnox-cli/_modules/cryptnox_cli/command/helper/masked_input.html" />
+<meta property="og:title" content="cryptnox_cli.command.helper.masked_input | Cryptnox Docs" />
+<meta property="og:description" content="Cryptnox CLI — installation, supported hardware, command reference, interactive mode, BIP39 passphrase support and examples for managing Cryptnox smart card wallets from the terminal." />
+<meta property="og:site_name" content="Cryptnox Docs" />
+<meta property="og:image" content="https://cryptnox.com/wp-content/uploads/2026/09/cryptnox-documentation-social.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:alt" content="Cryptnox Technical Documentation" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@CryptnoxTech" />
+<meta name="twitter:title" content="cryptnox_cli.command.helper.masked_input | Cryptnox Docs" />
+<meta name="twitter:description" content="Cryptnox CLI — installation, supported hardware, command reference, interactive mode, BIP39 passphrase support and examples for managing Cryptnox smart card wallets from the terminal." />
+<meta name="twitter:image" content="https://cryptnox.com/wp-content/uploads/2026/09/cryptnox-documentation-social.jpg" />
+<meta name="twitter:image:alt" content="Cryptnox Technical Documentation" />
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #101f2e" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            cryptnox-cli
+              <img src="../../../../_static/cryptnox-logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Cryptnox CLI Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #101f2e" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">cryptnox-cli</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">cryptnox_cli.command.helper.masked_input</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for cryptnox_cli.command.helper.masked_input</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">"""</span>
+<span class="sd">Masked entry of PINs, PUKs and passphrases: one mask character is echoed per</span>
+<span class="sd">character entered, on Windows consoles and POSIX terminals alike.</span>
+<span class="sd">"""</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">codecs</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+<span class="c1"># UTF-16 surrogate ranges. A character outside the Basic Multilingual Plane,</span>
+<span class="c1"># an emoji for instance, reaches a Windows console as two of these halves.</span>
+<span class="n">_HIGH_SURROGATE</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mh">0xD800</span><span class="p">,</span> <span class="mh">0xDC00</span><span class="p">)</span>
+<span class="n">_LOW_SURROGATE</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mh">0xDC00</span><span class="p">,</span> <span class="mh">0xE000</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_masked_input</span><span class="p">(</span><span class="n">read_char</span><span class="p">,</span> <span class="n">prompt</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Read a secret, echoing one mask character per character entered.</span>
+
+<span class="sd">    :param read_char: Callable returning the next UTF-16 code unit as a</span>
+<span class="sd">                      one-character string, an empty string for a key that</span>
+<span class="sd">                      carries no character, such as an arrow or function key,</span>
+<span class="sd">                      or raising EOFError when the input ends.</span>
+<span class="sd">    :param str prompt: Text to show before the entry</span>
+<span class="sd">    :param str mask: Character to echo for each character entered</span>
+
+<span class="sd">    :return: The entered text</span>
+<span class="sd">    :rtype: str</span>
+
+<span class="sd">    An astral character arrives as a surrogate pair and is joined back into one</span>
+<span class="sd">    entry, so it echoes one mask character and one backspace removes all of it.</span>
+<span class="sd">    Only ASCII control characters are left out. Separators and format</span>
+<span class="sd">    characters, such as the ideographic space a Japanese keyboard produces, are</span>
+<span class="sd">    part of a passphrase and change the wallet it derives.</span>
+<span class="sd">    """</span>
+    <span class="n">entered</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">pending</span> <span class="o">=</span> <span class="s1">''</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">char</span> <span class="o">=</span> <span class="n">read_char</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">char</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="nb">ord</span><span class="p">(</span><span class="n">char</span><span class="p">)</span> <span class="ow">in</span> <span class="n">_HIGH_SURROGATE</span><span class="p">:</span>
+            <span class="n">pending</span> <span class="o">=</span> <span class="n">char</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">pending</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">ord</span><span class="p">(</span><span class="n">char</span><span class="p">)</span> <span class="ow">in</span> <span class="n">_LOW_SURROGATE</span><span class="p">:</span>
+                <span class="c1"># Rebuild the character the pair stands for. Joining the halves</span>
+                <span class="c1"># as text would leave two unusable ones that cannot be encoded.</span>
+                <span class="n">char</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="mh">0x10000</span> <span class="o">+</span> <span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">pending</span><span class="p">)</span> <span class="o">-</span> <span class="mh">0xD800</span><span class="p">)</span> <span class="o">*</span> <span class="mh">0x400</span>
+                           <span class="o">+</span> <span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">char</span><span class="p">)</span> <span class="o">-</span> <span class="mh">0xDC00</span><span class="p">))</span>
+            <span class="n">pending</span> <span class="o">=</span> <span class="s1">''</span>
+        <span class="k">elif</span> <span class="nb">ord</span><span class="p">(</span><span class="n">char</span><span class="p">)</span> <span class="ow">in</span> <span class="n">_LOW_SURROGATE</span><span class="p">:</span>
+            <span class="k">continue</span>  <span class="c1"># Half of a character without its partner, not text</span>
+
+        <span class="k">if</span> <span class="n">char</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'</span><span class="se">\r</span><span class="s1">'</span><span class="p">,</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">):</span>  <span class="c1"># Enter</span>
+            <span class="k">return</span> <span class="s1">''</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">entered</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">char</span> <span class="o">==</span> <span class="s1">'</span><span class="se">\x03</span><span class="s1">'</span><span class="p">:</span>  <span class="c1"># Ctrl+C</span>
+            <span class="k">raise</span> <span class="ne">KeyboardInterrupt</span>
+        <span class="k">if</span> <span class="n">char</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'</span><span class="se">\b</span><span class="s1">'</span><span class="p">,</span> <span class="s1">'</span><span class="se">\x7f</span><span class="s1">'</span><span class="p">):</span>  <span class="c1"># Backspace/Del</span>
+            <span class="k">if</span> <span class="n">entered</span><span class="p">:</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">'</span><span class="se">\b</span><span class="s1"> </span><span class="se">\b</span><span class="s1">'</span><span class="p">)</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+                <span class="n">entered</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">ord</span><span class="p">(</span><span class="n">char</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">31</span><span class="p">:</span>
+            <span class="n">entered</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_console_reader</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">kernel32</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Build a read_char callable over a Windows console input handle.</span>
+
+<span class="sd">    Keys are taken from ReadConsoleInputW rather than msvcrt, because the</span>
+<span class="sd">    console records say whether a key produced a character. Through msvcrt an</span>
+<span class="sd">    arrow key is announced by a lead byte that cannot be told apart from a</span>
+<span class="sd">    typed 'a with grave accent', which would either swallow the next character</span>
+<span class="sd">    or add the arrow's scan code to the secret.</span>
+<span class="sd">    """</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">ctypes</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">ctypes.wintypes</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">CharUnion</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Union</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Character of a key event, as text or as a byte."""</span>
+        <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">"UnicodeChar"</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_wchar</span><span class="p">),</span> <span class="p">(</span><span class="s2">"AsciiChar"</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_char</span><span class="p">)]</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">KeyEvent</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""KEY_EVENT_RECORD of the Windows console API."""</span>
+        <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">"bKeyDown"</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">wintypes</span><span class="o">.</span><span class="n">BOOL</span><span class="p">),</span> <span class="p">(</span><span class="s2">"wRepeatCount"</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">wintypes</span><span class="o">.</span><span class="n">WORD</span><span class="p">),</span>
+                    <span class="p">(</span><span class="s2">"wVirtualKeyCode"</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">wintypes</span><span class="o">.</span><span class="n">WORD</span><span class="p">),</span> <span class="p">(</span><span class="s2">"wVirtualScanCode"</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">wintypes</span><span class="o">.</span><span class="n">WORD</span><span class="p">),</span>
+                    <span class="p">(</span><span class="s2">"uChar"</span><span class="p">,</span> <span class="n">CharUnion</span><span class="p">),</span> <span class="p">(</span><span class="s2">"dwControlKeyState"</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">wintypes</span><span class="o">.</span><span class="n">DWORD</span><span class="p">)]</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">EventUnion</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Union</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Event of an input record. Only key events are read."""</span>
+        <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">"KeyEvent"</span><span class="p">,</span> <span class="n">KeyEvent</span><span class="p">),</span> <span class="p">(</span><span class="s2">"padding"</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_byte</span> <span class="o">*</span> <span class="mi">16</span><span class="p">)]</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">InputRecord</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""INPUT_RECORD of the Windows console API."""</span>
+        <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">"EventType"</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">wintypes</span><span class="o">.</span><span class="n">WORD</span><span class="p">),</span> <span class="p">(</span><span class="s2">"Event"</span><span class="p">,</span> <span class="n">EventUnion</span><span class="p">)]</span>
+
+    <span class="n">key_event</span> <span class="o">=</span> <span class="mh">0x0001</span>
+    <span class="n">vk_menu</span> <span class="o">=</span> <span class="mh">0x12</span>  <span class="c1"># Alt</span>
+    <span class="n">record</span> <span class="o">=</span> <span class="n">InputRecord</span><span class="p">()</span>
+    <span class="n">read</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">wintypes</span><span class="o">.</span><span class="n">DWORD</span><span class="p">()</span>
+    <span class="n">buffered</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_char</span><span class="p">():</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">buffered</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">kernel32</span><span class="o">.</span><span class="n">ReadConsoleInputW</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">record</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span>
+                                              <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">read</span><span class="p">))</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">read</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">EOFError</span>
+            <span class="k">if</span> <span class="n">record</span><span class="o">.</span><span class="n">EventType</span> <span class="o">!=</span> <span class="n">key_event</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="c1"># A key delivers its character on both key-down and key-up, so only</span>
+            <span class="c1"># key-down is taken. The exception is Alt: a character composed with</span>
+            <span class="c1"># Alt and the numeric keypad arrives on the Alt key-up alone, and the</span>
+            <span class="c1"># classic console's paste delivers each half of a character outside</span>
+            <span class="c1"># the Basic Multilingual Plane, an emoji for instance, the same way.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">record</span><span class="o">.</span><span class="n">Event</span><span class="o">.</span><span class="n">KeyEvent</span><span class="o">.</span><span class="n">bKeyDown</span>
+                    <span class="ow">and</span> <span class="n">record</span><span class="o">.</span><span class="n">Event</span><span class="o">.</span><span class="n">KeyEvent</span><span class="o">.</span><span class="n">wVirtualKeyCode</span> <span class="o">!=</span> <span class="n">vk_menu</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="n">char</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">Event</span><span class="o">.</span><span class="n">KeyEvent</span><span class="o">.</span><span class="n">uChar</span><span class="o">.</span><span class="n">UnicodeChar</span>
+            <span class="k">if</span> <span class="n">char</span> <span class="o">==</span> <span class="s1">'</span><span class="se">\x00</span><span class="s1">'</span><span class="p">:</span>
+                <span class="k">continue</span>  <span class="c1"># A key that produces no character, such as an arrow</span>
+            <span class="n">buffered</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">char</span><span class="p">]</span> <span class="o">*</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">record</span><span class="o">.</span><span class="n">Event</span><span class="o">.</span><span class="n">KeyEvent</span><span class="o">.</span><span class="n">wRepeatCount</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">buffered</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">read_char</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_getpass_windows</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Masked input for a Windows console.</span>
+
+<span class="sd">    Line editing, echo and Ctrl+C handling are switched off for the duration,</span>
+<span class="sd">    so every keypress is delivered as it is typed and Ctrl+C reaches the loop</span>
+<span class="sd">    as a character. The console mode is restored afterwards. When standard</span>
+<span class="sd">    input is not a console there is nothing to mask and the line is read as is.</span>
+<span class="sd">    """</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">ctypes</span>
+
+    <span class="n">kernel32</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">WinDLL</span><span class="p">(</span><span class="s2">"kernel32"</span><span class="p">,</span> <span class="n">use_last_error</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># A HANDLE is pointer sized; left untyped, ctypes would cut it to 32 bits</span>
+    <span class="n">kernel32</span><span class="o">.</span><span class="n">GetStdHandle</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span>
+    <span class="n">std_input_handle</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span>
+    <span class="n">handle</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">kernel32</span><span class="o">.</span><span class="n">GetStdHandle</span><span class="p">(</span><span class="n">std_input_handle</span><span class="p">))</span>
+    <span class="n">mode</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_ulong</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">kernel32</span><span class="o">.</span><span class="n">GetConsoleMode</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">mode</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="nb">input</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+
+    <span class="c1"># ENABLE_PROCESSED_INPUT | ENABLE_LINE_INPUT | ENABLE_ECHO_INPUT</span>
+    <span class="c1"># | ENABLE_WINDOW_INPUT | ENABLE_VIRTUAL_TERMINAL_INPUT</span>
+    <span class="n">line_editing_and_echo</span> <span class="o">=</span> <span class="mh">0x0001</span> <span class="o">|</span> <span class="mh">0x0002</span> <span class="o">|</span> <span class="mh">0x0004</span> <span class="o">|</span> <span class="mh">0x0008</span> <span class="o">|</span> <span class="mh">0x0200</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">kernel32</span><span class="o">.</span><span class="n">SetConsoleMode</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">mode</span><span class="o">.</span><span class="n">value</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">line_editing_and_echo</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_masked_input</span><span class="p">(</span><span class="n">_console_reader</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">kernel32</span><span class="p">),</span> <span class="n">prompt</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">kernel32</span><span class="o">.</span><span class="n">SetConsoleMode</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">mode</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_getpass_posix</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Masked input for POSIX terminals.</span>
+<span class="sd">    The terminal is switched to cbreak mode: keys arrive one at a time without</span>
+<span class="sd">    echo, while Ctrl+C still raises KeyboardInterrupt. Bytes are decoded</span>
+<span class="sd">    incrementally, so a multi-byte UTF-8 character counts as one entry.</span>
+<span class="sd">    When stdin is not a terminal there is nothing to mask and the line is read as is.</span>
+<span class="sd">    """</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">termios</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">tty</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">fd</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">fileno</span><span class="p">()</span>
+        <span class="n">old_settings</span> <span class="o">=</span> <span class="n">termios</span><span class="o">.</span><span class="n">tcgetattr</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">,</span> <span class="n">termios</span><span class="o">.</span><span class="n">error</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">input</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+
+    <span class="n">decoder</span> <span class="o">=</span> <span class="n">codecs</span><span class="o">.</span><span class="n">getincrementaldecoder</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">encoding</span> <span class="ow">or</span> <span class="s1">'utf-8'</span><span class="p">)(</span><span class="n">errors</span><span class="o">=</span><span class="s1">'ignore'</span><span class="p">)</span>
+    <span class="n">entered</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">tty</span><span class="o">.</span><span class="n">setcbreak</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">EOFError</span>
+            <span class="n">char</span> <span class="o">=</span> <span class="n">decoder</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">char</span><span class="p">:</span>  <span class="c1"># Incomplete multi-byte character</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">char</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">,</span> <span class="s1">'</span><span class="se">\r</span><span class="s1">'</span><span class="p">):</span>  <span class="c1"># Enter</span>
+                <span class="k">return</span> <span class="s1">''</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">entered</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">char</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'</span><span class="se">\b</span><span class="s1">'</span><span class="p">,</span> <span class="s1">'</span><span class="se">\x7f</span><span class="s1">'</span><span class="p">):</span>  <span class="c1"># Backspace/Del</span>
+                <span class="k">if</span> <span class="n">entered</span><span class="p">:</span>
+                    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">'</span><span class="se">\b</span><span class="s1"> </span><span class="se">\b</span><span class="s1">'</span><span class="p">)</span>
+                    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+                    <span class="n">entered</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="nb">ord</span><span class="p">(</span><span class="n">char</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">31</span><span class="p">:</span>
+                <span class="c1"># Only ASCII control characters are left out. Separators and format</span>
+                <span class="c1"># characters (ideographic space, no-break space, zero width joiner)</span>
+                <span class="c1"># are part of a passphrase and change the wallet it derives.</span>
+                <span class="n">entered</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">termios</span><span class="o">.</span><span class="n">tcsetattr</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">termios</span><span class="o">.</span><span class="n">TCSADRAIN</span><span class="p">,</span> <span class="n">old_settings</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="getpass">
+<a class="viewcode-back" href="../../../../cryptnox_cli.command.helper.html#cryptnox_cli.command.helper.masked_input.getpass">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">getpass</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="s1">'Password: '</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="s1">'*'</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Cross-platform getpass that raises KeyboardInterrupt on Ctrl+C.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s1">'win32'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_getpass_windows</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">_getpass_posix</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Cryptnox.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -101,21 +101,17 @@
 <span class="sd">"""</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">Any</span><span class="p">,</span>
-    <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span>
+    <span class="n">Dict</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Union</span>
 <span class="p">)</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">ecdsa</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">cryptnox_sdk_py</span><span class="w"> </span><span class="kn">import</span> <span class="n">Derivation</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">eth_account._utils.legacy_transactions</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">encode_transaction</span><span class="p">,</span>
-    <span class="n">serializable_unsigned_transaction_from_dict</span>
-<span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">eth_utils.curried</span><span class="w"> </span><span class="kn">import</span> <span class="n">keccak</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">hexbytes</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexBytes</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">web3</span><span class="w"> </span><span class="kn">import</span> <span class="n">Web3</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">endpoint</span> <span class="k">as</span> <span class="n">ep</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">validators</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">web3</span><span class="w"> </span><span class="kn">import</span> <span class="n">Web3</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">cryptos</span>
@@ -128,6 +124,8 @@
 <div class="viewcode-block" id="address">
 <a class="viewcode-back" href="../../../../cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.address">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">address</span><span class="p">(</span><span class="n">public_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">eth_utils.curried</span><span class="w"> </span><span class="kn">import</span> <span class="n">keccak</span>
+
     <span class="k">return</span> <span class="n">keccak</span><span class="p">(</span><span class="n">hexstr</span><span class="o">=</span><span class="p">(</span><span class="s2">"0x"</span> <span class="o">+</span> <span class="n">public_key</span><span class="p">[</span><span class="mi">2</span><span class="p">:]))[</span><span class="o">-</span><span class="mi">20</span><span class="p">:]</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span></div>
 
 
@@ -135,6 +133,8 @@
 <div class="viewcode-block" id="checksum_address">
 <a class="viewcode-back" href="../../../../cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.checksum_address">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">checksum_address</span><span class="p">(</span><span class="n">public_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">web3</span><span class="w"> </span><span class="kn">import</span> <span class="n">Web3</span>
+
     <span class="k">return</span> <span class="n">Web3</span><span class="o">.</span><span class="n">to_checksum_address</span><span class="p">(</span><span class="n">address</span><span class="p">(</span><span class="n">public_key</span><span class="p">))</span></div>
 
 
@@ -175,12 +175,16 @@
 <div class="viewcode-block" id="Api.get_transaction_count">
 <a class="viewcode-back" href="../../../../cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.Api.get_transaction_count">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_transaction_count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">blocks</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">web3</span><span class="w"> </span><span class="kn">import</span> <span class="n">Web3</span>
+
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_web3</span><span class="o">.</span><span class="n">eth</span><span class="o">.</span><span class="n">get_transaction_count</span><span class="p">(</span><span class="n">Web3</span><span class="o">.</span><span class="n">to_checksum_address</span><span class="p">(</span><span class="n">address</span><span class="p">),</span> <span class="n">blocks</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Api.get_balance">
 <a class="viewcode-back" href="../../../../cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.Api.get_balance">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_balance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">web3</span><span class="w"> </span><span class="kn">import</span> <span class="n">Web3</span>
+
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_web3</span><span class="o">.</span><span class="n">eth</span><span class="o">.</span><span class="n">get_balance</span><span class="p">(</span><span class="n">Web3</span><span class="o">.</span><span class="n">to_checksum_address</span><span class="p">(</span><span class="n">address</span><span class="p">))</span></div>
 
 
@@ -195,6 +199,12 @@
 <div class="viewcode-block" id="Api.transaction_hash">
 <a class="viewcode-back" href="../../../../cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.Api.transaction_hash">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">transaction_hash</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transaction</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">vrs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">eth_account._utils.legacy_transactions</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+            <span class="n">encode_transaction</span><span class="p">,</span>
+            <span class="n">serializable_unsigned_transaction_from_dict</span>
+        <span class="p">)</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">eth_utils.curried</span><span class="w"> </span><span class="kn">import</span> <span class="n">keccak</span>
+
         <span class="k">try</span><span class="p">:</span>
             <span class="k">del</span> <span class="n">transaction</span><span class="p">[</span><span class="s2">"maxFeePerGas"</span><span class="p">]</span>
             <span class="k">del</span> <span class="n">transaction</span><span class="p">[</span><span class="s2">"maxPriorityFeePerGas"</span><span class="p">]</span>
@@ -209,6 +219,12 @@
 <div class="viewcode-block" id="Api.push">
 <a class="viewcode-back" href="../../../../cryptnox_cli.wallet.eth.html#cryptnox_cli.wallet.eth.api.Api.push">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">push</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transaction</span><span class="p">,</span> <span class="n">signature</span><span class="p">,</span> <span class="n">public_key</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">eth_account._utils.legacy_transactions</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+            <span class="n">encode_transaction</span><span class="p">,</span>
+            <span class="n">serializable_unsigned_transaction_from_dict</span>
+        <span class="p">)</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">hexbytes</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexBytes</span>
+
         <span class="n">unsigned_transaction</span> <span class="o">=</span> <span class="n">serializable_unsigned_transaction_from_dict</span><span class="p">(</span><span class="n">transaction</span><span class="p">)</span>
         <span class="n">var_v</span><span class="p">,</span> <span class="n">var_r</span><span class="p">,</span> <span class="n">var_s</span> <span class="o">=</span> <span class="n">Api</span><span class="o">.</span><span class="n">_decode_vrs</span><span class="p">(</span><span class="n">signature</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_chain_id</span><span class="p">,</span>
                                               <span class="bp">self</span><span class="o">.</span><span class="n">transaction_hash</span><span class="p">(</span><span class="n">transaction</span><span class="p">),</span>
@@ -256,7 +272,9 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span><span class="o">.</span><span class="n">provider</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_web3</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Web3</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_web3</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Web3"</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">web3</span><span class="w"> </span><span class="kn">import</span> <span class="n">Web3</span>
+
         <span class="k">return</span> <span class="n">Web3</span><span class="p">(</span><span class="n">Web3</span><span class="o">.</span><span class="n">HTTPProvider</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_provider</span><span class="p">))</span></div>
 
 
