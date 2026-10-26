@@ -24,6 +24,7 @@ Fixed
 
 - Windows: Ctrl+V pastes into the PIN, PUK and passphrase prompts in the classic console, where it used to enter nothing. The first line of the clipboard is pasted, without its line break
 - The BIP39 passphrase prompt refuses an empty passphrase once you have chosen to use one, and asks again whether to use one
+- Installs on every Python 3.14 release; the version limit admitted 3.14.0 only
 
 `1.0.5 <https://github.com/Cryptnox-Software/cryptnox-cli/compare/ver1.0.4...ver1.0.5>`_
 ------------------------------------------------------------------------------------------------
