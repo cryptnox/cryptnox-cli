@@ -5,11 +5,21 @@ Changelog
 Unreleased
 ----------
 
+Added
+^^^^^
+- Solana (SOL): ``solana send`` and ``solana config`` commands, and the SOL address and balance in ``info``, signed with the card's Ed25519 key; requires cryptnox-sdk-py 1.0.5 and adds the ``solders`` dependency
+- PDF version of the documentation, built together with the HTML pages
+- The documentation pages carry Open Graph and Twitter card metadata, and the site publishes a sitemap
+- CI checks the licenses of the dependencies the package installs
+- ``NOTICES.md`` and the license texts of code from other projects are included in the package; the Windows installer installs them together with the licenses of the bundled Python packages
+
 Changed
 ^^^^^^^
 - Masked PIN, PUK and passphrase input on Linux and macOS is handled by the CLI itself; the ``stdiomask`` dependency is removed
 - Ethereum support is loaded only by the commands that use it, so commands such as ``history`` and ``info`` start noticeably faster; the ``lazy-import`` dependency is removed
 - Ethereum signatures from the card are completed with the CLI's own secp256k1 code; the ``ecdsa`` dependency is removed
+- The unused ``argparse``, ``colander`` and ``pytz`` dependencies are removed; ``eth-account``, ``eth-utils`` and ``hexbytes``, which the Ethereum code imports, are declared directly
+- Dependencies with security advisories reported by Dependabot are updated
 - The pinned versions of aiohttp, certifi, cryptography and urllib3 are updated to releases with security fixes
 
 Fixed
@@ -27,6 +37,8 @@ Fixed
 - Windows: Ctrl+V pastes into the PIN, PUK and passphrase prompts in the classic console, where it used to enter nothing. The first line of the clipboard is pasted, without its line break
 - The BIP39 passphrase prompt refuses an empty passphrase once you have chosen to use one, and asks again whether to use one
 - Installs on every Python 3.14 release; the version limit admitted 3.14.0 only
+- The exit status reflects the command's result; it used to be 0 even when a command failed after the card was found
+- Findings from CodeQL and Semgrep code scanning are resolved
 
 `1.0.5 <https://github.com/Cryptnox-Software/cryptnox-cli/compare/ver1.0.4...ver1.0.5>`_
 ------------------------------------------------------------------------------------------------
