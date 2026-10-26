@@ -13,7 +13,6 @@ from typing import Tuple, Union
 
 import cryptnox_sdk_py
 import requests
-import web3
 from tabulate import tabulate
 
 from ..helper.helper_methods import sign
@@ -41,6 +40,8 @@ def abi(value: int):
 
 def gas(gas_price: int, set_price: int, set_limit: int,
         default_limit: int = LIMIT["transfer"]) -> Tuple[int, int]:
+    import web3
+
     if set_price:
         price = set_price
     else:
@@ -65,6 +66,7 @@ def gas(gas_price: int, set_price: int, set_limit: int,
 def transfer(card, endpoint, network, api_key, contract_address: str, to: str, amount: float,
              price: int, limit: int,
              derivation: cryptnox_sdk_py.Derivation = cryptnox_sdk_py.Derivation.CURRENT_KEY) -> int:
+    import web3
 
     try:
         endpoint = wallet.Api(endpoint, network, api_key)
@@ -159,6 +161,8 @@ def transfer(card, endpoint, network, api_key, contract_address: str, to: str, a
 def _confirm_token_sending(contract: str, address: str, to: str,
                            token_balance: float, symbol: str, value: Union[Decimal, int],
                            balance: int, price: int, limit: float):
+    import web3
+
     gas_price = web3.Web3.from_wei(price, "ether")
     total_gas = Decimal(gas_price * limit)
     balance = web3.Web3.from_wei(balance, "ether")

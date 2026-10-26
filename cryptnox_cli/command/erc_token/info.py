@@ -17,7 +17,6 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import ec
 from eth_typing import ChecksumAddress
 from tabulate import tabulate
-from web3 import Web3
 
 from ..cards import Cards
 from ..helper.cards import CardManager
@@ -158,6 +157,8 @@ class Info:
 
     @staticmethod
     def _balance(endpoint, address):
+        from web3 import Web3
+
         try:
             w3 = Web3(Web3.HTTPProvider(endpoint))
             print(f"Balance: {Web3.from_wei(w3.eth.get_balance(address), 'ether')} ETH")
@@ -212,6 +213,8 @@ class Info:
             abi: str,
             account: str,
             token_id: int) -> None:
+        from web3 import Web3
+
         print(f"Checking owner on contract: {contract_address}...")
         w3 = Web3(Web3.HTTPProvider(endpoint))
         try:
@@ -232,6 +235,8 @@ class Info:
     @staticmethod
     def _token_balance(endpoint: str, contract_address: ChecksumAddress, abi: str,
                        account: str) -> None:
+        from web3 import Web3
+
         print(f"Checking token on contract: {contract_address}...")
         w3 = Web3(Web3.HTTPProvider(endpoint))
         try:
