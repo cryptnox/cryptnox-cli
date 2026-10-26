@@ -12,7 +12,7 @@ Added
 - The documentation pages carry Open Graph and Twitter card metadata, and the site publishes a sitemap
 - CI checks the licenses of the dependencies the package installs
 - CI runs flake8, pylint and the dependency license check on Python 3.14
-- Dependabot opens update pull requests for the GitHub Actions every week and for the Python dependencies every month; minor and patch updates come grouped in one pull request per ecosystem, major updates one by one
+- Dependabot opens update pull requests for the GitHub Actions every week and for the Python dependencies every month; minor and patch updates come grouped in one pull request per ecosystem, major updates one by one, and a release is proposed once it is seven days old
 - ``NOTICES.md`` and the license texts of code from other projects are included in the package; the Windows installer installs them together with the licenses of the bundled Python packages
 
 Changed
