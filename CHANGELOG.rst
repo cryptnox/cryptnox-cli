@@ -14,6 +14,7 @@ Added
 - CI runs flake8, pylint and the dependency license check on Python 3.14
 - Dependabot opens update pull requests for the GitHub Actions every week and for the Python dependencies every month; minor and patch updates come grouped in one pull request per ecosystem, major updates one by one, and a release is proposed once it is seven days old
 - ``NOTICES.md`` and the license texts of code from other projects are included in the package; the Windows installer installs them together with the licenses of the bundled Python packages
+- A release tag such as ``ver1.1.0`` pushed to the repository builds the package and publishes it to PyPI from CI; the tag has to point to a commit on ``main`` and match the package version
 
 Changed
 ^^^^^^^
