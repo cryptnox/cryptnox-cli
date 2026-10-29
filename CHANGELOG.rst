@@ -44,6 +44,7 @@ Fixed
 - Findings from CodeQL and Semgrep code scanning are resolved
 - Easy mode: the easy-mode PIN is sent to the card again, so ``info`` and other commands that need a verified PIN no longer end without output
 - A command that stops because the card has not verified the PIN now says so
+- ``eth contract list_events`` with an event the contract's ABI does not define says that the event is not defined; it used to stop with an ``AttributeError``
 
 `1.0.5 <https://github.com/Cryptnox-Software/cryptnox-cli/compare/ver1.0.4...ver1.0.5>`_
 ------------------------------------------------------------------------------------------------
