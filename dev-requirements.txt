@@ -1,6 +1,6 @@
 -i https://pypi.org/simple
 altgraph==0.17.5
-astroid==3.3.5; python_full_version >= '3.9.0'
+astroid==4.3.4; python_full_version >= '3.9.0'
 colorama==0.4.6; sys_platform == 'win32'
 dill==0.4.1; python_version >= '3.11'
 iniconfig==2.3.1; python_version >= '3.7'
