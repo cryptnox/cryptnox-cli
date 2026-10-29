@@ -151,7 +151,7 @@ class Event:
 
         try:
             event = getattr(contract_endpoint.events, self.data.event)
-        except web3.exceptions.ABIEventFunctionNotFound:
+        except web3.exceptions.ABIEventNotFound:
             print("The event is not defined")
             return 1
 
