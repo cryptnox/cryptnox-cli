@@ -7,7 +7,6 @@ Unreleased
 
 Added
 ^^^^^
-- Solana (SOL): ``solana send`` and ``solana config`` commands, and the SOL address and balance in ``info``, signed with the card's Ed25519 key; requires cryptnox-sdk-py 1.0.5 and adds the ``solders`` dependency
 - PDF version of the documentation, built together with the HTML pages
 - The documentation pages carry Open Graph and Twitter card metadata, and the site publishes a sitemap
 - CI checks the licenses of the dependencies the package installs
@@ -48,6 +47,10 @@ Fixed
 
 `1.0.5 <https://github.com/Cryptnox-Software/cryptnox-cli/compare/ver1.0.4...ver1.0.5>`_
 ------------------------------------------------------------------------------------------------
+
+Added
+^^^^^
+- Solana (SOL): ``solana send`` and ``solana config`` commands, and the SOL address and balance in ``info``, signed with the card's Ed25519 key; requires cryptnox-sdk-py 1.0.5 and adds the ``solders`` dependency
 
 Fixed
 ^^^^^
