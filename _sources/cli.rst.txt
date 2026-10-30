@@ -582,24 +582,6 @@ If your wallet was created with a passphrase, you **must** provide the same pass
   - ✅ Same mnemonic + different passphrase = completely different wallet
   - ✅ Passphrase can be any UTF-8 string (including spaces and special characters)
 
-.. _windows-passphrase:
-
-Wallets set up on Windows with version 1.0.5 or earlier
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Up to version 1.0.5 the passphrase prompt on Windows did not keep characters outside ASCII, such as accented letters, Cyrillic or CJK characters, symbols and emoji. The card works, but the passphrase as written down restores a different wallet. ``seed recover`` points to this section before it asks for the passphrase. Linux and macOS are not affected.
-
-Versions 1.0.4 and 1.0.5 dropped every such character that the console's code page contains, so the passphrase that opens the wallet is the one with those characters removed. Exceptions:
-
-- A character the code page does not contain became a question mark or a similar plain character, such as ``o`` for ``ő``, and that character is part of the stored passphrase.
-- On a Chinese, Japanese or Korean console a character could leave one ASCII character behind, such as a backslash.
-- Pasted into the classic console with right-click, symbols and emoji arrived as nothing; pasted into Windows Terminal, an emoji became two question marks.
-- Pasted into the classic console with Ctrl+V, nothing arrived: the wallet was set up without a passphrase. Answer ``No`` when ``seed recover`` asks whether to use one.
-
-Version 1.0.3 and earlier stored a character the code page contains as a different character, so such a wallet opens neither with the passphrase as written nor with those characters removed. Contact Cryptnox support.
-
-Once the wallet is open, move the funds to a wallet created with the current version, so that the written-down passphrase is the one that restores it.
-
 Exit Codes
 ----------
 
