@@ -145,6 +145,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#bip39-passphrase-support">BIP39 Passphrase Support</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#what-is-a-bip39-passphrase">What is a BIP39 Passphrase?</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#using-bip39-passphrase">Using BIP39 Passphrase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#wallets-set-up-on-windows-with-version-1-0-5-or-earlier">Wallets set up on Windows with version 1.0.5 or earlier</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#exit-codes">Exit Codes</a></li>
@@ -731,6 +732,19 @@ Cryptnox CLI 1.0.5
 </ul>
 </dd>
 </dl>
+</section>
+<section id="wallets-set-up-on-windows-with-version-1-0-5-or-earlier">
+<span id="windows-passphrase"></span><h3>Wallets set up on Windows with version 1.0.5 or earlier<a class="headerlink" href="#wallets-set-up-on-windows-with-version-1-0-5-or-earlier" title="Link to this heading"></a></h3>
+<p>Up to version 1.0.5 the passphrase prompt on Windows did not keep characters outside ASCII, such as accented letters, Cyrillic or CJK characters, symbols and emoji. The card works, but the passphrase as written down restores a different wallet. <code class="docutils literal notranslate"><span class="pre">seed</span> <span class="pre">recover</span></code> points to this section before it asks for the passphrase. Linux and macOS are not affected.</p>
+<p>Versions 1.0.4 and 1.0.5 dropped every such character that the console’s code page contains, so the passphrase that opens the wallet is the one with those characters removed. Exceptions:</p>
+<ul class="simple">
+<li><p>A character the code page does not contain became a question mark or a similar plain character, such as <code class="docutils literal notranslate"><span class="pre">o</span></code> for <code class="docutils literal notranslate"><span class="pre">ő</span></code>, and that character is part of the stored passphrase.</p></li>
+<li><p>On a Chinese, Japanese or Korean console a character could leave one ASCII character behind, such as a backslash.</p></li>
+<li><p>Pasted into the classic console with right-click, symbols and emoji arrived as nothing; pasted into Windows Terminal, an emoji became two question marks.</p></li>
+<li><p>Pasted into the classic console with Ctrl+V, nothing arrived: the wallet was set up without a passphrase. Answer <code class="docutils literal notranslate"><span class="pre">No</span></code> when <code class="docutils literal notranslate"><span class="pre">seed</span> <span class="pre">recover</span></code> asks whether to use one.</p></li>
+</ul>
+<p>Version 1.0.3 and earlier stored a character the code page contains as a different character, so such a wallet opens neither with the passphrase as written nor with those characters removed. Contact Cryptnox support.</p>
+<p>Once the wallet is open, move the funds to a wallet created with the current version, so that the written-down passphrase is the one that restores it.</p>
 </section>
 </section>
 <section id="exit-codes">
