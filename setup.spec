@@ -2,7 +2,7 @@
 
 import os
 import sys
-from PyInstaller.utils.hooks import collect_all
+from PyInstaller.utils.hooks import collect_all, collect_submodules, copy_metadata
 
 # Collect all submodules, data files, and binaries from cryptnox_sdk_py
 sdk_datas, sdk_binaries, sdk_hiddenimports = collect_all('cryptnox_sdk_py')
@@ -15,9 +15,11 @@ a = Analysis(
         # Only include non-Python data files
         ('cryptnox_cli\\contract_abi\\*.json', 'cryptnox_cli\\contract_abi'),
         ('cryptnox_cli\\lib\\cryptos\\english.txt', 'cryptnox_cli\\lib\\cryptos')
-    ] + sdk_datas,
-    hiddenimports=sdk_hiddenimports + [
-        'six',
+    ] + sdk_datas
+      # py_ecc reads its version from its metadata; hooks-contrib before 2026.8 has no hook for it
+      + copy_metadata('py_ecc'),
+    # pyunormalize 18 loads its tables by computed name, so the analysis does not see them
+    hiddenimports=sdk_hiddenimports + collect_submodules('pyunormalize') + [
         'winsdk',
         'winsdk.windows',
         'winsdk.windows.security.credentials',
