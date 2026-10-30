@@ -207,7 +207,7 @@ def _verify_input(card: cryptnox_sdk_py.Card, method, text, verify_text,
     return value
 
 
-def get_bip39_passphrase(confirm_required: bool = True) -> str:
+def get_bip39_passphrase(confirm_required: bool = True, recovery: bool = False) -> str:
     print()
     print_warning("BIP39 PASSPHRASE FEATURE")
     print("A BIP39 passphrase is an optional extra password that provides additional security.")
@@ -219,6 +219,17 @@ def get_bip39_passphrase(confirm_required: bool = True) -> str:
     print("  • There is NO way to recover funds without the exact passphrase")
     print("  • Press ENTER to skip passphrase (standard BIP39 with empty passphrase)")
     print()
+
+    if recovery:
+        print_warning("WALLET SET UP ON WINDOWS WITH VERSION 1.0.5 OR EARLIER?")
+        print("The passphrase prompt of those versions did not keep characters outside ASCII")
+        print("(accented letters, symbols, emoji). To open such a wallet:")
+        print("  • Set up with 1.0.4 or 1.0.5: enter the passphrase without those characters")
+        print("  • Pasted with Ctrl+V into the classic console: no passphrase was stored, answer No")
+        print("  • Set up with 1.0.3 or earlier: the characters were stored changed; contact support")
+        print("Then move the funds to a wallet created with this version.")
+        print("Details: https://docs.cryptnox.com/cryptnox-cli/cli.html#windows-passphrase")
+        print()
 
     use_passphrase = confirm("Do you want to use a BIP39 passphrase?")
 

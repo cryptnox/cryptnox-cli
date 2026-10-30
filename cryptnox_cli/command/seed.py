@@ -221,7 +221,7 @@ class Seed(Command):
         mnemonic = ui.input_with_exit("> ")
 
         try:
-            passphrase = ui.get_bip39_passphrase(confirm_required=True)
+            passphrase = ui.get_bip39_passphrase(confirm_required=True, recovery=True)
         except ui.ExitException as error:
             print(error)
             return -1

@@ -14,6 +14,7 @@ Added
 - CI runs flake8, pylint and the dependency license check on Python 3.14
 - Dependabot opens update pull requests for the GitHub Actions every week and for the Python dependencies every month; minor and patch updates come grouped in one pull request per ecosystem, major updates one by one, and a release is proposed once it is seven days old
 - ``NOTICES.md`` and the license texts of code from other projects are included in the package; the Windows installer installs them together with the licenses of the bundled Python packages
+- ``seed recover`` explains, before the passphrase prompt, how to enter the passphrase of a wallet set up on Windows with version 1.0.5 or earlier; the documentation has the details
 
 Changed
 ^^^^^^^
