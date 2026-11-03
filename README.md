@@ -110,6 +110,8 @@ This installs the package and makes the `cryptnox` command available (if your Py
 
 The full **User & Developer documentation** is available at the [Cryptnox CLI Documentation](https://cryptnox.github.io/cryptnox-cli). It covers installation and setup, usage guides and examples, CLI command reference, and developer notes with API details.
 
+The changes in each release are listed in the [changelog](https://github.com/Cryptnox/cryptnox-cli/blob/main/CHANGELOG.rst).
+
 ---
 
 ## License

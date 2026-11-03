@@ -2,7 +2,7 @@ name: Publish to PyPI
 
 on:
   push:
-    tags: ["ver*"]
+    tags: ["ver[0-9]*"]
 
 permissions:
   contents: read
@@ -14,6 +14,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Check tag is on main
         run: |
@@ -22,20 +23,38 @@ jobs:
             exit 1
           fi
 
-      - name: Check tag matches package version
-        run: |
-          version=$(sed -n 's/^__version__ = "\(.*\)"$/\1/p' cryptnox_cli/__init__.py)
-          if [ "${GITHUB_REF_NAME}" != "ver${version}" ]; then
-            echo "Tag ${GITHUB_REF_NAME} does not match cryptnox_cli.__version__ ${version}" >&2
-            exit 1
-          fi
-
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # v7.0.0
         with:
           python-version: "3.13"
 
-      - run: pip install build
-      - run: python -m build
+      - name: Install the build tools
+        run: pip install --require-hashes -r publish-requirements.txt
+
+      - name: Build
+        run: python -m build --no-isolation
+
+      - name: Check tag matches package version
+        run: |
+          version="${GITHUB_REF_NAME#ver}"
+          if [ ! -f "dist/cryptnox_cli-${version}-py3-none-any.whl" ]; then
+            echo "Tag ${GITHUB_REF_NAME} does not match the package version; built:" >&2
+            ls dist >&2
+            exit 1
+          fi
+
+      - name: Check the package metadata
+        run: twine check --strict dist/*
+
+      - name: Install system dependencies for pyscard
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends swig libpcsclite-dev
+
+      - name: Install the wheel and run the CLI
+        run: |
+          python -m venv ../check
+          ../check/bin/pip install dist/*.whl
+          ../check/bin/cryptnox --version | grep -Fx "Cryptnox CLI ${GITHUB_REF_NAME#ver}"
 
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7.0.2
         with:
