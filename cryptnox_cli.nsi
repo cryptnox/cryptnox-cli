@@ -2,10 +2,10 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "CryptnoxCLI"
-!define PRODUCT_VERSION "1.0.3"
+!define PRODUCT_VERSION "1.1.0"
 !define PRODUCT_PUBLISHER "Cryptnox SA"
 !define PRODUCT_WEB_SITE "https://cryptnox.com/"
-!define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\CryptnoxCLI-1.0.3.exe"
+!define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\CryptnoxCLI-1.1.0.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
 
@@ -26,7 +26,7 @@
 ; Instfiles page
 !insertmacro MUI_PAGE_INSTFILES
 ; Finish page
-!define MUI_FINISHPAGE_RUN "$INSTDIR\CryptnoxCLI-1.0.3.exe"
+!define MUI_FINISHPAGE_RUN "$INSTDIR\CryptnoxCLI-1.1.0.exe"
 !define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\README.md"
 !insertmacro MUI_PAGE_FINISH
 
@@ -39,7 +39,7 @@
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "dist\CryptnoxCLI-1.0.3-setup.exe"
+OutFile "dist\CryptnoxCLI-1.1.0-setup.exe"
 InstallDir "$PROGRAMFILES\CryptnoxCLI"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
@@ -48,10 +48,10 @@ ShowUnInstDetails show
 Section "MainSection" SEC01
   SetOutPath "$INSTDIR"
   SetOverwrite ifnewer
-  File "dist\CryptnoxCLI-1.0.3.exe"
+  File "dist\CryptnoxCLI-1.1.0.exe"
   CreateDirectory "$SMPROGRAMS\CryptnoxCLI"
-  CreateShortCut "$SMPROGRAMS\CryptnoxCLI\CryptnoxCLI.lnk" "$INSTDIR\CryptnoxCLI-1.0.3.exe"
-  CreateShortCut "$DESKTOP\CryptnoxCLI.lnk" "$INSTDIR\CryptnoxCLI-1.0.3.exe"
+  CreateShortCut "$SMPROGRAMS\CryptnoxCLI\CryptnoxCLI.lnk" "$INSTDIR\CryptnoxCLI-1.1.0.exe"
+  CreateShortCut "$DESKTOP\CryptnoxCLI.lnk" "$INSTDIR\CryptnoxCLI-1.1.0.exe"
   File "README.md"
   File "LICENSE"
   File "COMMERCIAL.md"
@@ -68,10 +68,10 @@ SectionEnd
 
 Section -Post
   WriteUninstaller "$INSTDIR\uninst.exe"
-  WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "" "$INSTDIR\CryptnoxCLI-1.0.3.exe"
+  WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "" "$INSTDIR\CryptnoxCLI-1.1.0.exe"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayName" "$(^Name)"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "UninstallString" "$INSTDIR\uninst.exe"
-  WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayIcon" "$INSTDIR\CryptnoxCLI-1.0.3.exe"
+  WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayIcon" "$INSTDIR\CryptnoxCLI-1.1.0.exe"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayVersion" "${PRODUCT_VERSION}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "URLInfoAbout" "${PRODUCT_WEB_SITE}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "Publisher" "${PRODUCT_PUBLISHER}"
@@ -97,7 +97,7 @@ Section Uninstall
   Delete "$INSTDIR\THIRD_PARTY_LICENSES.txt"
   Delete "$INSTDIR\LICENSE"
   Delete "$INSTDIR\README.md"
-  Delete "$INSTDIR\CryptnoxCLI-1.0.3.exe"
+  Delete "$INSTDIR\CryptnoxCLI-1.1.0.exe"
 
   Delete "$SMPROGRAMS\CryptnoxCLI\Uninstall.lnk"
   Delete "$SMPROGRAMS\CryptnoxCLI\Website.lnk"

@@ -2,8 +2,8 @@
 Changelog
 =========
 
-Unreleased
-----------
+`1.1.0 <https://github.com/Cryptnox-Software/cryptnox-cli/compare/ver1.0.5...ver1.1.0>`_
+----------------------------------------------------------------------------------------
 
 Added
 ^^^^^

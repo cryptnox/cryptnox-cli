@@ -36,7 +36,7 @@ _Image.open(_io.BytesIO(_png)).save(
 project = 'cryptnox-cli'
 copyright = '2025, Cryptnox'
 author = 'Cryptnox'
-release = '1.0.5'
+release = '1.1.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
