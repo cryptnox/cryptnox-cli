@@ -7,13 +7,13 @@ Unreleased
 
 Added
 ^^^^^
-- Solana (SOL): ``solana send`` and ``solana config`` commands, and the SOL address and balance in ``info``, signed with the card's Ed25519 key; requires cryptnox-sdk-py 1.0.5 and adds the ``solders`` dependency
 - PDF version of the documentation, built together with the HTML pages
 - The documentation pages carry Open Graph and Twitter card metadata, and the site publishes a sitemap
 - CI checks the licenses of the dependencies the package installs
 - CI runs flake8, pylint and the dependency license check on Python 3.14
 - Dependabot opens update pull requests for the GitHub Actions every week and for the Python dependencies every month; minor and patch updates come grouped in one pull request per ecosystem, major updates one by one, and a release is proposed once it is seven days old
 - ``NOTICES.md`` and the license texts of code from other projects are included in the package; the Windows installer installs them together with the licenses of the bundled Python packages
+- ``seed recover`` explains, before the passphrase prompt, how to enter the passphrase of a wallet set up on Windows with version 1.0.5 or earlier; the documentation has the details
 - A release tag such as ``ver1.1.0`` pushed to the repository builds the package and publishes it to PyPI from CI; the tag has to point to a commit on ``main`` and match the package version
 
 Changed
@@ -45,9 +45,14 @@ Fixed
 - Findings from CodeQL and Semgrep code scanning are resolved
 - Easy mode: the easy-mode PIN is sent to the card again, so ``info`` and other commands that need a verified PIN no longer end without output
 - A command that stops because the card has not verified the PIN now says so
+- ``eth contract list_events`` with an event the contract's ABI does not define says that the event is not defined; it used to stop with an ``AttributeError``
 
 `1.0.5 <https://github.com/Cryptnox-Software/cryptnox-cli/compare/ver1.0.4...ver1.0.5>`_
 ------------------------------------------------------------------------------------------------
+
+Added
+^^^^^
+- Solana (SOL): ``solana send`` and ``solana config`` commands, and the SOL address and balance in ``info``, signed with the card's Ed25519 key; requires cryptnox-sdk-py 1.0.5 and adds the ``solders`` dependency
 
 Fixed
 ^^^^^

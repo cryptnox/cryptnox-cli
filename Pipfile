@@ -7,7 +7,6 @@ verify_ssl = true
 mypy = "*"
 pyinstaller = "*"
 pylint = "*"
-pytest-pylint = "*"
 pytest = "*"
 
 [packages]

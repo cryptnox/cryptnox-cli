@@ -23,3 +23,10 @@ updates:
         update-types:
           - "minor"
           - "patch"
+    ignore:
+      # eth-abi requires parsimonious<0.11
+      - dependency-name: "parsimonious"
+        versions: [">=0.11"]
+      # eth-keyfile requires pycryptodome<4
+      - dependency-name: "pycryptodome"
+        versions: [">=4"]
