@@ -56,7 +56,9 @@ Section "MainSection" SEC01
   File "LICENSE"
   File "COMMERCIAL.md"
   File "NOTICES.md"
+  SetOutPath "$INSTDIR\LICENSES"
   File "LICENSES\GPL-3.0.txt"
+  SetOutPath "$INSTDIR"
   File "dist\THIRD_PARTY_LICENSES.txt"
 SectionEnd
 
@@ -93,7 +95,8 @@ Section Uninstall
   Delete "$INSTDIR\uninst.exe"
   Delete "$INSTDIR\COMMERCIAL.md"
   Delete "$INSTDIR\NOTICES.md"
-  Delete "$INSTDIR\GPL-3.0.txt"
+  Delete "$INSTDIR\LICENSES\GPL-3.0.txt"
+  RMDir "$INSTDIR\LICENSES"
   Delete "$INSTDIR\THIRD_PARTY_LICENSES.txt"
   Delete "$INSTDIR\LICENSE"
   Delete "$INSTDIR\README.md"
