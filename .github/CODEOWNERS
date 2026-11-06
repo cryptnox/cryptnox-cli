@@ -1,0 +1,3 @@
+# Pull requests that change these paths request a review from the maintainers.
+/.github/workflows/ @mmlado @embarquech
+/.github/CODEOWNERS @mmlado @embarquech
