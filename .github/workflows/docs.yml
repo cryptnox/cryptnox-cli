@@ -6,35 +6,39 @@ on:
   push:
     branches:
       - main
+    tags:
+      - "ver[0-9]*"
   pull_request:
     branches:
       - main
+
+# Deploys run one at a time, so a main push cannot overwrite the PDF a release run has just published.
+concurrency:
+  group: ${{ github.event_name == 'push' && 'docs-deploy' || format('docs-{0}', github.ref) }}
+  cancel-in-progress: false
 
 jobs:
   build-docs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout your repository
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
 
-      # 2. Set up Python
       - name: Set up Python
         uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0  # v7.1.0
         with:
           python-version: '3.12'
 
-      # 3. Install Sphinx and dependencies
       - name: Install Sphinx and dependencies
         run: pip install sphinx sphinx-rtd-theme sphinx-sitemap cairosvg pillow
 
-      # 4. Build Sphinx documentation
       - name: Generate Sphinx docs
         run: sphinx-build -b html docs docs/_build/html
 
-      # 4b. Install LaTeX and build the PDF (Yubico-style, pdflatex)
+      # The PDF is built on release tags only; main deploys reuse the last released one.
       - name: Install LaTeX for PDF
+        if: startsWith(github.ref, 'refs/tags/ver')
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
@@ -42,13 +46,22 @@ jobs:
             texlive-fonts-recommended texlive-fonts-extra tex-gyre
 
       - name: Build PDF (pdflatex)
+        if: startsWith(github.ref, 'refs/tags/ver')
         run: |
           sphinx-build -M latexpdf docs docs/_build
           cp docs/_build/latex/cryptnox-cli.pdf docs/_build/html/cryptnox-cli.pdf
 
-      # 5. Deploy HTML documentation to GitHub Pages (only on push to main)
-      - name: Deploy to GitHub Pages
+      - name: Keep the PDF of the last release
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          if git fetch --depth=1 origin gh-pages && git show origin/gh-pages:cryptnox-cli.pdf > /tmp/last-release.pdf; then
+            cp /tmp/last-release.pdf docs/_build/html/cryptnox-cli.pdf
+          else
+            echo "::warning::No PDF on gh-pages yet; the download link works again after the next release"
+          fi
+
+      - name: Deploy to GitHub Pages
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/ver'))
         uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453  # v4.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
