@@ -123,4 +123,6 @@ The changes in each release are listed in the [changelog](https://github.com/Cry
 
 For commercial inquiries, contact: contact@cryptnox.com
 
+Contributions are accepted under the [Cryptnox Contributor Agreement](https://github.com/cryptnox/.github/blob/contributor-agreement-v1.1/CONTRIBUTOR_AGREEMENT.md); see the [contributor guide](https://github.com/cryptnox/.github/blob/main/CONTRIBUTING.md) before opening a pull request.
+
 Code from other projects and the licenses of the components bundled with the Windows installer are listed in [NOTICES.md](NOTICES.md).
