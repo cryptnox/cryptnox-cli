@@ -1,0 +1,15 @@
+name: Contribution terms
+
+# pull_request_target runs this file from the base branch, so a pull request
+# cannot replace the check. Safe here: no checkout, no token.
+
+on:
+  pull_request_target:
+    types: [opened, edited, reopened, synchronize]
+    branches: [main]
+
+permissions: {}
+
+jobs:
+  terms:
+    uses: cryptnox/.github/.github/workflows/contribution-terms.yml@main
