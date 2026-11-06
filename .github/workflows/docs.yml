@@ -10,31 +10,53 @@ on:
     branches:
       - main
 
+# One deploy at a time: concurrent pushes to gh-pages reject the later one. A newer
+# push to a pull request replaces its running build.
+concurrency:
+  group: ${{ github.event_name == 'push' && 'docs-deploy' || format('docs-{0}', github.ref) }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   build-docs:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
-      # 1. Checkout your repository
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          fetch-depth: 2  # the PR merge commit and its parents, for the diff below
 
-      # 2. Set up Python
       - name: Set up Python
         uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0  # v7.1.0
         with:
           python-version: '3.12'
 
-      # 3. Install Sphinx and dependencies
       - name: Install Sphinx and dependencies
         run: pip install sphinx sphinx-rtd-theme sphinx-sitemap cairosvg pillow
 
-      # 4. Build Sphinx documentation
       - name: Generate Sphinx docs
         run: sphinx-build -b html docs docs/_build/html
 
-      # 4b. Install LaTeX and build the PDF (Yubico-style, pdflatex)
+      # The PDF builds on every deploy; on a pull request only when its inputs change:
+      # docs/ and the docstrings of cryptnox_cli/ (autodoc). A failing diff fails the step.
+      - name: Decide whether the PDF is built
+        id: pdf
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = "push" ]; then
+            echo "build=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          changed=$(git diff --name-only --no-renames HEAD^1 HEAD)
+          if printf '%s\n' "$changed" | grep -qE '^(docs/|cryptnox_cli/|LICENSE$|\.github/workflows/docs\.yml$)'; then
+            echo "build=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "build=false" >> "$GITHUB_OUTPUT"
+            echo "No change to the PDF inputs in this pull request, PDF build skipped."
+          fi
+
       - name: Install LaTeX for PDF
+        if: steps.pdf.outputs.build == 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
@@ -42,11 +64,11 @@ jobs:
             texlive-fonts-recommended texlive-fonts-extra tex-gyre
 
       - name: Build PDF (pdflatex)
+        if: steps.pdf.outputs.build == 'true'
         run: |
           sphinx-build -M latexpdf docs docs/_build
           cp docs/_build/latex/cryptnox-cli.pdf docs/_build/html/cryptnox-cli.pdf
 
-      # 5. Deploy HTML documentation to GitHub Pages (only on push to main)
       - name: Deploy to GitHub Pages
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453  # v4.1.0
