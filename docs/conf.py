@@ -34,7 +34,7 @@ _Image.open(_io.BytesIO(_png)).save(
 )
 
 project = 'cryptnox-cli'
-copyright = '2025, Cryptnox'
+copyright = '2021-2026, Cryptnox SA'
 author = 'Cryptnox'
 release = '1.1.0'
 
