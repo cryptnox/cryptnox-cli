@@ -120,7 +120,7 @@ Copyright (C) 2021-2026 Cryptnox SA.
 
 `cryptnox-cli` is dual-licensed:
 
-- **LGPL-3.0** for open-source projects and proprietary projects that comply with LGPL requirements  
+- **LGPL-3.0-only** for open-source projects and proprietary projects that comply with LGPL requirements  
 - **Commercial license** for projects that require a proprietary license without LGPL obligations (see COMMERCIAL.md for details)
 
 For commercial inquiries, contact: contact@cryptnox.com

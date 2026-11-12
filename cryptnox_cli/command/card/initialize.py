@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+# SPDX-FileCopyrightText: 2021-2026 Cryptnox SA
+# SPDX-License-Identifier: LGPL-3.0-only OR LicenseRef-Commercial
+
 """
 Module for handling the initialization process of cards, including
 setting up user credentials, PIN/PUK codes, and preparing the card for use
