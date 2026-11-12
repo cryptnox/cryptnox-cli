@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2021-2026 Cryptnox SA
+# SPDX-License-Identifier: LGPL-3.0-only OR LicenseRef-Commercial
+
 """
 Module for monitoring and notifying users about ERC token activities,
 transaction events, and other blockchain-related notifications using
